@@ -2,9 +2,6 @@
 #define STATES_HOMEPAGESTATE_HPP
 
 #include "../State.hpp"
-// #include "raygui.h"
-// #include "raylib.h"
-// #define RAYGUI_IMPLEMENTATION
 
 class HomepageState : public State {
 private:

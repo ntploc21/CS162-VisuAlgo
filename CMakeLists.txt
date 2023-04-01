@@ -66,6 +66,9 @@ add_executable(${PROJECT_NAME}
     src/States/LinkedList/CLLState.cpp
     src/States/LinkedList/StackState.cpp
     src/States/LinkedList/QueueState.cpp
+
+    # Components
+    src/Components/NavigationBar.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} raylib)

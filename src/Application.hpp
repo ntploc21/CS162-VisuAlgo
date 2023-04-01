@@ -1,10 +1,6 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
-#include "raygui.h"
-#include "raylib.h"
-#define RAYGUI_IMPLEMENTATION
-
 #include "StateStack.hpp"
 
 class Application {
@@ -23,7 +19,7 @@ private:
 
 private:
     bool closed = false;
-    Image favicon;
+    // Image favicon;
 
 private:
     StateStack mStack;

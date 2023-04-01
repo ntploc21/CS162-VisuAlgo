@@ -1,5 +1,7 @@
 #include "Application.hpp"
 
+#include "raylib.h"
+#define RAYGUI_IMPLEMENTATION
 #include "Global.hpp"
 #include "States/Array/DynamicArrayState.hpp"
 #include "States/Array/StaticArrayState.hpp"
@@ -10,11 +12,12 @@
 #include "States/LinkedList/SLLState.hpp"
 #include "States/LinkedList/StackState.hpp"
 #include "States/SettingsState.hpp"
+#include "raygui.h"
 
 void Application::Init() {
     InitWindow(global::kScreenWidth, global::kScreenHeight,
                global::kTitle.c_str());
-    favicon = LoadImage(global::favicon.c_str());
+    Image favicon = LoadImage(global::favicon.c_str());
 
     SetWindowIcon(favicon);
     // SetTargetFPS(global::kFramesPerSecond);
@@ -25,6 +28,7 @@ void Application::Init() {
 bool Application::WindowClosed() { return closed; }
 
 void Application::Close() {
+    Image favicon = LoadImage(global::favicon.c_str());
     CloseWindow();
     UnloadImage(favicon);
 }
@@ -41,6 +45,7 @@ void Application::Render() {
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
+    mStack.Draw();
 
     EndDrawing();
 }

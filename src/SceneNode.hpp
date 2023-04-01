@@ -6,7 +6,9 @@
 
 #include "NonCopyable.hpp"
 
-class SceneNode : public NonCopyable< SceneNode > {
+class SceneNode
+// : public NonCopyable< SceneNode >
+{
 public:
     typedef std::unique_ptr< SceneNode > Ptr;
 
@@ -15,8 +17,6 @@ public:
     virtual ~SceneNode(){};
     void AttachChild(Ptr child);
     Ptr DetachChild(const SceneNode& node);
-
-private:
     virtual void Draw();
     virtual void DrawCurrent() = 0;
     // virtual void Update()
