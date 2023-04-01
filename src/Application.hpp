@@ -15,6 +15,7 @@ public:
 private:
     void Render();
     void RegisterStates();
+    void LoadResources();
     void Update(float dt);
 
 private:
@@ -23,6 +24,7 @@ private:
 
 private:
     StateStack mStack;
+    FontHolder* fonts;
 };
 
 #endif  // APPLICATION_HPP

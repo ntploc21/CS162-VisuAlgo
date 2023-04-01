@@ -1,30 +1,26 @@
 #include "NavigationBar.hpp"
 
-#include "raylib.h"
-#define RAYGUI_STATIC
+#include "../Global.hpp"
+// #include "raylib.h"
+// #define RAYGUI_STATIC
 #include <iostream>
 
-#include "raygui.h"
+NavigationBar::NavigationBar(Font *logoFont) : logoFont(logoFont) {}
 
-NavigationBar::NavigationBar(int x, int y) : posX(x), posY(y) {}
+NavigationBar::NavigationBar() {}
 
 void NavigationBar::DrawCurrent() {
-    Rectangle rec = (Rectangle){posX, posY, 1200 - 2 * posX, 100};
-    DrawRectangleRec(rec, BROWN);
+    Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
+    DrawRectangleRec(rec, BLACK);
 
-    bool button =
-        GuiButton((Rectangle){posX + 20, posY + 10, 100, 80}, "Click me!");
+    DrawTextEx(*logoFont, "Visu", {10, 4}, 32, 1, WHITE);
+    DrawTextEx(*logoFont, "Algo", {80, 4}, 32, 1, ORANGE);
 
-    if (button) {
-        move = true;
-        std::cout << "Clicked!" << std::endl;
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+        CheckCollisionPointRec(GetMousePosition(),
+                               (Rectangle){10, 4, 141, 32})) {
+        // toTheHomepage = true;
     }
-}
-
-bool NavigationBar::MoveToSettings() {
-    bool tmp = move;
-    move = false;
-    return tmp;
 }
 
 NavigationBar::~NavigationBar() {}

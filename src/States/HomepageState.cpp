@@ -10,8 +10,12 @@ HomepageState::HomepageState(StateStack& stack, Context context)
 HomepageState::~HomepageState() {}
 
 void HomepageState::Draw() {
-    NavigationBar nav = NavigationBar(0, 0);
+    NavigationBar nav =
+        NavigationBar(&GetContext().fonts->Get(Fonts::Silkscreen));
+    // NavigationBar nav = NavigationBar();
     nav.DrawCurrent();
+    // std::cout << (GetContext().fonts == NULL) << std::endl;
+    // GetContext().fonts->Get(Fonts::Silkscreen);
 
     // if (nav.MoveToSettings()) {
     //     RequestStackPush(States::Settings);

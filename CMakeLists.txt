@@ -52,6 +52,7 @@ add_executable(${PROJECT_NAME}
     src/State.cpp
     src/StateStack.cpp
     src/SceneNode.cpp
+    src/FontHolder.cpp
 
     # States
     src/States/HomepageState.cpp

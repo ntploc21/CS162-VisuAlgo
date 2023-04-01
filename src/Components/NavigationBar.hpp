@@ -2,19 +2,22 @@
 #define COMPONENTS_NAVIGATIONBAR_HPP
 
 #include "../SceneNode.hpp"
+#include "raygui.h"
 
 class NavigationBar : public SceneNode {
 public:
-    NavigationBar(int x = 0, int y = 0);
+    NavigationBar(Font *logoFont);
+    NavigationBar();
     ~NavigationBar();
     void DrawCurrent();
 
-    bool MoveToSettings();
+    // bool ToTheHomepage();
 
 private:
     int posX, posY;
 
-    bool move = false;
+    // bool toTheHomepage = false;
+    Font *logoFont;
 };
 
 #endif  // COMPONENTS_NAVIGATIONBAR_HPP

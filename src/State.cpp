@@ -14,3 +14,5 @@ void State::RequestStackPop() { mStack->PopState(); }
 void State::RequestStackClear() { mStack->ClearStates(); }
 
 State::Context State::GetContext() const { return mContext; }
+
+State::Context::Context(FontHolder* fonts) : fonts(fonts) {}

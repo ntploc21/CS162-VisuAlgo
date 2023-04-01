@@ -15,11 +15,12 @@
 #include "raygui.h"
 
 void Application::Init() {
-    InitWindow(global::kScreenWidth, global::kScreenHeight,
+    InitWindow(global::SCREEN_WIDTH, global::SCREEN_HEIGHT,
                global::kTitle.c_str());
     Image favicon = LoadImage(global::favicon.c_str());
 
     SetWindowIcon(favicon);
+    LoadResources();
     // SetTargetFPS(global::kFramesPerSecond);
 
     mStack.PushState(States::Homepage);
@@ -64,6 +65,12 @@ void Application::RegisterStates() {
     mStack.RegisterState< QueueState >(States::Queue);
 }
 
-Application::Application() : mStack(State::Context()) { RegisterStates(); }
+void Application::LoadResources() {
+    fonts->Load(Fonts::Silkscreen, "../assets/fonts/Silkscreen-Regular.ttf");
+}
+
+Application::Application() : mStack(State::Context(fonts = new FontHolder())) {
+    RegisterStates();
+}
 
 Application::~Application() {}
