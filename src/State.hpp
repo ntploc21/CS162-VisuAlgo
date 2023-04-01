@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "FontHolder.hpp"
 #include "StateIdentifiers.hpp"
 
 class StateStack;
@@ -10,7 +11,10 @@ class StateStack;
 class State {
 public:
     typedef std::unique_ptr< State > Ptr;
-    struct Context {};
+    struct Context {
+        Context(FontHolder* fonts);
+        FontHolder* fonts;
+    };
 
 public:
     State(StateStack& stack, Context context);
