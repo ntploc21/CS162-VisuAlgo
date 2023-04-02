@@ -3,7 +3,12 @@
 #include "StateStack.hpp"
 
 State::State(StateStack& stack, Context context)
-    : mStack(&stack), mContext(context) {}
+    : mStack(&stack), mContext(context) {
+    navigation = NavigationBar(GetContext().fonts);
+    navigation.SetHomepageLink(
+        [this]() { RequestStackPush(States::Homepage); });
+    navigation.SetSettings([this]() { RequestStackPush(States::Settings); });
+}
 
 State::~State() {}
 

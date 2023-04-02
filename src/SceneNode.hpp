@@ -10,7 +10,7 @@ class SceneNode
 // : public NonCopyable< SceneNode >
 {
 public:
-    typedef std::unique_ptr< SceneNode > Ptr;
+    typedef std::shared_ptr< SceneNode > Ptr;
 
 public:
     SceneNode();

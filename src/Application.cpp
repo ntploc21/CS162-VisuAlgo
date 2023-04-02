@@ -66,7 +66,10 @@ void Application::RegisterStates() {
 }
 
 void Application::LoadResources() {
+    // Load fonts
+    fonts->Load(Fonts::Default, "../assets/fonts/PTSans-Regular.ttf");
     fonts->Load(Fonts::Silkscreen, "../assets/fonts/Silkscreen-Regular.ttf");
+    // ==============
 }
 
 Application::Application() : mStack(State::Context(fonts = new FontHolder())) {
