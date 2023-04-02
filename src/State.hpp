@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "Components/NavigationBar.hpp"
 #include "FontHolder.hpp"
 #include "StateIdentifiers.hpp"
 
@@ -29,9 +30,14 @@ protected:
     void RequestStackClear();
     Context GetContext() const;
 
+    void InitNavigationBar();
+
 private:
     StateStack* mStack;
     Context mContext;
+
+protected:
+    NavigationBar navigation;
 };
 
 #endif  // STATE_HPP
