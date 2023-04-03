@@ -1,5 +1,5 @@
-#ifndef RESOURCEHOLDER_HPP
-#define RESOURCEHOLDER_HPP
+#ifndef FONTHOLDER_HPP
+#define FONTHOLDER_HPP
 
 #include <cassert>
 #include <map>
@@ -19,9 +19,9 @@ public:
     const Font& Get(Fonts::ID id) const;
 
 private:
-    void InsertResource(Fonts::ID id, std::unique_ptr< Font > resource);
+    void InsertResource(Fonts::ID id, std::unique_ptr< Font > font);
 
 private:
     std::map< Fonts::ID, std::unique_ptr< Font > > mFontMap;
 };
-#endif  // RESOURCEHOLDER_HPP
+#endif  // FONTHOLDER_HPP

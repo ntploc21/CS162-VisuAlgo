@@ -5,6 +5,6 @@ DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
 
 DynamicArrayState::~DynamicArrayState() {}
 
-void DynamicArrayState::Draw() {}
+void DynamicArrayState::Draw() { navigation.Draw(); }
 
 bool DynamicArrayState::Update(float dt) { return true; }

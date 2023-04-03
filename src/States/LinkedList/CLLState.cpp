@@ -5,6 +5,6 @@ CLLState::CLLState(StateStack& stack, Context context)
 
 CLLState::~CLLState() {}
 
-void CLLState::Draw() {}
+void CLLState::Draw() { navigation.Draw(); }
 
 bool CLLState::Update(float dt) { return true; }

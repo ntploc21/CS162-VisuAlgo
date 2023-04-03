@@ -12,15 +12,16 @@
 #include "States/LinkedList/SLLState.hpp"
 #include "States/LinkedList/StackState.hpp"
 #include "States/SettingsState.hpp"
-#include "raygui.h"
 
 void Application::Init() {
     InitWindow(global::SCREEN_WIDTH, global::SCREEN_HEIGHT,
                global::kTitle.c_str());
-    Image favicon = LoadImage(global::favicon.c_str());
+    LoadResources();
+    Image favicon = LoadImageFromTexture(images->Get(Textures::Favicon));
 
     SetWindowIcon(favicon);
-    LoadResources();
+
+    UnloadImage(favicon);
     // SetTargetFPS(global::kFramesPerSecond);
 
     mStack.PushState(States::Homepage);
@@ -28,11 +29,7 @@ void Application::Init() {
 
 bool Application::WindowClosed() { return closed; }
 
-void Application::Close() {
-    Image favicon = LoadImage(global::favicon.c_str());
-    CloseWindow();
-    UnloadImage(favicon);
-}
+void Application::Close() { CloseWindow(); }
 
 void Application::Run() {
     /* render */
@@ -68,11 +65,29 @@ void Application::RegisterStates() {
 void Application::LoadResources() {
     // Load fonts
     fonts->Load(Fonts::Default, "../assets/fonts/PTSans-Regular.ttf");
+    fonts->Load(Fonts::Default_Italic, "../assets/fonts/PTSans-Italic.ttf");
+    fonts->Load(Fonts::Default_Bold, "../assets/fonts/PTSans-Bold.ttf");
     fonts->Load(Fonts::Silkscreen, "../assets/fonts/Silkscreen-Regular.ttf");
     // ==============
+
+    // Load images
+    images->Load(Textures::Blank, "assets/images/favicon.png");
+    images->Load(Textures::StaticArray, "assets/images/favicon.png", 250, 160);
+    images->Load(Textures::DynamicArray, "assets/images/favicon.png", 250, 160);
+    images->Load(Textures::SinglyLinkedList, "assets/images/list.gif", 250,
+                 160);
+    images->Load(Textures::DoublyLinkedList, "assets/images/list.gif", 250,
+                 160);
+    images->Load(Textures::CircularLinkedList, "assets/images/list.gif", 250,
+                 160);
+    images->Load(Textures::Stack, "assets/images/list.gif", 250, 160);
+    images->Load(Textures::Queue, "assets/images/list.gif", 250, 160);
+    images->Load(Textures::Favicon, "assets/images/favicon.png");
 }
 
-Application::Application() : mStack(State::Context(fonts = new FontHolder())) {
+Application::Application()
+    : mStack(State::Context(fonts = new FontHolder(),
+                            images = new TextureHolder())) {
     RegisterStates();
 }
 

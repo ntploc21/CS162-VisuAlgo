@@ -5,6 +5,6 @@ StaticArrayState::StaticArrayState(StateStack& stack, Context context)
 
 StaticArrayState::~StaticArrayState() {}
 
-void StaticArrayState::Draw() {}
+void StaticArrayState::Draw() { navigation.Draw(); }
 
 bool StaticArrayState::Update(float dt) { return true; }

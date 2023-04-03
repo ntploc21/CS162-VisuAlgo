@@ -5,6 +5,6 @@ QueueState::QueueState(StateStack& stack, Context context)
 
 QueueState::~QueueState() {}
 
-void QueueState::Draw() {}
+void QueueState::Draw() { navigation.Draw(); }
 
 bool QueueState::Update(float dt) { return true; }

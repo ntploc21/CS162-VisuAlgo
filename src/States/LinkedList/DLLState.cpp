@@ -5,6 +5,6 @@ DLLState::DLLState(StateStack& stack, Context context)
 
 DLLState::~DLLState() {}
 
-void DLLState::Draw() {}
+void DLLState::Draw() { navigation.Draw(); }
 
-bool DLLState::Update(float dt) {}
+bool DLLState::Update(float dt) { return true; }

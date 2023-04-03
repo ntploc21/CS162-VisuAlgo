@@ -9,5 +9,5 @@ namespace global {
     // constexpr int kFramesPerSecond = 120;
     const std::string kTitle = "CS162 - VisuAlgo Clone";
 
-    const std::string favicon = "assets/favicon.png";
+    const std::string favicon = "assets/images/favicon.png";
 }  // namespace global

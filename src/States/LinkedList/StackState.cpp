@@ -5,6 +5,6 @@ StackState::StackState(StateStack& stack, Context context)
 
 StackState::~StackState() {}
 
-void StackState::Draw() {}
+void StackState::Draw() { navigation.Draw(); }
 
 bool StackState::Update(float dt) { return true; }

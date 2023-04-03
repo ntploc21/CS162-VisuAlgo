@@ -6,6 +6,7 @@
 #include "Components/NavigationBar.hpp"
 #include "FontHolder.hpp"
 #include "StateIdentifiers.hpp"
+#include "TextureHolder.hpp"
 
 class StateStack;
 
@@ -13,8 +14,9 @@ class State {
 public:
     typedef std::unique_ptr< State > Ptr;
     struct Context {
-        Context(FontHolder* fonts);
+        Context(FontHolder* fonts, TextureHolder* textures);
         FontHolder* fonts;
+        TextureHolder* textures;
     };
 
 public:
