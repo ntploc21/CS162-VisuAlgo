@@ -53,6 +53,7 @@ add_executable(${PROJECT_NAME}
     src/StateStack.cpp
     src/SceneNode.cpp
     src/FontHolder.cpp
+    src/TextureHolder.cpp
 
     # States
     src/States/HomepageState.cpp
@@ -70,6 +71,7 @@ add_executable(${PROJECT_NAME}
 
     # Components
     src/Components/NavigationBar.cpp
+    src/Components/Card.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} raylib)
