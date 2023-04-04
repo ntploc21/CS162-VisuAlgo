@@ -10,7 +10,7 @@
 #include "ResourceIdentifiers.hpp"
 #include "raygui.h"
 
-class FontHolder {
+class FontHolder : private NonCopyable< FontHolder > {
 public:
     FontHolder();
     ~FontHolder();

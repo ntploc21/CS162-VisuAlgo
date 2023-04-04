@@ -10,7 +10,7 @@
 #include "ResourceIdentifiers.hpp"
 #include "raygui.h"
 
-class TextureHolder {
+class TextureHolder : private NonCopyable< TextureHolder > {
 public:
     TextureHolder();
     ~TextureHolder();
