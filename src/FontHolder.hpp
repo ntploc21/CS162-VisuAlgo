@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "NonCopyable.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "raygui.h"
 
