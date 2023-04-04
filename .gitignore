@@ -10,3 +10,4 @@ build/
 *_exe
 *.bat
 lib/
+docs/
