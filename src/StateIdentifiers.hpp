@@ -12,7 +12,8 @@ namespace States {
         DoublyLinkedList,
         CircularLinkedList,
         Stack,
-        Queue
+        Queue,
+        Count
     };
 };
 

@@ -2,7 +2,7 @@
 #define RESOURCEIDENTIFIER_HPP
 
 namespace Fonts {
-    enum ID { Default, Default_Italic, Default_Bold, Silkscreen };
+    enum ID { Default, Default_Italic, Default_Bold, Silkscreen, Count };
 };
 
 namespace Textures {
@@ -15,7 +15,8 @@ namespace Textures {
         CircularLinkedList,
         Stack,
         Queue,
-        Favicon
+        Favicon,
+        Count
     };
 };
 
