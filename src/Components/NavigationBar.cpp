@@ -5,6 +5,8 @@
 // #define RAYGUI_STATIC
 #include <iostream>
 
+#include "StateIdentifiers.hpp"
+
 NavigationBar::NavigationBar(FontHolder* fonts) : fonts(fonts) {}
 
 NavigationBar::NavigationBar() {}
@@ -12,21 +14,28 @@ NavigationBar::NavigationBar() {}
 void NavigationBar::DrawCurrent() {
     Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
     DrawRectangleRec(rec, BLACK);
-    if (DrawLogo()) toHomepage();
-    if (DrawSettings()) toSettings();
+    if (DrawLogo()) toLink(homepageID);
+    if (DrawSettings()) toLink(settingsID);
 }
 
-void NavigationBar::SetHomepageLink(std::function< void() > homepageLink) {
-    toHomepage = homepageLink;
-}
+void NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
 
-void NavigationBar::SetSettings(std::function< void() > settingsLink) {
-    toSettings = settingsLink;
+void NavigationBar::SetSettingsID(States::ID id) { settingsID = id; }
+
+void NavigationBar::SetDirectLink(std::function< void(States::ID) > link) {
+    toLink = link;
 }
 
 void NavigationBar::SetCategory(std::string category) {
     currentCategory = category;
 }
+
+void NavigationBar::InsertTitle(std::string title, States::ID stateID) {
+    auto inserted = mTitles.insert(std::make_pair(title, stateID));
+    assert(inserted.second);
+}
+
+void NavigationBar::ClearTitle() { mTitles.clear(); }
 
 bool NavigationBar::DrawLogo() {
     // render

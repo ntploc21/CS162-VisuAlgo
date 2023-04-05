@@ -19,9 +19,10 @@ State::Context State::GetContext() const { return mContext; }
 
 void State::InitNavigationBar() {
     navigation = NavigationBar(GetContext().fonts);
-    navigation.SetHomepageLink(
-        [this]() { RequestStackPush(States::Homepage); });
-    navigation.SetSettings([this]() { RequestStackPush(States::Settings); });
+    navigation.SetDirectLink(
+        [this](States::ID stateID) { RequestStackPush(stateID); });
+    navigation.SetHomepageID(States::Homepage);
+    navigation.SetSettingsID(States::Settings);
 }
 
 State::Context::Context() {}

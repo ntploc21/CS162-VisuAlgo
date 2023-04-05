@@ -5,6 +5,7 @@
 
 #include "../SceneNode.hpp"
 #include "FontHolder.hpp"
+#include "StateIdentifiers.hpp"
 #include "raygui.h"
 
 class NavigationBar : public SceneNode {
@@ -14,10 +15,14 @@ public:
     ~NavigationBar();
     void DrawCurrent();
 
-    void SetHomepageLink(std::function< void() > homepageLink);
-    void SetSettings(std::function< void() > settingsLink);
+    void SetHomepageID(States::ID id);
+    void SetSettingsID(States::ID id);
+    void SetDirectLink(std::function< void(States::ID) > link);
 
     void SetCategory(std::string category);
+
+    void InsertTitle(std::string title, States::ID stateID);
+    void ClearTitle();
 
 private:
     bool DrawLogo();
@@ -26,9 +31,12 @@ private:
 
     bool DrawSettings();
 
+    std::map< std::string, States::ID > mTitles;
+
 private:
-    std::function< void() > toHomepage;
-    std::function< void() > toSettings;
+    std::function< void(States::ID) > toLink;
+    States::ID homepageID;
+    States::ID settingsID;
 };
 
 #endif  // COMPONENTS_NAVIGATIONBAR_HPP
