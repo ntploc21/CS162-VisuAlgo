@@ -1,7 +1,11 @@
 #include "SettingsState.hpp"
 
+#include <iostream>
+
 SettingsState::SettingsState(StateStack& stack, Context context)
-    : State(stack, context) {}
+    : State(stack, context) {
+    navigation.AtSettings(true);
+}
 
 SettingsState::~SettingsState() {}
 
