@@ -1,5 +1,11 @@
 #include "LLState.hpp"
 
-LLState::LLState(StateStack& stack, Context context) : State(stack, context) {}
+#include <iostream>
+
+LLState::LLState(StateStack& stack, Context context) : State(stack, context) {
+    InitNavigationBar();
+}
 
 LLState::~LLState() {}
+
+void LLState::InitNavigationBar() {}

@@ -1,7 +1,7 @@
 #include "DynamicArrayState.hpp"
 
 DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
-    : State(stack, context) {}
+    : ArrayState(stack, context) {}
 
 DynamicArrayState::~DynamicArrayState() {}
 

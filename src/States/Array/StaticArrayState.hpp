@@ -1,9 +1,9 @@
 #ifndef STATES_ARRAY_STATICARRAYSTATE_HPP
 #define STATES_ARRAY_STATICARRAYSTATE_HPP
 
-#include "../../State.hpp"
+#include "ArrayState.hpp"
 
-class StaticArrayState : public State {
+class StaticArrayState : public ArrayState {
 private:
 public:
     StaticArrayState(StateStack& stack, Context context);

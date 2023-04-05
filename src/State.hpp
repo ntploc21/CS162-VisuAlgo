@@ -18,6 +18,7 @@ class State {
 public:
     typedef std::unique_ptr< State > Ptr;
     struct Context {
+        Context();
         Context(FontHolder* fonts, TextureHolder* textures,
                 CategoryInfo* categories, DSInfo* dsInfo);
         FontHolder* fonts;

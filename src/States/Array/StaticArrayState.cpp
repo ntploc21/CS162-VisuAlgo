@@ -1,7 +1,7 @@
 #include "StaticArrayState.hpp"
 
 StaticArrayState::StaticArrayState(StateStack& stack, Context context)
-    : State(stack, context) {}
+    : ArrayState(stack, context) {}
 
 StaticArrayState::~StaticArrayState() {}
 

@@ -1,9 +1,9 @@
 #ifndef STATES_ARRAY_DYNAMICARRAYSTATE_HPP
 #define STATES_ARRAY_DYNAMICARRAYSTATE_HPP
 
-#include "../../State.hpp"
+#include "ArrayState.hpp"
 
-class DynamicArrayState : public State {
+class DynamicArrayState : public ArrayState {
 private:
 public:
     DynamicArrayState(StateStack& stack, Context context);

@@ -4,10 +4,7 @@
 
 State::State(StateStack& stack, Context context)
     : mStack(&stack), mContext(context) {
-    navigation = NavigationBar(GetContext().fonts);
-    navigation.SetHomepageLink(
-        [this]() { RequestStackPush(States::Homepage); });
-    navigation.SetSettings([this]() { RequestStackPush(States::Settings); });
+    InitNavigationBar();
 }
 
 State::~State() {}
@@ -19,6 +16,15 @@ void State::RequestStackPop() { mStack->PopState(); }
 void State::RequestStackClear() { mStack->ClearStates(); }
 
 State::Context State::GetContext() const { return mContext; }
+
+void State::InitNavigationBar() {
+    navigation = NavigationBar(GetContext().fonts);
+    navigation.SetHomepageLink(
+        [this]() { RequestStackPush(States::Homepage); });
+    navigation.SetSettings([this]() { RequestStackPush(States::Settings); });
+}
+
+State::Context::Context() {}
 
 State::Context::Context(FontHolder* fonts, TextureHolder* textures,
                         CategoryInfo* categories, DSInfo* dsInfo)

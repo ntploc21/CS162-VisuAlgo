@@ -10,6 +10,10 @@ public:
     ~LLState();
     virtual void Draw() = 0;
     virtual bool Update(float dt) = 0;
+
+protected:
+    void InitNavigationBar();
+    Context mContext;
 };
 
 #endif  // STATES_LINKEDLIST_LLSTATE_HPP

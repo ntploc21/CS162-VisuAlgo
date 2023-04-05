@@ -63,6 +63,7 @@ add_executable(${PROJECT_NAME}
     ## Array
     src/States/Array/StaticArrayState.cpp
     src/States/Array/DynamicArrayState.cpp
+    src/States/Array/ArrayState.cpp
 
     ## Linked List
     src/States/LinkedList/SLLState.cpp
