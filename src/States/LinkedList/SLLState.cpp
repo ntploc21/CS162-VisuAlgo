@@ -3,7 +3,7 @@
 #include <iostream>
 
 SLLState::SLLState(StateStack& stack, Context context)
-    : LLState(stack, context) {}
+    : LLState(stack, context, DataStructures::SinglyLinkedList) {}
 
 SLLState::~SLLState() {}
 
