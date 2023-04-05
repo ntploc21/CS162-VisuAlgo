@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "../SceneNode.hpp"
+#include "DSIdentifiers.hpp"
 #include "FontHolder.hpp"
 #include "StateIdentifiers.hpp"
 #include "raygui.h"
@@ -21,17 +22,27 @@ public:
 
     void SetCategory(std::string category);
 
-    void InsertTitle(std::string title, States::ID stateID);
+    void InsertTitle(DataStructures::ID titleID, States::ID stateID,
+                     std::string abbrTitle, std::string titleName);
+    void SetActiveTitle(DataStructures::ID title);
     void ClearTitle();
 
 private:
+    bool DrawSettings();
     bool DrawLogo();
+    States::ID DrawTitles();
+
+private:
+    struct TitleInfo {
+        States::ID stateID;
+        std::string abbrTitle;
+        std::string titleName;
+    };
+
     FontHolder* fonts;
     std::string currentCategory;
-
-    bool DrawSettings();
-
-    std::map< std::string, States::ID > mTitles;
+    std::map< DataStructures::ID, TitleInfo > mTitles;
+    DataStructures::ID activeTitle;
 
 private:
     std::function< void(States::ID) > toLink;

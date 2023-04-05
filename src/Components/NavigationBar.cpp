@@ -5,8 +5,6 @@
 // #define RAYGUI_STATIC
 #include <iostream>
 
-#include "StateIdentifiers.hpp"
-
 NavigationBar::NavigationBar(FontHolder* fonts) : fonts(fonts) {}
 
 NavigationBar::NavigationBar() {}
@@ -16,6 +14,10 @@ void NavigationBar::DrawCurrent() {
     DrawRectangleRec(rec, BLACK);
     if (DrawLogo()) toLink(homepageID);
     if (DrawSettings()) toLink(settingsID);
+    States::ID directID = DrawTitles();
+    if (directID != States::None) {
+        toLink(directID);
+    }
 }
 
 void NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
@@ -30,11 +32,15 @@ void NavigationBar::SetCategory(std::string category) {
     currentCategory = category;
 }
 
-void NavigationBar::InsertTitle(std::string title, States::ID stateID) {
-    auto inserted = mTitles.insert(std::make_pair(title, stateID));
+void NavigationBar::InsertTitle(DataStructures::ID titleID, States::ID stateID,
+                                std::string abbrTitle, std::string titleName) {
+    TitleInfo info = {stateID, abbrTitle, titleName};
+    auto inserted = mTitles.insert(std::make_pair(titleID, info));
     assert(inserted.second);
 }
-
+void NavigationBar::SetActiveTitle(DataStructures::ID titleID) {
+    activeTitle = titleID;
+}
 void NavigationBar::ClearTitle() { mTitles.clear(); }
 
 bool NavigationBar::DrawLogo() {
@@ -55,6 +61,34 @@ bool NavigationBar::DrawLogo() {
 
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             CheckCollisionPointRec(GetMousePosition(), logoBond));
+}
+
+States::ID NavigationBar::DrawTitles() {
+    float x = 230, y = 8;
+    float padding = 2;
+    float margin = 2;
+    for (auto title : mTitles) {
+        Font font = fonts->Get(Fonts::Default);
+        std::string displayedName = title.second.abbrTitle;
+        Color color = (Color){170, 170, 170, 255};
+        if (title.first == activeTitle) {
+            font = fonts->Get(Fonts::Default_Bold);
+            displayedName = title.second.titleName;
+            color = WHITE;
+        }
+        displayedName = TextToUpper(displayedName.c_str());
+
+        float textWidth = MeasureTextEx(font, displayedName.c_str(), 24, 0).x;
+        DrawTextEx(font, displayedName.c_str(), {x, y}, 24, 0, color);
+        Rectangle buttonBound =
+            (Rectangle){x - padding, y - padding, textWidth + padding * 2,
+                        32 + padding * 2};
+        x += buttonBound.width + margin + padding;
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+            CheckCollisionPointRec(GetMousePosition(), buttonBound))
+            return title.second.stateID;
+    }
+    return States::None;
 }
 
 bool NavigationBar::DrawSettings() {
