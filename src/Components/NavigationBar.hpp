@@ -19,6 +19,9 @@ public:
     void SetHomepageID(States::ID id);
     void SetSettingsID(States::ID id);
     void SetDirectLink(std::function< void(States::ID) > link);
+    void SetBackToPreviousLink(std::function< void() > link);
+
+    void AtSettings(bool settings);
 
     void SetCategory(std::string category);
 
@@ -49,8 +52,10 @@ private:
 
 private:
     std::function< void(States::ID) > toLink;
+    std::function< void() > backToPrvState;
     States::ID homepageID;
     States::ID settingsID;
+    bool atSettings;
 };
 
 #endif  // COMPONENTS_NAVIGATIONBAR_HPP

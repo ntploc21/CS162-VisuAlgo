@@ -5,17 +5,21 @@
 // #define RAYGUI_STATIC
 #include <iostream>
 
-NavigationBar::NavigationBar(FontHolder* fonts) : fonts(fonts) {
-    NavigationBar();
-}
+NavigationBar::NavigationBar(FontHolder* fonts)
+    : fonts(fonts), hasTitle(false), atSettings(false) {}
 
-NavigationBar::NavigationBar() : hasTitle(false) {}
+NavigationBar::NavigationBar() : hasTitle(false), atSettings(false) {}
 
 void NavigationBar::DrawCurrent() {
     Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
     DrawRectangleRec(rec, BLACK);
     if (DrawLogo()) toLink(homepageID);
-    if (DrawSettings()) toLink(settingsID);
+    if (DrawSettings()) {
+        if (atSettings)
+            backToPrvState();
+        else
+            toLink(settingsID);
+    }
 
     if (hasTitle) {
         States::ID directID = DrawTitles();
@@ -32,6 +36,12 @@ void NavigationBar::SetSettingsID(States::ID id) { settingsID = id; }
 void NavigationBar::SetDirectLink(std::function< void(States::ID) > link) {
     toLink = link;
 }
+
+void NavigationBar::SetBackToPreviousLink(std::function< void() > link) {
+    backToPrvState = link;
+}
+
+void NavigationBar::AtSettings(bool settings) { atSettings = settings; }
 
 void NavigationBar::SetCategory(std::string category) {
     currentCategory = category;
@@ -99,8 +109,10 @@ States::ID NavigationBar::DrawTitles() {
 }
 
 bool NavigationBar::DrawSettings() {
+    std::string text = "Settings";
+    if (atSettings) text = "Back";
     Font settingsFont = fonts->Get(Fonts::Silkscreen);
-    float spanWidth = MeasureTextEx(settingsFont, "Settings", 24, -0.1).x;
+    float spanWidth = MeasureTextEx(settingsFont, text.c_str(), 24, -0.1).x;
     Color settingsColor = (Color){25, 125, 84, 255};
 
     float paddingX = 8, paddingY = 2;
@@ -114,7 +126,7 @@ bool NavigationBar::DrawSettings() {
     if (CheckCollisionPointRec(GetMousePosition(), settingsBound)) {
         textColor = (Color){10, 88, 202, 255};
     }
-    DrawTextEx(settingsFont, "Settings", {posX, posY}, 24, -0.1, textColor);
+    DrawTextEx(settingsFont, text.c_str(), {posX, posY}, 24, -0.1, textColor);
     DrawRectangleLinesEx(settingsBound, 1, settingsColor);
 
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&

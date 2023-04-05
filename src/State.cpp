@@ -23,6 +23,7 @@ void State::InitNavigationBar() {
         [this](States::ID stateID) { RequestStackPush(stateID); });
     navigation.SetHomepageID(States::Homepage);
     navigation.SetSettingsID(States::Settings);
+    navigation.SetBackToPreviousLink([this]() { RequestStackPop(); });
 }
 
 State::Context::Context() {}
