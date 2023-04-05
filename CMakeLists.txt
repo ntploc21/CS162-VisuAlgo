@@ -70,6 +70,7 @@ add_executable(${PROJECT_NAME}
     src/States/LinkedList/CLLState.cpp
     src/States/LinkedList/StackState.cpp
     src/States/LinkedList/QueueState.cpp
+    src/States/LinkedList/LLState.cpp
 
     # Components
     src/Components/NavigationBar.cpp

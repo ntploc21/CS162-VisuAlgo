@@ -1,9 +1,9 @@
 #ifndef STATES_LINKEDLIST_SLLSTATE_HPP
 #define STATES_LINKEDLIST_SLLSTATE_HPP
 
-#include "../../State.hpp"
+#include "LLState.hpp"
 
-class SLLState : public State {
+class SLLState : public LLState {
 private:
 public:
     SLLState(StateStack& stack, Context context);

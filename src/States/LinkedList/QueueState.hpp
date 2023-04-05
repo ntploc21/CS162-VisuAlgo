@@ -1,9 +1,9 @@
 #ifndef STATES_LINKEDLIST_QUEUESTATE_HPP
 #define STATES_LINKEDLIST_QUEUESTATE_HPP
 
-#include "../../State.hpp"
+#include "LLState.hpp"
 
-class QueueState : public State {
+class QueueState : public LLState {
 private:
 public:
     QueueState(StateStack& stack, Context context);

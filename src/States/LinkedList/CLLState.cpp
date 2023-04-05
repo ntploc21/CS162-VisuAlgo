@@ -1,7 +1,7 @@
 #include "CLLState.hpp"
 
 CLLState::CLLState(StateStack& stack, Context context)
-    : State(stack, context) {}
+    : LLState(stack, context) {}
 
 CLLState::~CLLState() {}
 

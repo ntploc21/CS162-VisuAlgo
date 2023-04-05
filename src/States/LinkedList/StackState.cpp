@@ -1,7 +1,7 @@
 #include "StackState.hpp"
 
 StackState::StackState(StateStack& stack, Context context)
-    : State(stack, context) {}
+    : LLState(stack, context) {}
 
 StackState::~StackState() {}
 

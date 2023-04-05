@@ -3,7 +3,7 @@
 #include <iostream>
 
 SLLState::SLLState(StateStack& stack, Context context)
-    : State(stack, context) {}
+    : LLState(stack, context) {}
 
 SLLState::~SLLState() {}
 

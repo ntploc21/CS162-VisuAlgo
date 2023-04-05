@@ -1,9 +1,9 @@
 #ifndef STATES_LINKEDLIST_STACKSTATE_HPP
 #define STATES_LINKEDLIST_STACKSTATE_HPP
 
-#include "../../State.hpp"
+#include "LLState.hpp"
 
-class StackState : public State {
+class StackState : public LLState {
 private:
 public:
     StackState(StateStack& stack, Context context);
