@@ -56,13 +56,15 @@ void Application::RegisterStates() {
     // Register Categories
     categories->Register(Category::Array, {Category::Array,
                                            {DataStructures::StaticArray,
-                                            DataStructures::DynamicArray}});
+                                            DataStructures::DynamicArray},
+                                           "array"});
     categories->Register(
         Category::LinkedList,
         {Category::LinkedList,
          {DataStructures::SinglyLinkedList, DataStructures::DoublyLinkedList,
           DataStructures::CircularLinkedList, DataStructures::Stack,
-          DataStructures::Queue}});
+          DataStructures::Queue},
+         "list"});
 
     // Register Data Structures Information
     dsInfo->Register(

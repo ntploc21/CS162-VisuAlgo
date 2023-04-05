@@ -14,8 +14,10 @@
 class CategoryInfo : private NonCopyable< CategoryInfo > {
 private:
     struct Info {
-        Info(Category::ID categoryID, std::vector< DataStructures::ID > mDS);
+        Info(Category::ID categoryID, std::vector< DataStructures::ID > mDS,
+             std::string name);
         Category::ID categoryID;
+        std::string categoryName;
         std::vector< DataStructures::ID > mDS;
     };
     std::map< Category::ID, Info > mFactories;

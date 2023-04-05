@@ -12,5 +12,6 @@ const CategoryInfo::Info& CategoryInfo::Get(Category::ID id) const {
 }
 
 CategoryInfo::Info::Info(Category::ID categoryID,
-                         std::vector< DataStructures::ID > mDS)
-    : categoryID(categoryID), mDS(mDS) {}
+                         std::vector< DataStructures::ID > mDS,
+                         std::string name)
+    : categoryID(categoryID), mDS(mDS), categoryName(name) {}
