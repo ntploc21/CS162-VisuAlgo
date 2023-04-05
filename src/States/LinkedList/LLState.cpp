@@ -11,6 +11,7 @@ LLState::LLState(StateStack& stack, Context context,
 LLState::~LLState() {}
 
 void LLState::InitNavigationBar() {
+    navigation.SetVisableTitle(true);
     auto info = GetContext().categories->Get(Category::LinkedList);
     navigation.SetCategory(info.categoryName);
     navigation.SetActiveTitle(activeDS);
