@@ -1,15 +1,16 @@
 #include "DSInfo.hpp"
 
+#include <iostream>
+
 void DSInfo::Register(DataStructures::ID id, Info info) {
-    std::unique_ptr< Info > _info(&info);
-    auto inserted = mFactories.insert(std::make_pair(id, std::move(_info)));
+    auto inserted = mFactories.insert(std::make_pair(id, info));
     assert(inserted.second);
 }
 
-const DSInfo::Info& DSInfo::Get(DataStructures::ID id) const {
+DSInfo::Info DSInfo::Get(DataStructures::ID id) const {
     auto found = mFactories.find(id);
     assert(found != mFactories.end());
-    return *found->second.get();
+    return found->second;
 }
 
 DSInfo::Info::Info(DataStructures::ID ID, States::ID stateID,

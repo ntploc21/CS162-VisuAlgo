@@ -53,17 +53,6 @@ void Application::Render() {
 void Application::Update(float dt) { mStack.Update(dt); }
 
 void Application::RegisterStates() {
-    // Register States
-    mStack.RegisterState< HomepageState >(States::Homepage);
-    mStack.RegisterState< SettingsState >(States::Settings);
-    mStack.RegisterState< StaticArrayState >(States::StaticArray);
-    mStack.RegisterState< DynamicArrayState >(States::DynamicArray);
-    mStack.RegisterState< SLLState >(States::SinglyLinkedList);
-    mStack.RegisterState< DLLState >(States::DoublyLinkedList);
-    mStack.RegisterState< CLLState >(States::CircularLinkedList);
-    mStack.RegisterState< StackState >(States::Stack);
-    mStack.RegisterState< QueueState >(States::Queue);
-
     // Register Categories
     categories->Register(Category::Array, {Category::Array,
                                            {DataStructures::StaticArray,
@@ -104,6 +93,17 @@ void Application::RegisterStates() {
     dsInfo->Register(DataStructures::Queue,
                      {DataStructures::Queue, States::Queue,
                       Category::LinkedList, Textures::Queue, "Queue", "Queue"});
+
+    // Register States
+    mStack.RegisterState< HomepageState >(States::Homepage);
+    mStack.RegisterState< SettingsState >(States::Settings);
+    mStack.RegisterState< StaticArrayState >(States::StaticArray);
+    mStack.RegisterState< DynamicArrayState >(States::DynamicArray);
+    mStack.RegisterState< SLLState >(States::SinglyLinkedList);
+    mStack.RegisterState< DLLState >(States::DoublyLinkedList);
+    mStack.RegisterState< CLLState >(States::CircularLinkedList);
+    mStack.RegisterState< StackState >(States::Stack);
+    mStack.RegisterState< QueueState >(States::Queue);
 }
 
 void Application::LoadResources() {

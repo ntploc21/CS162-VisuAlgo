@@ -24,11 +24,11 @@ private:
         std::string name;
         std::string abbr;
     };
-    std::map< DataStructures::ID, std::unique_ptr< Info > > mFactories;
+    std::map< DataStructures::ID, Info > mFactories;
 
 public:
     void Register(DataStructures::ID, Info info);
-    const Info& Get(DataStructures::ID id) const;
+    Info Get(DataStructures::ID id) const;
 };
 
 #endif  // DSINFO_HPP

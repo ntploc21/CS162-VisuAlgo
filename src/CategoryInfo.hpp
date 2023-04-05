@@ -18,7 +18,7 @@ private:
         Category::ID categoryID;
         std::vector< DataStructures::ID > mDS;
     };
-    std::map< Category::ID, std::unique_ptr< Info > > mFactories;
+    std::map< Category::ID, Info > mFactories;
 
 public:
     void Register(Category::ID, Info info);

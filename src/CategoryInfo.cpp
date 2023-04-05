@@ -1,15 +1,14 @@
 #include "CategoryInfo.hpp"
 
 void CategoryInfo::Register(Category::ID id, Info info) {
-    std::unique_ptr< Info > _info(&info);
-    auto inserted = mFactories.insert(std::make_pair(id, std::move(_info)));
+    auto inserted = mFactories.insert(std::make_pair(id, info));
     assert(inserted.second);
 }
 
 const CategoryInfo::Info& CategoryInfo::Get(Category::ID id) const {
     auto found = mFactories.find(id);
     assert(found != mFactories.end());
-    return *found->second.get();
+    return found->second;
 }
 
 CategoryInfo::Info::Info(Category::ID categoryID,
