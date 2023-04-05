@@ -26,6 +26,8 @@ private:
     StateStack mStack;
     FontHolder* fonts;
     TextureHolder* images;
+    CategoryInfo* categories;
+    DSInfo* dsInfo;
 };
 
 #endif  // APPLICATION_HPP

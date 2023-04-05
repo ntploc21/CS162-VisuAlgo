@@ -8,15 +8,22 @@
 #include "StateIdentifiers.hpp"
 #include "TextureHolder.hpp"
 
+// Categories and Data Structures identifiers
+#include "CategoryInfo.hpp"
+#include "DSInfo.hpp"
+
 class StateStack;
 
 class State {
 public:
     typedef std::unique_ptr< State > Ptr;
     struct Context {
-        Context(FontHolder* fonts, TextureHolder* textures);
+        Context(FontHolder* fonts, TextureHolder* textures,
+                CategoryInfo* categories, DSInfo* dsInfo);
         FontHolder* fonts;
         TextureHolder* textures;
+        CategoryInfo* categories;
+        DSInfo* dsInfo;
     };
 
 public:

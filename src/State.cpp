@@ -20,5 +20,7 @@ void State::RequestStackClear() { mStack->ClearStates(); }
 
 State::Context State::GetContext() const { return mContext; }
 
-State::Context::Context(FontHolder* fonts, TextureHolder* textures)
-    : fonts(fonts), textures(textures) {}
+State::Context::Context(FontHolder* fonts, TextureHolder* textures,
+                        CategoryInfo* categories, DSInfo* dsInfo)
+    : fonts(fonts), textures(textures), categories(categories), dsInfo(dsInfo) {
+}

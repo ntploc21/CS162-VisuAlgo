@@ -3,6 +3,8 @@
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "Global.hpp"
+
+// States
 #include "States/Array/DynamicArrayState.hpp"
 #include "States/Array/StaticArrayState.hpp"
 #include "States/HomepageState.hpp"
@@ -51,6 +53,7 @@ void Application::Render() {
 void Application::Update(float dt) { mStack.Update(dt); }
 
 void Application::RegisterStates() {
+    // Register States
     mStack.RegisterState< HomepageState >(States::Homepage);
     mStack.RegisterState< SettingsState >(States::Settings);
     mStack.RegisterState< StaticArrayState >(States::StaticArray);
@@ -60,6 +63,47 @@ void Application::RegisterStates() {
     mStack.RegisterState< CLLState >(States::CircularLinkedList);
     mStack.RegisterState< StackState >(States::Stack);
     mStack.RegisterState< QueueState >(States::Queue);
+
+    // Register Categories
+    categories->Register(Category::Array, {Category::Array,
+                                           {DataStructures::StaticArray,
+                                            DataStructures::DynamicArray}});
+    categories->Register(
+        Category::LinkedList,
+        {Category::LinkedList,
+         {DataStructures::SinglyLinkedList, DataStructures::DoublyLinkedList,
+          DataStructures::CircularLinkedList, DataStructures::Stack,
+          DataStructures::Queue}});
+
+    // Register Data Structures Information
+    dsInfo->Register(
+        DataStructures::StaticArray,
+        {DataStructures::StaticArray, States::StaticArray, Category::Array,
+         Textures::StaticArray, "Static Array", "Static Array"});
+    dsInfo->Register(
+        DataStructures::DynamicArray,
+        {DataStructures::DynamicArray, States::DynamicArray, Category::Array,
+         Textures::DynamicArray, "Dynamically Allocated Array",
+         "Dynamically Allocated Array"});
+    dsInfo->Register(DataStructures::SinglyLinkedList,
+                     {DataStructures::SinglyLinkedList,
+                      States::SinglyLinkedList, Category::LinkedList,
+                      Textures::SinglyLinkedList, "Singly Linked List", "SLL"});
+    dsInfo->Register(DataStructures::DoublyLinkedList,
+                     {DataStructures::DoublyLinkedList,
+                      States::DoublyLinkedList, Category::LinkedList,
+                      Textures::DoublyLinkedList, "Doubly Linked List", "DLL"});
+    dsInfo->Register(
+        DataStructures::CircularLinkedList,
+        {DataStructures::CircularLinkedList, States::CircularLinkedList,
+         Category::LinkedList, Textures::CircularLinkedList,
+         "Circular Linked List", "CLL"});
+    dsInfo->Register(DataStructures::Stack,
+                     {DataStructures::Stack, States::Stack,
+                      Category::LinkedList, Textures::Stack, "Stack", "Stack"});
+    dsInfo->Register(DataStructures::Queue,
+                     {DataStructures::Queue, States::Queue,
+                      Category::LinkedList, Textures::Queue, "Queue", "Queue"});
 }
 
 void Application::LoadResources() {
@@ -86,8 +130,9 @@ void Application::LoadResources() {
 }
 
 Application::Application()
-    : mStack(State::Context(fonts = new FontHolder(),
-                            images = new TextureHolder())) {
+    : mStack(State::Context(
+          fonts = new FontHolder(), images = new TextureHolder(),
+          categories = new CategoryInfo(), dsInfo = new DSInfo())) {
     RegisterStates();
 }
 
