@@ -54,6 +54,8 @@ add_executable(${PROJECT_NAME}
     src/SceneNode.cpp
     src/FontHolder.cpp
     src/TextureHolder.cpp
+    src/CategoryInfo.cpp
+    src/DSInfo.cpp
 
     # States
     src/States/HomepageState.cpp
