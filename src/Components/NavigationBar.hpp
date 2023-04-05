@@ -27,6 +27,8 @@ public:
     void SetActiveTitle(DataStructures::ID title);
     void ClearTitle();
 
+    void SetVisableTitle(bool visible);
+
 private:
     bool DrawSettings();
     bool DrawLogo();
@@ -43,6 +45,7 @@ private:
     std::string currentCategory;
     std::map< DataStructures::ID, TitleInfo > mTitles;
     DataStructures::ID activeTitle;
+    bool hasTitle;
 
 private:
     std::function< void(States::ID) > toLink;

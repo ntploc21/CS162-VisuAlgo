@@ -9,6 +9,7 @@ ArrayState::ArrayState(StateStack& stack, Context context,
 ArrayState::~ArrayState() {}
 
 void ArrayState::InitNavigationBar() {
+    navigation.SetVisableTitle(true);
     auto info = GetContext().categories->Get(Category::Array);
     navigation.SetCategory(info.categoryName);
     navigation.SetActiveTitle(activeDS);

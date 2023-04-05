@@ -5,18 +5,23 @@
 // #define RAYGUI_STATIC
 #include <iostream>
 
-NavigationBar::NavigationBar(FontHolder* fonts) : fonts(fonts) {}
+NavigationBar::NavigationBar(FontHolder* fonts) : fonts(fonts) {
+    NavigationBar();
+}
 
-NavigationBar::NavigationBar() {}
+NavigationBar::NavigationBar() : hasTitle(false) {}
 
 void NavigationBar::DrawCurrent() {
     Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
     DrawRectangleRec(rec, BLACK);
     if (DrawLogo()) toLink(homepageID);
     if (DrawSettings()) toLink(settingsID);
-    States::ID directID = DrawTitles();
-    if (directID != States::None) {
-        toLink(directID);
+
+    if (hasTitle) {
+        States::ID directID = DrawTitles();
+        if (directID != States::None) {
+            toLink(directID);
+        }
     }
 }
 
@@ -42,6 +47,8 @@ void NavigationBar::SetActiveTitle(DataStructures::ID titleID) {
     activeTitle = titleID;
 }
 void NavigationBar::ClearTitle() { mTitles.clear(); }
+
+void NavigationBar::SetVisableTitle(bool visible) { hasTitle = visible; }
 
 bool NavigationBar::DrawLogo() {
     // render
