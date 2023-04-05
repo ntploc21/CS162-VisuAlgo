@@ -1,7 +1,7 @@
 #include "QueueState.hpp"
 
 QueueState::QueueState(StateStack& stack, Context context)
-    : LLState(stack, context) {}
+    : LLState(stack, context, DataStructures::Queue) {}
 
 QueueState::~QueueState() {}
 

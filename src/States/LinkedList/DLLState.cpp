@@ -1,7 +1,7 @@
 #include "DLLState.hpp"
 
 DLLState::DLLState(StateStack& stack, Context context)
-    : LLState(stack, context) {}
+    : LLState(stack, context, DataStructures::DoublyLinkedList) {}
 
 DLLState::~DLLState() {}
 
