@@ -8,4 +8,7 @@ LLState::LLState(StateStack& stack, Context context) : State(stack, context) {
 
 LLState::~LLState() {}
 
-void LLState::InitNavigationBar() {}
+void LLState::InitNavigationBar() {
+    auto info = GetContext().categories->Get(Category::LinkedList);
+    navigation.SetCategory(info.categoryName);
+}

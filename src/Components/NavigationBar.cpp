@@ -24,6 +24,10 @@ void NavigationBar::SetSettings(std::function< void() > settingsLink) {
     toSettings = settingsLink;
 }
 
+void NavigationBar::SetCategory(std::string category) {
+    currentCategory = category;
+}
+
 bool NavigationBar::DrawLogo() {
     // render
     Font logoFont = fonts->Get(Fonts::Silkscreen);
@@ -32,6 +36,13 @@ bool NavigationBar::DrawLogo() {
     DrawTextEx(logoFont, "Algo", {10 + fSpanWidth, 4}, 32, 1, ORANGE);
     float logoWidth = MeasureTextEx(logoFont, "VisuAlgo", 32, 1).x;
     Rectangle logoBond = (Rectangle){10, 4, logoWidth, 32};
+
+    if (currentCategory.size()) {
+        Font font = fonts->Get(Fonts::Default);
+        float x = logoBond.x + logoBond.width;
+        float y = logoBond.y + 5;
+        DrawTextEx(font, ("/" + currentCategory).c_str(), {x, y}, 24, 0, WHITE);
+    }
 
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             CheckCollisionPointRec(GetMousePosition(), logoBond));

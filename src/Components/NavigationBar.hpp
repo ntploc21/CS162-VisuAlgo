@@ -17,11 +17,12 @@ public:
     void SetHomepageLink(std::function< void() > homepageLink);
     void SetSettings(std::function< void() > settingsLink);
 
-    // bool ToTheHomepage();
+    void SetCategory(std::string category);
 
 private:
     bool DrawLogo();
     FontHolder* fonts;
+    std::string currentCategory;
 
     bool DrawSettings();
 
