@@ -71,10 +71,10 @@ void Application::RegisterStates() {
         DataStructures::StaticArray,
         {DataStructures::StaticArray, States::StaticArray, Category::Array,
          Textures::StaticArray, "Static Array", "Static Array"});
-    dsInfo->Register(DataStructures::DynamicArray,
-                     {DataStructures::DynamicArray, States::DynamicArray,
-                      Category::Array, Textures::DynamicArray,
-                      "Dynamically Allocated Array (Vector)", "Dynamic Array"});
+    dsInfo->Register(
+        DataStructures::DynamicArray,
+        {DataStructures::DynamicArray, States::DynamicArray, Category::Array,
+         Textures::DynamicArray, "Dynamic Array (Vector)", "Dynamic Array"});
     dsInfo->Register(DataStructures::SinglyLinkedList,
                      {DataStructures::SinglyLinkedList,
                       States::SinglyLinkedList, Category::LinkedList,
