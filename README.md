@@ -33,6 +33,7 @@ Will be updated soon
     - [**Components/**](src/Components) contains UI components.
     - [**Core/**](src/Core) processes visualization.
     - [**States/**](src/States) contains VisuAlgo scene
+    - [**Identifiers/**](src/Identifiers) contains VisuAlgo identifiers for scene, font, and stuff
 - [**include/**](include) contains the library header files
 - [**assets/**](assets) contains the assets of the project
 

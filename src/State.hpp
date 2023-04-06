@@ -5,12 +5,12 @@
 
 #include "Components/NavigationBar.hpp"
 #include "FontHolder.hpp"
-#include "StateIdentifiers.hpp"
+#include "Identifiers/StateIdentifiers.hpp"
 #include "TextureHolder.hpp"
 
 // Categories and Data Structures identifiers
-#include "CategoryInfo.hpp"
-#include "DSInfo.hpp"
+#include "Identifiers/CategoryInfo.hpp"
+#include "Identifiers/DSInfo.hpp"
 
 class StateStack;
 

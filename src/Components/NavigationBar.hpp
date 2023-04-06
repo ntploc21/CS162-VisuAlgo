@@ -3,18 +3,18 @@
 
 #include <functional>
 
+#include "../Identifiers/DSIdentifiers.hpp"
+#include "../Identifiers/StateIdentifiers.hpp"
 #include "../SceneNode.hpp"
-#include "DSIdentifiers.hpp"
 #include "FontHolder.hpp"
-#include "StateIdentifiers.hpp"
 #include "raygui.h"
 
-class NavigationBar : public SceneNode {
+class NavigationBar {
 public:
     NavigationBar(FontHolder* fonts);
     NavigationBar();
     ~NavigationBar();
-    void DrawCurrent();
+    void Draw();
 
     void SetHomepageID(States::ID id);
     void SetSettingsID(States::ID id);
