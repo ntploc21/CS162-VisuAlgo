@@ -1,7 +1,9 @@
 #ifndef CORE_OPERATIONS_CREATE_SLLCREATE_CPP
 #define CORE_OPERATIONS_CREATE_SLLCREATE_CPP
 
-class SLLCreate {
+#include "Create.hpp"
+
+class SLLCreate : public Create {
 public:
 private:
 };
