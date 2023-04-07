@@ -7,6 +7,31 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE Debug)
 
+# Unit testing
+
+enable_testing()
+include(CTest)
+
+add_executable(core_base_create_test_exe
+    src/UnitTest/doctest_main.cpp
+    src/UnitTest/Operations/Create/Create.test.cpp
+    src/Core/Operations/Create/Create.cpp
+)
+
+target_include_directories(core_base_create_test_exe PRIVATE include)
+
+if(NOT MSVC)
+    target_link_directories(core_base_create_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+endif()
+
+add_test(core_base_create_test core_base_create_test_exe)
+
+add_custom_target(run_base_create_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_base_create_test_exe)
+
+######################################
+
 # Raylib
 set(RAYLIB_VERSION 4.2.0)
 find_package(raylib ${RAYLIB_VERSION} QUIET) # QUIET or REQUIRED
@@ -34,10 +59,6 @@ endif()
 # if(NOT yaml-cpp_FOUND) # Fetch/download yaml-cpp
 # include_directories(${YAML_INCLUDE_DIRS})
 # target_link_libraries(${YAML_CPP_LIBRARIES})
-
-######################################
-
-# Unit testing
 
 ######################################
 
