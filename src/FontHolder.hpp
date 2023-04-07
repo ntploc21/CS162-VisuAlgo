@@ -7,8 +7,8 @@
 #include <stdexcept>
 #include <string>
 
+#include "Identifiers/ResourceIdentifiers.hpp"
 #include "NonCopyable.hpp"
-#include "ResourceIdentifiers.hpp"
 #include "raygui.h"
 
 class FontHolder : private NonCopyable< FontHolder > {

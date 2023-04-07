@@ -4,9 +4,9 @@
 #include <functional>
 
 #include "../Component.hpp"
-#include "DSIdentifiers.hpp"
+#include "../Identifiers/DSIdentifiers.hpp"
+#include "../Identifiers/StateIdentifiers.hpp"
 #include "FontHolder.hpp"
-#include "StateIdentifiers.hpp"
 #include "raygui.h"
 
 class NavigationBar : public GUI::Component {
