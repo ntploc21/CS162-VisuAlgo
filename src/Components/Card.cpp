@@ -15,25 +15,29 @@ void Card::Draw(Vector2 base) {
 }
 
 bool Card::DrawImage(Vector2 base) {
+    float x = base.x + position.x;
+    float y = base.y + position.y;
     // return false;
     // ImageResize(&thumbnail, 250, 160);
-    DrawTexture(thumbnail, position.x, position.y, WHITE);
+    DrawTexture(thumbnail, x, y, WHITE);
 
-    Rectangle imageBound = (Rectangle){position.x, position.y, 250, 160};
+    Rectangle imageBound = (Rectangle){x, y, 250, 160};
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             CheckCollisionPointRec(GetMousePosition(), imageBound));
 }
 
 bool Card::DrawTitle(Vector2 base) {
+    float x = base.x + position.x;
+    float y = base.y + position.y;
     // Draw background
-    DrawRectangle(position.x, position.y + 160, 250, 40, LIGHTGRAY);
+    DrawRectangle(x, y + 160, 250, 40, LIGHTGRAY);
     // Draw title
     Font font = fonts->Get(Fonts::Default);
     float fontSize = 24;
     float fullTextWidth = MeasureTextEx(font, title.c_str(), fontSize, 0).x;
 
-    float x = position.x + (250 - fullTextWidth) / 2;
-    float y = position.y + 168;
+    x += (250 - fullTextWidth) / 2;
+    y += 168;
     Rectangle titleBound = (Rectangle){x, y, fullTextWidth, 24};
 
     DrawTextEx(font, title.c_str(), {x, y}, fontSize, 0, BLACK);

@@ -14,7 +14,7 @@ namespace GUI {
     public:
         Container();
         void pack(Component::Ptr component);
-        void Draw(Vector2 base);
+        void Draw(Vector2 base = (Vector2){0, 0});
         virtual bool isSelectable() const;
 
     private:

@@ -1,6 +1,7 @@
 #ifndef STATES_HOMEPAGESTATE_HPP
 #define STATES_HOMEPAGESTATE_HPP
 
+#include "../Container.hpp"
 #include "../State.hpp"
 #include "Components/Card.hpp"
 
@@ -19,7 +20,7 @@ private:
                     Textures::ID textureID, int x, int y);
 
 private:
-    std::map< States::ID, std::unique_ptr< Card > > mCards;
+    GUI::Container mCards;
 };
 
 #endif  // STATES_HOMEPAGESTATE_HPP
