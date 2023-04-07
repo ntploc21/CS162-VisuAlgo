@@ -14,6 +14,7 @@ HomepageState::~HomepageState() {}
 void HomepageState::Draw() {
     DrawIntroduction();
     navigation.Draw();
+
     mCards.Draw();
 }
 

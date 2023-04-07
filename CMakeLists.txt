@@ -78,6 +78,23 @@ add_executable(${PROJECT_NAME}
     # Components
     src/Components/NavigationBar.cpp
     src/Components/Card.cpp
+    
+    # Core
+
+    ## Operation
+    ### Create
+    src/Core/Operations/Create/Create.cpp
+    src/Core/Operations/Create/SLLCreate.cpp
+
+    ### Add
+
+    ### Update
+
+    ### Search
+
+    ### Delete
+
+    ### Export
 )
 
 target_link_libraries(${PROJECT_NAME} raylib)
