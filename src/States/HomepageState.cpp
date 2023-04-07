@@ -14,9 +14,7 @@ HomepageState::~HomepageState() {}
 void HomepageState::Draw() {
     DrawIntroduction();
     navigation.Draw();
-    for (auto& it : mCards) {
-        it.second->Draw();
-    }
+    mCards.Draw();
 }
 
 bool HomepageState::Update(float dt) { return true; }
@@ -73,26 +71,27 @@ void HomepageState::DrawIntroduction() {
 
 void HomepageState::CreateCard(States::ID stateID, std::string title,
                                Textures::ID textureID, int x, int y) {
-    std::unique_ptr< Card > card(new Card(x, y, title.c_str(),
+    std::shared_ptr< Card > card(new Card(title.c_str(),
                                           GetContext().textures->Get(textureID),
                                           GetContext().fonts));
+    card->SetPosition(x, y);
     card->SetLink([this](States::ID stateID) { RequestStackPush(stateID); });
     card->SetStateID(stateID);
-    auto inserted = mCards.insert(std::make_pair(stateID, std::move(card)));
-    // mCards[stateID] = std::move(card);
+    mCards.pack(card);
 }
 
 void HomepageState::InitCards() {
-    CreateCard(States::StaticArray, "Static Array", Textures::StaticArray, 40,
-               300);
+    mCards.SetPosition(40, 300);
+    CreateCard(States::StaticArray, "Static Array", Textures::StaticArray, 0,
+               0);
     CreateCard(States::DynamicArray, "Dynamic Array", Textures::DynamicArray,
-               330, 300);
+               290, 0);
     CreateCard(States::SinglyLinkedList, "Singly Linked List",
-               Textures::SinglyLinkedList, 620, 300);
+               Textures::SinglyLinkedList, 580, 0);
     CreateCard(States::DoublyLinkedList, "Doubly Linked List",
-               Textures::DoublyLinkedList, 910, 300);
+               Textures::DoublyLinkedList, 870, 0);
     CreateCard(States::CircularLinkedList, "Circular Linked List",
-               Textures::CircularLinkedList, 185, 540);
-    CreateCard(States::Stack, "Stack", Textures::Stack, 475, 540);
-    CreateCard(States::Queue, "Queue", Textures::Queue, 765, 540);
+               Textures::CircularLinkedList, 145, 240);
+    CreateCard(States::Stack, "Stack", Textures::Stack, 435, 240);
+    CreateCard(States::Queue, "Queue", Textures::Queue, 725, 240);
 }

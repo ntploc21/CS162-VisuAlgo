@@ -54,6 +54,8 @@ add_executable(${PROJECT_NAME}
     src/SceneNode.cpp
     src/FontHolder.cpp
     src/TextureHolder.cpp
+    src/Component.cpp
+    src/Container.cpp
     src/Identifiers/CategoryInfo.cpp
     src/Identifiers/DSInfo.cpp
 

@@ -3,18 +3,17 @@
 
 #include <functional>
 
+#include "../Component.hpp"
 #include "../Identifiers/DSIdentifiers.hpp"
 #include "../Identifiers/StateIdentifiers.hpp"
-#include "../SceneNode.hpp"
 #include "FontHolder.hpp"
 #include "raygui.h"
 
-class NavigationBar {
+class NavigationBar : public GUI::Component {
 public:
     NavigationBar(FontHolder* fonts);
     NavigationBar();
     ~NavigationBar();
-    void Draw();
 
     void SetHomepageID(States::ID id);
     void SetSettingsID(States::ID id);
@@ -31,6 +30,10 @@ public:
     void ClearTitle();
 
     void SetVisableTitle(bool visible);
+
+public:
+    bool isSelectable() const;
+    void Draw(Vector2 base = (Vector2){0, 0});
 
 private:
     bool DrawSettings();

@@ -10,7 +10,9 @@ NavigationBar::NavigationBar(FontHolder* fonts)
 
 NavigationBar::NavigationBar() : hasTitle(false), atSettings(false) {}
 
-void NavigationBar::Draw() {
+bool NavigationBar::isSelectable() const { return false; }
+
+void NavigationBar::Draw(Vector2 base) {
     Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
     DrawRectangleRec(rec, BLACK);
     if (DrawLogo()) toLink(homepageID);
