@@ -3,9 +3,9 @@
 
 #include <functional>
 
-#include "../SceneNode.hpp"
-#include "FontHolder.hpp"
-#include "StateIdentifiers.hpp"
+#include "../Component.hpp"
+#include "../FontHolder.hpp"
+#include "../Identifiers/StateIdentifiers.hpp"
 #include "raygui.h"
 
 /* Little note
@@ -16,10 +16,9 @@
 
 */
 
-class Card : public SceneNode {
+class Card : public GUI::Component {
 public:
-    Card(int cornerX, int cornerY, std::string text, Texture thumbnail,
-         FontHolder* fonts);
+    Card(std::string text, Texture thumbnail, FontHolder* fonts);
     Card();
     ~Card();
     void DrawCurrent();
@@ -29,12 +28,15 @@ public:
 
     void SetText(std::string text);
 
-private:
-    bool DrawImage();
-    bool DrawTitle();
+public:
+    bool isSelectable() const;
+    void Draw(Vector2 base = (Vector2){0, 0});
 
 private:
-    int cornerX, cornerY;
+    bool DrawImage(Vector2 base);
+    bool DrawTitle(Vector2 base);
+
+private:
     FontHolder* fonts;
     Texture thumbnail;
     std::string title;
