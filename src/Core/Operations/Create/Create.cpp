@@ -1,7 +1,6 @@
 #include "Create.hpp"
 
 #include <sstream>
-
 Create::Create() { InitCreateOperations(); }
 
 Create::~Create() {}
@@ -10,14 +9,12 @@ std::vector< int > Create::CreateInput(
     CreateOperation::ID opType, std::map< std::string, std::string > params) {
     return mCreateOperations[opType](params);
 }
-
 int Create::Rand(int lower, int upper) {
     std::mt19937 rng(
         std::chrono::steady_clock::now().time_since_epoch().count());
     assert(lower <= upper);
     return lower + rng() % (upper - lower + 1);
 }
-
 std::vector< int > Create::Empty(std::map< std::string, std::string > params) {
     return std::vector< int >();
 }
