@@ -56,6 +56,8 @@ add_executable(${PROJECT_NAME}
     src/TextureHolder.cpp
     src/CategoryInfo.cpp
     src/DSInfo.cpp
+    src/Component.cpp
+    src/Container.cpp
 
     # States
     src/States/HomepageState.cpp
