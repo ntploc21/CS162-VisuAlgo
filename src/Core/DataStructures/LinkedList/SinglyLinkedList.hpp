@@ -7,6 +7,7 @@
 template< typename T >
 class SinglyLinkedList {
 private:
+    Create create = Create();
     using Node_ptr = BaseNode< T >*;
     Node_ptr head{nullptr};
     std::size_t size;
@@ -15,6 +16,9 @@ public:
     SinglyLinkedList();
     ~SinglyLinkedList();
     void Random();
+    void RandomFixedSize(int nSize);
+    void UserDefined(std::string userInput);
+    void ReadFromFile(std::string inputFile);
     // private:
     void Clear();
     std::size_t Size();
@@ -24,7 +28,9 @@ private:
 };
 
 template< typename T >
-inline SinglyLinkedList< T >::SinglyLinkedList() {}
+inline SinglyLinkedList< T >::SinglyLinkedList() {
+    create = Create();
+}
 
 template< typename T >
 inline SinglyLinkedList< T >::~SinglyLinkedList() {
@@ -33,10 +39,26 @@ inline SinglyLinkedList< T >::~SinglyLinkedList() {
 
 template< typename T >
 inline void SinglyLinkedList< T >::Random() {
-    Create create = Create();
-    std::map< std::string, std::string > params;
-    // params["nSize"] = "5";
-    std::vector< int > input = create.Random(params);
+    std::vector< int > input = create.Random();
+    ApplyInput(input);
+}
+
+template< typename T >
+inline void SinglyLinkedList< T >::RandomFixedSize(int nSize) {
+    std::vector< int > input = create.RandomFixedSize(nSize);
+    ApplyInput(input);
+    // std::map<std::string, std::string> params;
+}
+
+template< typename T >
+inline void SinglyLinkedList< T >::UserDefined(std::string userInput) {
+    std::vector< int > input = create.UserDefined(userInput);
+    ApplyInput(input);
+}
+
+template< typename T >
+inline void SinglyLinkedList< T >::ReadFromFile(std::string inputFile) {
+    std::vector< int > input = create.ReadFromFile(inputFile);
     ApplyInput(input);
 }
 
@@ -66,7 +88,6 @@ inline void SinglyLinkedList< T >::ApplyInput(std::vector< int > input) {
         cur = cur->next;
     }
     size = input.size();
-    std::cout << input.size() << std::endl;
 }
 
 #endif  // CORE_DATASTRUCTURES_LINKEDLIST_SINGLYLINKEDLIST_HPP
