@@ -18,8 +18,8 @@ void Card::Draw(Vector2 base) {
 }
 
 bool Card::DrawImage(Vector2 base) {
-    float x = base.x + position.x;
-    float y = base.y + position.y;
+    float x = base.x + mPosition.x;
+    float y = base.y + mPosition.y;
     // return false;
     // ImageResize(&thumbnail, 250, 160);
     DrawTexture(thumbnail, x, y, WHITE);
@@ -31,8 +31,8 @@ bool Card::DrawImage(Vector2 base) {
 }
 
 bool Card::DrawTitle(Vector2 base) {
-    float x = base.x + position.x;
-    float y = base.y + position.y;
+    float x = base.x + mPosition.x;
+    float y = base.y + mPosition.y;
     // Draw background
     DrawRectangle(x, y + 160, 250, 40, LIGHTGRAY);
     // Draw title

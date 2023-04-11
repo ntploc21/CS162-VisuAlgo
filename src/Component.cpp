@@ -1,6 +1,6 @@
 #include "Component.hpp"
 
-GUI::Component::Component() : position((Vector2){0, 0}), mIsSelected(false) {}
+GUI::Component::Component() : mPosition((Vector2){0, 0}), mIsSelected(false) {}
 
 GUI::Component::~Component() {}
 
@@ -12,11 +12,14 @@ void GUI::Component::select() { mIsSelected = true; }
 
 void GUI::Component::deselect() { mIsSelected = false; }
 
-void GUI::Component::SetPosition(float x, float y) {
-    position = (Vector2){x, y};
-}
+void GUI::Component::SetVisible(bool visible) { mVisible = visible; }
 
-Vector2 GUI::Component::GetPosition() { return position; }
+void GUI::Component::SetPosition(float x, float y) {
+    mPosition = (Vector2){x, y};
+}
+void GUI::Component::SetPosition(Vector2 position) { mPosition = position; }
+
+Vector2 GUI::Component::GetPosition() { return mPosition; }
 
 void GUI::Component::UpdateHover(std::map< std::string, Rectangle > bounds,
                                  bool &hover, bool noHover) {
