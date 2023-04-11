@@ -17,3 +17,26 @@ void GUI::Component::SetPosition(float x, float y) {
 }
 
 Vector2 GUI::Component::GetPosition() { return position; }
+
+void GUI::Component::UpdateHover(std::map< std::string, Rectangle > bounds,
+                                 bool &hover, bool noHover) {
+    if (noHover) {
+        hover = false;
+        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+        return;
+    }
+    bool noHoverBound = true;
+    for (auto bound : bounds) {
+        if (CheckCollisionPointRec(GetMousePosition(), bound.second)) {
+            noHoverBound = false;
+            break;
+        }
+    }
+    if (!noHoverBound) {
+        hover = true;
+        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+    } else if (hover) {
+        hover = false;
+        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+    }
+}
