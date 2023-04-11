@@ -21,8 +21,6 @@ public:
     Card(std::string text, Texture thumbnail, FontHolder* fonts);
     Card();
     ~Card();
-    void DrawCurrent();
-
     void SetLink(std::function< void(States::ID) > link);
     void SetStateID(States::ID stateID);
 
@@ -42,6 +40,10 @@ private:
     std::string title;
     std::function< void(States::ID) > toLink;
     States::ID stateID;
+
+private:
+    std::map< std::string, Rectangle > hoverBounds;
+    bool isHover;
 };
 
 #endif  // COMPONENTS_CARD_HPP

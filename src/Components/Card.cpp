@@ -1,17 +1,20 @@
 #include "Card.hpp"
 
 Card::Card(std::string text, Texture thumbnail, FontHolder* fonts)
-    : thumbnail(thumbnail), fonts(fonts) {
+    : thumbnail(thumbnail), fonts(fonts), isHover(false) {
     title = text;
 }
 
-Card::Card() {}
+Card::Card() : isHover(false) {}
 
 Card::~Card() {}
 
 void Card::Draw(Vector2 base) {
-    if (DrawImage(base)) toLink(stateID);
-    if (DrawTitle(base)) toLink(stateID);
+    bool gotoLink = false;
+    if (DrawImage(base)) gotoLink = true;
+    if (DrawTitle(base)) gotoLink = true;
+    UpdateHover(hoverBounds, isHover, gotoLink);
+    if (gotoLink) toLink(stateID);
 }
 
 bool Card::DrawImage(Vector2 base) {
@@ -21,9 +24,10 @@ bool Card::DrawImage(Vector2 base) {
     // ImageResize(&thumbnail, 250, 160);
     DrawTexture(thumbnail, x, y, WHITE);
 
-    Rectangle imageBound = (Rectangle){x, y, 250, 160};
-    return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
-            CheckCollisionPointRec(GetMousePosition(), imageBound));
+    hoverBounds["image-bound"] = (Rectangle){x, y, 250, 160};
+    return (
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+        CheckCollisionPointRec(GetMousePosition(), hoverBounds["image-bound"]));
 }
 
 bool Card::DrawTitle(Vector2 base) {
@@ -38,12 +42,13 @@ bool Card::DrawTitle(Vector2 base) {
 
     x += (250 - fullTextWidth) / 2;
     y += 168;
-    Rectangle titleBound = (Rectangle){x, y, fullTextWidth, 24};
+    hoverBounds["title-bound"] = (Rectangle){x, y, fullTextWidth, 24};
 
     DrawTextEx(font, title.c_str(), {x, y}, fontSize, 0, BLACK);
 
-    return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
-            CheckCollisionPointRec(GetMousePosition(), titleBound));
+    return (
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+        CheckCollisionPointRec(GetMousePosition(), hoverBounds["title-bound"]));
 }
 
 void Card::SetLink(std::function< void(States::ID) > link) { toLink = link; }
