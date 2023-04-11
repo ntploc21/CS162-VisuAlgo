@@ -23,13 +23,17 @@ namespace GUI {
         virtual void select();
         virtual void deselect();
 
+        virtual void SetVisible(bool visible);
+
     public:
         void SetPosition(float x, float y);
+        void SetPosition(Vector2 position);
 
         Vector2 GetPosition();
 
     protected:
-        Vector2 position;
+        Vector2 mPosition;
+        bool mVisible;
 
     private:
         bool mIsSelected;

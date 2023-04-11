@@ -3,7 +3,7 @@
 void FontHolder::Load(Fonts::ID id, const std::string& filename) {
     std::unique_ptr< Font > font(new Font());
     // *font = LoadFont(filename.c_str());
-    *font = LoadFontEx(filename.c_str(), 72, NULL, 0);
+    *font = LoadFontEx(filename.c_str(), 72, nullptr, 0);
     SetTextureFilter(font->texture, TEXTURE_FILTER_ANISOTROPIC_16X);
     InsertResource(id, std::move(font));
 }

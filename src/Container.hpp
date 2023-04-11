@@ -17,7 +17,7 @@ namespace GUI {
         void Draw(Vector2 base = (Vector2){0, 0});
         virtual bool isSelectable() const;
 
-    private:
+    protected:
         std::vector< Component::Ptr > mChildren;
     };
 };  // namespace GUI
