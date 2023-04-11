@@ -6,7 +6,7 @@ APCS - CS162 Solo Project - VisuAlgo
 
 This is a project for the course CS162 - Introduction to Computer Science II. 
 
-This project is a data visualization application that tries to replicate what [VisuAlgo](https://visualgo.net/en) does. It provides an intuitive and user-friendly interface for the display and understanding data stored in basic data structures. Users can choose from a variety of data structures (listed in the Features), and can easily initialize, add, delete, update, and search data within these data structures.
+In this project, I will do a data visualization application that tries to replicate what [VisuAlgo](https://visualgo.net/en) does. Such application provides an intuitive and user-friendly interface for the display and understanding data stored in basic data structures. Users can choose from a variety of data structures (listed in the Features), and can easily initialize, add, delete, update, and search data within these data structures.
 ## Features
 Will be updated soon
 ## Requirements
@@ -23,9 +23,10 @@ Will be updated soon
 2. Run the following commands
     ```bash
     cmake -G [You generator] -S . -B build/
-    cd build
+    make -C build
     ```
-    - You can find the generator you are using with ```cmake -h``` and plug it in ```[Your generator]``` 
+    - You can find the generator you are using with ```cmake -h``` and plug it in ```[Your generator]```
+    - If you are using other generator that doesnt generate Makefile, you can search "Build project with [Your generator]" and search for a solution
 3. Enjoy!
 
 ## Directory Structure
