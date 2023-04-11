@@ -4,8 +4,9 @@ Repository: https://github.com/ntploc21/CS162-VisuAlgo
 
 APCS - CS162 Solo Project - VisuAlgo
 
-## Introduction
-Will be updated soon
+This is a project for the course CS162 - Introduction to Computer Science II. 
+
+This project is a data visualization application that tries to replicate what [VisuAlgo](https://visualgo.net/en) does. It provides an intuitive and user-friendly interface for the display and understanding data stored in basic data structures. Users can choose from a variety of data structures (listed in the Features), and can easily initialize, add, delete, update, and search data within these data structures.
 ## Features
 Will be updated soon
 ## Requirements
@@ -28,14 +29,14 @@ Will be updated soon
 3. Enjoy!
 
 ## Directory Structure
-- [**src/**](src) contains source code. 
-    - [**Common/**](src/Common) contains commonly used files.
+- [**src/**](src) contains source code.
     - [**Components/**](src/Components) contains UI components.
     - [**Core/**](src/Core) processes visualization.
     - [**States/**](src/States) contains VisuAlgo scene
     - [**Identifiers/**](src/Identifiers) contains VisuAlgo identifiers for scene, font, and stuff
 - [**include/**](include) contains the library header files
 - [**assets/**](assets) contains the assets of the project
+- [**/unittest**](unittest) contains all of the unit tests of the project
 
 ## Contributor
 22125050 - Nguyen Thanh Phuoc Loc
