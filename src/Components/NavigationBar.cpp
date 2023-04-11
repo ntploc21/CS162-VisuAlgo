@@ -13,22 +13,30 @@ NavigationBar::NavigationBar() : hasTitle(false), atSettings(false) {}
 bool NavigationBar::isSelectable() const { return false; }
 
 void NavigationBar::Draw(Vector2 base) {
+    bool willGotoNextScreen = false;
     Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
     DrawRectangleRec(rec, BLACK);
-    if (DrawLogo()) toLink(homepageID);
+    if (DrawLogo()) {
+        toLink(homepageID);
+        willGotoNextScreen = true;
+    }
     if (DrawSettings()) {
         if (atSettings)
             backToPrvState();
-        else
+        else {
             toLink(settingsID);
+            willGotoNextScreen = true;
+        }
     }
 
     if (hasTitle) {
         States::ID directID = DrawTitles();
         if (directID != States::None) {
             toLink(directID);
+            willGotoNextScreen = true;
         }
     }
+    UpdateHover(hoverBounds, isHover, willGotoNextScreen);
 }
 
 void NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
@@ -69,17 +77,18 @@ bool NavigationBar::DrawLogo() {
     DrawTextEx(logoFont, "Visu", {10, 4}, 32, 1, WHITE);
     DrawTextEx(logoFont, "Algo", {10 + fSpanWidth, 4}, 32, 1, ORANGE);
     float logoWidth = MeasureTextEx(logoFont, "VisuAlgo", 32, 1).x;
-    Rectangle logoBond = (Rectangle){10, 4, logoWidth, 32};
+    hoverBounds["logo-bound"] = (Rectangle){10, 4, logoWidth, 32};
 
     if (currentCategory.size()) {
         Font font = fonts->Get(Fonts::Default);
-        float x = logoBond.x + logoBond.width;
-        float y = logoBond.y + 5;
+        float x = hoverBounds["logo-bound"].x + hoverBounds["logo-bound"].width;
+        float y = hoverBounds["logo-bound"].y + 5;
         DrawTextEx(font, ("/" + currentCategory).c_str(), {x, y}, 24, 0, WHITE);
     }
 
-    return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
-            CheckCollisionPointRec(GetMousePosition(), logoBond));
+    return (
+        IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+        CheckCollisionPointRec(GetMousePosition(), hoverBounds["logo-bound"]));
 }
 
 States::ID NavigationBar::DrawTitles() {
@@ -99,12 +108,14 @@ States::ID NavigationBar::DrawTitles() {
 
         float textWidth = MeasureTextEx(font, displayedName.c_str(), 24, 0).x;
         DrawTextEx(font, displayedName.c_str(), {x, y}, 24, 0, color);
-        Rectangle buttonBound =
+
+        hoverBounds["button-" + title.first] =
             (Rectangle){x - padding, y - padding, textWidth + padding * 2,
                         32 + padding * 2};
-        x += buttonBound.width + margin + padding;
+        x += hoverBounds["button-" + title.first].width + margin + padding;
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
-            CheckCollisionPointRec(GetMousePosition(), buttonBound))
+            CheckCollisionPointRec(GetMousePosition(),
+                                   hoverBounds["button-" + title.first]))
             return title.second.stateID;
     }
     return States::None;
@@ -119,20 +130,22 @@ bool NavigationBar::DrawSettings() {
 
     float paddingX = 8, paddingY = 2;
     float posX = 1075, posY = 8;
-    Rectangle settingsBound =
+    hoverBounds["settings-bound"] =
         (Rectangle){posX - paddingX, posY - paddingY, spanWidth + paddingX * 2,
                     24 + 2 * paddingY};
 
     // render
     Color textColor = settingsColor;
-    if (CheckCollisionPointRec(GetMousePosition(), settingsBound)) {
+    if (CheckCollisionPointRec(GetMousePosition(),
+                               hoverBounds["settings-bound"])) {
         textColor = (Color){10, 88, 202, 255};
     }
     DrawTextEx(settingsFont, text.c_str(), {posX, posY}, 24, -0.1, textColor);
-    DrawRectangleLinesEx(settingsBound, 1, settingsColor);
+    DrawRectangleLinesEx(hoverBounds["settings-bound"], 1, settingsColor);
 
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
-            CheckCollisionPointRec(GetMousePosition(), settingsBound));
+            CheckCollisionPointRec(GetMousePosition(),
+                                   hoverBounds["settings-bound"]));
 }
 
 NavigationBar::~NavigationBar() {}

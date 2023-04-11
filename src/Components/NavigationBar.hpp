@@ -59,6 +59,10 @@ private:
     States::ID homepageID;
     States::ID settingsID;
     bool atSettings;
+
+private:
+    std::map< std::string, Rectangle > hoverBounds;
+    bool isHover;
 };
 
 #endif  // COMPONENTS_NAVIGATIONBAR_HPP
