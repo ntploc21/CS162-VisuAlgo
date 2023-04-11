@@ -1,6 +1,7 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
 
+#include <map>
 #include <memory>
 
 #include "NonCopyable.hpp"
@@ -32,6 +33,10 @@ namespace GUI {
 
     private:
         bool mIsSelected;
+
+    protected:
+        virtual void UpdateHover(std::map< std::string, Rectangle > bounds,
+                                 bool &hover, bool noHover);
     };
 };  // namespace GUI
 
