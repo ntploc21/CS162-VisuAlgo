@@ -6,6 +6,7 @@ LLState::LLState(StateStack& stack, Context context,
                  DataStructures::ID activeDS)
     : State(stack, context), activeDS(activeDS) {
     InitNavigationBar();
+    operationContainer = OperationContainer(context.fonts);
 }
 
 LLState::~LLState() {}
@@ -20,3 +21,24 @@ void LLState::InitNavigationBar() {
         navigation.InsertTitle(dsID, dsInfo.stateID, dsInfo.abbr, dsInfo.name);
     };
 }
+
+void LLState::AddOperations() {
+    AddInitializeOperation();
+    AddInsertOperation();
+    AddDeleteOperation();
+    AddUpdateOperation();
+    AddSearchOperation();
+
+    operationContainer.SetPosition(0, 400);
+    operationContainer.InitActionBar();
+}
+
+void LLState::AddInitializeOperation() {}
+
+void LLState::AddInsertOperation() {}
+
+void LLState::AddDeleteOperation() {}
+
+void LLState::AddUpdateOperation() {}
+
+void LLState::AddSearchOperation() {}

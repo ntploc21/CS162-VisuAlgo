@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Components/Button.hpp"
+
 SettingsState::SettingsState(StateStack& stack, Context context)
     : State(stack, context) {
     navigation.AtSettings(true);
