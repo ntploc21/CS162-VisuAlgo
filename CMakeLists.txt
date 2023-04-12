@@ -115,6 +115,7 @@ add_executable(${PROJECT_NAME}
     src/Components/NavigationBar.cpp
     src/Components/Card.cpp
     src/Components/OperationList.cpp
+    src/Components/OperationContainer.cpp
     src/Components/Button.cpp
     
     # Core
