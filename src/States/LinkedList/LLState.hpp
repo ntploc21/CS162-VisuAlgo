@@ -1,6 +1,7 @@
 #ifndef STATES_LINKEDLIST_LLSTATE_HPP
 #define STATES_LINKEDLIST_LLSTATE_HPP
 
+#include "../../Components/OperationContainer.hpp"
 #include "../../Components/OperationList.hpp"
 #include "../../State.hpp"
 
