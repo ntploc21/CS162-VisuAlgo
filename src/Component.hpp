@@ -24,6 +24,7 @@ namespace GUI {
         virtual void deselect();
 
         virtual void SetVisible(bool visible);
+        virtual bool GetVisible();
 
     public:
         void SetPosition(float x, float y);
@@ -39,8 +40,14 @@ namespace GUI {
         bool mIsSelected;
 
     protected:
-        virtual void UpdateHover(std::map< std::string, Rectangle > bounds,
-                                 bool &hover, bool noHover);
+        virtual void UpdateMouseCursorWhenHover(
+            std::map< std::string, Rectangle > bounds, bool hover,
+            bool noHover);
+        virtual void UpdateMouseCursorWhenHover(Rectangle bound, bool hover,
+                                                bool noHover);
+        virtual bool GetHoverStatus(std::map< std::string, Rectangle > bounds,
+                                    bool hover, bool noHover);
+        virtual bool GetHoverStatus(Rectangle bound, bool hover, bool noHover);
     };
 };  // namespace GUI
 

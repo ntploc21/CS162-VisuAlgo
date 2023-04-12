@@ -14,6 +14,8 @@ void GUI::Component::deselect() { mIsSelected = false; }
 
 void GUI::Component::SetVisible(bool visible) { mVisible = visible; }
 
+bool GUI::Component::GetVisible() { return mVisible; }
+
 void GUI::Component::SetPosition(float x, float y) {
     mPosition = (Vector2){x, y};
 }
@@ -21,13 +23,35 @@ void GUI::Component::SetPosition(Vector2 position) { mPosition = position; }
 
 Vector2 GUI::Component::GetPosition() { return mPosition; }
 
-void GUI::Component::UpdateHover(std::map< std::string, Rectangle > bounds,
-                                 bool &hover, bool noHover) {
-    if (noHover) {
-        hover = false;
-        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+void GUI::Component::UpdateMouseCursorWhenHover(
+    std::map< std::string, Rectangle > bounds, bool hover, bool noHover) {
+    bool nxtHover = GetHoverStatus(bounds, hover, noHover);
+    if (hover == nxtHover) {
+        if (hover) SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
         return;
     }
+    if (nxtHover)
+        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+    else
+        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+}
+
+void GUI::Component::UpdateMouseCursorWhenHover(Rectangle bound, bool hover,
+                                                bool noHover) {
+    bool nxtHover = GetHoverStatus(bound, hover, noHover);
+    if (hover == nxtHover) {
+        if (hover) SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+        return;
+    }
+    if (nxtHover)
+        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+    else
+        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+}
+
+bool GUI::Component::GetHoverStatus(std::map< std::string, Rectangle > bounds,
+                                    bool hover, bool noHover) {
+    if (noHover) return false;
     bool noHoverBound = true;
     for (auto bound : bounds) {
         if (CheckCollisionPointRec(GetMousePosition(), bound.second)) {
@@ -35,11 +59,18 @@ void GUI::Component::UpdateHover(std::map< std::string, Rectangle > bounds,
             break;
         }
     }
-    if (!noHoverBound) {
+    if (!noHoverBound)
         hover = true;
-        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
-    } else if (hover) {
+    else if (hover)
         hover = false;
-        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-    }
+    return hover;
+}
+
+bool GUI::Component::GetHoverStatus(Rectangle bound, bool hover, bool noHover) {
+    if (noHover) return false;
+    if (CheckCollisionPointRec(GetMousePosition(), bound))
+        hover = true;
+    else if (hover)
+        hover = false;
+    return hover;
 }

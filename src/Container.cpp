@@ -8,10 +8,14 @@ void GUI::Container::pack(Component::Ptr component) {
 
 void GUI::Container::Draw(Vector2 base) {
     if (!mVisible) return;
-    base.x += position.x, base.y += position.y;
+    base.x += mPosition.x, base.y += mPosition.y;
     for (const Component::Ptr child : mChildren) {
         child->Draw(base);
     }
 }
 
 bool GUI::Container::isSelectable() const { return false; }
+
+std::vector< GUI::Component::Ptr > GUI::Container::GetChildren() {
+    return mChildren;
+}

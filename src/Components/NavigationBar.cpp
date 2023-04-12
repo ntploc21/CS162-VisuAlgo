@@ -36,7 +36,8 @@ void NavigationBar::Draw(Vector2 base) {
             willGotoNextScreen = true;
         }
     }
-    UpdateHover(hoverBounds, isHover, willGotoNextScreen);
+    UpdateMouseCursorWhenHover(hoverBounds, isHover, willGotoNextScreen);
+    isHover = GetHoverStatus(hoverBounds, isHover, willGotoNextScreen);
 }
 
 void NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
