@@ -34,6 +34,7 @@ void OperationList::AddOperation(Button::Ptr action,
     action.get()->SetPosition(lastOperationPos.x, lastOperationPos.y);
     action.get()->SetSize(150, buttonHeight);
     action.get()->SetFontSize(20);
+    // action.get()->SetActionOnHover(true);
     // action.get()->SetButtonHoverColor((Color){214, 87, 117, 255});
     // action.get()->SetButtonColor(GREEN);
     // action.get()->SetTextColor(WHITE);
@@ -82,4 +83,11 @@ void OperationList::InitActionBar() {
             this->HideAllOptions();
         }
     });
+}
+
+Vector2 OperationList::GetSize() {
+    float width = 1200;  // we dont need to width right now so dont need to
+                         // calculate it precisely
+    float height = toggleButton.GetSize().y;
+    return (Vector2){width, height};
 }

@@ -1,6 +1,5 @@
-#ifndef COMPONENTS_OPERATIONCONTAINER_HPP
-#define COMPONENTS_OPERATIONCONTAINER_HPP
-
+#ifndef COMPONENTS_OPERATIONLIST_HPP
+#define COMPONENTS_OPERATIONLIST_HPP
 #include "../Container.hpp"
 #include "Button.hpp"
 
@@ -23,6 +22,8 @@ public:
     ~OperationList();
     void AddOperation(Button::Ptr action, GUI::Container::Ptr optionContainer);
     void InitActionBar();
+
+    Vector2 GetSize();
 };
 
-#endif  // COMPONENTS_OPERATIONCONTAINER_HPP
+#endif  // COMPONENTS_OPERATIONLIST_HPP
