@@ -6,7 +6,8 @@ OperationList::OperationList(FontHolder *fonts) : isHide(true) {
     toggleButton = Button("<", fonts);
     toggleButton.SetTextAlignment(toggleButton.Center);
     toggleButton.SetFontSize(32);
-    toggleButton.SetButtonHoverColor(GREEN);
+    toggleButton.SetButtonColor((Color){82, 188, 105, 255});
+    toggleButton.SetButtonHoverColor((Color){82, 188, 105, 255});
 }
 OperationList::~OperationList() {}
 
@@ -36,7 +37,7 @@ void OperationList::AddOperation(Button::Ptr action,
     action.get()->SetFontSize(20);
     // action.get()->SetActionOnHover(true);
     // action.get()->SetButtonHoverColor((Color){214, 87, 117, 255});
-    // action.get()->SetButtonColor(GREEN);
+    action.get()->SetButtonColor((Color){82, 188, 105, 255});
     // action.get()->SetTextColor(WHITE);
 
     optionContainer.get()->SetPosition(lastOperationPos.x + 150,
