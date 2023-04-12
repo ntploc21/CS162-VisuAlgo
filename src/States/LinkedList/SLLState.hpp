@@ -10,6 +10,7 @@ private:
     void AddDeleteOperation();
     void AddSearchOperation();
 
+protected:
 public:
     SLLState(StateStack& stack, Context context);
     ~SLLState();

@@ -6,7 +6,7 @@ LLState::LLState(StateStack& stack, Context context,
                  DataStructures::ID activeDS)
     : State(stack, context), activeDS(activeDS) {
     InitNavigationBar();
-    operationContainer = OperationContainer(context.fonts);
+    operationList = OperationList(context.fonts);
 }
 
 LLState::~LLState() {}
@@ -29,8 +29,8 @@ void LLState::AddOperations() {
     AddUpdateOperation();
     AddSearchOperation();
 
-    operationContainer.SetPosition(0, 400);
-    operationContainer.InitActionBar();
+    operationList.SetPosition(0, 400);
+    operationList.InitActionBar();
 }
 
 void LLState::AddInitializeOperation() {}

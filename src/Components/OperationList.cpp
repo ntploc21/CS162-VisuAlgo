@@ -1,29 +1,29 @@
-#include "OperationContainer.hpp"
+#include "OperationList.hpp"
 
 #include <iostream>
 
-OperationContainer::OperationContainer(FontHolder *fonts) : isHide(true) {
+OperationList::OperationList(FontHolder *fonts) : isHide(true) {
     toggleButton = Button("<", fonts);
     toggleButton.SetTextAlignment(toggleButton.Center);
     toggleButton.SetFontSize(32);
     toggleButton.SetButtonHoverColor(GREEN);
 }
-OperationContainer::~OperationContainer() {}
+OperationList::~OperationList() {}
 
-void OperationContainer::Draw(Vector2 base) {
+void OperationList::Draw(Vector2 base) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     toggleButton.Draw(base);
     if (!isHide) {
         buttons.Draw(base);
-        // optionContainers.Draw();
+        optionContainers.Draw(base);
     }
 }
 
-OperationContainer::OperationContainer() {}
+OperationList::OperationList() {}
 
-void OperationContainer::AddOperation(Button::Ptr action,
-                                      GUI::Container::Ptr optionContainer) {
+void OperationList::AddOperation(Button::Ptr action,
+                                 GUI::Container::Ptr optionContainer) {
     float buttonHeight = 30;
     Vector2 lastOperationPos = (Vector2){43, -buttonHeight};
     if (!buttons.GetChildren().empty()) {
@@ -33,31 +33,37 @@ void OperationContainer::AddOperation(Button::Ptr action,
 
     action.get()->SetPosition(lastOperationPos.x, lastOperationPos.y);
     action.get()->SetSize(150, buttonHeight);
-    action.get()->SetFontSize(24);
-    action.get()->SetButtonHoverColor((Color){214, 87, 117, 255});
+    action.get()->SetFontSize(20);
+    // action.get()->SetButtonHoverColor((Color){214, 87, 117, 255});
     // action.get()->SetButtonColor(GREEN);
     // action.get()->SetTextColor(WHITE);
-    // (*action).
-    // (*optionContainer)
-    //     .SetPosition(lastOperationPos.x + 150, lastOperationPos.y);
+
+    optionContainer.get()->SetPosition(lastOperationPos.x + 150,
+                                       lastOperationPos.y);
+    optionContainer.get()->SetVisible(false);
 
     buttons.pack(action);
     optionContainers.pack(optionContainer);
-    action.get()->SetAction([&, this]() {
+    std::size_t index = optionContainers.GetChildren().size() - 1;
+    action.get()->SetAction([this, index]() {
         HideAllOptions();
-        optionContainer.get()->SetVisible(true);
+        ShowOptions(index);
     });
     toggleButton.SetSize(40, lastOperationPos.y + buttonHeight);
 }
 
-void OperationContainer::HideAllOptions() {
+void OperationList::ShowOptions(std::size_t index) {
+    optionContainers.GetChildren().at(index).get()->SetVisible(true);
+}
+
+void OperationList::HideAllOptions() {
     for (auto options : optionContainers.GetChildren()) {
         if (options.get() == nullptr) continue;
         options.get()->SetVisible(false);
     }
 }
 
-void OperationContainer::ToggleOperations() {
+void OperationList::ToggleOperations() {
     if (isHide)
         isHide = false;
     else
@@ -69,7 +75,7 @@ void OperationContainer::ToggleOperations() {
         toggleButton.SetText(">");
 }
 
-void OperationContainer::InitActionBar() {
+void OperationList::InitActionBar() {
     toggleButton.SetAction([this]() {
         this->ToggleOperations();
         if (isHide) {

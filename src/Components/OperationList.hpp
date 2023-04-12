@@ -4,7 +4,7 @@
 #include "../Container.hpp"
 #include "Button.hpp"
 
-class OperationContainer : public GUI::Container {
+class OperationList : public GUI::Container {
 private:
     GUI::Container buttons;
     GUI::Container optionContainers;
@@ -12,14 +12,15 @@ private:
     Button toggleButton;
 
 public:
+    void ShowOptions(std::size_t index);
     void HideAllOptions();
     void ToggleOperations();
 
 public:
     void Draw(Vector2 base = (Vector2){0, 0});
-    OperationContainer();
-    OperationContainer(FontHolder *fonts);
-    ~OperationContainer();
+    OperationList();
+    OperationList(FontHolder *fonts);
+    ~OperationList();
     void AddOperation(Button::Ptr action, GUI::Container::Ptr optionContainer);
     void InitActionBar();
 };

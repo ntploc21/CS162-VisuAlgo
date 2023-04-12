@@ -10,7 +10,7 @@ SLLState::SLLState(StateStack& stack, Context context)
 SLLState::~SLLState() {}
 
 void SLLState::Draw() {
-    operationContainer.Draw();
+    operationList.Draw();
     navigation.Draw();
 }
 
@@ -18,32 +18,47 @@ bool SLLState::Update(float dt) { return true; }
 
 void SLLState::AddInsertOperation() {
     Button::Ptr buttonInsert(new Button("Insert", GetContext().fonts));
-    GUI::Container::Ptr container = GUI::Container::Ptr();
-    operationContainer.AddOperation(buttonInsert, container);
+    GUI::Container::Ptr container(new GUI::Container());
+    operationList.AddOperation(buttonInsert, container);
 }
 
 void SLLState::AddInitializeOperation() {
     Button::Ptr buttonInitialize(new Button("Create", GetContext().fonts));
-    GUI::Container::Ptr container = GUI::Container::Ptr();
-    operationContainer.AddOperation(buttonInitialize, container);
+    GUI::Container::Ptr container(new GUI::Container());
+
+    /* ==== DEFINE OPERATIONS FOR CREATE ==== */
+
+    // Button::Ptr buttonEmpty(new Button("Empty", GetContext().fonts));
+
+    // buttonEmpty.get()->SetPosition(3, 2);
+    // buttonEmpty.get()->SetFontSize(20);
+    // buttonEmpty.get()->EnableFitContent();
+    // buttonEmpty.get()->SetAction([this]() {
+
+    // });
+
+    // container.get()->pack(buttonEmpty);
+
+    /* ====================================== */
+    operationList.AddOperation(buttonInitialize, container);
 }
 
 void SLLState::AddUpdateOperation() {
     Button::Ptr buttonUpdate(new Button("Update", GetContext().fonts));
-    GUI::Container::Ptr container = GUI::Container::Ptr();
-    operationContainer.AddOperation(buttonUpdate, container);
+    GUI::Container::Ptr container(new GUI::Container());
+    operationList.AddOperation(buttonUpdate, container);
 }
 
 void SLLState::AddDeleteOperation() {
     Button::Ptr buttonDelete(new Button("Delete", GetContext().fonts));
-    GUI::Container::Ptr container = GUI::Container::Ptr();
-    operationContainer.AddOperation(buttonDelete, container);
+    GUI::Container::Ptr container(new GUI::Container());
+    operationList.AddOperation(buttonDelete, container);
 }
 
 void SLLState::AddSearchOperation() {
     Button::Ptr buttonSearch(new Button("Search", GetContext().fonts));
-    GUI::Container::Ptr container = GUI::Container::Ptr();
-    operationContainer.AddOperation(buttonSearch, container);
+    GUI::Container::Ptr container(new GUI::Container());
+    operationList.AddOperation(buttonSearch, container);
 }
 
 // void SLLState::AddOperations() {

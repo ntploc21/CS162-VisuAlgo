@@ -1,7 +1,7 @@
 #ifndef STATES_LINKEDLIST_LLSTATE_HPP
 #define STATES_LINKEDLIST_LLSTATE_HPP
 
-#include "../../Components/OperationContainer.hpp"
+#include "../../Components/OperationList.hpp"
 #include "../../State.hpp"
 
 class LLState : public State {
@@ -17,7 +17,7 @@ protected:
     Context mContext;
 
 protected:
-    OperationContainer operationContainer;
+    OperationList operationList;
     virtual void AddOperations();  // DO NOT OVERRIDE THIS FUNCTION
     virtual void AddInitializeOperation();
     virtual void AddInsertOperation();
