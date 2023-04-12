@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "../../Global.hpp"
+
 LLState::LLState(StateStack& stack, Context context,
                  DataStructures::ID activeDS)
     : State(stack, context), activeDS(activeDS) {
@@ -29,7 +31,8 @@ void LLState::AddOperations() {
     AddUpdateOperation();
     AddSearchOperation();
 
-    operationList.SetPosition(0, 400);
+    operationList.SetPosition(
+        0, global::SCREEN_HEIGHT - 60 - operationList.GetSize().y);
     operationList.InitActionBar();
 }
 
