@@ -34,6 +34,10 @@ public:
     void EnableFitContent();
     void DisableFitContent();
 
+    Vector2 GetSize();
+
+    void SetActionOnHover(bool actionOnHover);
+
 private:
     bool IsClicked();
     void DrawButtonText();
@@ -53,6 +57,7 @@ private:
 
 private:
     bool fitContent;
+    bool mActionOnHover;
 
 private:
     bool isHover;

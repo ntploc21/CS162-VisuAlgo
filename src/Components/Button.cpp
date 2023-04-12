@@ -4,13 +4,14 @@
 
 Button::Button(std::string text, FontHolder* fonts)
     : content(text), fonts(fonts), buttonColor(GREEN), buttonHoverColor(BLACK),
-      textColor(WHITE), isHover(false), alignment(Left), fontSize(16) {
+      textColor(WHITE), isHover(false), alignment(Left), fontSize(16),
+      mActionOnHover(false) {
     DisableFitContent();
 }
 
 Button::Button()
     : buttonColor(GREEN), buttonHoverColor(BLACK), textColor(WHITE),
-      isHover(false), content("test"), fontSize(16) {
+      isHover(false), content("test"), fontSize(16), mActionOnHover(false) {
     DisableFitContent();
 }
 
@@ -24,12 +25,10 @@ void Button::Draw(Vector2 base) {
     float y = base.y + mPosition.y;
     bound.x = x, bound.y = y;
 
-    FitContent();
-
     bound.height--;
     UpdateMouseCursorWhenHover(bound, isHover, false);
     isHover = GetHoverStatus(bound, isHover, false);
-    if (IsClicked()) action();
+    if (IsClicked() || (mActionOnHover && isHover)) action();
     bound.height++;
 
     DrawRectangleRec(bound, (isHover ? buttonHoverColor : buttonColor));
@@ -58,9 +57,19 @@ void Button::SetTextAlignment(TextAlignment textAlignment) {
     alignment = textAlignment;
 }
 
-void Button::EnableFitContent() { fitContent = true; }
+void Button::EnableFitContent() {
+    fitContent = true;
+
+    FitContent();
+}
 
 void Button::DisableFitContent() { fitContent = false; }
+
+Vector2 Button::GetSize() { return (Vector2){bound.width, bound.height}; }
+
+void Button::SetActionOnHover(bool actionOnHover) {
+    mActionOnHover = actionOnHover;
+}
 
 bool Button::IsClicked() {
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
