@@ -13,7 +13,8 @@ void Card::Draw(Vector2 base) {
     bool gotoLink = false;
     if (DrawImage(base)) gotoLink = true;
     if (DrawTitle(base)) gotoLink = true;
-    UpdateHover(hoverBounds, isHover, gotoLink);
+    UpdateMouseCursorWhenHover(hoverBounds, isHover, gotoLink);
+    isHover = GetHoverStatus(hoverBounds, isHover, gotoLink);
     if (gotoLink) toLink(stateID);
 }
 
