@@ -32,6 +32,8 @@ namespace GUI {
 
         Vector2 GetPosition();
 
+        virtual Vector2 GetSize();
+
     protected:
         Vector2 mPosition;
         bool mVisible;

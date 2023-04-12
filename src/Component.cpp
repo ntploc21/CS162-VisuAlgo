@@ -25,6 +25,8 @@ void GUI::Component::SetPosition(Vector2 position) { mPosition = position; }
 
 Vector2 GUI::Component::GetPosition() { return mPosition; }
 
+Vector2 GUI::Component::GetSize() { return (Vector2){0, 0}; }
+
 void GUI::Component::UpdateMouseCursorWhenHover(
     std::map< std::string, Rectangle > bounds, bool hover, bool noHover) {
     bool nxtHover = GetHoverStatus(bounds, hover, noHover);
