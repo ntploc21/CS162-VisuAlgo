@@ -31,10 +31,16 @@ public:
     float GetFontSize() const;
     void SetTextAlignment(TextAlignment textAlignment);
 
+    void EnableFitContent();
+    void DisableFitContent();
+
 private:
     bool IsClicked();
     void DrawButtonText();
-    Vector2 GetTextPos();
+    Vector2 GetContentPos();
+    Vector2 GetContentSize();
+
+    void FitContent();
 
 private:
     FontHolder* fonts;
@@ -44,6 +50,9 @@ private:
     Color textColor;
     TextAlignment alignment;
     float fontSize;
+
+private:
+    bool fitContent;
 
 private:
     bool isHover;

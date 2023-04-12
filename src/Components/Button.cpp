@@ -4,24 +4,33 @@
 
 Button::Button(std::string text, FontHolder* fonts)
     : content(text), fonts(fonts), buttonColor(GREEN), buttonHoverColor(BLACK),
-      textColor(WHITE), isHover(false), alignment(Left), fontSize(16) {}
+      textColor(WHITE), isHover(false), alignment(Left), fontSize(16) {
+    DisableFitContent();
+}
 
 Button::Button()
     : buttonColor(GREEN), buttonHoverColor(BLACK), textColor(WHITE),
-      isHover(false), content("test"), fontSize(16) {}
+      isHover(false), content("test"), fontSize(16) {
+    DisableFitContent();
+}
 
 Button::~Button() {}
 
 void Button::SetText(std::string text) { content = text; }
 
 void Button::Draw(Vector2 base) {
+    if (!mVisible) return;
     float x = base.x + mPosition.x;
     float y = base.y + mPosition.y;
     bound.x = x, bound.y = y;
 
+    FitContent();
+
+    bound.height--;
     UpdateMouseCursorWhenHover(bound, isHover, false);
     isHover = GetHoverStatus(bound, isHover, false);
     if (IsClicked()) action();
+    bound.height++;
 
     DrawRectangleRec(bound, (isHover ? buttonHoverColor : buttonColor));
 
@@ -49,6 +58,10 @@ void Button::SetTextAlignment(TextAlignment textAlignment) {
     alignment = textAlignment;
 }
 
+void Button::EnableFitContent() { fitContent = true; }
+
+void Button::DisableFitContent() { fitContent = false; }
+
 bool Button::IsClicked() {
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             CheckCollisionPointRec(GetMousePosition(), bound));
@@ -57,12 +70,11 @@ bool Button::IsClicked() {
 void Button::DrawButtonText() {
     Font font = fonts->Get(Fonts::Default);
 
-    DrawTextEx(font, content.c_str(), GetTextPos(), fontSize, 0, textColor);
+    DrawTextEx(font, content.c_str(), GetContentPos(), fontSize, 0, textColor);
 }
 
-Vector2 Button::GetTextPos() {
-    Font font = fonts->Get(Fonts::Default);
-    float textWidth = MeasureTextEx(font, content.c_str(), fontSize, 0).x;
+Vector2 Button::GetContentPos() {
+    float textWidth = GetContentSize().x;
     float x = bound.x;
     float y = bound.y + (bound.height - fontSize) / 2;
     switch (alignment) {
@@ -79,6 +91,18 @@ Vector2 Button::GetTextPos() {
             break;
     }
     return (Vector2){x, y};
+}
+
+Vector2 Button::GetContentSize() {
+    Font font = fonts->Get(Fonts::Default);
+    return MeasureTextEx(font, content.c_str(), fontSize, 0);
+}
+
+void Button::FitContent() {
+    if (!fitContent) return;
+    Vector2 textSize = GetContentSize();
+    bound.width = textSize.x + 10;
+    bound.height = textSize.y + 6;
 }
 
 void Button::SetButtonHoverColor(Color color) { buttonHoverColor = color; }

@@ -1,6 +1,8 @@
 #include "Component.hpp"
 
-GUI::Component::Component() : mPosition((Vector2){0, 0}), mIsSelected(false) {}
+GUI::Component::Component() : mPosition((Vector2){0, 0}), mIsSelected(false) {
+    SetVisible(true);
+}
 
 GUI::Component::~Component() {}
 
