@@ -1,6 +1,7 @@
 #ifndef STATES_LINKEDLIST_LLSTATE_HPP
 #define STATES_LINKEDLIST_LLSTATE_HPP
 
+#include "../../Components/OperationContainer.hpp"
 #include "../../State.hpp"
 
 class LLState : public State {
@@ -14,6 +15,15 @@ public:
 protected:
     void InitNavigationBar();
     Context mContext;
+
+protected:
+    OperationContainer operationContainer;
+    virtual void AddOperations();  // DO NOT OVERRIDE THIS FUNCTION
+    virtual void AddInitializeOperation();
+    virtual void AddInsertOperation();
+    virtual void AddDeleteOperation();
+    virtual void AddUpdateOperation();
+    virtual void AddSearchOperation();
 
 private:
     DataStructures::ID activeDS;

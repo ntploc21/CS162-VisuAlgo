@@ -22,6 +22,7 @@ private:
 
 private:
     GUI::Container mCards;
+    bool hasInitializeCard;
 };
 
 #endif  // STATES_HOMEPAGESTATE_HPP
