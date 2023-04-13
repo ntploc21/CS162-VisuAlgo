@@ -4,7 +4,12 @@
 #include "LLState.hpp"
 
 class StackState : public LLState {
-private:
+public:
+    void AddInsertOperation();
+    void AddInitializeOperation();
+    void AddDeleteOperation();
+    void AddSearchOperation();
+
 public:
     StackState(StateStack& stack, Context context);
     ~StackState();
