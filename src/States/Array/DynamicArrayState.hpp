@@ -5,6 +5,12 @@
 
 class DynamicArrayState : public ArrayState {
 private:
+    void AddInsertOperation();
+    void AddInitializeOperation();
+    void AddUpdateOperation();
+    void AddDeleteOperation();
+    void AddSearchOperation();
+
 public:
     DynamicArrayState(StateStack& stack, Context context);
     ~DynamicArrayState();
