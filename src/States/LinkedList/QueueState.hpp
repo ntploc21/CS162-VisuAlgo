@@ -4,7 +4,12 @@
 #include "LLState.hpp"
 
 class QueueState : public LLState {
-private:
+public:
+    void AddInsertOperation();
+    void AddInitializeOperation();
+    void AddDeleteOperation();
+    void AddSearchOperation();
+
 public:
     QueueState(StateStack& stack, Context context);
     ~QueueState();
