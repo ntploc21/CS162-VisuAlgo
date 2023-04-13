@@ -31,41 +31,38 @@ void SLLState::AddInsertOperation() {
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
-    auto genButton = [&, this](std::string content,
-                               std::function< void() > action) -> Button::Ptr {
-        Button::Ptr button(new Button(content, GetContext().fonts));
-
-        button.get()->SetFontSize(20);
-        button.get()->EnableFitContent();
-        button.get()->SetAction(action);
-        button.get()->SetButtonColor((Color){82, 188, 105, 255});
-
-        return button;
-    };
-
     /* Insert head */
-    Button::Ptr buttonInsertHead(
-        genButton("i = 0 (Head), specify v =", [this]() {
-
-        }));
-
-    container.get()->AddOperation(buttonInsertHead);
+    AddIntFieldOperationOption(
+        container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "i = 0 (Head), specify v =" << std::endl;
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
 
     /* Insert tail */
-    Button::Ptr buttonInsertAfterTail(
-        genButton("i = N (After Tail), specify v =", [this]() {
-
-        }));
-
-    container.get()->AddOperation(buttonInsertAfterTail);
+    AddIntFieldOperationOption(
+        container, "i = N (After Tail), specify v =", {{"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "i = N (After Tail), specify v =" << std::endl;
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
 
     /* Default insert */
-    Button::Ptr buttonDefaultInsert(
-        genButton("Specify both i in [1..N-1] and value", [this]() {
 
-        }));
-
-    container.get()->AddOperation(buttonDefaultInsert);
+    AddIntFieldOperationOption(
+        container, "Specify both i in [0..N] and v",
+        {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "Specify both i in [0..N] and v parameters: "
+                      << std::endl;
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
 
     /* ====================================== */
     operationList.AddOperation(buttonInsert, container);
@@ -77,53 +74,41 @@ void SLLState::AddInitializeOperation() {
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
-    auto genButton = [&, this](std::string content,
-                               std::function< void() > action) -> Button::Ptr {
-        Button::Ptr button(new Button(content, GetContext().fonts));
-
-        button.get()->SetFontSize(20);
-        button.get()->EnableFitContent();
-        button.get()->SetAction(action);
-        button.get()->SetButtonColor((Color){82, 188, 105, 255});
-
-        return button;
-    };
-
     /* Empty */
-    Button::Ptr buttonEmpty(genButton("Empty", [this]() {
-
-    }));
-
-    container.get()->AddOperation(buttonEmpty);
+    AddNoFieldOperationOption(container, "Empty",
+                              [this]() { std::cout << "Empty" << std::endl; });
 
     /* Random */
-    Button::Ptr buttonRandom(genButton("Random", [this]() {
 
-    }));
-
-    container.get()->AddOperation(buttonRandom);
+    AddNoFieldOperationOption(container, "Random",
+                              [this]() { std::cout << "Random" << std::endl; });
 
     /* Random Sorted */
-    Button::Ptr buttonRandomSorted(genButton("Random Sorted", [this]() {
-
-    }));
-
-    container.get()->AddOperation(buttonRandomSorted);
+    AddNoFieldOperationOption(container, "Random Sorted", [this]() {
+        std::cout << "Random Sorted" << std::endl;
+    });
 
     /* Random Fixed Size */
-    Button::Ptr buttonRandomFixedSize(genButton("Random Fixed Size", [this]() {
+    AddIntFieldOperationOption(
+        container, "Random Fixed Size", {{"i = ", 50, 0, 9}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "Random Fixed Size parameters:" << std::endl;
 
-    }));
-
-    container.get()->AddOperation(buttonRandomFixedSize);
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
 
     /* User defined */
-    Button::Ptr buttonUserDefined(
-        genButton("--- User defined list ---", [this]() {
+    AddStringFieldOption(
+        container, "--- User defined list ---",
+        "arr = ", [this](std::map< std::string, std::string > input) {
+            std::cout << "--- User defined list --- parameters:" << std::endl;
 
-        }));
-
-    container.get()->AddOperation(buttonUserDefined);
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
 
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);
@@ -137,25 +122,16 @@ void SLLState::AddUpdateOperation() {
 
     /* ==== DEFINE OPERATIONS FOR UPDATE ==== */
 
-    auto genButton = [&, this](std::string content,
-                               std::function< void() > action) -> Button::Ptr {
-        Button::Ptr button(new Button(content, GetContext().fonts));
-
-        button.get()->SetFontSize(20);
-        button.get()->EnableFitContent();
-        button.get()->SetAction(action);
-        button.get()->SetButtonColor((Color){82, 188, 105, 255});
-
-        return button;
-    };
-
-    /* Delete head */
-    Button::Ptr buttonUpdateOption(
-        genButton("Specify i in [0..N-1] and v", [this]() {
-
-        }));
-
-    container.get()->AddOperation(buttonUpdateOption);
+    AddIntFieldOperationOption(
+        container, "Specify i in [0..N-1] and v",
+        {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "Specify i in [0..N-1] and v parameters: "
+                      << std::endl;
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
 
     operationList.AddOperation(buttonUpdate, container);
 }
@@ -166,44 +142,37 @@ void SLLState::AddDeleteOperation() {
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
-    auto genButton = [&, this](std::string content,
-                               std::function< void() > action) -> Button::Ptr {
-        Button::Ptr button(new Button(content, GetContext().fonts));
-
-        button.get()->SetFontSize(20);
-        button.get()->EnableFitContent();
-        button.get()->SetAction(action);
-        button.get()->SetButtonColor((Color){82, 188, 105, 255});
-
-        return button;
-    };
-
     /* Delete head */
-    Button::Ptr buttonDeleteHead(genButton("i = 0 (Head)", [this]() {
 
-    }));
-
-    container.get()->AddOperation(buttonDeleteHead);
+    AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
+        std::cout << "i = 0 (Head)" << std::endl;
+    });
 
     /* Delete tail */
-    Button::Ptr buttonDeleteTail(genButton("i = N-1 (Tail)", [this]() {
-
-    }));
-
-    container.get()->AddOperation(buttonDeleteTail);
+    AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
+        std::cout << "i = N-1 (Tail)" << std::endl;
+    });
 
     /* Delete specific element */
-    Button::Ptr buttonDefaultDelete(
-        genButton("Specify i in [1..N-1]", [this]() {
 
-        }));
-
+    AddIntFieldOperationOption(
+        container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "Specify i in [1..N-1]" << std::endl;
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
     /* Delete elements with specific value */
-    Button::Ptr buttonDeleteMultiple(genButton("Specify v", [this]() {
 
-    }));
-
-    container.get()->AddOperation(buttonDeleteMultiple);
+    AddIntFieldOperationOption(
+        container, "Specify v", {{"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "Specify v" << std::endl;
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
     operationList.AddOperation(buttonDelete, container);
 }
 
@@ -213,24 +182,16 @@ void SLLState::AddSearchOperation() {
 
     /* ==== DEFINE OPERATIONS FOR SEARCH ==== */
 
-    auto genButton = [&, this](std::string content,
-                               std::function< void() > action) -> Button::Ptr {
-        Button::Ptr button(new Button(content, GetContext().fonts));
-
-        button.get()->SetFontSize(20);
-        button.get()->EnableFitContent();
-        button.get()->SetAction(action);
-        button.get()->SetButtonColor((Color){82, 188, 105, 255});
-
-        return button;
-    };
-
     /* Search for the first element that has value of v */
-    Button::Ptr buttonSearchFirstElement(genButton("Specify v =", [this]() {
 
-    }));
-
-    container.get()->AddOperation(buttonSearchFirstElement);
+    AddIntFieldOperationOption(
+        container, "Specify v", {{"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            std::cout << "Specify v" << std::endl;
+            for (auto it : input) {
+                std::cout << it.first << it.second << std::endl;
+            }
+        });
 
     operationList.AddOperation(buttonSearch, container);
 }
