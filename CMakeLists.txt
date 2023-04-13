@@ -117,6 +117,10 @@ add_executable(${PROJECT_NAME}
     src/Components/OperationList.cpp
     src/Components/OperationContainer.cpp
     src/Components/Button.cpp
+    src/Components/OptionInputField.cpp
+    src/Components/InputField.cpp
+    src/Components/StringInputField.cpp
+    src/Components/IntegerInputField.cpp
     
     # Core
 
