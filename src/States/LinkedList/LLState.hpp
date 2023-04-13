@@ -3,10 +3,18 @@
 
 #include "../../Components/OperationContainer.hpp"
 #include "../../Components/OperationList.hpp"
+#include "../../Components/OptionInputField.hpp"
 #include "../../State.hpp"
 
 class LLState : public State {
-private:
+public:
+    struct IntegerInput {
+        std::string label;
+        int width;
+        int minValue;
+        int maxValue;
+    };
+
 public:
     LLState(StateStack& stack, Context context, DataStructures::ID activeDS);
     ~LLState();
@@ -25,6 +33,18 @@ protected:
     virtual void AddDeleteOperation();
     virtual void AddUpdateOperation();
     virtual void AddSearchOperation();
+
+protected:
+    virtual void AddNoFieldOperationOption(OperationContainer::Ptr container,
+                                           std::string title,
+                                           std::function< void() > action);
+    virtual void AddIntFieldOperationOption(
+        OperationContainer::Ptr container, std::string title,
+        std::vector< IntegerInput > fields,
+        std::function< void(std::map< std::string, std::string >) > action);
+    virtual void AddStringFieldOption(
+        OperationContainer::Ptr container, std::string title, std::string label,
+        std::function< void(std::map< std::string, std::string >) > action);
 
 private:
     DataStructures::ID activeDS;
