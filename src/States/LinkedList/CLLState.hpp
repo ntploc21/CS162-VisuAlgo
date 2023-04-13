@@ -4,7 +4,13 @@
 #include "LLState.hpp"
 
 class CLLState : public LLState {
-private:
+public:
+    void AddInsertOperation();
+    void AddInitializeOperation();
+    void AddUpdateOperation();
+    void AddDeleteOperation();
+    void AddSearchOperation();
+
 public:
     CLLState(StateStack& stack, Context context);
     ~CLLState();
