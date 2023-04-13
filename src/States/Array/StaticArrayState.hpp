@@ -5,6 +5,10 @@
 
 class StaticArrayState : public ArrayState {
 private:
+    void AddInitializeOperation();
+    void AddUpdateOperation();
+    void AddSearchOperation();
+
 public:
     StaticArrayState(StateStack& stack, Context context);
     ~StaticArrayState();
