@@ -4,7 +4,13 @@
 #include "LLState.hpp"
 
 class DLLState : public LLState {
-private:
+public:
+    void AddInsertOperation();
+    void AddInitializeOperation();
+    void AddUpdateOperation();
+    void AddDeleteOperation();
+    void AddSearchOperation();
+
 public:
     DLLState(StateStack& stack, Context context);
     ~DLLState();
