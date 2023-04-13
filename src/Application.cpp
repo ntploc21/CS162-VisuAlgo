@@ -15,6 +15,8 @@
 #include "States/LinkedList/StackState.hpp"
 #include "States/SettingsState.hpp"
 
+std::vector< bool > InputField::fields(std::vector< bool >(0));
+
 void Application::Init() {
     InitWindow(global::SCREEN_WIDTH, global::SCREEN_HEIGHT,
                global::kTitle.c_str());

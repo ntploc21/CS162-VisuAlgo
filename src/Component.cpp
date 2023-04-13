@@ -14,6 +14,13 @@ void GUI::Component::select() { mIsSelected = true; }
 
 void GUI::Component::deselect() { mIsSelected = false; }
 
+void GUI::Component::ToggleVisible() {
+    if (mVisible)
+        SetVisible(false);
+    else
+        SetVisible(true);
+}
+
 void GUI::Component::SetVisible(bool visible) { mVisible = visible; }
 
 bool GUI::Component::GetVisible() { return mVisible; }

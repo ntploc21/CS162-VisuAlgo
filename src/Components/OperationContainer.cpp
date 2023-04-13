@@ -5,14 +5,21 @@ OperationContainer::~OperationContainer() {}
 
 OperationContainer::OperationContainer() {}
 
-void OperationContainer::AddOperation(GUI::Component::Ptr option) {
+void OperationContainer::DrawCurrent(Vector2 base) { UpdatePosition(); }
+
+void OperationContainer::SetVisible(bool visible) {
+    for (auto child : mChildren) {
+        child.get()->SetVisible(visible);
+    }
+    mVisible = visible;
+}
+
+void OperationContainer::UpdatePosition() {
     float buttonHeight = 30;
     Vector2 nextOptionPos = (Vector2){3, 2};
-    if (!GetChildren().empty()) {
-        nextOptionPos.x = GetChildren().back().get()->GetPosition().x +
-                          GetChildren().back().get()->GetSize().x + 2;
+    for (auto child : mChildren) {
+        child.get()->SetPosition(nextOptionPos);
+        nextOptionPos.x =
+            child.get()->GetPosition().x + child.get()->GetSize().x + 2;
     }
-    option.get()->SetPosition(nextOptionPos);
-
-    pack(option);
 }

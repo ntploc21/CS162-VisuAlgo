@@ -23,6 +23,7 @@ namespace GUI {
         virtual void select();
         virtual void deselect();
 
+        virtual void ToggleVisible();
         virtual void SetVisible(bool visible);
         virtual bool GetVisible();
 
