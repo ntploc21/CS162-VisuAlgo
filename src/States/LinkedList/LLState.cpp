@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "../../Components/IntegerInputField.hpp"
+#include "../../Components/StringInputField.hpp"
 #include "../../Global.hpp"
 
 LLState::LLState(StateStack& stack, Context context,
@@ -45,3 +47,44 @@ void LLState::AddDeleteOperation() {}
 void LLState::AddUpdateOperation() {}
 
 void LLState::AddSearchOperation() {}
+
+void LLState::AddNoFieldOperationOption(OperationContainer::Ptr container,
+                                        std::string title,
+                                        std::function< void() > action) {
+    OptionInputField::Ptr button(new OptionInputField(GetContext().fonts));
+
+    button.get()->SetNoFieldOption(title, action);
+
+    container.get()->pack(button);
+}
+
+void LLState::AddIntFieldOperationOption(
+    OperationContainer::Ptr container, std::string title,
+    std::vector< IntegerInput > fields,
+    std::function< void(std::map< std::string, std::string >) > action) {
+    OptionInputField::Ptr button(new OptionInputField(GetContext().fonts));
+    std::vector< InputField::Ptr > intFields;
+    for (auto field : fields) {
+        IntegerInputField::Ptr intField(
+            new IntegerInputField(GetContext().fonts));
+        intField.get()->SetLabel(field.label);
+        intField.get()->SetInputFieldSize((Vector2){(float)field.width, 30});
+        intField.get()->SetConstraint(field.minValue, field.maxValue);
+        intFields.push_back(intField);
+    }
+
+    button.get()->SetOption(title, intFields, action);
+
+    container.get()->pack(button);
+}
+
+void LLState::AddStringFieldOption(
+    OperationContainer::Ptr container, std::string title, std::string label,
+    std::function< void(std::map< std::string, std::string >) > action) {
+    OptionInputField::Ptr button(new OptionInputField(GetContext().fonts));
+    StringInputField::Ptr strField(new StringInputField(GetContext().fonts));
+    strField.get()->SetLabel(label);
+    strField.get()->SetInputFieldSize((Vector2){100, 30});
+    button.get()->SetOption(title, {strField}, action);
+    container.get()->pack(button);
+}
