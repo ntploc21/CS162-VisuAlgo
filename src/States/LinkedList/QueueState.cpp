@@ -26,8 +26,9 @@ void QueueState::Draw() {
 bool QueueState::Update(float dt) { return true; }
 
 void QueueState::AddInsertOperation() {
-    Button::Ptr buttonInsert(new Button("Enqueue", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonInsert(
+        new GUI::Button("Enqueue", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
@@ -47,8 +48,9 @@ void QueueState::AddInsertOperation() {
 }
 
 void QueueState::AddInitializeOperation() {
-    Button::Ptr buttonInitialize(new Button("Create", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonInitialize(
+        new GUI::Button("Create", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
@@ -93,8 +95,9 @@ void QueueState::AddInitializeOperation() {
 }
 
 void QueueState::AddDeleteOperation() {
-    Button::Ptr buttonDelete(new Button("Dequeue", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonDelete(
+        new GUI::Button("Dequeue", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
@@ -107,8 +110,8 @@ void QueueState::AddDeleteOperation() {
 }
 
 void QueueState::AddSearchOperation() {
-    Button::Ptr buttonSearch(new Button("Peek", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonSearch(new GUI::Button("Peek", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR SEARCH ==== */
 

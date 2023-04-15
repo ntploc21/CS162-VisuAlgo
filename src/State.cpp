@@ -18,7 +18,7 @@ void State::RequestStackClear() { mStack->ClearStates(); }
 State::Context State::GetContext() const { return mContext; }
 
 void State::InitNavigationBar() {
-    navigation = NavigationBar(GetContext().fonts);
+    navigation = GUI::NavigationBar(GetContext().fonts);
     navigation.SetDirectLink(
         [this](States::ID stateID) { RequestStackPush(stateID); });
     navigation.SetHomepageID(States::Homepage);

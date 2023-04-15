@@ -10,7 +10,7 @@ LLState::LLState(StateStack& stack, Context context,
                  DataStructures::ID activeDS)
     : State(stack, context), activeDS(activeDS) {
     InitNavigationBar();
-    operationList = OperationList(context.fonts);
+    operationList = GUI::OperationList(context.fonts);
 }
 
 LLState::~LLState() {}
@@ -48,10 +48,11 @@ void LLState::AddUpdateOperation() {}
 
 void LLState::AddSearchOperation() {}
 
-void LLState::AddNoFieldOperationOption(OperationContainer::Ptr container,
+void LLState::AddNoFieldOperationOption(GUI::OperationContainer::Ptr container,
                                         std::string title,
                                         std::function< void() > action) {
-    OptionInputField::Ptr button(new OptionInputField(GetContext().fonts));
+    GUI::OptionInputField::Ptr button(
+        new GUI::OptionInputField(GetContext().fonts));
 
     button.get()->SetNoFieldOption(title, action);
 
@@ -59,14 +60,15 @@ void LLState::AddNoFieldOperationOption(OperationContainer::Ptr container,
 }
 
 void LLState::AddIntFieldOperationOption(
-    OperationContainer::Ptr container, std::string title,
+    GUI::OperationContainer::Ptr container, std::string title,
     std::vector< IntegerInput > fields,
     std::function< void(std::map< std::string, std::string >) > action) {
-    OptionInputField::Ptr button(new OptionInputField(GetContext().fonts));
-    std::vector< InputField::Ptr > intFields;
+    GUI::OptionInputField::Ptr button(
+        new GUI::OptionInputField(GetContext().fonts));
+    std::vector< GUI::InputField::Ptr > intFields;
     for (auto field : fields) {
-        IntegerInputField::Ptr intField(
-            new IntegerInputField(GetContext().fonts));
+        GUI::IntegerInputField::Ptr intField(
+            new GUI::IntegerInputField(GetContext().fonts));
         intField.get()->SetLabel(field.label);
         intField.get()->SetInputFieldSize((Vector2){(float)field.width, 30});
         intField.get()->SetConstraint(field.minValue, field.maxValue);
@@ -79,10 +81,13 @@ void LLState::AddIntFieldOperationOption(
 }
 
 void LLState::AddStringFieldOption(
-    OperationContainer::Ptr container, std::string title, std::string label,
+    GUI::OperationContainer::Ptr container, std::string title,
+    std::string label,
     std::function< void(std::map< std::string, std::string >) > action) {
-    OptionInputField::Ptr button(new OptionInputField(GetContext().fonts));
-    StringInputField::Ptr strField(new StringInputField(GetContext().fonts));
+    GUI::OptionInputField::Ptr button(
+        new GUI::OptionInputField(GetContext().fonts));
+    GUI::StringInputField::Ptr strField(
+        new GUI::StringInputField(GetContext().fonts));
     strField.get()->SetLabel(label);
     strField.get()->SetInputFieldSize((Vector2){100, 30});
     button.get()->SetOption(title, {strField}, action);

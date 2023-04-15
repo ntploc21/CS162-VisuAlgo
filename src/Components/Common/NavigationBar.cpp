@@ -5,14 +5,14 @@
 // #define RAYGUI_STATIC
 #include <iostream>
 
-NavigationBar::NavigationBar(FontHolder* fonts)
+GUI::NavigationBar::NavigationBar(FontHolder* fonts)
     : fonts(fonts), hasTitle(false), atSettings(false) {}
 
-NavigationBar::NavigationBar() : hasTitle(false), atSettings(false) {}
+GUI::NavigationBar::NavigationBar() : hasTitle(false), atSettings(false) {}
 
-bool NavigationBar::isSelectable() const { return false; }
+bool GUI::NavigationBar::isSelectable() const { return false; }
 
-void NavigationBar::Draw(Vector2 base) {
+void GUI::NavigationBar::Draw(Vector2 base) {
     bool willGotoNextScreen = false;
     Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
     DrawRectangleRec(rec, BLACK);
@@ -40,38 +40,39 @@ void NavigationBar::Draw(Vector2 base) {
     isHover = GetHoverStatus(hoverBounds, isHover, willGotoNextScreen);
 }
 
-void NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
+void GUI::NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
 
-void NavigationBar::SetSettingsID(States::ID id) { settingsID = id; }
+void GUI::NavigationBar::SetSettingsID(States::ID id) { settingsID = id; }
 
-void NavigationBar::SetDirectLink(std::function< void(States::ID) > link) {
+void GUI::NavigationBar::SetDirectLink(std::function< void(States::ID) > link) {
     toLink = link;
 }
 
-void NavigationBar::SetBackToPreviousLink(std::function< void() > link) {
+void GUI::NavigationBar::SetBackToPreviousLink(std::function< void() > link) {
     backToPrvState = link;
 }
 
-void NavigationBar::AtSettings(bool settings) { atSettings = settings; }
+void GUI::NavigationBar::AtSettings(bool settings) { atSettings = settings; }
 
-void NavigationBar::SetCategory(std::string category) {
+void GUI::NavigationBar::SetCategory(std::string category) {
     currentCategory = category;
 }
 
-void NavigationBar::InsertTitle(DataStructures::ID titleID, States::ID stateID,
-                                std::string abbrTitle, std::string titleName) {
+void GUI::NavigationBar::InsertTitle(DataStructures::ID titleID,
+                                     States::ID stateID, std::string abbrTitle,
+                                     std::string titleName) {
     TitleInfo info = {stateID, abbrTitle, titleName};
     auto inserted = mTitles.insert(std::make_pair(titleID, info));
     assert(inserted.second);
 }
-void NavigationBar::SetActiveTitle(DataStructures::ID titleID) {
+void GUI::NavigationBar::SetActiveTitle(DataStructures::ID titleID) {
     activeTitle = titleID;
 }
-void NavigationBar::ClearTitle() { mTitles.clear(); }
+void GUI::NavigationBar::ClearTitle() { mTitles.clear(); }
 
-void NavigationBar::SetVisableTitle(bool visible) { hasTitle = visible; }
+void GUI::NavigationBar::SetVisableTitle(bool visible) { hasTitle = visible; }
 
-bool NavigationBar::DrawLogo() {
+bool GUI::NavigationBar::DrawLogo() {
     // render
     Font logoFont = fonts->Get(Fonts::Silkscreen);
     float fSpanWidth = MeasureTextEx(logoFont, "Visu", 32, 1).x;
@@ -92,7 +93,7 @@ bool NavigationBar::DrawLogo() {
         CheckCollisionPointRec(GetMousePosition(), hoverBounds["logo-bound"]));
 }
 
-States::ID NavigationBar::DrawTitles() {
+States::ID GUI::NavigationBar::DrawTitles() {
     float x = 230, y = 8;
     float padding = 2;
     float margin = 2;
@@ -122,7 +123,7 @@ States::ID NavigationBar::DrawTitles() {
     return States::None;
 }
 
-bool NavigationBar::DrawSettings() {
+bool GUI::NavigationBar::DrawSettings() {
     std::string text = "Settings";
     if (atSettings) text = "Back";
     Font settingsFont = fonts->Get(Fonts::Silkscreen);
@@ -149,4 +150,4 @@ bool NavigationBar::DrawSettings() {
                                    hoverBounds["settings-bound"]));
 }
 
-NavigationBar::~NavigationBar() {}
+GUI::NavigationBar::~NavigationBar() {}

@@ -3,17 +3,17 @@
 #include <cstring>
 #include <iostream>
 
-InputField::InputField(FontHolder* fonts)
+GUI::InputField::InputField(FontHolder* fonts)
     : fonts(fonts), labelFontSize(20), mFieldIndex(InputField::fields.size()) {
-    if (InputField::fields.empty()) {
-        InputField::fields = std::vector< bool >(1, false);
+    if (GUI::InputField::fields.empty()) {
+        GUI::InputField::fields = std::vector< bool >(1, false);
     } else
-        InputField::fields.push_back(false);
+        GUI::InputField::fields.push_back(false);
 }
 
-InputField::~InputField() {}
+GUI::InputField::~InputField() {}
 
-void InputField::Draw(Vector2 base) {
+void GUI::InputField::Draw(Vector2 base) {
     base.x += mPosition.x;
     base.y += mPosition.y;
 
@@ -31,19 +31,19 @@ void InputField::Draw(Vector2 base) {
 
     if (IsClicked(base)) {
         AllFieldDisableEdit();
-        InputField::fields[mFieldIndex] = true;
+        GUI::InputField::fields[mFieldIndex] = true;
     }
-    SetEditMode(InputField::fields[mFieldIndex]);
+    SetEditMode(GUI::InputField::fields[mFieldIndex]);
     DrawField(base);
 }
 
-bool InputField::isSelectable() const { return false; }
+bool GUI::InputField::isSelectable() const { return false; }
 
-void InputField::SetLabelSize(float fontSize) { labelFontSize = fontSize; }
+void GUI::InputField::SetLabelSize(float fontSize) { labelFontSize = fontSize; }
 
-void InputField::SetInputFieldSize(Vector2 size) { inputFieldSize = size; }
+void GUI::InputField::SetInputFieldSize(Vector2 size) { inputFieldSize = size; }
 
-Vector2 InputField::GetSize() {
+Vector2 GUI::InputField::GetSize() {
     assert(labelFontSize <= inputFieldSize.y);
     Font font = fonts->Get(Fonts::Default);
 
@@ -56,21 +56,24 @@ Vector2 InputField::GetSize() {
     return (Vector2){width, height};
 }
 
-bool InputField::IsClicked(Vector2 base) const {
+bool GUI::InputField::IsClicked(Vector2 base) const {
     Rectangle bound =
         (Rectangle){base.x, base.y, inputFieldSize.x, inputFieldSize.y};
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             CheckCollisionPointRec(GetMousePosition(), bound));
 }
 
-void InputField::SetEditMode(bool canEdit) { editMode = canEdit; }
+void GUI::InputField::SetEditMode(bool canEdit) { editMode = canEdit; }
 
-bool InputField::GetEditMode() const { return editMode; }
+bool GUI::InputField::GetEditMode() const { return editMode; }
 
-void InputField::AllFieldDisableEdit() {
-    std::fill(InputField::fields.begin(), InputField::fields.end(), false);
+void GUI::InputField::AllFieldDisableEdit() {
+    std::fill(GUI::InputField::fields.begin(), GUI::InputField::fields.end(),
+              false);
 }
 
-void InputField::SetLabel(std::string labelContent) { label = labelContent; }
+void GUI::InputField::SetLabel(std::string labelContent) {
+    label = labelContent;
+}
 
-std::string InputField::GetLabel() const { return label; }
+std::string GUI::InputField::GetLabel() const { return label; }

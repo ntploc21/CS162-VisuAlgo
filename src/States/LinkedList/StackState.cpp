@@ -26,8 +26,8 @@ void StackState::Draw() {
 bool StackState::Update(float dt) { return true; }
 
 void StackState::AddInsertOperation() {
-    Button::Ptr buttonInsert(new Button("Push", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
@@ -46,8 +46,9 @@ void StackState::AddInsertOperation() {
 }
 
 void StackState::AddInitializeOperation() {
-    Button::Ptr buttonInitialize(new Button("Create", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonInitialize(
+        new GUI::Button("Create", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
@@ -92,8 +93,8 @@ void StackState::AddInitializeOperation() {
 }
 
 void StackState::AddDeleteOperation() {
-    Button::Ptr buttonDelete(new Button("Pop", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonDelete(new GUI::Button("Pop", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
@@ -105,8 +106,8 @@ void StackState::AddDeleteOperation() {
 }
 
 void StackState::AddSearchOperation() {
-    Button::Ptr buttonSearch(new Button("Peek", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonSearch(new GUI::Button("Peek", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR SEARCH ==== */
 

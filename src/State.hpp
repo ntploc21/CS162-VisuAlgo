@@ -48,7 +48,7 @@ private:
     Context mContext;
 
 protected:
-    NavigationBar navigation;
+    GUI::NavigationBar navigation;
 };
 
 #endif  // STATE_HPP

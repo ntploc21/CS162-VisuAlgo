@@ -2,11 +2,12 @@
 
 #include <string.h>
 
-StringInputField::StringInputField(FontHolder* fonts) : InputField(fonts) {}
-StringInputField::~StringInputField() {}
-std::string StringInputField::ExtractValue() { return content; }
+GUI::StringInputField::StringInputField(FontHolder* fonts)
+    : GUI::InputField(fonts) {}
+GUI::StringInputField::~StringInputField() {}
+std::string GUI::StringInputField::ExtractValue() { return content; }
 
-void StringInputField::DrawField(Vector2 base) {
+void GUI::StringInputField::DrawField(Vector2 base) {
     Rectangle inputBound =
         (Rectangle){base.x, base.y, inputFieldSize.x, inputFieldSize.y};
 
@@ -17,4 +18,4 @@ void StringInputField::DrawField(Vector2 base) {
     content = input;
 }
 
-bool StringInputField::isSelectable() const { return false; }
+bool GUI::StringInputField::isSelectable() const { return false; }

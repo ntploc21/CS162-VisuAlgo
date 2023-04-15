@@ -2,16 +2,16 @@
 
 #include <iostream>
 
-OperationList::OperationList(FontHolder *fonts) : isHide(true) {
-    toggleButton = Button("<", fonts);
+GUI::OperationList::OperationList(FontHolder *fonts) : isHide(true) {
+    toggleButton = GUI::Button("<", fonts);
     toggleButton.SetTextAlignment(toggleButton.Center);
     toggleButton.SetFontSize(32);
     toggleButton.SetButtonColor((Color){82, 188, 105, 255});
     toggleButton.SetButtonHoverColor((Color){82, 188, 105, 255});
 }
-OperationList::~OperationList() {}
+GUI::OperationList::~OperationList() {}
 
-void OperationList::Draw(Vector2 base) {
+void GUI::OperationList::Draw(Vector2 base) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     toggleButton.Draw(base);
@@ -21,10 +21,10 @@ void OperationList::Draw(Vector2 base) {
     }
 }
 
-OperationList::OperationList() {}
+GUI::OperationList::OperationList() {}
 
-void OperationList::AddOperation(Button::Ptr action,
-                                 GUI::Container::Ptr optionContainer) {
+void GUI::OperationList::AddOperation(GUI::Button::Ptr action,
+                                      GUI::Container::Ptr optionContainer) {
     float buttonHeight = 30;
     Vector2 lastOperationPos = (Vector2){43, -buttonHeight};
     if (!buttons.GetChildren().empty()) {
@@ -54,18 +54,18 @@ void OperationList::AddOperation(Button::Ptr action,
     toggleButton.SetSize(40, lastOperationPos.y + buttonHeight);
 }
 
-void OperationList::ShowOptions(std::size_t index) {
+void GUI::OperationList::ShowOptions(std::size_t index) {
     optionContainers.GetChildren().at(index).get()->SetVisible(true);
 }
 
-void OperationList::HideAllOptions() {
+void GUI::OperationList::HideAllOptions() {
     for (auto options : optionContainers.GetChildren()) {
         if (options.get() == nullptr) continue;
         options.get()->SetVisible(false);
     }
 }
 
-void OperationList::ToggleOperations() {
+void GUI::OperationList::ToggleOperations() {
     if (isHide)
         isHide = false;
     else
@@ -77,7 +77,7 @@ void OperationList::ToggleOperations() {
         toggleButton.SetText(">");
 }
 
-void OperationList::InitActionBar() {
+void GUI::OperationList::InitActionBar() {
     toggleButton.SetAction([this]() {
         this->ToggleOperations();
         if (isHide) {
@@ -86,7 +86,7 @@ void OperationList::InitActionBar() {
     });
 }
 
-Vector2 OperationList::GetSize() {
+Vector2 GUI::OperationList::GetSize() {
     float width = 1200;  // we dont need to width right now so dont need to
                          // calculate it precisely
     float height = toggleButton.GetSize().y;

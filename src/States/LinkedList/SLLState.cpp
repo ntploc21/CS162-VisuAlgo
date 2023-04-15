@@ -29,8 +29,9 @@ bool SLLState::Update(float dt) {
 }
 
 void SLLState::AddInsertOperation() {
-    Button::Ptr buttonInsert(new Button("Insert", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonInsert(
+        new GUI::Button("Insert", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
@@ -72,8 +73,9 @@ void SLLState::AddInsertOperation() {
 }
 
 void SLLState::AddInitializeOperation() {
-    Button::Ptr buttonInitialize(new Button("Create", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonInitialize(
+        new GUI::Button("Create", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
@@ -118,10 +120,11 @@ void SLLState::AddInitializeOperation() {
 }
 
 void SLLState::AddUpdateOperation() {
-    Button::Ptr buttonUpdate(new Button("Update", GetContext().fonts));
+    GUI::Button::Ptr buttonUpdate(
+        new GUI::Button("Update", GetContext().fonts));
     /*  */
 
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR UPDATE ==== */
 
@@ -140,8 +143,9 @@ void SLLState::AddUpdateOperation() {
 }
 
 void SLLState::AddDeleteOperation() {
-    Button::Ptr buttonDelete(new Button("Delete", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonDelete(
+        new GUI::Button("Delete", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
@@ -180,8 +184,9 @@ void SLLState::AddDeleteOperation() {
 }
 
 void SLLState::AddSearchOperation() {
-    Button::Ptr buttonSearch(new Button("Search", GetContext().fonts));
-    OperationContainer::Ptr container(new OperationContainer());
+    GUI::Button::Ptr buttonSearch(
+        new GUI::Button("Search", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR SEARCH ==== */
 

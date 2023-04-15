@@ -1,15 +1,15 @@
 #include "Card.hpp"
 
-Card::Card(std::string text, Texture thumbnail, FontHolder* fonts)
+GUI::Card::Card(std::string text, Texture thumbnail, FontHolder* fonts)
     : thumbnail(thumbnail), fonts(fonts), isHover(false) {
     title = text;
 }
 
-Card::Card() : isHover(false) {}
+GUI::Card::Card() : isHover(false) {}
 
-Card::~Card() {}
+GUI::Card::~Card() {}
 
-void Card::Draw(Vector2 base) {
+void GUI::Card::Draw(Vector2 base) {
     bool gotoLink = false;
     if (DrawImage(base)) gotoLink = true;
     if (DrawTitle(base)) gotoLink = true;
@@ -18,7 +18,7 @@ void Card::Draw(Vector2 base) {
     if (gotoLink) toLink(stateID);
 }
 
-bool Card::DrawImage(Vector2 base) {
+bool GUI::Card::DrawImage(Vector2 base) {
     float x = base.x + mPosition.x;
     float y = base.y + mPosition.y;
     // return false;
@@ -31,7 +31,7 @@ bool Card::DrawImage(Vector2 base) {
         CheckCollisionPointRec(GetMousePosition(), hoverBounds["image-bound"]));
 }
 
-bool Card::DrawTitle(Vector2 base) {
+bool GUI::Card::DrawTitle(Vector2 base) {
     float x = base.x + mPosition.x;
     float y = base.y + mPosition.y;
     // Draw background
@@ -52,10 +52,12 @@ bool Card::DrawTitle(Vector2 base) {
         CheckCollisionPointRec(GetMousePosition(), hoverBounds["title-bound"]));
 }
 
-void Card::SetLink(std::function< void(States::ID) > link) { toLink = link; }
+void GUI::Card::SetLink(std::function< void(States::ID) > link) {
+    toLink = link;
+}
 
-void Card::SetStateID(States::ID id) { stateID = id; }
+void GUI::Card::SetStateID(States::ID id) { stateID = id; }
 
-void Card::SetText(std::string text) { title = text; }
+void GUI::Card::SetText(std::string text) { title = text; }
 
-bool Card::isSelectable() const { return false; }
+bool GUI::Card::isSelectable() const { return false; }

@@ -4,18 +4,19 @@
 
 #include "Button.hpp"
 
-OptionInputField::OptionInputField(FontHolder* fonts)
+GUI::OptionInputField::OptionInputField(FontHolder* fonts)
     : fonts(fonts), hasInputField(false), mInputField(new GUI::Container()) {}
 
-OptionInputField::~OptionInputField() {}
+GUI::OptionInputField::~OptionInputField() {}
 
-void OptionInputField::SetOption(
+void GUI::OptionInputField::SetOption(
     std::string content, std::vector< InputField::Ptr > fields,
     std::function< void(std::map< std::string, std::string >) > action) {
     // assert();
-    auto genButton = [&, this](std::string content,
-                               std::function< void() > action) -> Button::Ptr {
-        Button::Ptr button(new Button(content, fonts));
+    auto genButton = [&, this](
+                         std::string content,
+                         std::function< void() > action) -> GUI::Button::Ptr {
+        GUI::Button::Ptr button(new GUI::Button(content, fonts));
 
         button.get()->SetFontSize(20);
         button.get()->EnableFitContent();
@@ -34,13 +35,13 @@ void OptionInputField::SetOption(
 
     hasInputField = !fields.empty();
     if (fields.empty()) {
-        Button::Ptr button(genButton(content, actionOnSubmit));
+        GUI::Button::Ptr button(genButton(content, actionOnSubmit));
         pack(button);
         return;
     }
 
     auto actionToggle = [this]() { ToggleInputFields(); };
-    Button::Ptr button(genButton(content, actionToggle));
+    GUI::Button::Ptr button(genButton(content, actionToggle));
     pack(button);
 
     /* */
@@ -54,18 +55,18 @@ void OptionInputField::SetOption(
     pack(mInputField);
 }
 
-void OptionInputField::SetNoFieldOption(std::string content,
-                                        std::function< void() > action) {
+void GUI::OptionInputField::SetNoFieldOption(std::string content,
+                                             std::function< void() > action) {
     SetOption(
         content, {},
         [action](std::map< std::string, std::string > input) { action(); });
 }
 
-void OptionInputField::ToggleInputFields() {
+void GUI::OptionInputField::ToggleInputFields() {
     mInputField.get()->ToggleVisible();
 }
 
-void OptionInputField::DrawCurrent(Vector2 base) {
+void GUI::OptionInputField::DrawCurrent(Vector2 base) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     Vector2 size = GetSize();
@@ -74,12 +75,12 @@ void OptionInputField::DrawCurrent(Vector2 base) {
     DrawRectangleRec(bound, (Color){82, 188, 105, 255});
 }
 
-void OptionInputField::SetVisible(bool visible) {
+void GUI::OptionInputField::SetVisible(bool visible) {
     if (!visible) mInputField.get()->SetVisible(false);
     mVisible = visible;
 }
 
-Vector2 OptionInputField::GetSize() {
+Vector2 GUI::OptionInputField::GetSize() {
     if (mChildren.empty()) return (Vector2){0, 0};
     float width = 0;
     float height = 0;
@@ -92,7 +93,7 @@ Vector2 OptionInputField::GetSize() {
     return (Vector2){width + 5 * mInputField.get()->GetVisible(), height};
 }
 
-std::map< std::string, std::string > OptionInputField::ExtractInput() {
+std::map< std::string, std::string > GUI::OptionInputField::ExtractInput() {
     std::map< std::string, std::string > inputs;
     auto inputFields = mInputField.get()->GetChildren();
     for (auto it = inputFields.begin(); it + 1 != inputFields.end(); it++) {
@@ -102,7 +103,7 @@ std::map< std::string, std::string > OptionInputField::ExtractInput() {
     return inputs;
 }
 
-void OptionInputField::AddInputField(InputField::Ptr inputField) {
+void GUI::OptionInputField::AddInputField(InputField::Ptr inputField) {
     Vector2 lastInputFieldPos = mChildren.front().get()->GetPosition();
     lastInputFieldPos.y += mChildren.front().get()->GetSize().y;
     if (!mInputField.get()->GetChildren().empty()) {
@@ -116,11 +117,12 @@ void OptionInputField::AddInputField(InputField::Ptr inputField) {
     mInputField.get()->pack(inputField);
 }
 
-void OptionInputField::AddSubmitField(
+void GUI::OptionInputField::AddSubmitField(
     std::function< void(std::map< std::string, std::string >) > action) {
-    auto genButton = [&, this](std::string content,
-                               std::function< void() > action) -> Button::Ptr {
-        Button::Ptr button(new Button(content, fonts));
+    auto genButton = [&, this](
+                         std::string content,
+                         std::function< void() > action) -> GUI::Button::Ptr {
+        GUI::Button::Ptr button(new GUI::Button(content, fonts));
 
         button.get()->SetFontSize(20);
         button.get()->EnableFitContent();
@@ -130,7 +132,7 @@ void OptionInputField::AddSubmitField(
         return button;
     };
     /* */
-    Button::Ptr buttonSubmit(
+    GUI::Button::Ptr buttonSubmit(
         genButton("Go", [action, this]() { action(ExtractInput()); }));
     GUI::Component::Ptr prevChild = mInputField.get()->GetChildren().back();
 
@@ -143,4 +145,4 @@ void OptionInputField::AddSubmitField(
     mInputField.get()->pack(buttonSubmit);
 }
 
-bool OptionInputField::HasInputField() { return hasInputField; }
+bool GUI::OptionInputField::HasInputField() { return hasInputField; }

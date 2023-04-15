@@ -26,7 +26,7 @@ protected:
     Context mContext;
 
 protected:
-    OperationList operationList;
+    GUI::OperationList operationList;
     virtual void AddOperations();  // DO NOT OVERRIDE THIS FUNCTION
     virtual void AddInitializeOperation();
     virtual void AddInsertOperation();
@@ -35,15 +35,16 @@ protected:
     virtual void AddSearchOperation();
 
 protected:
-    virtual void AddNoFieldOperationOption(OperationContainer::Ptr container,
-                                           std::string title,
-                                           std::function< void() > action);
+    virtual void AddNoFieldOperationOption(
+        GUI::OperationContainer::Ptr container, std::string title,
+        std::function< void() > action);
     virtual void AddIntFieldOperationOption(
-        OperationContainer::Ptr container, std::string title,
+        GUI::OperationContainer::Ptr container, std::string title,
         std::vector< IntegerInput > fields,
         std::function< void(std::map< std::string, std::string >) > action);
     virtual void AddStringFieldOption(
-        OperationContainer::Ptr container, std::string title, std::string label,
+        GUI::OperationContainer::Ptr container, std::string title,
+        std::string label,
         std::function< void(std::map< std::string, std::string >) > action);
 
 private:
