@@ -32,12 +32,14 @@ Will be updated soon
 ## Directory Structure
 - [**src/**](src) contains source code.
     - [**Components/**](src/Components) contains UI components.
+        - [**Common/**](src/Components/Common/) contains commonly used UI components (e.g Button, etc).
+        - [**Visualization/**](src/Components/Visualization/) contains UI components used mainly for visualization (e.g GUI::Node, GUI::SinglyLinkedList, etc).
     - [**Core/**](src/Core) processes visualization.
     - [**States/**](src/States) contains VisuAlgo scene
     - [**Identifiers/**](src/Identifiers) contains VisuAlgo identifiers for scene, font, and stuff
 - [**include/**](include) contains the library header files
 - [**assets/**](assets) contains the assets of the project
-- [**/unittest**](unittest) contains all of the unit tests of the project
+- [**unittest/**](unittest) contains all of the unit tests of the project
 
 ## Contributor
 22125050 - Nguyen Thanh Phuoc Loc

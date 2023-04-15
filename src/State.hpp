@@ -11,10 +11,11 @@
 // Categories and Data Structures identifiers
 #include "Identifiers/CategoryInfo.hpp"
 #include "Identifiers/DSInfo.hpp"
+#include "NonCopyable.hpp"
 
 class StateStack;
 
-class State {
+class State : private NonCopyable< State > {
 public:
     typedef std::unique_ptr< State > Ptr;
     struct Context {
