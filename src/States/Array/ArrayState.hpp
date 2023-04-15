@@ -1,10 +1,10 @@
 #ifndef STATES_LINKEDLIST_ARRAYSTATE_HPP
 #define STATES_LINKEDLIST_ARRAYSTATE_HPP
 
-#include "../../Components/OperationContainer.hpp"
-#include "../../Components/OperationList.hpp"
-#include "../../Components/OptionInputField.hpp"
-#include "../../State.hpp"
+#include "Components/Common/OperationContainer.hpp"
+#include "Components/Common/OperationList.hpp"
+#include "Components/Common/OptionInputField.hpp"
+#include "State.hpp"
 
 class ArrayState : public State {
 public:

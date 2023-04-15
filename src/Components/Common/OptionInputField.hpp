@@ -3,8 +3,8 @@
 
 #include <functional>
 
-#include "../Container.hpp"
 #include "Button.hpp"
+#include "Container.hpp"
 #include "InputField.hpp"
 
 class OptionInputField : public GUI::Container {

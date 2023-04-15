@@ -1,7 +1,7 @@
 #ifndef COMPONENTS_OPERATIONLIST_HPP
 #define COMPONENTS_OPERATIONLIST_HPP
-#include "../Container.hpp"
 #include "Button.hpp"
+#include "Container.hpp"
 
 class OperationList : public GUI::Container {
 private:

@@ -3,10 +3,10 @@
 
 #include <functional>
 
-#include "../Component.hpp"
-#include "../Identifiers/DSIdentifiers.hpp"
-#include "../Identifiers/StateIdentifiers.hpp"
+#include "Component.hpp"
 #include "FontHolder.hpp"
+#include "Identifiers/DSIdentifiers.hpp"
+#include "Identifiers/StateIdentifiers.hpp"
 #include "raygui.h"
 
 class NavigationBar : public GUI::Component {

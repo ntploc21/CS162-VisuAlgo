@@ -112,15 +112,15 @@ add_executable(${PROJECT_NAME}
     src/States/LinkedList/LLState.cpp
 
     # Components
-    src/Components/NavigationBar.cpp
-    src/Components/Card.cpp
-    src/Components/OperationList.cpp
-    src/Components/OperationContainer.cpp
-    src/Components/Button.cpp
-    src/Components/OptionInputField.cpp
-    src/Components/InputField.cpp
-    src/Components/StringInputField.cpp
-    src/Components/IntegerInputField.cpp
+    src/Components/Common/NavigationBar.cpp
+    src/Components/Common/Card.cpp
+    src/Components/Common/OperationList.cpp
+    src/Components/Common/OperationContainer.cpp
+    src/Components/Common/Button.cpp
+    src/Components/Common/OptionInputField.cpp
+    src/Components/Common/InputField.cpp
+    src/Components/Common/StringInputField.cpp
+    src/Components/Common/IntegerInputField.cpp
     
     # Core
 

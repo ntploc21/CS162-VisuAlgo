@@ -3,9 +3,9 @@
 
 #include <functional>
 
-#include "../Component.hpp"
-#include "../FontHolder.hpp"
-#include "../Identifiers/StateIdentifiers.hpp"
+#include "Component.hpp"
+#include "FontHolder.hpp"
+#include "Identifiers/StateIdentifiers.hpp"
 #include "raygui.h"
 
 /* Little note

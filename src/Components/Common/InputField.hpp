@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "../Component.hpp"
-#include "../FontHolder.hpp"
+#include "Component.hpp"
+#include "FontHolder.hpp"
 
 class InputField : public GUI::Component {
 public:

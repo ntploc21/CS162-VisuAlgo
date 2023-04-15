@@ -23,7 +23,10 @@ void SLLState::Draw() {
     navigation.Draw();
 }
 
-bool SLLState::Update(float dt) { return true; }
+bool SLLState::Update(float dt) {
+    // std::cout << "update: " << dt << std::endl;
+    return true;
+}
 
 void SLLState::AddInsertOperation() {
     Button::Ptr buttonInsert(new Button("Insert", GetContext().fonts));

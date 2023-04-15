@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "Components/NavigationBar.hpp"
+#include "Components/Common/NavigationBar.hpp"
 #include "FontHolder.hpp"
 #include "Identifiers/StateIdentifiers.hpp"
 #include "TextureHolder.hpp"

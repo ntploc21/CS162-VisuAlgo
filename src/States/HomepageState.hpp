@@ -1,10 +1,10 @@
 #ifndef STATES_HOMEPAGESTATE_HPP
 #define STATES_HOMEPAGESTATE_HPP
 
-#include "../Container.hpp"
+#include "Container.hpp"
 // #include "../Core/Operations/Create/Create.hpp"
-#include "../State.hpp"
-#include "Components/Card.hpp"
+#include "Components/Common/Card.hpp"
+#include "State.hpp"
 
 class HomepageState : public State {
 private:

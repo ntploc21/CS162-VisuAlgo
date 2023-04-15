@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-#include "../../Components/IntegerInputField.hpp"
-#include "../../Components/StringInputField.hpp"
-#include "../../Global.hpp"
+#include "Components/Common/IntegerInputField.hpp"
+#include "Components/Common/StringInputField.hpp"
+#include "Global.hpp"
 
 ArrayState::ArrayState(StateStack& stack, Context context,
                        DataStructures::ID activeDS)

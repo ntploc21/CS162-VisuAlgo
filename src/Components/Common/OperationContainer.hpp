@@ -1,8 +1,8 @@
 #ifndef COMPONENTS_OPERATIONCONTAINER_HPP
 #define COMPONENTS_OPERATIONCONTAINER_HPP
 
-#include "../Container.hpp"
 #include "Button.hpp"
+#include "Container.hpp"
 
 class OperationContainer : public GUI::Container {
 public:

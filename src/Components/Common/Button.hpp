@@ -3,8 +3,8 @@
 
 #include <functional>
 
-#include "../Component.hpp"
-#include "../FontHolder.hpp"
+#include "Component.hpp"
+#include "FontHolder.hpp"
 
 class Button : public GUI::Component {
 public:

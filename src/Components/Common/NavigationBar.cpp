@@ -1,6 +1,6 @@
 #include "NavigationBar.hpp"
 
-#include "../Global.hpp"
+#include "Global.hpp"
 // #include "raylib.h"
 // #define RAYGUI_STATIC
 #include <iostream>
