@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-#include "../../Global.hpp"
+#include "Components/Visualization/GuiNode.hpp"
+#include "Global.hpp"
 
 SLLState::SLLState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::SinglyLinkedList) {
@@ -21,6 +22,12 @@ void SLLState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+
+    // GUI::Node guiNode = GUI::Node(10, GetContext().fonts);
+    // guiNode.SetLabel("head");
+    // guiNode.SetPosition(300, 300);
+
+    // guiNode.Draw();
 }
 
 bool SLLState::Update(float dt) {

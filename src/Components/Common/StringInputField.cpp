@@ -14,6 +14,7 @@ void GUI::StringInputField::DrawField(Vector2 base) {
     char* input = new char[content.size()];
     strcpy(input, content.c_str());
 
+    DrawRectangleRec(inputBound, BLACK);
     GuiTextBox(inputBound, input, labelFontSize, GetEditMode());
     content = input;
 }
