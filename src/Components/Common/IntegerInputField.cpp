@@ -12,6 +12,7 @@ std::string GUI::IntegerInputField::ExtractValue() {
 void GUI::IntegerInputField::DrawField(Vector2 base) {
     Rectangle inputBound =
         (Rectangle){base.x, base.y, inputFieldSize.x, inputFieldSize.y};
+    DrawRectangleRec(inputBound, BLACK);
     GuiValueBox(inputBound, nullptr, &input, mMinValue, mMaxValue,
                 GetEditMode());
     // GuiSpinner(inputBound, nullptr, &input, mMinValue, mMaxValue, true);

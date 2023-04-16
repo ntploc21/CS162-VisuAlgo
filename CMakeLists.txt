@@ -112,6 +112,7 @@ add_executable(${PROJECT_NAME}
     src/States/LinkedList/LLState.cpp
 
     # Components
+    ## Common
     src/Components/Common/NavigationBar.cpp
     src/Components/Common/Card.cpp
     src/Components/Common/OperationList.cpp
@@ -121,6 +122,8 @@ add_executable(${PROJECT_NAME}
     src/Components/Common/InputField.cpp
     src/Components/Common/StringInputField.cpp
     src/Components/Common/IntegerInputField.cpp
+    ## Visualization
+    src/Components/Visualization/GuiNode.cpp
     
     # Core
 

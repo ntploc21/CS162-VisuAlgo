@@ -8,7 +8,9 @@
 #include "raylib.h"
 
 namespace GUI {
-    class Component : private NonCopyable< Component > {
+    class Component
+    //: private NonCopyable< Component >
+    {
     public:
         typedef std::shared_ptr< Component > Ptr;
 
