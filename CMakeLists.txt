@@ -122,10 +122,16 @@ add_executable(${PROJECT_NAME}
     src/Components/Common/InputField.cpp
     src/Components/Common/StringInputField.cpp
     src/Components/Common/IntegerInputField.cpp
+    src/Components/Common/CodeHighlighter.cpp
     ## Visualization
-    src/Components/Visualization/GuiNode.cpp
+    src/Components/Visualization/Node.cpp
+    src/Components/Visualization/DataStructure.cpp
+    src/Components/Visualization/SinglyLinkedList.cpp
     
     # Core
+    ## Animation
+    src/Core/Animation/AnimationController.cpp
+    src/Core/Animation/AnimationState.cpp
 
     ## DataStructures
     ### LinkedList
