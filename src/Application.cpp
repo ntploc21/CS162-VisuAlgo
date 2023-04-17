@@ -18,6 +18,7 @@
 std::vector< bool > GUI::InputField::fields(std::vector< bool >(0));
 
 void Application::Init() {
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(global::SCREEN_WIDTH, global::SCREEN_HEIGHT,
                global::kTitle.c_str());
     LoadResources();
