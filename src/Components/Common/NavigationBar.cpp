@@ -131,7 +131,7 @@ bool GUI::NavigationBar::DrawSettings() {
     Color settingsColor = (Color){25, 125, 84, 255};
 
     float paddingX = 8, paddingY = 2;
-    float posX = 1075, posY = 8;
+    float posX = global::SCREEN_WIDTH - 125, posY = 8;
     hoverBounds["settings-bound"] =
         (Rectangle){posX - paddingX, posY - paddingY, spanWidth + paddingX * 2,
                     24 + 2 * paddingY};

@@ -94,6 +94,7 @@ add_executable(${PROJECT_NAME}
     src/Container.cpp
     src/Identifiers/CategoryInfo.cpp
     src/Identifiers/DSInfo.cpp
+    src/Utils.cpp
 
     # States
     src/States/HomepageState.cpp

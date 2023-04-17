@@ -1,5 +1,6 @@
 #ifndef STATES_LINKEDLIST_SLLSTATE_HPP
 #define STATES_LINKEDLIST_SLLSTATE_HPP
+#include "Components/Common/CodeHighlighter.hpp"
 #include "LLState.hpp"
 
 class SLLState : public LLState {
@@ -9,6 +10,9 @@ private:
     void AddUpdateOperation();
     void AddDeleteOperation();
     void AddSearchOperation();
+
+private:
+    GUI::CodeHighlighter codeHighlighter;
 
 protected:
 public:

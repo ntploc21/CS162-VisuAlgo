@@ -2,7 +2,16 @@
 #define RESOURCEIDENTIFIER_HPP
 
 namespace Fonts {
-    enum ID { Default, Default_Italic, Default_Bold, Silkscreen, Count };
+    enum ID {
+        Default,
+        Default_Italic,
+        Default_Bold,
+        Silkscreen,
+        Consolas,
+        Courier,
+        Courier_Bold,
+        Count
+    };
 };
 
 namespace Textures {
