@@ -9,12 +9,16 @@
 LLState::LLState(StateStack& stack, Context context,
                  DataStructures::ID activeDS)
     : State(stack, context), activeDS(activeDS),
-      codeHighlighter(GUI::CodeHighlighter(context.fonts)) {
+      codeHighlighter(GUI::CodeHighlighter(context.fonts)),
+      footer(GUI::Footer()),
+      animController(new Animation::AnimationController()) {
     InitNavigationBar();
     operationList = GUI::OperationList(context.fonts);
     codeHighlighter.SetPosition(global::SCREEN_WIDTH - 40,
                                 global::SCREEN_HEIGHT - 334);
     codeHighlighter.InitButtons();
+
+    footer.SetPosition(0, global::SCREEN_HEIGHT - 40);
 }
 
 LLState::~LLState() {}
