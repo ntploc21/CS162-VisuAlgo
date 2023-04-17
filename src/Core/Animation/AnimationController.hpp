@@ -6,6 +6,9 @@
 
 namespace Animation {
     class AnimationController {
+    public:
+        typedef std::shared_ptr< AnimationController > Ptr;
+
     private:
         std::vector< AnimationState::Ptr > animationGroup;
         static constexpr float defaultSpeed = 1;
@@ -46,6 +49,10 @@ namespace Animation {
 
     public:
         float GetAnimateFrame(float dt) const;
+        std::size_t GetNumAnimation() const;
+        std::size_t GetAnimationIndex() const;
+        bool Done();
+        bool IsPlaying();
     };
 };  // namespace Animation
 

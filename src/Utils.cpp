@@ -1,5 +1,7 @@
 #include "Utils.hpp"
 
+#include "raygui.h"
+
 // Draw text using font inside rectangle limits
 void Utils::DrawTextBoxed(Font font, const char *text, Rectangle rec,
                           float fontSize, float spacing, bool wordWrap,
@@ -146,4 +148,15 @@ void Utils::DrawTextBoxedSelectable(Font font, const char *text, Rectangle rec,
         if ((textOffsetX != 0) || (codepoint != ' '))
             textOffsetX += glyphWidth;  // avoid leading spaces
     }
+}
+
+bool Utils::DrawIcon(int iconID, int x, int y, int pixelSize, Color color,
+                     Color hoverColor) {
+    bool hover = CheckCollisionPointRec(
+        GetMousePosition(),
+        (Rectangle){(float)x, (float)y, (float)pixelSize * 16,
+                    (float)pixelSize * 16});
+    Color appliedColor = (hover ? hoverColor : color);
+    GuiDrawIcon(iconID, x, y, pixelSize, appliedColor);
+    return (hover && IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
 }

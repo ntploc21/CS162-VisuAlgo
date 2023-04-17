@@ -47,6 +47,7 @@ void SLLState::Draw() {
 
     // guiNode.Draw();
     codeHighlighter.Draw();
+    footer.Draw(animController);
 }
 
 bool SLLState::Update(float dt) {

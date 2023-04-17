@@ -2,9 +2,11 @@
 #define STATES_LINKEDLIST_LLSTATE_HPP
 
 #include "Components/Common/CodeHighlighter.hpp"
+#include "Components/Common/Footer.hpp"
 #include "Components/Common/OperationContainer.hpp"
 #include "Components/Common/OperationList.hpp"
 #include "Components/Common/OptionInputField.hpp"
+#include "Core/Animation/AnimationController.hpp"
 #include "State.hpp"
 
 class LLState : public State {
@@ -28,6 +30,10 @@ protected:
 
 protected:
     GUI::CodeHighlighter codeHighlighter;
+    GUI::Footer footer;
+
+protected:
+    Animation::AnimationController::Ptr animController;
 
 protected:
     GUI::OperationList operationList;

@@ -14,6 +14,8 @@ namespace Utils {
         int selectLength, Color selectTint,
         Color selectBackTint);  // Draw text using font inside rectangle
                                 // limits with support for text selection};
-};                              // namespace Utils
+    bool DrawIcon(int iconID, int x, int y, int pixelSize, Color color,
+                  Color hoverColor);
+};  // namespace Utils
 
 #endif  // UTILS_HPP
