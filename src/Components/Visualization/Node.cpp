@@ -1,4 +1,4 @@
-#include "GuiNode.hpp"
+#include "Node.hpp"
 
 #include <iostream>
 

@@ -2,12 +2,34 @@
 
 #include <iostream>
 
-#include "Components/Visualization/GuiNode.hpp"
+#include "Components/Visualization/Node.hpp"
 #include "Global.hpp"
 
 SLLState::SLLState(StateStack& stack, Context context)
-    : LLState(stack, context, DataStructures::SinglyLinkedList) {
+    : LLState(stack, context, DataStructures::SinglyLinkedList),
+      codeHighlighter(GUI::CodeHighlighter(context.fonts)) {
     AddOperations();
+    codeHighlighter.SetPosition(global::SCREEN_WIDTH - 40,
+                                global::SCREEN_HEIGHT - 334);
+    codeHighlighter.InitButtons();
+    // codeHighlighter.AddCode({"if(head == nullptr) return; // empty, do
+    // nothing",
+    //                          "Node *pre = head;", "for(int k=0;k<i-1;k++)",
+    //                          "	pre = pre->next;",
+    //                          "Node *del = pre->next, *aft = del->next;",
+    //                          "pre->next = aft; // bypass del", "delete
+    //                          del;"});
+    // codeHighlighter.AddCode(
+    //     {"if(head == nullptr) return nullptr; // empty, NOT_FOUND",
+    //      "if(head == tail && head->value == v) return head;",
+    //      "Node *cur = head;", "for(;cur->next != head; cur =
+    //      cur->next)", "	if(cur->value == v) return cur;",
+    //      "return nullptr; // NOT_FOUND"});
+
+    // codeHighlighter.Highlight(3);
+    // codeHighlighter.AddActionDescription(
+    //     "The index before insertion point is found.\npre is before the "
+    //     "insertion point and aft is the insertion point.");
 }
 
 SLLState::~SLLState() {}
@@ -28,6 +50,7 @@ void SLLState::Draw() {
     // guiNode.SetPosition(300, 300);
 
     // guiNode.Draw();
+    codeHighlighter.Draw();
 }
 
 bool SLLState::Update(float dt) {

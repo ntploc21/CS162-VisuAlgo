@@ -82,17 +82,17 @@ void HomepageState::CreateCard(States::ID stateID, std::string title,
 }
 
 void HomepageState::InitCards() {
-    mCards.SetPosition(40, 300);
+    mCards.SetPosition(60, 300);
     CreateCard(States::StaticArray, "Static Array", Textures::StaticArray, 0,
                0);
     CreateCard(States::DynamicArray, "Dynamic Array", Textures::DynamicArray,
-               290, 0);
+               310, 0);
     CreateCard(States::SinglyLinkedList, "Singly Linked List",
-               Textures::SinglyLinkedList, 580, 0);
+               Textures::SinglyLinkedList, 620, 0);
     CreateCard(States::DoublyLinkedList, "Doubly Linked List",
-               Textures::DoublyLinkedList, 870, 0);
+               Textures::DoublyLinkedList, 930, 0);
     CreateCard(States::CircularLinkedList, "Circular Linked List",
-               Textures::CircularLinkedList, 145, 240);
-    CreateCard(States::Stack, "Stack", Textures::Stack, 435, 240);
-    CreateCard(States::Queue, "Queue", Textures::Queue, 725, 240);
+               Textures::CircularLinkedList, 165, 240);
+    CreateCard(States::Stack, "Stack", Textures::Stack, 475, 240);
+    CreateCard(States::Queue, "Queue", Textures::Queue, 785, 240);
 }
