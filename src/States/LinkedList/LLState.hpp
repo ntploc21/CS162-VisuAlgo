@@ -1,6 +1,7 @@
 #ifndef STATES_LINKEDLIST_LLSTATE_HPP
 #define STATES_LINKEDLIST_LLSTATE_HPP
 
+#include "Components/Common/CodeHighlighter.hpp"
 #include "Components/Common/OperationContainer.hpp"
 #include "Components/Common/OperationList.hpp"
 #include "Components/Common/OptionInputField.hpp"
@@ -24,6 +25,9 @@ public:
 protected:
     void InitNavigationBar();
     Context mContext;
+
+protected:
+    GUI::CodeHighlighter codeHighlighter;
 
 protected:
     GUI::OperationList operationList;

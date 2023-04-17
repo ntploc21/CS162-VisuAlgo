@@ -21,6 +21,7 @@ void QueueState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+    codeHighlighter.Draw();
 }
 
 bool QueueState::Update(float dt) { return true; }

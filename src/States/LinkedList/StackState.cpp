@@ -21,6 +21,7 @@ void StackState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+    codeHighlighter.Draw();
 }
 
 bool StackState::Update(float dt) { return true; }
