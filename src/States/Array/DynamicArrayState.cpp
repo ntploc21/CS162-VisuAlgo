@@ -21,6 +21,7 @@ void DynamicArrayState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+    codeHighlighter.Draw();
 }
 
 bool DynamicArrayState::Update(float dt) { return true; }

@@ -21,6 +21,7 @@ void CLLState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+    codeHighlighter.Draw();
 }
 
 bool CLLState::Update(float dt) { return true; }

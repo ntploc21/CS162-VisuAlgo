@@ -6,12 +6,8 @@
 #include "Global.hpp"
 
 SLLState::SLLState(StateStack& stack, Context context)
-    : LLState(stack, context, DataStructures::SinglyLinkedList),
-      codeHighlighter(GUI::CodeHighlighter(context.fonts)) {
+    : LLState(stack, context, DataStructures::SinglyLinkedList) {
     AddOperations();
-    codeHighlighter.SetPosition(global::SCREEN_WIDTH - 40,
-                                global::SCREEN_HEIGHT - 334);
-    codeHighlighter.InitButtons();
     // codeHighlighter.AddCode({"if(head == nullptr) return; // empty, do
     // nothing",
     //                          "Node *pre = head;", "for(int k=0;k<i-1;k++)",

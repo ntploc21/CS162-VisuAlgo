@@ -21,6 +21,7 @@ void StaticArrayState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+    codeHighlighter.Draw();
 }
 
 bool StaticArrayState::Update(float dt) { return true; }

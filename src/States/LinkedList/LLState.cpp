@@ -8,9 +8,13 @@
 
 LLState::LLState(StateStack& stack, Context context,
                  DataStructures::ID activeDS)
-    : State(stack, context), activeDS(activeDS) {
+    : State(stack, context), activeDS(activeDS),
+      codeHighlighter(GUI::CodeHighlighter(context.fonts)) {
     InitNavigationBar();
     operationList = GUI::OperationList(context.fonts);
+    codeHighlighter.SetPosition(global::SCREEN_WIDTH - 40,
+                                global::SCREEN_HEIGHT - 334);
+    codeHighlighter.InitButtons();
 }
 
 LLState::~LLState() {}

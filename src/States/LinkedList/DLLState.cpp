@@ -21,6 +21,7 @@ void DLLState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+    codeHighlighter.Draw();
 }
 
 bool DLLState::Update(float dt) { return true; }
