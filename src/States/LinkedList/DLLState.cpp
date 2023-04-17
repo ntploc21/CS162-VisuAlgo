@@ -12,8 +12,6 @@ DLLState::DLLState(StateStack& stack, Context context)
 DLLState::~DLLState() {}
 
 void DLLState::Draw() {
-    DrawRectangle(0, global::SCREEN_HEIGHT - 40, global::SCREEN_WIDTH, 40,
-                  BLACK);
     DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, BLACK);
 
     DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
@@ -22,6 +20,7 @@ void DLLState::Draw() {
     operationList.Draw();
     navigation.Draw();
     codeHighlighter.Draw();
+    footer.Draw(animController);
 }
 
 bool DLLState::Update(float dt) { return true; }

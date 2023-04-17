@@ -31,8 +31,6 @@ SLLState::SLLState(StateStack& stack, Context context)
 SLLState::~SLLState() {}
 
 void SLLState::Draw() {
-    DrawRectangle(0, global::SCREEN_HEIGHT - 40, global::SCREEN_WIDTH, 40,
-                  BLACK);
     DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, BLACK);
 
     DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
