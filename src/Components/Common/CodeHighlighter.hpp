@@ -8,6 +8,9 @@
 
 namespace GUI {
     class CodeHighlighter : public GUI::Component {
+    public:
+        typedef std::shared_ptr< CodeHighlighter > Ptr;
+
     private:
         GUI::Button mButtonShowCode;
         bool mShowCode;

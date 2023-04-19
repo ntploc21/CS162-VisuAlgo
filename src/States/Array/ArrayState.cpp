@@ -1,103 +1,121 @@
-#include "ArrayState.hpp"
+// #include "ArrayState.hpp"
 
-#include <iostream>
+// #include <iostream>
 
-#include "Components/Common/IntegerInputField.hpp"
-#include "Components/Common/StringInputField.hpp"
-#include "Global.hpp"
+// #include "Components/Common/IntegerInputField.hpp"
+// #include "Components/Common/StringInputField.hpp"
+// #include "Global.hpp"
 
-ArrayState::ArrayState(StateStack& stack, Context context,
-                       DataStructures::ID activeDS)
-    : State(stack, context), activeDS(activeDS),
-      codeHighlighter(GUI::CodeHighlighter(context.fonts)),
-      footer(GUI::Footer()),
-      animController(new Animation::AnimationController()) {
-    InitNavigationBar();
-    operationList = GUI::OperationList(context.fonts);
-    codeHighlighter.SetPosition(global::SCREEN_WIDTH - 40,
-                                global::SCREEN_HEIGHT - 334);
-    codeHighlighter.InitButtons();
+// template< typename T >
+// ArrayState< T >::ArrayState(StateStack& stack, Context context,
+//                             DataStructures::ID activeDS)
+//     : State(stack, context), activeDS(activeDS),
+//       codeHighlighter(new GUI::CodeHighlighter(context.fonts)),
+//       footer(GUI::Footer< T >()), animController(T()) {
+//     InitNavigationBar();
+//     operationList = GUI::OperationList(context.fonts);
+//     codeHighlighter->SetPosition(global::SCREEN_WIDTH - 40,
+//                                  global::SCREEN_HEIGHT - 334);
+//     codeHighlighter->InitButtons();
 
-    footer.SetPosition(0, global::SCREEN_HEIGHT - 40);
-}
+//     footer.SetPosition(0, global::SCREEN_HEIGHT - 40);
+// }
 
-ArrayState::~ArrayState() {}
+// template< typename T >
+// ArrayState< T >::~ArrayState() {}
 
-void ArrayState::InitNavigationBar() {
-    navigation.SetVisableTitle(true);
-    auto info = GetContext().categories->Get(Category::Array);
-    navigation.SetCategory(info.categoryName);
-    navigation.SetActiveTitle(activeDS);
-    for (auto dsID : info.mDS) {
-        auto dsInfo = GetContext().dsInfo->Get(dsID);
-        navigation.InsertTitle(dsID, dsInfo.stateID, dsInfo.abbr, dsInfo.name);
-    };
-}
+// template< typename T >
+// bool ArrayState< T >::Update(float dt) {
+//     animController->Update(dt);
+//     return true;
+// }
 
-void ArrayState::AddOperations() {
-    AddInitializeOperation();
-    AddInsertOperation();
-    AddDeleteOperation();
-    AddUpdateOperation();
-    AddSearchOperation();
+// template< typename T >
+// void ArrayState< T >::InitNavigationBar() {
+//     navigation.SetVisableTitle(true);
+//     auto info = GetContext().categories->Get(Category::Array);
+//     navigation.SetCategory(info.categoryName);
+//     navigation.SetActiveTitle(activeDS);
+//     for (auto dsID : info.mDS) {
+//         auto dsInfo = GetContext().dsInfo->Get(dsID);
+//         navigation.InsertTitle(dsID, dsInfo.stateID, dsInfo.abbr,
+//         dsInfo.name);
+//     };
+// }
 
-    operationList.SetPosition(
-        0, global::SCREEN_HEIGHT - 60 - operationList.GetSize().y);
-    operationList.InitActionBar();
-}
+// template< typename T >
+// void ArrayState< T >::AddOperations() {
+//     AddInitializeOperation();
+//     AddInsertOperation();
+//     AddDeleteOperation();
+//     AddUpdateOperation();
+//     AddSearchOperation();
 
-void ArrayState::AddInitializeOperation() {}
+//     operationList.SetPosition(
+//         0, global::SCREEN_HEIGHT - 60 - operationList.GetSize().y);
+//     operationList.InitActionBar();
+// }
 
-void ArrayState::AddInsertOperation() {}
+// template< typename T >
+// void ArrayState< T >::AddInitializeOperation() {}
 
-void ArrayState::AddDeleteOperation() {}
+// template< typename T >
+// void ArrayState< T >::AddInsertOperation() {}
 
-void ArrayState::AddUpdateOperation() {}
+// template< typename T >
+// void ArrayState< T >::AddDeleteOperation() {}
 
-void ArrayState::AddSearchOperation() {}
+// template< typename T >
+// void ArrayState< T >::AddUpdateOperation() {}
 
-void ArrayState::AddNoFieldOperationOption(
-    GUI::OperationContainer::Ptr container, std::string title,
-    std::function< void() > action) {
-    GUI::OptionInputField::Ptr button(
-        new GUI::OptionInputField(GetContext().fonts));
+// template< typename T >
+// void ArrayState< T >::AddSearchOperation() {}
 
-    button.get()->SetNoFieldOption(title, action);
+// template< typename T >
+// void ArrayState< T >::AddNoFieldOperationOption(
+//     GUI::OperationContainer::Ptr container, std::string title,
+//     std::function< void() > action) {
+//     GUI::OptionInputField::Ptr button(
+//         new GUI::OptionInputField(GetContext().fonts));
 
-    container.get()->pack(button);
-}
+//     button.get()->SetNoFieldOption(title, action);
 
-void ArrayState::AddIntFieldOperationOption(
-    GUI::OperationContainer::Ptr container, std::string title,
-    std::vector< IntegerInput > fields,
-    std::function< void(std::map< std::string, std::string >) > action) {
-    GUI::OptionInputField::Ptr button(
-        new GUI::OptionInputField(GetContext().fonts));
-    std::vector< GUI::InputField::Ptr > intFields;
-    for (auto field : fields) {
-        GUI::IntegerInputField::Ptr intField(
-            new GUI::IntegerInputField(GetContext().fonts));
-        intField.get()->SetLabel(field.label);
-        intField.get()->SetInputFieldSize((Vector2){(float)field.width, 30});
-        intField.get()->SetConstraint(field.minValue, field.maxValue);
-        intFields.push_back(intField);
-    }
+//     container.get()->pack(button);
+// }
 
-    button.get()->SetOption(title, intFields, action);
+// template< typename T >
+// void ArrayState< T >::AddIntFieldOperationOption(
+//     GUI::OperationContainer::Ptr container, std::string title,
+//     std::vector< IntegerInput > fields,
+//     std::function< void(std::map< std::string, std::string >) > action) {
+//     GUI::OptionInputField::Ptr button(
+//         new GUI::OptionInputField(GetContext().fonts));
+//     std::vector< GUI::InputField::Ptr > intFields;
+//     for (auto field : fields) {
+//         GUI::IntegerInputField::Ptr intField(
+//             new GUI::IntegerInputField(GetContext().fonts));
+//         intField.get()->SetLabel(field.label);
+//         intField.get()->SetInputFieldSize((Vector2){(float)field.width, 30});
+//         intField.get()->SetConstraint(field.minValue, field.maxValue);
+//         intFields.push_back(intField);
+//     }
 
-    container.get()->pack(button);
-}
+//     button.get()->SetOption(title, intFields, action);
 
-void ArrayState::AddStringFieldOption(
-    GUI::OperationContainer::Ptr container, std::string title,
-    std::string label,
-    std::function< void(std::map< std::string, std::string >) > action) {
-    GUI::OptionInputField::Ptr button(
-        new GUI::OptionInputField(GetContext().fonts));
-    GUI::StringInputField::Ptr strField(
-        new GUI::StringInputField(GetContext().fonts));
-    strField.get()->SetLabel(label);
-    strField.get()->SetInputFieldSize((Vector2){100, 30});
-    button.get()->SetOption(title, {strField}, action);
-    container.get()->pack(button);
-}
+//     container.get()->pack(button);
+// }
+
+// template< typename T >
+// void ArrayState< T >::AddStringFieldOption(
+//     GUI::OperationContainer::Ptr container, std::string title,
+//     std::string label,
+//     std::function< void(std::map< std::string, std::string >) > action) {
+//     GUI::OptionInputField::Ptr button(
+//         new GUI::OptionInputField(GetContext().fonts));
+//     GUI::StringInputField::Ptr strField(
+//         new GUI::StringInputField(GetContext().fonts));
+//     strField.get()->SetLabel(label);
+//     strField.get()->SetInputFieldSize((Vector2){100, 30});
+//     button.get()->SetOption(title, {strField}, action);
+//     container.get()->pack(button);
+// }

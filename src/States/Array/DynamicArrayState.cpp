@@ -19,11 +19,9 @@ void DynamicArrayState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
-    codeHighlighter.Draw();
-    footer.Draw(animController);
+    codeHighlighter->Draw();
+    footer.Draw(animController.get());
 }
-
-bool DynamicArrayState::Update(float dt) { return true; }
 
 void DynamicArrayState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(

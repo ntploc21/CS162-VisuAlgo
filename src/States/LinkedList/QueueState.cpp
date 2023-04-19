@@ -19,11 +19,9 @@ void QueueState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
-    codeHighlighter.Draw();
-    footer.Draw(animController);
+    codeHighlighter->Draw();
+    footer.Draw(animController.get());
 }
-
-bool QueueState::Update(float dt) { return true; }
 
 void QueueState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(

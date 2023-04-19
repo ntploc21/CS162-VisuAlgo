@@ -1,58 +1,64 @@
-#include "AnimationState.hpp"
+// #include "AnimationState.hpp"
 
-#include <cassert>
+// #include <cassert>
+// #include <iostream>
 
-Animation::AnimationState::AnimationState() {}
+// Animation::AnimationState::AnimationState()
+//     : mCurrentPlayingAt(0.0f), mDuration(0.0f), mHighlightedLine(-1),
+//       mDataStructureBefore(nullptr) {
+//     mAnimation = [](GUI::DataStructure::Ptr srcDS, float playingAt,
+//                     Vector2 base) { return srcDS; };
+// }
 
-Animation::AnimationState::~AnimationState() {}
+// Animation::AnimationState::~AnimationState() {}
 
-void Animation::AnimationState::SetDuration(float duration) {
-    mDuration = duration;
-}
+// void Animation::AnimationState::SetDuration(float duration) {
+//     mDuration = duration;
+// }
 
-float Animation::AnimationState::GetDuration() const { return mDuration; }
+// float Animation::AnimationState::GetDuration() const { return mDuration; }
 
-void Animation::AnimationState::SetAnimation(
-    std::function< GUI::DataStructure(GUI::DataStructure, float, Vector2) >
-        animation) {
-    mAnimation = animation;
-}
+// void Animation::AnimationState::SetAnimation(
+//     std::function< GUI::DataStructure::Ptr(GUI::DataStructure::Ptr, float,
+//                                            Vector2) >
+//         animation) {
+//     mAnimation = animation;
+// }
 
-void Animation::AnimationState::PlayingAt(float playingAt) {
-    mCurrentPlayingAt = playingAt;
-}
+// void Animation::AnimationState::PlayingAt(float playingAt) {
+//     mCurrentPlayingAt = playingAt;
+// }
 
-float Animation::AnimationState::GetCurrentPlayingAt() const {
-    return mCurrentPlayingAt;
-}
+// float Animation::AnimationState::GetCurrentPlayingAt() const {
+//     return mCurrentPlayingAt;
+// }
 
-void Animation::AnimationState::SetSourceDataStructure(
-    GUI::DataStructure dataStructure) {
-    mDataStructureBefore = dataStructure;
-}
+// void Animation::AnimationState::SetSourceDataStructure(
+//     GUI::DataStructure::Ptr dataStructure) {
+//     mDataStructureBefore = dataStructure;
+// }
 
-GUI::DataStructure Animation::AnimationState::GetDataStructure(float progress) {
-    assert(progress >= 0.0f && progress <= 1.0f);
-    return mAnimation(mDataStructureBefore, progress, (Vector2){0, 0});
-}
+// GUI::DataStructure::Ptr Animation::AnimationState::GetDataStructure(
+//     float progress, Vector2 base) {
+//     assert(progress >= 0.0f && progress <= 1.0f);
+//     return mAnimation(mDataStructureBefore, progress, base);
+// }
 
-void Animation::AnimationState::Draw(Vector2 base) {
-    mAnimation(mDataStructureBefore,
-               std::min(1.0f, mCurrentPlayingAt / mDuration), base);
-}
+// void Animation::AnimationState::Update(float dt) {
+//     mCurrentPlayingAt += dt;
+//     if (mCurrentPlayingAt > mDuration) mCurrentPlayingAt = mDuration;
+// }
 
-void Animation::AnimationState::Update(float dt) { mCurrentPlayingAt += dt; }
+// void Animation::AnimationState::Reset() { PlayingAt(0.0f); }
 
-void Animation::AnimationState::Reset() { PlayingAt(0.0f); }
+// bool Animation::AnimationState::Done() {
+//     return mCurrentPlayingAt == mDuration;
+// }
 
-bool Animation::AnimationState::Done() {
-    return mCurrentPlayingAt >= mDuration;
-}
+// void Animation::AnimationState::SetHighlightLine(int line) {
+//     mHighlightedLine = line;
+// }
 
-void Animation::AnimationState::SetHighlightLine(int line) {
-    mHighlightedLine = line;
-}
-
-int Animation::AnimationState::GetHighlightedLine() const {
-    return mHighlightedLine;
-}
+// int Animation::AnimationState::GetHighlightedLine() const {
+//     return mHighlightedLine;
+// }

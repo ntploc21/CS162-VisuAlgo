@@ -92,39 +92,61 @@
 
 #include <string>
 
-#include "BaseNode.hpp"
+// #include "BaseNode.hpp"
+#include "Components/Common/CodeHighlighter.hpp"
+#include "Components/Visualization/SinglyLinkedList.hpp"
+#include "Core/Animation/AnimationController.hpp"
+#include "Core/Operations/Create/Create.hpp"
 
-class SinglyLinkedList {
-private:
-public:
-    SinglyLinkedList();
-    ~SinglyLinkedList();
+namespace Algorithm {
+    class SinglyLinkedList {
+    public:
+        static constexpr int maxN = 10;
 
-public:
-    void Empty();
-    void Random();
-    void RandomFixedSize(int size);
-    void UserDefined(std::string input);
-    void ReadFromExternalFile(std::string path);
-    void Sorted();
+    private:
+        GUI::SinglyLinkedList visualizer;
+        GUI::CodeHighlighter::Ptr codeHighlighter;
+        SLLAnimationController::Ptr animController;
 
-public:
-    void Insert(int index, int value);
-    void InsertHead(int value);
-    void InsertAfterTail(int value);
-    void InsertMiddle(int index, int value);
+    private:
+        Algorithm::Create create;
 
-public:
-    void Delete(int index);
-    void DeleteHead();
-    void DeleteTail();
-    void DeleteMiddle(int index);
+    public:
+        SinglyLinkedList();
+        SinglyLinkedList(GUI::CodeHighlighter::Ptr codeHighlighter,
+                         SLLAnimationController::Ptr animController,
+                         FontHolder* fonts);
+        ~SinglyLinkedList();
 
-public:
-    void Update(int index, int value);
+    public:
+        void Empty();
+        void Random();
+        void RandomFixedSize(int N);
+        void UserDefined(std::string input);
+        void ReadFromExternalFile(std::string path);
+        void Sorted();
 
-public:
-    void Search(int value);
-};
+    private:
+        void ApplyInput(std::vector< int > input);
+
+    public:
+        void Insert(int index, int value);
+        void InsertHead(int value);
+        void InsertAfterTail(int value);
+        void InsertMiddle(int index, int value);
+
+    public:
+        void Delete(int index);
+        void DeleteHead();
+        void DeleteTail();
+        void DeleteMiddle(int index);
+
+    public:
+        void Update(int index, int value);
+
+    public:
+        void Search(int value);
+    };
+};  // namespace Algorithm
 
 #endif  // CORE_DATASTRUCTURES_LINKEDLIST_SINGLYLINKEDLIST_HPP

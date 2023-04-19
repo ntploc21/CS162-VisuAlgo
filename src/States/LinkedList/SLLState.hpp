@@ -1,9 +1,13 @@
 #ifndef STATES_LINKEDLIST_SLLSTATE_HPP
 #define STATES_LINKEDLIST_SLLSTATE_HPP
 
+#include "Core/Algorithms/LinkedList/SinglyLinkedList.hpp"
 #include "LLState.hpp"
 
-class SLLState : public LLState {
+class SLLState : public LLState< SLLAnimationController > {
+private:
+    Algorithm::SinglyLinkedList SLL;
+
 private:
     void AddInsertOperation();
     void AddInitializeOperation();
@@ -16,7 +20,6 @@ public:
     SLLState(StateStack& stack, Context context);
     ~SLLState();
     void Draw();
-    bool Update(float dt);
 };
 
 #endif  // STATES_LINKEDLIST_SLLSTATE_HPP
