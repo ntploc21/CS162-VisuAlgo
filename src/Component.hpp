@@ -18,7 +18,7 @@ namespace GUI {
         Component();
         virtual ~Component();
 
-        virtual void Draw(Vector2 base);
+        virtual void Draw(Vector2 base = (Vector2){0, 0});
 
         virtual bool isSelectable() const = 0;
         bool isSelected() const;

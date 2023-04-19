@@ -3,7 +3,7 @@
 
 #include "LLState.hpp"
 
-class StackState : public LLState {
+class StackState : public LLState< SLLAnimationController > {
 public:
     void AddInsertOperation();
     void AddInitializeOperation();
@@ -14,7 +14,6 @@ public:
     StackState(StateStack& stack, Context context);
     ~StackState();
     void Draw();
-    bool Update(float dt);
 };
 
 #endif  // STATES_LINKEDLIST_STACKSTATE_HPP

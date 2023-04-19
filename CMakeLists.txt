@@ -135,15 +135,14 @@ add_executable(${PROJECT_NAME}
     src/Core/Animation/AnimationController.cpp
     src/Core/Animation/AnimationState.cpp
 
-    ## DataStructures
+    ## Algorithms
     ### LinkedList
     # src/Core/DataStructures/LinkedList/BaseNode.hpp
-    # src/Core/DataStructures/LinkedList/SinglyLinkedList.hpp
+    src/Core/Algorithms/LinkedList/SinglyLinkedList.cpp
 
     ## Operation
     ### Create
     src/Core/Operations/Create/Create.cpp
-    src/Core/Operations/Create/SLLCreate.cpp
     
 
     ### Add

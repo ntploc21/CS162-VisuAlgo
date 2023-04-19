@@ -19,11 +19,9 @@ void StaticArrayState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
-    codeHighlighter.Draw();
-    footer.Draw(animController);
+    codeHighlighter->Draw();
+    footer.Draw(animController.get());
 }
-
-bool StaticArrayState::Update(float dt) { return true; }
 
 void StaticArrayState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(

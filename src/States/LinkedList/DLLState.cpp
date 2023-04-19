@@ -19,11 +19,9 @@ void DLLState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
-    codeHighlighter.Draw();
-    footer.Draw(animController);
+    codeHighlighter->Draw();
+    footer.Draw(animController.get());
 }
-
-bool DLLState::Update(float dt) { return true; }
 
 void DLLState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(

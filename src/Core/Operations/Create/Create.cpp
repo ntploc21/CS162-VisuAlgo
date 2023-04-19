@@ -1,38 +1,38 @@
 #include "Create.hpp"
 
 #include <sstream>
-Create::Create() {
+Algorithm::Create::Create() {
     // InitCreateOperations();
 }
 
-Create::~Create() {}
+Algorithm::Create::~Create() {}
 
 // std::vector< int > Create::CreateInput(
 //     CreateOperation::ID opType, std::map< std::string, std::string > params)
 //     { return mCreateOperations[opType](params);
 // }
-int Create::Rand(int lower, int upper) {
+int Algorithm::Create::Rand(int lower, int upper) {
     std::mt19937 rng(
         std::chrono::steady_clock::now().time_since_epoch().count());
     assert(lower <= upper);
     return lower + rng() % (upper - lower + 1);
 }
-std::vector< int > Create::Empty() { return std::vector< int >(); }
+std::vector< int > Algorithm::Create::Empty() { return std::vector< int >(); }
 
-std::vector< int > Create::Random() {
+std::vector< int > Algorithm::Create::Random() {
     int nSize = Rand(1, 10);
     // params["nSize"] = (char)(nSize + '0');
     return RandomFixedSize(nSize);
 }
 
-std::vector< int > Create::RandomFixedSize(int nSize) {
+std::vector< int > Algorithm::Create::RandomFixedSize(int nSize) {
     // int nSize = atoi(params["nSize"].c_str());
     std::vector< int > answer(nSize);
     for (int& v : answer) v = Rand(1, 99);
     return answer;
 }
 
-std::vector< int > Create::UserDefined(std::string input) {
+std::vector< int > Algorithm::Create::UserDefined(std::string input) {
     std::vector< int > answer;
 
     std::istringstream f(input);
@@ -47,7 +47,7 @@ std::vector< int > Create::UserDefined(std::string input) {
     return answer;
 }
 
-std::vector< int > Create::ReadFromFile(std::string inputFile) {
+std::vector< int > Algorithm::Create::ReadFromFile(std::string inputFile) {
     // will be implemented later
     return std::vector< int >();
 }

@@ -3,7 +3,7 @@
 
 #include "ArrayState.hpp"
 
-class StaticArrayState : public ArrayState {
+class StaticArrayState : public ArrayState< SLLAnimationController > {
 private:
     void AddInitializeOperation();
     void AddUpdateOperation();
@@ -13,7 +13,6 @@ public:
     StaticArrayState(StateStack& stack, Context context);
     ~StaticArrayState();
     void Draw();
-    bool Update(float dt);
 };
 
 #endif  // STATES_ARRAY_STATICARRAYSTATE_HPP

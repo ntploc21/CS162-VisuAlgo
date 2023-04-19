@@ -19,11 +19,9 @@ void StackState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
-    codeHighlighter.Draw();
-    footer.Draw(animController);
+    codeHighlighter->Draw();
+    footer.Draw(animController.get());
 }
-
-bool StackState::Update(float dt) { return true; }
 
 void StackState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));

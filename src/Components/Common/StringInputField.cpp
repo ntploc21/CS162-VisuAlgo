@@ -11,12 +11,13 @@ void GUI::StringInputField::DrawField(Vector2 base) {
     Rectangle inputBound =
         (Rectangle){base.x, base.y, inputFieldSize.x, inputFieldSize.y};
 
-    char* input = new char[content.size()];
+    char* input = new char[100];
     strcpy(input, content.c_str());
 
     DrawRectangleRec(inputBound, BLACK);
     GuiTextBox(inputBound, input, labelFontSize, GetEditMode());
     content = input;
+    delete[] input;
 }
 
 bool GUI::StringInputField::isSelectable() const { return false; }

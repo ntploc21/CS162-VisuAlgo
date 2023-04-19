@@ -3,7 +3,7 @@
 
 #include "ArrayState.hpp"
 
-class DynamicArrayState : public ArrayState {
+class DynamicArrayState : public ArrayState< SLLAnimationController > {
 private:
     void AddInsertOperation();
     void AddInitializeOperation();
@@ -15,7 +15,6 @@ public:
     DynamicArrayState(StateStack& stack, Context context);
     ~DynamicArrayState();
     void Draw();
-    bool Update(float dt);
 };
 
 #endif  // STATES_ARRAY_DYNAMICARRAYSTATE_HPP
