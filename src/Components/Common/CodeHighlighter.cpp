@@ -53,6 +53,26 @@ void GUI::CodeHighlighter::ToggleShowAction() {
     }
 }
 
+void GUI::CodeHighlighter::SetShowCode(bool show) {
+    if (show) {
+        mButtonShowCode.SetText("<");
+        mShowCode = true;
+    } else {
+        mButtonShowCode.SetText(">");
+        mShowCode = false;
+    }
+}
+
+void GUI::CodeHighlighter::SetShowAction(bool show) {
+    if (show) {
+        mButtonShowAction.SetText("<");
+        mShowActionDescription = true;
+    } else {
+        mButtonShowAction.SetText(">");
+        mShowActionDescription = false;
+    }
+}
+
 void GUI::CodeHighlighter::AddActionDescription(std::string description) {
     mActionDescription = description;
 }

@@ -18,6 +18,8 @@ namespace Animation {
         float mCurrentPlayingAt;
         int mHighlightedLine;
 
+        std::string actionDescription;
+
     private:
         T mDataStructureBefore;
         std::function< T(T, float, Vector2) > mAnimation;
@@ -43,6 +45,8 @@ namespace Animation {
         bool Done() const;
         void SetHighlightLine(int line);
         int GetHighlightedLine() const;
+        void SetActionDescription(std::string description);
+        std::string GetActionDescription() const;
     };
 };  // namespace Animation
 
@@ -54,8 +58,11 @@ namespace Animation {
 template< typename T >
 Animation::AnimationState< T >::AnimationState()
     : mCurrentPlayingAt(0.0f), mDuration(0.0f), mHighlightedLine(-1),
-      mDataStructureBefore(nullptr) {
-    mAnimation = [](T srcDS, float playingAt, Vector2 base) { return srcDS; };
+      mDataStructureBefore(nullptr), actionDescription("") {
+    mAnimation = [](T srcDS, float playingAt, Vector2 base) {
+        srcDS.Draw(base, playingAt);
+        return srcDS;
+    };
 }
 
 template< typename T >
@@ -125,9 +132,21 @@ int Animation::AnimationState< T >::GetHighlightedLine() const {
     return mHighlightedLine;
 }
 
+template< typename T >
+inline void Animation::AnimationState< T >::SetActionDescription(
+    std::string description) {
+    actionDescription = description;
+}
+
+template< typename T >
+inline std::string Animation::AnimationState< T >::GetActionDescription()
+    const {
+    return actionDescription;
+}
+
 template< class T >
 void Animation::AnimationState< T >::Draw(Vector2 base) {
-    int playingAt = std::min(
+    float playingAt = std::min(
         1.0f, (mDuration == 0.0f ? 1.0f : mCurrentPlayingAt / mDuration));
     mAnimation(mDataStructureBefore, playingAt, base);
 }

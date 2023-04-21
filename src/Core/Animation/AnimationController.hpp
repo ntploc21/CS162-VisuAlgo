@@ -18,6 +18,7 @@ namespace Animation {
         std::size_t mCurrentAnimationIndex;
         float mSpeed;
         bool Playing;
+        bool interactionLock;
 
     public:
         AnimationController();
@@ -32,6 +33,7 @@ namespace Animation {
     public:
         void AddAnimation(T animation);
         void PopAnimation();
+        void Clear();
 
     public:
         float GetAnimationDuration();
@@ -44,10 +46,11 @@ namespace Animation {
     public:
         void StepForward();
         void StepBackward();
-
-    public:
         void Pause();
         void Continue();
+        void InteractionLock();
+        void InteractionAllow();
+        bool IsInteractionAllow() const;
 
     public:
         void Update(float dt);
@@ -64,7 +67,7 @@ namespace Animation {
 template< typename T >
 Animation::AnimationController< T >::AnimationController()
     : mSpeed(defaultSpeed), animationGroup({}), mCurrentAnimationIndex(0),
-      Playing(false) {}
+      Playing(false), interactionLock(false) {}
 
 template< typename T >
 Animation::AnimationController< T >::~AnimationController() {}
@@ -79,25 +82,37 @@ void Animation::AnimationController< T >::RunAll() {
 
 template< typename T >
 void Animation::AnimationController< T >::Reset() {
-    ResetCurrent();
+    if (!IsInteractionAllow()) return;
+    for (auto &animation : animationGroup) {
+        animation.Reset();
+    }
     SetAnimation(0);
+    Continue();
 }
 
 template< typename T >
 void Animation::AnimationController< T >::StepForward() {
     ResetCurrent();
     SetAnimation(mCurrentAnimationIndex + 1);
+    ResetCurrent();
 }
 
 template< typename T >
 void Animation::AnimationController< T >::StepBackward() {
     ResetCurrent();
     SetAnimation(mCurrentAnimationIndex - 1);
+    ResetCurrent();
 }
 
 template< typename T >
 void Animation::AnimationController< T >::SetAnimation(std::size_t index) {
+    if (!IsInteractionAllow()) return;
     if (0 <= index && index < GetNumAnimation()) {
+        if (mCurrentAnimationIndex > index) {
+            for (; mCurrentAnimationIndex > index; mCurrentAnimationIndex--) {
+                ResetCurrent();
+            }
+        }
         mCurrentAnimationIndex = index;
     }
 }
@@ -119,19 +134,40 @@ void Animation::AnimationController< T >::PopAnimation() {
 }
 
 template< typename T >
+inline void Animation::AnimationController< T >::Clear() {
+    animationGroup.clear();
+}
+
+template< typename T >
 void Animation::AnimationController< T >::Pause() {
-    Playing = false;
+    if (IsInteractionAllow()) Playing = false;
 }
 
 template< typename T >
 void Animation::AnimationController< T >::ResetCurrent() {
+    if (!IsInteractionAllow()) return;
     if (animationGroup.empty()) return;
     animationGroup[mCurrentAnimationIndex].Reset();
 }
 
 template< typename T >
 void Animation::AnimationController< T >::Continue() {
-    Playing = true;
+    if (IsInteractionAllow()) Playing = true;
+}
+
+template< typename T >
+inline void Animation::AnimationController< T >::InteractionLock() {
+    interactionLock = true;
+}
+
+template< typename T >
+inline void Animation::AnimationController< T >::InteractionAllow() {
+    interactionLock = false;
+}
+
+template< typename T >
+inline bool Animation::AnimationController< T >::IsInteractionAllow() const {
+    return !interactionLock;
 }
 
 template< typename T >
@@ -150,6 +186,7 @@ void Animation::AnimationController< T >::Update(float dt) {
     if (IsPlaying() && animationGroup[mCurrentAnimationIndex].Done()) {
         SetAnimation(mCurrentAnimationIndex + 1);
     }
+    if (Done()) Pause();
 }
 
 template< typename T >

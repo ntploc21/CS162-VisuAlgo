@@ -85,7 +85,7 @@ void GUI::Footer< T >::Draw(T* animController, Vector2 base) {
     animController->SetAnimation(
         GuiSliderBar((Rectangle){base.x + 450, base.y + 15, 400, 10}, nullptr,
                      nullptr, animController->GetAnimationIndex(), 0,
-                     animController->GetNumAnimation()));
+                     std::max(0, int(animController->GetNumAnimation() - 1))));
 }
 
 #endif  // COMPONENTS_COMMON_FOOTER_HPP

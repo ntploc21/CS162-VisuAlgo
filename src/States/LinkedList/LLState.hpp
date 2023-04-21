@@ -89,6 +89,10 @@ LLState< T >::~LLState() {}
 template< typename T >
 bool LLState< T >::Update(float dt) {
     animController->Update(dt);
+    codeHighlighter->Highlight(
+        animController->GetAnimation().GetHighlightedLine());
+    codeHighlighter->AddActionDescription(
+        animController->GetAnimation().GetActionDescription());
     return true;
 }
 
