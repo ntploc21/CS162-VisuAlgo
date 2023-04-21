@@ -504,7 +504,94 @@ void Algorithm::SinglyLinkedList::DeleteTail() {}
 
 void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {}
 
-void Algorithm::SinglyLinkedList::Update(int index, int value) {}
+void Algorithm::SinglyLinkedList::Update(int index, int value) {
+    InitAction({"if(head == nullptr) return; // NO_ELEMENT",
+                "Node *cur = head;", "for(int k=0;k<i;k++)",
+                "	cur = cur->next;", "cur->value = v;"});
+    /* Animation goes here */
+    auto& nodes = visualizer.GetList();
+
+    if (!nodes.size()) {
+        SLLAnimation animNoElement = GenerateAnimation(
+            0.75, 0,
+            "head is currently NULL, so there is no element to update.");
+        animController->AddAnimation(animNoElement);
+        return;
+    }
+    {  // Line 1
+        nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetLabel("head/0");
+        nodes[0].AnimationOnNode(true);
+        SLLAnimation anim1 = GenerateAnimation(
+            0.75, 0, "head is currently NOT NULL, proceed to the next line.");
+        animController->AddAnimation(anim1);
+        nodes[0].AnimationOnNode(false);
+    }
+
+    {  // Line 2
+        // nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetLabel("head/cur/0");
+        SLLAnimation anim2 = GenerateAnimation(0.75, 1, "Set cur to head.");
+        animController->AddAnimation(anim2);
+    }
+
+    if (index == 0) {
+        SLLAnimation animNoLoop =
+            GenerateAnimation(0.75, 1,
+                              "We are already at the point we want to update "
+                              "(head).\nProceed to update the head.");
+    }
+
+    for (int k = 0; k <= index; k++) {
+        {  // Line 2
+            SLLAnimation animLoop1 = GenerateAnimation(
+                0.75, 2, "Increment k, index specified has not been reached.");
+            if (k == 0)
+                animLoop1.SetActionDescription("Enter the loop.\nk is now: 0");
+            if (k == index)
+                animLoop1.SetActionDescription(
+                    "We have found the point we want to update.\nWe will exit "
+                    "the for-loop.");
+            else
+                animLoop1.SetAnimation(HighlightArrowFromCur(k));
+            animController->AddAnimation(animLoop1);
+        }
+
+        if (k == index) break;
+
+        {  // Line 3
+            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].ClearLabel();
+            if (k == 0) nodes[k].SetLabel("head");
+
+            nodes[k + 1].SetLabel("cur/" + std::to_string(k + 1));
+            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].AnimationOnNode(true);
+            visualizer.SetArrowType(k, ArrowType::Active);
+
+            SLLAnimation animLoop2 =
+                GenerateAnimation(0.75, 3, "We set cur to the next vertex.");
+            nodes[k + 1].AnimationOnNode(false);
+            animController->AddAnimation(animLoop2);
+        }
+    }
+
+    // nodes[index].AnimationOnNode(true);
+    nodes[index].SetNodeState(GUI::Node::ActiveGreen);
+    SLLAnimation animFocusNode =
+        GenerateAnimation(0.75, 4,
+                          "Updating node " + std::to_string(index) +
+                              "'s value to " + std::to_string(value));
+    animController->AddAnimation(animFocusNode);
+
+    nodes[index].AnimationOnNode(false);
+    nodes[index].SetValue(value);
+    SLLAnimation animFinal =
+        GenerateAnimation(0.75, 4,
+                          "Updated node " + std::to_string(index) +
+                              "'s value to " + std::to_string(value) + "!");
+    animController->AddAnimation(animFinal);
+}
 
 void Algorithm::SinglyLinkedList::Search(int value) {
     InitAction({"Node *cur = head;", "while(cur != nullptr) {",
