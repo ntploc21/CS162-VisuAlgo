@@ -67,7 +67,7 @@ void SLLState::AddInsertOperation() {
             SLL.InsertMiddle(i, std::stoi(input["v = "]));
             operationList.ToggleOperations();
             SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-            SetCurrentAction("Insert " + input["v = "] + " at index" +
+            SetCurrentAction("Insert " + input["v = "] + " at index " +
                              input["i = "]);
         });
 

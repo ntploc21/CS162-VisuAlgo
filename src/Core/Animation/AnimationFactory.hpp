@@ -8,13 +8,13 @@ namespace AnimationFactory {
     float BounceOut(float t);
     float ElasticOut(float t);
     void DrawDirectionalArrow(Vector2 start, Vector2 end, bool active, float t);
+    void DrawActiveArrow(Vector2 start, Vector2 end, float t);
 
     float Dist(Vector2 p1, Vector2 p2);
     Vector2 InverseVector(Vector2 vector);
     Vector2 MoveNode(Vector2 src, Vector2 dst, float t);
 
     Color BlendColor(Color src, Color dst, float t);
-    void DrawActiveArrow(Vector2 start, Vector2 end, float t);
 
     void ReCalculateEnds(Vector2 &start, Vector2 &end, float radius);
     /* Empty AnimationState */
