@@ -66,7 +66,8 @@ void Algorithm::SinglyLinkedList::Sorted() {}
 
 void Algorithm::SinglyLinkedList::ApplyInput(std::vector< int > input) {
     if (input.size() > maxN) input.resize(maxN);
-    animController->Clear();
+    InitAction({});
+    animController->InteractionLock();
     codeHighlighter->SetShowCode(false);
     codeHighlighter->SetShowAction(false);
 
@@ -98,13 +99,8 @@ void Algorithm::SinglyLinkedList::Insert(int index, int value) {}
 
 void Algorithm::SinglyLinkedList::InsertHead(int value) {
     if (visualizer.GetList().size() == maxN) return;
-    animController->InteractionAllow();
-    animController->Clear();
-
-    codeHighlighter->AddCode(
+    InitAction(
         {"Node *node = new Node(v);", "node->next = head;", "head = node;"});
-    codeHighlighter->SetShowCode(true);
-    codeHighlighter->SetShowAction(true);
 
     /* Animation goes here */
 
@@ -189,14 +185,112 @@ void Algorithm::SinglyLinkedList::InsertHead(int value) {
     animController->AddAnimation(anim4);
 
     visualizer.Relayout();
-
-    animController->Reset();
-    animController->Continue();
 }
 
-void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {}
+void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
+    int prvSize = visualizer.GetList().size();
+    if (prvSize == 0) InsertHead(value);
+    if (prvSize == maxN) return;
 
-void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {}
+    InitAction(
+        {"Node *node = new Node(v);", "tail->next = node;", "tail = node;"});
+
+    /* Animation goes here */
+
+    GUI::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetNodeState(GUI::Node::Active);
+    newNode.AnimationOnNode(true);
+    newNode.SetLabel("node");
+
+    Vector2 pos = visualizer.GetList().back().GetPosition();
+    pos.x += 60;
+    newNode.SetPosition(pos);
+
+    visualizer.InsertNode(prvSize, newNode);
+    visualizer.SetArrowType(prvSize - 1, ArrowType::Hidden);
+
+    SLLAnimation anim1 = GenerateAnimation(
+        1, 0,
+        "Create new vertex to store value " + std::to_string(value) + ".");
+    anim1.SetAnimation(
+        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
+            GUI::Node& node = srcDS.GetList().back();
+            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
+            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
+            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
+
+            srcDS.Draw(base, playingAt);
+            return srcDS;
+        });
+    animController->AddAnimation(anim1);
+
+    visualizer.GetList().back().SetNodeState(GUI::Node::State::Iterated);
+    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Active);
+    visualizer.GetList()[prvSize - 1].AnimationOnNode(true);
+    SLLAnimation anim2 =
+        GenerateAnimation(1, 1, "Current tail->next points to the node.");
+    anim2.SetAnimation([this, prvSize](GUI::SinglyLinkedList srcDS,
+                                       float playingAt, Vector2 base) {
+        srcDS.Draw(base, playingAt);
+        base.x += srcDS.GetPosition().x;
+        base.y += srcDS.GetPosition().y;
+
+        Vector2 start = srcDS.GetList()[prvSize - 1].GetPosition();
+        Vector2 end = srcDS.GetList()[prvSize].GetPosition();
+        start.x += base.x, start.y += base.y;
+        end.x += base.x, end.y += base.y;
+
+        AnimationFactory::DrawActiveArrow(start, end, playingAt);
+
+        return srcDS;
+    });
+    visualizer.SetArrowType(prvSize - 1, ArrowType::Default);
+
+    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Default);
+    visualizer.GetList()[prvSize - 1].ClearLabel();
+    if (prvSize - 1 == 0) visualizer.GetList()[prvSize - 1].SetLabel("head");
+    animController->AddAnimation(anim2);
+
+    visualizer.GetList().back().SetLabel("tail");
+    SLLAnimation anim3 =
+        GenerateAnimation(0.5, 2,
+                          "tail points to node.\nThe whole operation is O(1) "
+                          "if we maintain the tail pointer.");
+    animController->AddAnimation(anim3);
+
+    visualizer.GetList().back().AnimationOnNode(false);
+
+    float length = 40 * visualizer.GetList().size() +
+                   20 * (visualizer.GetList().size() - 1);
+    float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+    SLLAnimation anim4 = GenerateAnimation(
+        0.5, -1,
+        "Re-layout the Linked List for visualization (not in the actual Linked "
+        "List).\nThe whole process is still O(1).");
+    anim4.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
+                                          float playingAt, Vector2 base) {
+        Vector2 newPos = srcDS.GetPosition();
+        newPos.x += (actualPosX - newPos.x) * playingAt;
+        srcDS.SetPosition(newPos);
+
+        // if (playingAt == 1.0f && srcDS.GetList().size() == 2) {
+        //     srcDS.GetList().back().SetLabel("tail");
+        // }
+
+        srcDS.Draw(base, playingAt);
+
+        return srcDS;
+    });
+    animController->AddAnimation(anim4);
+
+    visualizer.Relayout();
+}
+
+void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
+    if (!(index >= 0 && index <= visualizer.GetList().size())) return;
+
+    /* Animation goes here */
+}
 
 void Algorithm::SinglyLinkedList::Delete(int index) {}
 
@@ -209,15 +303,10 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {}
 void Algorithm::SinglyLinkedList::Update(int index, int value) {}
 
 void Algorithm::SinglyLinkedList::Search(int value) {
-    animController->InteractionAllow();
-    animController->Clear();
-
-    codeHighlighter->AddCode({"Node *cur = head;", "while(cur != nullptr) {",
-                              "	if(cur->value == v) return cur;",
-                              "	cur = cur->next;", "}",
-                              "return nullptr; // NOT_FOUND"});
-    codeHighlighter->SetShowCode(true);
-    codeHighlighter->SetShowAction(true);
+    InitAction({"Node *cur = head;", "while(cur != nullptr) {",
+                "	if(cur->value == v) return cur;",
+                "	cur = cur->next;", "}",
+                "return nullptr; // NOT_FOUND"});
 
     if (!visualizer.GetList().size()) {
         animController->AddAnimation(
@@ -318,8 +407,6 @@ void Algorithm::SinglyLinkedList::Search(int value) {
         node.SetNodeState(GUI::Node::Default);
     }
     visualizer.ResetArrow();
-    animController->Reset();
-    animController->Continue();
 }
 
 SLLAnimation Algorithm::SinglyLinkedList::GenerateAnimation(
@@ -330,4 +417,13 @@ SLLAnimation Algorithm::SinglyLinkedList::GenerateAnimation(
     animation.SetSourceDataStructure(visualizer);
     animation.SetActionDescription(actionDescription);
     return animation;
+}
+
+void Algorithm::SinglyLinkedList::InitAction(std::vector< std::string > code) {
+    animController->InteractionAllow();
+    animController->Clear();
+    codeHighlighter->AddCode(code);
+    codeHighlighter->SetShowCode(true);
+    codeHighlighter->SetShowAction(true);
+    animController->Reset();
 }

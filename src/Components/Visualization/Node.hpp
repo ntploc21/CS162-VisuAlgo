@@ -36,6 +36,7 @@ namespace GUI {
 
     private:
         void DrawLabel(Vector2 base = (Vector2){0, 0});
+        void DrawNode(Vector2 base = (Vector2){0, 0}, float t = 1.0f);
 
     public:
         void SetValueFontSize(int fontSize);

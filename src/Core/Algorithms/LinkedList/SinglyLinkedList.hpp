@@ -62,6 +62,7 @@ namespace Algorithm {
     private:
         SLLAnimation GenerateAnimation(float duration, int highlightLine,
                                        std::string actionDescription);
+        void InitAction(std::vector< std::string > code);
     };
 };  // namespace Algorithm
 

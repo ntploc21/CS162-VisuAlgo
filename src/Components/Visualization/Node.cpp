@@ -23,37 +23,23 @@ void GUI::Node::Draw(Vector2 base, float t) {
     base.x += mPosition.x;
     base.y += mPosition.y;
 
-    Color borderColor = BLACK;
-    Color defaultColor = WHITE;
     Color valueColor = BLACK;
     if (animateNode) {
         if (GetNodeState() == State::Active) {
-            borderColor = AnimationFactory::BlendColor(
-                BLACK, (Color){255, 138, 39, 255}, t);
-            defaultColor = AnimationFactory::BlendColor(
-                WHITE, (Color){255, 138, 39, 255}, t);
             valueColor = AnimationFactory::BlendColor(BLACK, WHITE, t);
         } else if (GetNodeState() == State::Iterated) {
-            borderColor = (Color){255, 138, 39, 255};
-            defaultColor = AnimationFactory::BlendColor(
-                (Color){255, 138, 39, 255}, WHITE, t);
             valueColor = AnimationFactory::BlendColor(
                 WHITE, (Color){255, 138, 39, 255}, t);
         }
     } else {
         if (GetNodeState() == State::Active) {
-            borderColor = (Color){255, 138, 39, 255};
-            defaultColor = (Color){255, 138, 39, 255};
             valueColor = WHITE;
         } else if (GetNodeState() == State::Iterated) {
-            borderColor = (Color){255, 138, 39, 255};
-            defaultColor = WHITE;
             valueColor = (Color){255, 138, 39, 255};
         }
     }
 
-    DrawCircleV((Vector2){base.x, base.y}, mRadius, borderColor);
-    DrawCircleV((Vector2){base.x, base.y}, mRadius * 4 / 5, defaultColor);
+    DrawNode(base, t);
 
     // Draw Value
     width = MeasureTextEx(fonts->Get(Fonts::Default),
@@ -93,6 +79,40 @@ void GUI::Node::DrawLabel(Vector2 base) {
     DrawTextEx(fonts->Get(Fonts::Default_Bold), mLabel.c_str(),
                (Vector2){labelPosX, base.y + mRadius + 2}, labelFontSize, 0,
                RED);
+}
+
+void GUI::Node::DrawNode(Vector2 base, float t) {
+    Color borderColor = BLACK;
+    Color defaultColor = WHITE;
+    Color valueColor = BLACK;
+    if (animateNode) {
+        if (GetNodeState() == State::Active) {
+            borderColor = AnimationFactory::BlendColor(
+                BLACK, (Color){255, 138, 39, 255}, t);
+            defaultColor = AnimationFactory::BlendColor(
+                WHITE, (Color){255, 138, 39, 255}, t);
+            valueColor = AnimationFactory::BlendColor(BLACK, WHITE, t);
+        } else if (GetNodeState() == State::Iterated) {
+            borderColor = (Color){255, 138, 39, 255};
+            defaultColor = AnimationFactory::BlendColor(
+                (Color){255, 138, 39, 255}, WHITE, t);
+            valueColor = AnimationFactory::BlendColor(
+                WHITE, (Color){255, 138, 39, 255}, t);
+        }
+    } else {
+        if (GetNodeState() == State::Active) {
+            borderColor = (Color){255, 138, 39, 255};
+            defaultColor = (Color){255, 138, 39, 255};
+            valueColor = WHITE;
+        } else if (GetNodeState() == State::Iterated) {
+            borderColor = (Color){255, 138, 39, 255};
+            defaultColor = WHITE;
+            valueColor = (Color){255, 138, 39, 255};
+        }
+    }
+
+    DrawCircleV((Vector2){base.x, base.y}, mRadius, borderColor);
+    DrawCircleV((Vector2){base.x, base.y}, mRadius * 4 / 5, defaultColor);
 }
 
 void GUI::Node::SetValueFontSize(int fontSize) { valueFontSize = fontSize; }

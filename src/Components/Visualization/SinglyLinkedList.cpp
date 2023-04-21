@@ -48,7 +48,7 @@ void GUI::SinglyLinkedList::Import(std::vector< int > nodes) {
 void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node) {
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
-    if (index < list.size())
+    if (index + 1 < list.size())
         arrowState.insert(arrowState.begin() + index, ArrowType::Default);
     else
         arrowState.insert(arrowState.end(), ArrowType::Default);

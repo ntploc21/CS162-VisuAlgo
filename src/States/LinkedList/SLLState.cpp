@@ -42,6 +42,7 @@ void SLLState::AddInsertOperation() {
         [this](std::map< std::string, std::string > input) {
             SLL.InsertHead(std::stoi(input["v = "]));
             operationList.ToggleOperations();
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
             SetCurrentAction("Insert " + input["v = "] + " at head");
         });
 
@@ -49,23 +50,24 @@ void SLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = N (After Tail), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "i = N (After Tail), specify v =" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            SLL.InsertAfterTail(std::stoi(input["v = "]));
+            operationList.ToggleOperations();
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            SetCurrentAction("Insert " + input["v = "] + " at tail");
         });
 
     /* Default insert */
 
     AddIntFieldOperationOption(
         container, "Specify both i in [0..N] and v",
-        {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
+        {{"i = ", 50, 1, SLL.maxN - 1}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify both i in [0..N] and v parameters: "
-                      << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            SLL.InsertMiddle(std::stoi(input["i = "]),
+                             std::stoi(input["v = "]));
+            operationList.ToggleOperations();
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            SetCurrentAction("Insert " + input["v = "] + " at index" +
+                             input["i = "]);
         });
 
     /* ====================================== */
