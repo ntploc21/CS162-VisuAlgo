@@ -42,7 +42,6 @@ void SLLState::Draw() {
     operationList.Draw();
     navigation.Draw();
 
-    // dang bi loi o Algorithm::SinglyLinkedList
     animController->GetAnimation().Draw();
     codeHighlighter->Draw();
     footer.Draw(animController.get());
@@ -209,6 +208,7 @@ void SLLState::AddSearchOperation() {
     AddIntFieldOperationOption(
         container, "Specify v", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            SLL.Search(std::stoi(input["v = "]));
             std::cout << "Specify v" << std::endl;
             for (auto it : input) {
                 std::cout << it.first << it.second << std::endl;

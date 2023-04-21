@@ -117,6 +117,7 @@ namespace Algorithm {
                          SLLAnimationController::Ptr animController,
                          FontHolder* fonts);
         ~SinglyLinkedList();
+        void InitSLL();
 
     public:
         void Empty();
@@ -146,6 +147,10 @@ namespace Algorithm {
 
     public:
         void Search(int value);
+
+    private:
+        SLLAnimation GenerateAnimation(float duration, int highlightLine,
+                                       std::string actionDescription);
     };
 };  // namespace Algorithm
 

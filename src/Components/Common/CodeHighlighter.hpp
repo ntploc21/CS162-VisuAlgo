@@ -37,6 +37,8 @@ namespace GUI {
         void Highlight(int line);
         void ToggleShowCode();
         void ToggleShowAction();
+        void SetShowCode(bool show);
+        void SetShowAction(bool show);
 
     public:
         void AddActionDescription(std::string description);
