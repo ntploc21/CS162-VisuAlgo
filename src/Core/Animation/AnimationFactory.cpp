@@ -32,9 +32,10 @@ void AnimationFactory::DrawDirectionalArrow(Vector2 start, Vector2 end,
                                             bool active, float t) {
     if (start.x == end.x && start.y == end.y) return;
     if (t < 0.20f) return;
-    Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
+    ReCalculateEnds(start, end, 20);
 
     float d = Dist(start, end);
+    Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
     end = (Vector2){start.x + side.x * t, start.y + side.y * t};
 
     Vector2 unitVector = (Vector2){side.x / (d / 3), side.y / (d / 3)};
@@ -75,9 +76,22 @@ Color AnimationFactory::BlendColor(Color src, Color dst, float t) {
 void AnimationFactory::DrawActiveArrow(Vector2 start, Vector2 end, float t) {
     if (start.x == end.x && start.y == end.y) return;
     if (t < 0.20f) return;
+    ReCalculateEnds(start, end, 20);
     Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
 
     float d = Dist(start, end);
     end = (Vector2){start.x + side.x * t, start.y + side.y * t};
     DrawLineEx(start, end, 3, (Color){255, 138, 39, 255});
+}
+
+void AnimationFactory::ReCalculateEnds(Vector2& start, Vector2& end,
+                                       float radius) {
+    if (start.x == end.x && start.y == end.y) return;
+    Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
+
+    float d = Dist(start, end);
+    start.x += side.x * radius / d;
+    start.y += side.y * radius / d;
+    end.x -= side.x * radius / d;
+    end.y -= side.y * radius / d;
 }

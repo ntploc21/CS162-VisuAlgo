@@ -14,6 +14,8 @@ namespace AnimationFactory {
 
     Color BlendColor(Color src, Color dst, float t);
     void DrawActiveArrow(Vector2 start, Vector2 end, float t);
+
+    void ReCalculateEnds(Vector2 &start, Vector2 &end, float radius);
     /* Empty AnimationState */
 };  // namespace AnimationFactory
 

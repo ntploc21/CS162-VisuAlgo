@@ -92,6 +92,10 @@ void Animation::AnimationController< T >::Reset() {
 
 template< typename T >
 void Animation::AnimationController< T >::StepForward() {
+    if (mCurrentAnimationIndex == animationGroup.size() - 1) {
+        RunAll();
+        return;
+    }
     ResetCurrent();
     SetAnimation(mCurrentAnimationIndex + 1);
     ResetCurrent();

@@ -6,10 +6,18 @@
 
 namespace GUI {
     class SinglyLinkedList : public GUI::DataStructure {
+    public:
+        enum ArrowType {
+            Default,
+            Hidden,
+            Active,
+            Count,
+        };
+
     private:
         FontHolder* fonts;
         std::vector< GUI::Node > list;
-        std::vector< bool > arrowState;
+        std::vector< ArrowType > arrowState;
 
     public:
         SinglyLinkedList();
@@ -23,10 +31,12 @@ namespace GUI {
         std::vector< GUI::Node >& GetList();
         GUI::Node GenerateNode(int value);
         void Import(std::vector< int > nodes);
+        void InsertNode(std::size_t index, GUI::Node node);
+        void Relayout();
 
     public:
-        void SetActiveArrow(std::size_t index);
-        void ClearActiveArrow();
+        void SetArrowType(std::size_t index, ArrowType type);
+        void ResetArrow();
 
     private:
         void DrawArrow(Vector2 base, float t);

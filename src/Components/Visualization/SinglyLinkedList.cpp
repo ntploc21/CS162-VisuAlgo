@@ -39,18 +39,38 @@ void GUI::SinglyLinkedList::Import(std::vector< int > nodes) {
         guiNode.SetPosition(i * (40 + nodeDist), 0);
         list.emplace_back(guiNode);
     }
-    ClearActiveArrow();
+    ResetArrow();
 
     if (!list.empty()) list.at(0).SetLabel("head");
     if (list.size() > 1) list.back().SetLabel("tail");
 }
 
-void GUI::SinglyLinkedList::SetActiveArrow(std::size_t index) {
-    if (index >= 0 && index < int(arrowState.size())) arrowState[index] = true;
+void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node) {
+    assert(index >= 0 && index <= list.size());
+    list.insert(list.begin() + index, node);
+    if (index < list.size())
+        arrowState.insert(arrowState.begin() + index, ArrowType::Default);
+    else
+        arrowState.insert(arrowState.end(), ArrowType::Default);
+
+    float nodeDist = 20;
+    for (int i = index; i < list.size(); i++) {
+        list.at(i).SetPosition(i * (40 + nodeDist), 0);
+    }
 }
 
-void GUI::SinglyLinkedList::ClearActiveArrow() {
-    arrowState.assign(list.size() - 1, false);
+void GUI::SinglyLinkedList::Relayout() {
+    std::vector< int > values;
+    for (auto node : list) values.emplace_back(node.GetValue());
+    Import(values);
+}
+
+void GUI::SinglyLinkedList::SetArrowType(std::size_t index, ArrowType type) {
+    if (index >= 0 && index < int(arrowState.size())) arrowState[index] = type;
+}
+
+void GUI::SinglyLinkedList::ResetArrow() {
+    arrowState.assign(list.size() - 1, ArrowType::Default);
     arrowState.resize(list.size() - 1);
 }
 
@@ -59,13 +79,19 @@ void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
         Vector2 start = list[i].GetPosition();
         Vector2 end = list[i + 1].GetPosition();
 
-        start.x += base.x + 20, start.y += base.y;
-        end.x += base.x - 20, end.y += base.y;
+        start.x += base.x, start.y += base.y;
+        end.x += base.x, end.y += base.y;
 
-        bool activeArrow = (i + 2 < int(list.size()) &&
-                            list[i + 1].GetNodeState() != GUI::Node::Default &&
-                            list[i + 2].GetNodeState() != GUI::Node::Default);
-
-        AnimationFactory::DrawDirectionalArrow(start, end, arrowState[i], t);
+        switch (arrowState[i]) {
+            case ArrowType::Default:
+                AnimationFactory::DrawDirectionalArrow(start, end, false, t);
+                break;
+            case ArrowType::Active:
+                AnimationFactory::DrawDirectionalArrow(start, end, true, t);
+            case ArrowType::Hidden:
+            default:
+                break;
+        }
+        // if(arrowState[i])
     }
 }

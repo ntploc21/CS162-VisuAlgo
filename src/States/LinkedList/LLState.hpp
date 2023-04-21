@@ -24,6 +24,11 @@ public:
     ~LLState();
     virtual void Draw() = 0;
     virtual bool Update(float dt);
+    virtual void SetCurrentAction(std::string action);
+    virtual void ClearAction();
+
+protected:
+    virtual void DrawCurrentActionText();
 
 protected:
     void InitNavigationBar();
@@ -32,6 +37,7 @@ protected:
 protected:
     GUI::CodeHighlighter::Ptr codeHighlighter;
     GUI::Footer< T > footer;
+    std::string mCurrentAction;
 
 protected:
     typename T::Ptr animController;
@@ -94,6 +100,29 @@ bool LLState< T >::Update(float dt) {
     codeHighlighter->AddActionDescription(
         animController->GetAnimation().GetActionDescription());
     return true;
+}
+
+template< typename T >
+inline void LLState< T >::SetCurrentAction(std::string action) {
+    mCurrentAction = action;
+}
+
+template< typename T >
+inline void LLState< T >::ClearAction() {
+    mCurrentAction.clear();
+}
+
+template< typename T >
+inline void LLState< T >::DrawCurrentActionText() {
+    float rightAlignment = global::SCREEN_WIDTH - 50;
+    Font font = GetContext().fonts->Get(Fonts::Default_Bold);
+    float width = MeasureTextEx(font, mCurrentAction.c_str(), 32, 0).x;
+    float x = rightAlignment - width;
+
+    DrawTextEx(font, mCurrentAction.c_str(),
+               (Vector2){x, global::SCREEN_HEIGHT - 376}, 32, 0, BLACK);
+
+    // codeHighlighter->SetPosition(, global::SCREEN_HEIGHT - 334);
 }
 
 template< typename T >

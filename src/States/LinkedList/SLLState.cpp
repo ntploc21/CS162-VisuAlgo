@@ -10,25 +10,6 @@ SLLState::SLLState(StateStack& stack, Context context)
     AddOperations();
     SLL = Algorithm::SinglyLinkedList(codeHighlighter, animController,
                                       context.fonts);
-
-    // codeHighlighter.AddCode({"if(head == nullptr) return; // empty, do
-    // nothing",
-    //                          "Node *pre = head;", "for(int k=0;k<i-1;k++)",
-    //                          "	pre = pre->next;",
-    //                          "Node *del = pre->next, *aft = del->next;",
-    //                          "pre->next = aft; // bypass del", "delete
-    //                          del;"});
-    // codeHighlighter.AddCode(
-    //     {"if(head == nullptr) return nullptr; // empty, NOT_FOUND",
-    //      "if(head == tail && head->value == v) return head;",
-    //      "Node *cur = head;", "for(;cur->next != head; cur =
-    //      cur->next)", "	if(cur->value == v) return cur;",
-    //      "return nullptr; // NOT_FOUND"});
-
-    // codeHighlighter.Highlight(3);
-    // codeHighlighter.AddActionDescription(
-    //     "The index before insertion point is found.\npre is before the "
-    //     "insertion point and aft is the insertion point.");
 }
 
 SLLState::~SLLState() {}
@@ -45,6 +26,7 @@ void SLLState::Draw() {
     animController->GetAnimation().Draw();
     codeHighlighter->Draw();
     footer.Draw(animController.get());
+    DrawCurrentActionText();
 }
 
 void SLLState::AddInsertOperation() {
@@ -58,10 +40,9 @@ void SLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "i = 0 (Head), specify v =" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            SLL.InsertHead(std::stoi(input["v = "]));
+            operationList.ToggleOperations();
+            SetCurrentAction("Insert " + input["v = "] + " at head");
         });
 
     /* Insert tail */
@@ -209,11 +190,8 @@ void SLLState::AddSearchOperation() {
         container, "Specify v", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
             SLL.Search(std::stoi(input["v = "]));
-            std::cout << "Specify v" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            operationList.ToggleOperations();
+            SetCurrentAction("Search " + input["v = "]);
         });
-
     operationList.AddOperation(buttonSearch, container);
 }
