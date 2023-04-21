@@ -64,6 +64,11 @@ Vector2 AnimationFactory::InverseVector(Vector2 vector) {
     return invVector;
 }
 
+Vector2 AnimationFactory::MoveNode(Vector2 src, Vector2 dst, float t) {
+    Vector2 side = (Vector2){dst.x - src.x, dst.y - src.y};
+    return (Vector2){src.x + side.x * t, src.y + side.y * t};
+}
+
 Color AnimationFactory::BlendColor(Color src, Color dst, float t) {
     Color answer;
     answer.r = src.r + (dst.r - src.r) * t;

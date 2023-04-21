@@ -11,6 +11,7 @@ namespace AnimationFactory {
 
     float Dist(Vector2 p1, Vector2 p2);
     Vector2 InverseVector(Vector2 vector);
+    Vector2 MoveNode(Vector2 src, Vector2 dst, float t);
 
     Color BlendColor(Color src, Color dst, float t);
     void DrawActiveArrow(Vector2 start, Vector2 end, float t);

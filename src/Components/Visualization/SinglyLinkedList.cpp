@@ -45,7 +45,8 @@ void GUI::SinglyLinkedList::Import(std::vector< int > nodes) {
     if (list.size() > 1) list.back().SetLabel("tail");
 }
 
-void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node) {
+void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node,
+                                       bool rePosition) {
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
     if (index + 1 < list.size())
@@ -53,6 +54,7 @@ void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node) {
     else
         arrowState.insert(arrowState.end(), ArrowType::Default);
 
+    if (!rePosition) return;
     float nodeDist = 20;
     for (int i = index; i < list.size(); i++) {
         list.at(i).SetPosition(i * (40 + nodeDist), 0);
@@ -69,6 +71,11 @@ void GUI::SinglyLinkedList::SetArrowType(std::size_t index, ArrowType type) {
     if (index >= 0 && index < int(arrowState.size())) arrowState[index] = type;
 }
 
+GUI::SinglyLinkedList::ArrowType GUI::SinglyLinkedList::GetArrowType(
+    std::size_t index) {
+    return arrowState[index];
+}
+
 void GUI::SinglyLinkedList::ResetArrow() {
     arrowState.assign(list.size() - 1, ArrowType::Default);
     arrowState.resize(list.size() - 1);
@@ -78,6 +85,10 @@ void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
     for (int i = 0; i < int(list.size()) - 1; i++) {
         Vector2 start = list[i].GetPosition();
         Vector2 end = list[i + 1].GetPosition();
+        if (arrowState[i + 1] == ArrowType::Skip) {
+            if (!(i + 2 < list.size())) break;
+            end = list[i + 2].GetPosition();
+        }
 
         start.x += base.x, start.y += base.y;
         end.x += base.x, end.y += base.y;
@@ -88,6 +99,7 @@ void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
                 break;
             case ArrowType::Active:
                 AnimationFactory::DrawDirectionalArrow(start, end, true, t);
+            case ArrowType::Skip:
             case ArrowType::Hidden:
             default:
                 break;

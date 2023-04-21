@@ -60,10 +60,11 @@ void SLLState::AddInsertOperation() {
 
     AddIntFieldOperationOption(
         container, "Specify both i in [0..N] and v",
-        {{"i = ", 50, 1, SLL.maxN - 1}, {"v = ", 50, 0, 99}},
+        {{"i = ", 50, 0, SLL.maxN - 1}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            SLL.InsertMiddle(std::stoi(input["i = "]),
-                             std::stoi(input["v = "]));
+            int i = std::stoi(input["i = "]);
+            if (!(i > 0 && i < SLL.maxN)) return;
+            SLL.InsertMiddle(i, std::stoi(input["v = "]));
             operationList.ToggleOperations();
             SetMouseCursor(MOUSE_CURSOR_DEFAULT);
             SetCurrentAction("Insert " + input["v = "] + " at index" +

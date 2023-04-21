@@ -20,6 +20,9 @@ namespace Animation {
         bool Playing;
         bool interactionLock;
 
+        static constexpr float stopDuration = 0.25;
+        float currStopDuration;
+
     public:
         AnimationController();
         ~AnimationController();
@@ -59,6 +62,9 @@ namespace Animation {
 
     public:
         T GetAnimation();
+
+    private:
+        float GetStopDuration();
     };
 };  // namespace Animation
 
@@ -188,7 +194,13 @@ void Animation::AnimationController< T >::Update(float dt) {
     if (animationGroup.empty()) return;
     animationGroup[mCurrentAnimationIndex].Update(GetAnimateFrame(dt));
     if (IsPlaying() && animationGroup[mCurrentAnimationIndex].Done()) {
-        SetAnimation(mCurrentAnimationIndex + 1);
+        if (GetStopDuration() == stopDuration) {
+            SetAnimation(mCurrentAnimationIndex + 1);
+            currStopDuration = 0.0f;
+        } else {
+            currStopDuration =
+                std::min(currStopDuration + GetAnimateFrame(dt), stopDuration);
+        }
     }
     if (Done()) Pause();
 }
@@ -207,6 +219,11 @@ template< typename T >
 T Animation::AnimationController< T >::GetAnimation() {
     if (animationGroup.empty()) return T();
     return animationGroup[mCurrentAnimationIndex];
+}
+
+template< typename T >
+inline float Animation::AnimationController< T >::GetStopDuration() {
+    return currStopDuration;
 }
 
 template< typename T >

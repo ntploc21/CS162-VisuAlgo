@@ -11,6 +11,8 @@ namespace GUI {
         enum State {
             Default,
             Active,
+            ActiveBlue,
+            ActiveGreen,
             Iterated,
             Count,
         };
@@ -44,6 +46,17 @@ namespace GUI {
 
         void SetNodeState(State state);
         State GetNodeState() const;
+
+    private:
+        Color GetOutlineColor(float t = 1.0f);
+        Color GetBackgroundColor(float t = 1.0f);
+        Color GetTextColor(float t = 1.0f);
+        void AddColor();
+
+    private:
+        std::map< State, std::pair< Color, Color > > mOutlineColor;
+        std::map< State, std::pair< Color, Color > > mBackgroundColor;
+        std::map< State, std::pair< Color, Color > > mTextColor;
 
     private:
         int mValue;

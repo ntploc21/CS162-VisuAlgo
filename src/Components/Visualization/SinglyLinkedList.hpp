@@ -11,6 +11,7 @@ namespace GUI {
             Default,
             Hidden,
             Active,
+            Skip,
             Count,
         };
 
@@ -31,11 +32,13 @@ namespace GUI {
         std::vector< GUI::Node >& GetList();
         GUI::Node GenerateNode(int value);
         void Import(std::vector< int > nodes);
-        void InsertNode(std::size_t index, GUI::Node node);
+        void InsertNode(std::size_t index, GUI::Node node,
+                        bool rePosition = true);
         void Relayout();
 
     public:
         void SetArrowType(std::size_t index, ArrowType type);
+        ArrowType GetArrowType(std::size_t index);
         void ResetArrow();
 
     private:

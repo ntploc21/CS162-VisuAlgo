@@ -7,12 +7,16 @@
 GUI::Node::Node(int value, FontHolder* fonts)
     : fonts(fonts), mValue(value), mRadius(20.0f), valueFontSize(24),
       labelFontSize(20), mDefaultColor(WHITE), mActiveColor(ORANGE),
-      mBorderColor(BLACK), animateNode(false), mNodeState(Default) {}
+      mBorderColor(BLACK), animateNode(false), mNodeState(Default) {
+    AddColor();
+}
 
 GUI::Node::Node()
     : mValue(0), mRadius(20.0f), valueFontSize(24), labelFontSize(20),
       mDefaultColor(WHITE), mActiveColor(ORANGE), mBorderColor(BLACK),
-      animateNode(false), mNodeState(Default) {}
+      animateNode(false), mNodeState(Default) {
+    AddColor();
+}
 
 GUI::Node::~Node() {}
 
@@ -23,21 +27,7 @@ void GUI::Node::Draw(Vector2 base, float t) {
     base.x += mPosition.x;
     base.y += mPosition.y;
 
-    Color valueColor = BLACK;
-    if (animateNode) {
-        if (GetNodeState() == State::Active) {
-            valueColor = AnimationFactory::BlendColor(BLACK, WHITE, t);
-        } else if (GetNodeState() == State::Iterated) {
-            valueColor = AnimationFactory::BlendColor(
-                WHITE, (Color){255, 138, 39, 255}, t);
-        }
-    } else {
-        if (GetNodeState() == State::Active) {
-            valueColor = WHITE;
-        } else if (GetNodeState() == State::Iterated) {
-            valueColor = (Color){255, 138, 39, 255};
-        }
-    }
+    Color valueColor = GetTextColor(t);
 
     DrawNode(base, t);
 
@@ -82,34 +72,9 @@ void GUI::Node::DrawLabel(Vector2 base) {
 }
 
 void GUI::Node::DrawNode(Vector2 base, float t) {
-    Color borderColor = BLACK;
-    Color defaultColor = WHITE;
-    Color valueColor = BLACK;
-    if (animateNode) {
-        if (GetNodeState() == State::Active) {
-            borderColor = AnimationFactory::BlendColor(
-                BLACK, (Color){255, 138, 39, 255}, t);
-            defaultColor = AnimationFactory::BlendColor(
-                WHITE, (Color){255, 138, 39, 255}, t);
-            valueColor = AnimationFactory::BlendColor(BLACK, WHITE, t);
-        } else if (GetNodeState() == State::Iterated) {
-            borderColor = (Color){255, 138, 39, 255};
-            defaultColor = AnimationFactory::BlendColor(
-                (Color){255, 138, 39, 255}, WHITE, t);
-            valueColor = AnimationFactory::BlendColor(
-                WHITE, (Color){255, 138, 39, 255}, t);
-        }
-    } else {
-        if (GetNodeState() == State::Active) {
-            borderColor = (Color){255, 138, 39, 255};
-            defaultColor = (Color){255, 138, 39, 255};
-            valueColor = WHITE;
-        } else if (GetNodeState() == State::Iterated) {
-            borderColor = (Color){255, 138, 39, 255};
-            defaultColor = WHITE;
-            valueColor = (Color){255, 138, 39, 255};
-        }
-    }
+    Color borderColor = GetOutlineColor(t);
+    Color defaultColor = GetBackgroundColor(t);
+    Color valueColor = GetTextColor(t);
 
     DrawCircleV((Vector2){base.x, base.y}, mRadius, borderColor);
     DrawCircleV((Vector2){base.x, base.y}, mRadius * 4 / 5, defaultColor);
@@ -122,3 +87,52 @@ void GUI::Node::SetLabelFontSize(int fontSize) { labelFontSize = fontSize; }
 void GUI::Node::SetNodeState(State state) { mNodeState = state; }
 
 GUI::Node::State GUI::Node::GetNodeState() const { return mNodeState; }
+
+Color GUI::Node::GetOutlineColor(float t) {
+    Color src, dst;
+    std::tie(src, dst) = mOutlineColor[GetNodeState()];
+
+    if (!animateNode) return dst;
+    return AnimationFactory::BlendColor(src, dst, t);
+}
+
+Color GUI::Node::GetBackgroundColor(float t) {
+    Color src, dst;
+    std::tie(src, dst) = mBackgroundColor[GetNodeState()];
+
+    if (!animateNode) return dst;
+    return AnimationFactory::BlendColor(src, dst, t);
+}
+
+Color GUI::Node::GetTextColor(float t) {
+    Color src, dst;
+    std::tie(src, dst) = mTextColor[GetNodeState()];
+
+    if (!animateNode) return dst;
+    return AnimationFactory::BlendColor(src, dst, t);
+}
+
+void GUI::Node::AddColor() {
+    // (src, dst)
+    // Outline color
+    mOutlineColor[State::Default] = {BLACK, BLACK};
+    mOutlineColor[State::Active] = {BLACK, (Color){255, 138, 39, 255}};
+    mOutlineColor[State::ActiveBlue] = {BLACK, (Color){46, 187, 209, 255}};
+    mOutlineColor[State::ActiveGreen] = {BLACK, (Color){82, 188, 105, 255}};
+    mOutlineColor[State::Iterated] = {(Color){255, 138, 39, 255},
+                                      (Color){255, 138, 39, 255}};
+
+    // Background color
+    mBackgroundColor[State::Default] = {WHITE, WHITE};
+    mBackgroundColor[State::Active] = {WHITE, (Color){255, 138, 39, 255}};
+    mBackgroundColor[State::ActiveBlue] = {WHITE, (Color){46, 187, 209, 255}};
+    mBackgroundColor[State::ActiveGreen] = {WHITE, (Color){82, 188, 105, 255}};
+    mBackgroundColor[State::Iterated] = {(Color){255, 138, 39, 255}, WHITE};
+
+    // Text color
+    mTextColor[State::Default] = {BLACK, BLACK};
+    mTextColor[State::Active] = {BLACK, WHITE};
+    mTextColor[State::ActiveBlue] = {BLACK, WHITE};
+    mTextColor[State::ActiveGreen] = {BLACK, WHITE};
+    mTextColor[State::Iterated] = {WHITE, (Color){255, 138, 39, 255}};
+}

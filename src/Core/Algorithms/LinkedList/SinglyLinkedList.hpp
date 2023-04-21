@@ -63,6 +63,10 @@ namespace Algorithm {
         SLLAnimation GenerateAnimation(float duration, int highlightLine,
                                        std::string actionDescription);
         void InitAction(std::vector< std::string > code);
+
+        std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float,
+                                             Vector2) >
+        HighlightArrowFromCur(int index);
     };
 };  // namespace Algorithm
 
