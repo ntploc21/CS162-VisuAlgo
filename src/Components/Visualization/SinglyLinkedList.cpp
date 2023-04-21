@@ -77,8 +77,9 @@ GUI::SinglyLinkedList::ArrowType GUI::SinglyLinkedList::GetArrowType(
 }
 
 void GUI::SinglyLinkedList::ResetArrow() {
-    arrowState.assign(list.size() - 1, ArrowType::Default);
-    arrowState.resize(list.size() - 1);
+    std::size_t resize = std::max(0, int(list.size() - 1));
+    arrowState.assign(resize, ArrowType::Default);
+    arrowState.resize(resize);
 }
 
 void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {

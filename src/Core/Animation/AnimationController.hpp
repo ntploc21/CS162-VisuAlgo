@@ -192,14 +192,14 @@ float Animation::AnimationController< T >::GetAnimationDuration() {
 template< typename T >
 void Animation::AnimationController< T >::Update(float dt) {
     if (animationGroup.empty()) return;
-    animationGroup[mCurrentAnimationIndex].Update(GetAnimateFrame(dt));
+    dt = GetAnimateFrame(dt);
+    animationGroup[mCurrentAnimationIndex].Update(dt);
     if (IsPlaying() && animationGroup[mCurrentAnimationIndex].Done()) {
-        if (GetStopDuration() == stopDuration) {
+        if (GetStopDuration() >= stopDuration) {
             SetAnimation(mCurrentAnimationIndex + 1);
             currStopDuration = 0.0f;
         } else {
-            currStopDuration =
-                std::min(currStopDuration + GetAnimateFrame(dt), stopDuration);
+            currStopDuration = currStopDuration + dt;
         }
     }
     if (Done()) Pause();

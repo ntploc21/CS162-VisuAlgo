@@ -610,7 +610,7 @@ SLLAnimation Algorithm::SinglyLinkedList::GenerateAnimation(
 
 void Algorithm::SinglyLinkedList::InitAction(std::vector< std::string > code) {
     animController->Reset();
-    animController->Pause();
+    // animController->Pause();
     animController->InteractionAllow();
     animController->Clear();
     codeHighlighter->AddCode(code);
