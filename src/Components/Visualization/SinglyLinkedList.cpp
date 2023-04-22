@@ -108,3 +108,16 @@ void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
         // if(arrowState[i])
     }
 }
+
+void GUI::SinglyLinkedList::DeleteNode(std::size_t index, bool rePosition) {
+    list.erase(list.begin() + index);
+    if (!arrowState.empty())
+        arrowState.erase(arrowState.begin() +
+                         std::min(index, arrowState.size() - 1));
+
+    if (!rePosition) return;
+    float nodeDist = 20;
+    for (int i = index; i < list.size(); i++) {
+        list.at(i).SetPosition(i * (40 + nodeDist), 0);
+    }
+}

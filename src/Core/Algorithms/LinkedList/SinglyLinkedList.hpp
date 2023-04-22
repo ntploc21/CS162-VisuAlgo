@@ -66,7 +66,8 @@ namespace Algorithm {
 
         std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float,
                                              Vector2) >
-        HighlightArrowFromCur(int index);
+        HighlightArrowFromCur(int index, bool drawVisualizer = true,
+                              bool reverse = false);
     };
 };  // namespace Algorithm
 

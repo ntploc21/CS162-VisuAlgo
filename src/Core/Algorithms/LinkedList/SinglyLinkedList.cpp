@@ -93,8 +93,6 @@ void Algorithm::SinglyLinkedList::ApplyInput(std::vector< int > input) {
     animController->InteractionLock();
 }
 
-void Algorithm::SinglyLinkedList::Insert(int index, int value) {}
-
 void Algorithm::SinglyLinkedList::InsertHead(int value) {
     if (visualizer.GetList().size() == maxN) return;
     InitAction(
@@ -498,11 +496,295 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
 
 void Algorithm::SinglyLinkedList::Delete(int index) {}
 
-void Algorithm::SinglyLinkedList::DeleteHead() {}
+void Algorithm::SinglyLinkedList::DeleteHead() {
+    InitAction({"if(head == nullptr) return; // empty, do nothing",
+                "Node *del = head;", "head = head->next;", "delete del;"});
+    auto& nodes = visualizer.GetList();
+    if (!nodes.size()) {
+        SLLAnimation animNoElement = GenerateAnimation(
+            0.75, 0,
+            "head is currently NULL, so there is no element to delete.");
+        animController->AddAnimation(animNoElement);
+        return;
+    }
+    nodes[0].SetLabel("head/0");
+    nodes[0].AnimationOnNode(true);
+    nodes[0].SetNodeState(GUI::Node::State::Active);
+    SLLAnimation anim1 = GenerateAnimation(
+        0.75, 0, "head is exist, so we proceed to the next step");
+    animController->AddAnimation(anim1);
 
-void Algorithm::SinglyLinkedList::DeleteTail() {}
+    nodes[0].AnimationOnNode(false);
+    nodes[0].SetLabel("head/del/0");
 
-void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {}
+    if (nodes.size() > 1)
+
+        nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 1));
+
+    SLLAnimation anim2 =
+        GenerateAnimation(0.75, 1, "The head is the only vertex in this List.");
+    if (nodes.size() > 1)
+        anim2.SetActionDescription("The head has a next node");
+
+    animController->AddAnimation(anim2);
+    nodes[0].SetLabel("del");
+
+    if (nodes.size() == 1) {
+        SLLAnimation anim3 =
+            GenerateAnimation(0.75, 1, "Head points to next (which is null).");
+        animController->AddAnimation(anim3);
+
+        SLLAnimation anim4 = GenerateAnimation(
+            0.75, 3, "Remove head vertex.\nWe now have an empty List.");
+        anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
+                                  Vector2 base) {
+            auto& node = srcDS.GetList().front();
+
+            node.SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+            node.SetValueFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
+            node.SetLabelFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+
+            srcDS.Draw(base, playingAt);
+            return srcDS;
+        });
+        visualizer.DeleteNode(0);
+        animController->AddAnimation(anim4);
+
+        return;
+    }
+    nodes[1].SetLabel("head/0");
+    nodes[1].AnimationOnNode(true);
+    nodes[1].SetNodeState(GUI::Node::State::ActiveGreen);
+    nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 2));
+    SLLAnimation anim3 =
+        GenerateAnimation(0.75, 2, "head points to the next node.");
+    anim3.SetAnimation(HighlightArrowFromCur(0));
+    animController->AddAnimation(anim3);
+
+    visualizer.SetArrowType(0, ArrowType::Hidden);
+    nodes[1].AnimationOnNode(false);
+    SLLAnimation anim4 = GenerateAnimation(
+        0.75, 3, "Delete del, which was the (previous) head.");
+    anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
+                              Vector2 base) {
+        auto& nodes = srcDS.GetList();
+
+        nodes[0].SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+        nodes[0].SetValueFontSize(
+            AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
+        nodes[0].SetLabelFontSize(
+            AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+
+        srcDS.Draw(base, playingAt);
+
+        base.x += srcDS.GetPosition().x;
+        base.y += srcDS.GetPosition().y;
+
+        Vector2 start = nodes[0].GetPosition();
+        Vector2 end = nodes[1].GetPosition();
+
+        start.x += base.x, start.y += base.y;
+        end.x += base.x, end.y += base.y;
+        AnimationFactory::DrawDirectionalArrow(start, end, true,
+                                               1.0f - playingAt);
+
+        return srcDS;
+    });
+    animController->AddAnimation(anim4);
+
+    visualizer.DeleteNode(0);
+    visualizer.SetPosition(visualizer.GetPosition().x + 60,
+                           visualizer.GetPosition().y);
+
+    float length = 40 * visualizer.GetList().size() +
+                   20 * (visualizer.GetList().size() - 1);
+    float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+    SLLAnimation anim5 = GenerateAnimation(
+        0.5, -1,
+        "Re-layout the Linked List for visualization (not in the actual Linked "
+        "List).\nThe whole process is still O(1).");
+    anim5.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
+                                          float playingAt, Vector2 base) {
+        Vector2 newPos = srcDS.GetPosition();
+        newPos.x += (actualPosX - newPos.x) * playingAt;
+        srcDS.SetPosition(newPos);
+
+        srcDS.Draw(base, playingAt);
+
+        return srcDS;
+    });
+    animController->AddAnimation(anim5);
+
+    visualizer.Relayout();
+}
+
+void Algorithm::SinglyLinkedList::DeleteTail() {
+    InitAction({"if(head == nullptr) return; // empty, do nothing",
+                "Node *pre = head, *temp = head->next;", "while(temp != tail)",
+                "	pre = temp, temp = temp->next; // pre->next = tmp",
+                "tail = pre, tail->next = nullptr;", "delete temp;"});
+    auto& nodes = visualizer.GetList();
+    if (nodes.size() <= 1) {
+        DeleteHead();
+        return;
+    }
+
+    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+
+    {  // Line 1
+        nodes[0].SetLabel("head/0");
+        nodes[0].SetNodeState(GUI::Node::State::Active);
+        SLLAnimation anim1 = GenerateAnimation(
+            0.75, 0, "head is exist, so we proceed to the next step");
+        animController->AddAnimation(anim1);
+        nodes[0].AnimationOnNode(false);
+    }
+
+    {  // Line 2
+        nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetLabel("head/pre/0");
+
+        nodes[1].SetNodeState(GUI::Node::ActiveGreen);
+        nodes[1].SetLabel("temp/1");
+        SLLAnimation anim1 = GenerateAnimation(
+            0.75, 1, "Set pre to head. And temp to pre->next");
+        anim1.SetAnimation(HighlightArrowFromCur(0));
+        visualizer.SetArrowType(0, ArrowType::Active);
+        animController->AddAnimation(anim1);
+        nodes[1].AnimationOnNode(false);
+    }
+
+    nodes[0].AnimationOnNode(false);
+    nodes.back().SetNodeState(GUI::Node::Active);
+    for (int k = 0; k <= nodes.size() - 2; k++) {
+        {  // Line 2
+            // if (k == nodes.size() - 1) nodes.back().AnimationOnNode(true);
+            SLLAnimation animLoop1 = GenerateAnimation(
+                0.75, 2, "Check if temp is pointing at tail yet.");
+            animController->AddAnimation(animLoop1);
+        }
+
+        if (k == nodes.size() - 2) break;
+        nodes[k].AnimationOnNode(true);
+        nodes[k + 1].AnimationOnNode(true);
+        nodes.back().AnimationOnNode(false);
+
+        {  // Line 3
+            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].ClearLabel();
+            if (k == 0) nodes[k].SetLabel("head/0");
+
+            nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
+            nodes[k + 1].SetNodeState(GUI::Node::Active);
+
+            nodes[k + 2].SetLabel("temp/" + std::to_string(k + 2));
+            nodes[k + 2].SetNodeState(GUI::Node::ActiveGreen);
+
+            if (k + 2 == nodes.size() - 1) {
+                nodes[k + 2].SetLabel("tail/temp/" + std::to_string(k + 2));
+            }
+
+            SLLAnimation animLoop2 =
+                GenerateAnimation(0.75, 3,
+                                  "temp is not at tail yet.\nSo both pre and "
+                                  "temp pointers advance to their next node.");
+            animLoop2.SetAnimation(HighlightArrowFromCur(k + 1));
+            animController->AddAnimation(animLoop2);
+            visualizer.SetArrowType(k + 1, ArrowType::Active);
+
+            nodes[k].AnimationOnNode(false);
+            nodes[k + 1].AnimationOnNode(false);
+            nodes[k + 2].AnimationOnNode(false);
+        }
+    }
+    nodes[nodes.size() - 2].SetLabel("tail/pre/" +
+                                     std::to_string(nodes.size() - 2));
+    if (nodes.size() == 2) {
+        nodes.front().SetLabel("head/tail/pre/0");
+    }
+    nodes.back().SetLabel("temp");
+    visualizer.SetArrowType(nodes.size() - 2, ArrowType::Hidden);
+    SLLAnimation anim5 = GenerateAnimation(
+        0.75, 4,
+        "temp is now point to tail. Set the tail to point at pre (the new "
+        "tail) and remove link from current tail to previous tail.");
+    anim5.SetAnimation(HighlightArrowFromCur(nodes.size() - 2, true, true));
+
+    nodes[nodes.size() - 2].SetNodeState(GUI::Node::ActiveBlue);
+    nodes[nodes.size() - 2].AnimationOnNode(true);
+
+    SLLAnimation anim6 =
+        GenerateAnimation(0.75, 5,
+                          "Delete temp (the previous tail).\nThe whole process "
+                          "is O(N) just to find the pre pointer.");
+    anim6.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
+                              Vector2 base) {
+        auto& nodes = srcDS.GetList();
+
+        nodes.back().SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) *
+                               20);
+        nodes.back().SetValueFontSize(
+            AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
+        nodes.back().SetLabelFontSize(
+            AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+
+        srcDS.Draw(base, playingAt);
+
+        base.x += srcDS.GetPosition().x;
+        base.y += srcDS.GetPosition().y;
+
+        Vector2 start = nodes[nodes.size() - 2].GetPosition();
+        Vector2 end = nodes.back().GetPosition();
+
+        start.x += base.x, start.y += base.y;
+        end.x += base.x, end.y += base.y;
+        AnimationFactory::DrawDirectionalArrow(start, end, true,
+                                               1.0f - playingAt);
+
+        return srcDS;
+    });
+    animController->AddAnimation(anim6);
+    visualizer.DeleteNode(nodes.size() - 1, true);
+
+    float length = 40 * visualizer.GetList().size() +
+                   20 * (visualizer.GetList().size() - 1);
+    float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+    SLLAnimation animEnd = GenerateAnimation(
+        0.5, -1,
+        "Re-layout the Linked List for visualization (not in the actualLinked "
+        "List).\nThe whole process is still O(1).");
+    animEnd.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
+                                            float playingAt, Vector2 base) {
+        Vector2 newPos = srcDS.GetPosition();
+        newPos.x += (actualPosX - newPos.x) * playingAt;
+        srcDS.SetPosition(newPos);
+
+        srcDS.Draw(base, playingAt);
+
+        return srcDS;
+    });
+    animController->AddAnimation(animEnd);
+
+    visualizer.Relayout();
+}
+
+void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
+    InitAction({"if(head == nullptr) return; // empty, do nothing",
+                "Node *pre = head;", "for(int k=0;k<i-1;k++)",
+                "	pre = pre->next;",
+                "Node *del = pre->next, *aft = del->next;",
+                "pre->next = aft; // bypass del", "delete del;"});
+    auto& nodes = visualizer.GetList();
+    if (!nodes.size()) {
+        SLLAnimation animNoElement = GenerateAnimation(
+            0.75, 0,
+            "head is currently NULL, so there is no element to delete.");
+        animController->AddAnimation(animNoElement);
+        return;
+    }
+}
 
 void Algorithm::SinglyLinkedList::Update(int index, int value) {
     InitAction({"if(head == nullptr) return; // NO_ELEMENT",
@@ -632,7 +914,7 @@ void Algorithm::SinglyLinkedList::Search(int value) {
             animLoop3 = GenerateAnimation(
                 0.5, 2,
                 "Found value v = " + std::to_string(value) +
-                    " at this highlighted vertex so we return index " +
+                    " at this highlighted vertex so we return node at index " +
                     std::to_string(i) + ".\nThe whole operation is O(N)");
             found = true;
             nodes[i].ClearLabel();
@@ -673,8 +955,10 @@ void Algorithm::SinglyLinkedList::Search(int value) {
         SLLAnimation animNotFound = GenerateAnimation(
             0.5, 5,
             "cur is null (we have gone past the tail after O(N) step(s)).\n"
-            "We can conclude that value v = 90 is NOT FOUND in the Linked "
-            "List");
+            "We can conclude that value v = " +
+                std::to_string(value) +
+                " is NOT FOUND in the Linked "
+                "List");
         animController->AddAnimation(animNotFound);
     }
 
@@ -706,11 +990,13 @@ void Algorithm::SinglyLinkedList::InitAction(std::vector< std::string > code) {
 }
 
 std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float, Vector2) >
-Algorithm::SinglyLinkedList::HighlightArrowFromCur(int index) {
-    return [this, index](GUI::SinglyLinkedList srcDS, float playingAt,
-                         Vector2 base) {
+Algorithm::SinglyLinkedList::HighlightArrowFromCur(int index,
+                                                   bool drawVisualizer,
+                                                   bool reverse) {
+    return [this, index, drawVisualizer, reverse](
+               GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
         auto& nodes = srcDS.GetList();
-        srcDS.Draw(base, playingAt);
+        if (drawVisualizer) srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;
         base.y += srcDS.GetPosition().y;
 
@@ -724,6 +1010,7 @@ Algorithm::SinglyLinkedList::HighlightArrowFromCur(int index) {
         start.x += base.x, start.y += base.y;
         end.x += base.x, end.y += base.y;
 
+        if (reverse) playingAt = 1.0f - playingAt;
         AnimationFactory::DrawActiveArrow(start, end, playingAt);
         return srcDS;
     };

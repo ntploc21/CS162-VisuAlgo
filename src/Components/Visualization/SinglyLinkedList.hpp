@@ -34,6 +34,7 @@ namespace GUI {
         void Import(std::vector< int > nodes);
         void InsertNode(std::size_t index, GUI::Node node,
                         bool rePosition = true);
+        void DeleteNode(std::size_t index, bool rePosition = true);
         void Relayout();
 
     public:
