@@ -7,6 +7,7 @@
 QueueState::QueueState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::Queue) {
     AddOperations();
+    queue = Algorithm::Queue(codeHighlighter, animController, context.fonts);
 }
 
 QueueState::~QueueState() {}
@@ -19,8 +20,11 @@ void QueueState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+
+    animController->GetAnimation().Draw();
     codeHighlighter->Draw();
     footer.Draw(animController.get());
+    DrawCurrentActionText();
 }
 
 void QueueState::AddInsertOperation() {
@@ -35,10 +39,9 @@ void QueueState::AddInsertOperation() {
         container, "Enqueue v = … to the front of the queue",
         {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Enqueue v = … to the front of the queue" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int value = std::stoi(input["v = "]);
+            queue.Enqueue(value);
+            SetCurrentAction("Enqueue " + input["v = "] + " at back (tail)");
         });
 
     /* ====================================== */
@@ -53,40 +56,35 @@ void QueueState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty",
-                              [this]() { std::cout << "Empty" << std::endl; });
+    AddNoFieldOperationOption(container, "Empty", [this]() { queue.Empty(); });
 
     /* Random */
 
     AddNoFieldOperationOption(container, "Random",
-                              [this]() { std::cout << "Random" << std::endl; });
+                              [this]() { queue.Random(); });
 
     /* Random Sorted */
-    AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-        std::cout << "Random Sorted" << std::endl;
-    });
+    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
+    //     std::cout << "Random Sorted" << std::endl;
+    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
-        container, "Random Fixed Size", {{"i = ", 50, 0, 9}},
+        container, "Random Fixed Size", {{"N = ", 50, 0, queue.maxN}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Random Fixed Size parameters:" << std::endl;
+            assert(input.size() == 1);
+            assert(input.begin()->first == "N = ");
 
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            queue.RandomFixedSize(std::stoi(input.begin()->second));
         });
 
     /* User defined */
-    AddStringFieldOption(
-        container, "--- User defined list ---",
-        "arr = ", [this](std::map< std::string, std::string > input) {
-            std::cout << "--- User defined list --- parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
+    AddStringFieldOption(container, "--- User defined list ---", "arr = ",
+                         [this](std::map< std::string, std::string > input) {
+                             assert(input.size() == 1);
+                             assert(input.begin()->first == "arr = ");
+                             queue.UserDefined(input.begin()->second);
+                         });
 
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);
@@ -102,7 +100,8 @@ void QueueState::AddDeleteOperation() {
     /* Dequeue */
 
     AddNoFieldOperationOption(container, "Dequeue the front", [this]() {
-        std::cout << "Dequeue the front" << std::endl;
+        queue.Dequeue();
+        SetCurrentAction("Remove i = 0 (Head)");
     });
     operationList.AddOperation(buttonDelete, container);
 }
@@ -115,8 +114,14 @@ void QueueState::AddSearchOperation() {
 
     /* Peek */
 
-    AddNoFieldOperationOption(container, "Peek front", [this]() {
-        std::cout << "Peek front" << std::endl;
+    AddNoFieldOperationOption(container, "Front", [this]() {
+        queue.PeekFront();
+        SetCurrentAction("Peek front (head)");
+    });
+
+    AddNoFieldOperationOption(container, "Back", [this]() {
+        queue.PeekBack();
+        SetCurrentAction("Peek back (tail)");
     });
 
     operationList.AddOperation(buttonSearch, container);
