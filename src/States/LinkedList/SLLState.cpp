@@ -146,33 +146,37 @@ void SLLState::AddDeleteOperation() {
 
     /* Delete head */
 
-    AddNoFieldOperationOption(container, "i = 0 (Head)",
-                              [this]() { SLL.DeleteHead(); });
+    AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
+        SLL.DeleteHead();
+        SetCurrentAction("Remove i = 0 (Head)");
+    });
 
     /* Delete tail */
-    AddNoFieldOperationOption(container, "i = N-1 (Tail)",
-                              [this]() { SLL.DeleteTail(); });
+    AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
+        SLL.DeleteTail();
+        SetCurrentAction("Remove i = N-1 (Tail)");
+    });
 
     /* Delete specific element */
 
     AddIntFieldOperationOption(
         container, "Specify i in [1..N-2]", {{"i = ", 50, 0, SLL.maxN}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify i in [1..N-1]" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            if (!(i > 0 && i < SLL.maxN)) return;
+            SLL.DeleteMiddle(i);
+            SetCurrentAction("Remove i = " + input["i = "]);
         });
     /* Delete elements with specific value */
 
-    AddIntFieldOperationOption(
-        container, "Specify v", {{"v = ", 50, 0, 99}},
-        [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify v" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
+    // AddIntFieldOperationOption(
+    //     container, "Specify v", {{"v = ", 50, 0, 99}},
+    //     [this](std::map< std::string, std::string > input) {
+    //         std::cout << "Specify v" << std::endl;
+    //         for (auto it : input) {
+    //             std::cout << it.first << it.second << std::endl;
+    //         }
+    //     });
     operationList.AddOperation(buttonDelete, container);
 }
 

@@ -121,6 +121,7 @@ void GUI::Node::AddColor() {
     mOutlineColor[State::ActiveGreen] = {BLACK, (Color){82, 188, 105, 255}};
     mOutlineColor[State::Iterated] = {(Color){255, 138, 39, 255},
                                       (Color){255, 138, 39, 255}};
+    mOutlineColor[State::ActiveRed] = {BLACK, (Color){217, 81, 60, 255}};
 
     // Background color
     mBackgroundColor[State::Default] = {WHITE, WHITE};
@@ -128,6 +129,7 @@ void GUI::Node::AddColor() {
     mBackgroundColor[State::ActiveBlue] = {WHITE, (Color){46, 187, 209, 255}};
     mBackgroundColor[State::ActiveGreen] = {WHITE, (Color){82, 188, 105, 255}};
     mBackgroundColor[State::Iterated] = {(Color){255, 138, 39, 255}, WHITE};
+    mBackgroundColor[State::ActiveRed] = {WHITE, (Color){217, 81, 60, 255}};
 
     // Text color
     mTextColor[State::Default] = {BLACK, BLACK};
@@ -135,4 +137,5 @@ void GUI::Node::AddColor() {
     mTextColor[State::ActiveBlue] = {BLACK, WHITE};
     mTextColor[State::ActiveGreen] = {BLACK, WHITE};
     mTextColor[State::Iterated] = {WHITE, (Color){255, 138, 39, 255}};
+    mTextColor[State::ActiveRed] = {BLACK, WHITE};
 }

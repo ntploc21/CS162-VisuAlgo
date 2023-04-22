@@ -13,6 +13,7 @@ namespace GUI {
             Active,
             ActiveBlue,
             ActiveGreen,
+            ActiveRed,
             Iterated,
             Count,
         };
