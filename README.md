@@ -35,6 +35,8 @@ Will be updated soon
         - [**Common/**](src/Components/Common/) contains commonly used UI components (e.g Button, etc).
         - [**Visualization/**](src/Components/Visualization/) contains UI components used mainly for visualization (e.g ```GUI::Node```, ```GUI::SinglyLinkedList```, etc).
     - [**Core/**](src/Core) processes visualization.
+        - [**Animation/**](src/Core/Animation) processes animation (navigating animation, define an animation, etc)
+        - [**Algorithms/**](src/Core/Algorithms/) generate step-by-step instruction for animating/visualizing the data structures and algorithms
     - [**States/**](src/States) contains VisuAlgo scene
     - [**Identifiers/**](src/Identifiers) contains VisuAlgo identifiers for scene, font, and stuff
 - [**include/**](include) contains the library header files
