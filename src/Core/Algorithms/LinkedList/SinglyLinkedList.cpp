@@ -3,9 +3,7 @@
 #include <algorithm>
 #include <cstring>
 #include <iomanip>
-#include <mutex>
 
-#include "Core/Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
 using ArrowType = GUI::SinglyLinkedList::ArrowType;
@@ -15,84 +13,13 @@ Algorithm::SinglyLinkedList::SinglyLinkedList() {}
 Algorithm::SinglyLinkedList::SinglyLinkedList(
     GUI::CodeHighlighter::Ptr codeHighlighter,
     SLLAnimationController::Ptr animController, FontHolder* fonts)
-    : codeHighlighter(codeHighlighter), animController(animController),
-      visualizer(GUI::SinglyLinkedList(fonts)), create(Algorithm::Create()) {
-    visualizer.SetPosition(0, 150);
+    : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
     InitSLL();
 }
 
 Algorithm::SinglyLinkedList::~SinglyLinkedList() {}
 
 void Algorithm::SinglyLinkedList::InitSLL() { Random(); }
-
-void Algorithm::SinglyLinkedList::Empty() { ApplyInput({}); }
-
-void Algorithm::SinglyLinkedList::Random() {
-    std::vector< int > input = create.Random();
-    ApplyInput(input);
-}
-
-void Algorithm::SinglyLinkedList::RandomFixedSize(int N) {
-    std::vector< int > input = create.RandomFixedSize(N);
-    ApplyInput(input);
-}
-
-void Algorithm::SinglyLinkedList::UserDefined(std::string input) {
-    std::mutex m;
-    bool canParse =
-        (!input.empty() &&
-         std::all_of(
-             input.begin(), input.end(),
-             [](char c) { return ('0' <= c && c <= '9') || (c == ','); }) &&
-         input.back() != ',');
-    if (!canParse) {
-        Empty();
-        return;
-    }
-    std::vector< int > inputArr;
-
-    for (int i = 0, j = 0; j < input.size(); i = j) {
-        while (j < input.size() && input[j] != ',') j++;
-        int num = std::stoi(input.substr(i, j - i));
-        inputArr.emplace_back(num);
-        j++;
-    }
-    ApplyInput(inputArr);
-}
-
-void Algorithm::SinglyLinkedList::ReadFromExternalFile(std::string path) {}
-
-void Algorithm::SinglyLinkedList::Sorted() {}
-
-void Algorithm::SinglyLinkedList::ApplyInput(std::vector< int > input) {
-    if (input.size() > maxN) input.resize(maxN);
-    InitAction({});
-    codeHighlighter->SetShowCode(false);
-    codeHighlighter->SetShowAction(false);
-
-    visualizer.GetList().clear();
-    visualizer.Import(input);
-
-    SLLAnimation state;
-    state.SetDuration(0.5);
-    state.SetHighlightLine(-1);
-    state.SetSourceDataStructure(visualizer);
-    state.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                              Vector2 base) {
-        auto& nodes = srcDS.GetList();
-        for (GUI::Node& node : nodes) {
-            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
-            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
-            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
-        }
-        srcDS.Draw(base, playingAt, true);
-        return srcDS;
-    });
-    animController->AddAnimation(state);
-    animController->Reset();
-    animController->InteractionLock();
-}
-
 void Algorithm::SinglyLinkedList::InsertHead(int value) {
     if (visualizer.GetList().size() == maxN) return;
     InitAction(
@@ -185,7 +112,10 @@ void Algorithm::SinglyLinkedList::InsertHead(int value) {
 
 void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
     int prvSize = visualizer.GetList().size();
-    if (prvSize == 0) InsertHead(value);
+    if (prvSize == 0) {
+        InsertHead(value);
+        return;
+    }
     if (prvSize == maxN) return;
     if (visualizer.GetList().size() == maxN) return;
 
@@ -1180,26 +1110,6 @@ void Algorithm::SinglyLinkedList::Search(int value) {
         node.SetNodeState(GUI::Node::Default);
     }
     visualizer.ResetArrow();
-}
-
-SLLAnimation Algorithm::SinglyLinkedList::GenerateAnimation(
-    float duration, int highlightLine, std::string actionDescription) {
-    SLLAnimation animation;
-    animation.SetDuration(duration);
-    animation.SetHighlightLine(highlightLine);
-    animation.SetSourceDataStructure(visualizer);
-    animation.SetActionDescription(actionDescription);
-    return animation;
-}
-
-void Algorithm::SinglyLinkedList::InitAction(std::vector< std::string > code) {
-    animController->Reset();
-    // animController->Pause();
-    animController->InteractionAllow();
-    animController->Clear();
-    codeHighlighter->AddCode(code);
-    codeHighlighter->SetShowCode(true);
-    codeHighlighter->SetShowAction(true);
 }
 
 std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float, Vector2) >
