@@ -109,7 +109,8 @@ T Animation::AnimationState< T >::GetDataStructure(float progress,
 template< typename T >
 void Animation::AnimationState< T >::Update(float dt) {
     mCurrentPlayingAt += dt;
-    if (mCurrentPlayingAt > mDuration) mCurrentPlayingAt = mDuration;
+    if (mCurrentPlayingAt > mDuration + 1.0f)
+        mCurrentPlayingAt = mDuration + 1.0f;
 }
 
 template< typename T >
@@ -119,7 +120,7 @@ void Animation::AnimationState< T >::Reset() {
 
 template< typename T >
 bool Animation::AnimationState< T >::Done() const {
-    return mCurrentPlayingAt == mDuration;
+    return mCurrentPlayingAt >= mDuration;
 }
 
 template< typename T >
