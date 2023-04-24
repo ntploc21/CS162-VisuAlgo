@@ -137,11 +137,14 @@ add_executable(${PROJECT_NAME}
     src/Core/Animation/AnimationFactory.cpp
 
     ## Algorithms
+    ### Array
+    src/Core/Algorithms/Array/StaticArray.cpp
     ### LinkedList
     # src/Core/DataStructures/LinkedList/BaseNode.hpp
     # src/Core/Algorithms/Algorithm.cpp
     src/Core/Algorithms/LinkedList/SinglyLinkedList.cpp
     src/Core/Algorithms/LinkedList/Queue.cpp
+    src/Core/Algorithms/LinkedList/Stack.cpp
     
 
     ### Add
