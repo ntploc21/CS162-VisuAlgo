@@ -4,17 +4,22 @@
 
 #include "Core/Animation/AnimationFactory.hpp"
 
+void GUI::Node::SetShape(Shape shape) { mShape = shape; }
+
+GUI::Node::Shape GUI::Node::GetShape() const { return mShape; }
+
 GUI::Node::Node(int value, FontHolder* fonts)
     : fonts(fonts), mValue(value), mRadius(20.0f), valueFontSize(24),
       labelFontSize(20), mDefaultColor(WHITE), mActiveColor(ORANGE),
-      mBorderColor(BLACK), animateNode(false), mNodeState(Default) {
+      mBorderColor(BLACK), animateNode(false), mNodeState(Default),
+      mReachable(true) {
     AddColor();
 }
 
 GUI::Node::Node()
     : mValue(0), mRadius(20.0f), valueFontSize(24), labelFontSize(20),
       mDefaultColor(WHITE), mActiveColor(ORANGE), mBorderColor(BLACK),
-      animateNode(false), mNodeState(Default) {
+      animateNode(false), mNodeState(Default), mReachable(true) {
     AddColor();
 }
 
@@ -76,8 +81,27 @@ void GUI::Node::DrawNode(Vector2 base, float t) {
     Color defaultColor = GetBackgroundColor(t);
     Color valueColor = GetTextColor(t);
 
-    DrawCircleV((Vector2){base.x, base.y}, mRadius, borderColor);
-    DrawCircleV((Vector2){base.x, base.y}, mRadius * 4 / 5, defaultColor);
+    if (mShape == Shape::Circle) {
+        DrawCircleV((Vector2){base.x, base.y}, mRadius, borderColor);
+        DrawCircleV((Vector2){base.x, base.y}, mRadius * 4 / 5, defaultColor);
+
+        if (!GetReachable())
+            DrawCircleV((Vector2){base.x, base.y}, mRadius,
+                        (Color){0, 0, 0, 64});
+    } else if (mShape == Shape::Square) {
+        DrawRectangleRec((Rectangle){base.x - mRadius, base.y - mRadius,
+                                     mRadius * 2, mRadius * 2},
+                         borderColor);
+        DrawRectangleRec(
+            (Rectangle){base.x - mRadius * 4 / 5, base.y - mRadius * 4 / 5,
+                        mRadius * 8 / 5, mRadius * 8 / 5},
+            defaultColor);
+
+        if (!GetReachable())
+            DrawRectangleRec((Rectangle){base.x - mRadius, base.y - mRadius,
+                                         mRadius * 2, mRadius * 2},
+                             (Color){0, 0, 0, 64});
+    }
 }
 
 void GUI::Node::SetValueFontSize(int fontSize) { valueFontSize = fontSize; }
@@ -139,3 +163,7 @@ void GUI::Node::AddColor() {
     mTextColor[State::Iterated] = {WHITE, (Color){255, 138, 39, 255}};
     mTextColor[State::ActiveRed] = {BLACK, WHITE};
 }
+
+void GUI::Node::SetReachable(bool reachable) { mReachable = reachable; }
+
+bool GUI::Node::GetReachable() const { return mReachable; }

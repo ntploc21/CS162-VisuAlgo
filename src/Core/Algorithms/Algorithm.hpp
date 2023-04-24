@@ -108,7 +108,6 @@ template< typename GUIAlgorithm, typename AnimationState >
 std::vector< int >
 Algorithm::Algorithm< GUIAlgorithm, AnimationState >::RandomFixedSizeGenerator(
     int nSize) {
-    // int nSize = atoi(params["nSize"].c_str());
     std::vector< int > answer(nSize);
     for (int& v : answer) v = Rand(1, 99);
     return answer;
@@ -208,14 +207,13 @@ void Algorithm::Algorithm< GUIAlgorithm, AnimationState >::ApplyInput(
     codeHighlighter->SetShowCode(false);
     codeHighlighter->SetShowAction(false);
 
-    visualizer.GetList().clear();
     visualizer.Import(input);
 
     AnimationState state;
     state.SetDuration(0.5);
     state.SetHighlightLine(-1);
     state.SetSourceDataStructure(visualizer);
-    state.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
+    state.SetAnimation([this](GUIAlgorithm srcDS, float playingAt,
                               Vector2 base) {
         auto& nodes = srcDS.GetList();
         for (GUI::Node& node : nodes) {

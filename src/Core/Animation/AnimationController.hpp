@@ -257,5 +257,7 @@ bool Animation::AnimationController< T >::IsPlaying() const {
 
 /* */
 typedef Animation::AnimationController< SLLAnimation > SLLAnimationController;
+typedef Animation::AnimationController< DArrayAnimation >
+    DArrayAnimationController;
 
 #endif  // CORE_ANIMATION_ANIMATIONCONTROLLER_HPP

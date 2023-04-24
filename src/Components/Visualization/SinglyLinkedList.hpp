@@ -34,6 +34,11 @@ namespace GUI {
         bool mDisplayHeadAndTail;
 
         Orientation mOrientation = Orientation::Horizontal;
+        GUI::Node::Shape mShape = GUI::Node::Shape::Circle;
+
+    public:
+        void SetShape(GUI::Node::Shape shape);
+        GUI::Node::Shape GetShape() const;
 
     public:
         SinglyLinkedList();

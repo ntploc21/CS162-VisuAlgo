@@ -5,6 +5,13 @@
 
 GUI::SinglyLinkedList::SinglyLinkedList(FontHolder* fonts)
     : mDisplayHeadAndTail(true), fonts(fonts) {}
+
+void GUI::SinglyLinkedList::SetShape(GUI::Node::Shape shape) {
+    mShape = shape;
+    for (GUI::Node& node : list) node.SetShape(shape);
+}
+
+GUI::Node::Shape GUI::SinglyLinkedList::GetShape() const { return mShape; }
 GUI::SinglyLinkedList::SinglyLinkedList() : mDisplayHeadAndTail(true) {}
 GUI::SinglyLinkedList::~SinglyLinkedList() {}
 
@@ -38,7 +45,8 @@ void GUI::SinglyLinkedList::SetOrientation(Orientation orientation) {
 std::vector< GUI::Node >& GUI::SinglyLinkedList::GetList() { return list; }
 
 GUI::Node GUI::SinglyLinkedList::GenerateNode(int value) {
-    return GUI::Node(value, fonts);
+    GUI::Node node = GUI::Node(value, fonts);
+    return node;
 }
 
 void GUI::SinglyLinkedList::Import(std::vector< int > nodes) {

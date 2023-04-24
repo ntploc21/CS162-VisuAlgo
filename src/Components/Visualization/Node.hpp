@@ -15,8 +15,23 @@ namespace GUI {
             ActiveGreen,
             ActiveRed,
             Iterated,
-            Count,
+
+            StateCount,
         };
+
+        enum Shape {
+            Circle,
+            Square,
+
+            ShapeCount,
+        };
+
+    private:
+        Shape mShape = Shape::Circle;
+
+    public:
+        void SetShape(Shape shape);
+        Shape GetShape() const;
 
     public:
         Node(int value, FontHolder* fonts);
@@ -54,6 +69,10 @@ namespace GUI {
         Color GetTextColor(float t = 1.0f);
         void AddColor();
 
+    public:
+        void SetReachable(bool reachable);
+        bool GetReachable() const;
+
     private:
         std::map< State, std::pair< Color, Color > > mOutlineColor;
         std::map< State, std::pair< Color, Color > > mBackgroundColor;
@@ -67,6 +86,7 @@ namespace GUI {
 
         std::string mLabel;
         State mNodeState;
+        bool mReachable;
 
     private:
         bool animateNode;

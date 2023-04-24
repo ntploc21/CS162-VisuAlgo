@@ -15,6 +15,8 @@ namespace Algorithm {
     public:
         static constexpr int maxN = 10;
         static constexpr ArrowType defaultArrowType = ArrowType::Hidden;
+        static constexpr GUI::Node::Shape defaultShape =
+            GUI::Node::Shape::Square;
 
     public:
         StaticArray();

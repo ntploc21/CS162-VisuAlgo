@@ -7,6 +7,9 @@
 DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
     : ArrayState(stack, context, DataStructures::DynamicArray) {
     AddOperations();
+
+    mDynamicArray =
+        Algorithm::DynamicArray(codeHighlighter, animController, context.fonts);
 }
 
 DynamicArrayState::~DynamicArrayState() {}
@@ -17,10 +20,12 @@ void DynamicArrayState::Draw() {
     DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
                   BLACK);
 
+    animController->GetAnimation().Draw();
     operationList.Draw();
     navigation.Draw();
     codeHighlighter->Draw();
     footer.Draw(animController.get());
+    DrawCurrentActionText();
 }
 
 void DynamicArrayState::AddInsertOperation() {
@@ -76,39 +81,31 @@ void DynamicArrayState::AddInitializeOperation() {
 
     /* Empty */
     AddNoFieldOperationOption(container, "Empty",
-                              [this]() { std::cout << "Empty" << std::endl; });
+                              [this]() { mDynamicArray.Empty(); });
 
     /* Random */
 
     AddNoFieldOperationOption(container, "Random",
-                              [this]() { std::cout << "Random" << std::endl; });
+                              [this]() { mDynamicArray.Random(); });
 
     /* Random Sorted */
-    AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-        std::cout << "Random Sorted" << std::endl;
-    });
+    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
+    //     std::cout << "Random Sorted" << std::endl;
+    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
-        container, "Random Fixed Size", {{"i = ", 50, 0, 9}},
+        container, "Random Fixed Size", {{"length = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Random Fixed Size parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int length = std::stoi(input["length = "]);
+            mDynamicArray.RandomFixedSize(length);
         });
 
     /* User defined */
-    AddStringFieldOption(
-        container, "--- User defined list ---",
-        "arr = ", [this](std::map< std::string, std::string > input) {
-            std::cout << "--- User defined list --- parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
+    AddStringFieldOption(container, "--- User defined list ---", "arr = ",
+                         [this](std::map< std::string, std::string > input) {
+                             mDynamicArray.UserDefined(input["arr = "]);
+                         });
 
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);

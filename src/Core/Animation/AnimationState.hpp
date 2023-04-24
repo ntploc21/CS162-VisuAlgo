@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "Components/Visualization/DataStructure.hpp"
+#include "Components/Visualization/DynamicArray.hpp"
 #include "Components/Visualization/SinglyLinkedList.hpp"
 #include "Container.hpp"
 
@@ -153,5 +154,6 @@ void Animation::AnimationState< T >::Draw(Vector2 base) {
 }
 
 typedef Animation::AnimationState< GUI::SinglyLinkedList > SLLAnimation;
+typedef Animation::AnimationState< GUI::DynamicArray > DArrayAnimation;
 
 #endif  // CORE_ANIMATION_ANIMATIONSTATE_HPP

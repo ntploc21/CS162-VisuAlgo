@@ -89,6 +89,22 @@ void AnimationFactory::DrawActiveArrow(Vector2 start, Vector2 end, float t) {
     DrawLineEx(start, end, 3, (Color){255, 138, 39, 255});
 }
 
+void AnimationFactory::DrawDoubleDirectionalArrow(Vector2 start, Vector2 end,
+                                                  bool activeStart,
+                                                  bool activeEnd, float t1,
+                                                  float t2) {
+    if (start.x == end.x && start.y == end.y) return;
+    if (std::max(t1, t2) < 0.20f) return;
+    float d = Dist(start, end);
+    Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
+
+    Vector2 unitVector = (Vector2){side.x / (d / 3), side.y / (d / 3)};
+    Vector2 invVector = InverseVector(unitVector);
+}
+
+void AnimationFactory::DrawDoubleActiveArrow(Vector2 start, Vector2 end,
+                                             float t1, float t2) {}
+
 void AnimationFactory::ReCalculateEnds(Vector2& start, Vector2& end,
                                        float radius) {
     if (start.x == end.x && start.y == end.y) return;

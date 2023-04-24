@@ -129,6 +129,7 @@ add_executable(${PROJECT_NAME}
     src/Components/Visualization/Node.cpp
     src/Components/Visualization/DataStructure.cpp
     src/Components/Visualization/SinglyLinkedList.cpp
+    src/Components/Visualization/DynamicArray.cpp
     
     # Core
     ## Animation
@@ -139,6 +140,7 @@ add_executable(${PROJECT_NAME}
     ## Algorithms
     ### Array
     src/Core/Algorithms/Array/StaticArray.cpp
+    src/Core/Algorithms/Array/DynamicArray.cpp
     ### LinkedList
     # src/Core/DataStructures/LinkedList/BaseNode.hpp
     # src/Core/Algorithms/Algorithm.cpp

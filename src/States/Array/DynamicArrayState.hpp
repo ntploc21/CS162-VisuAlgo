@@ -2,8 +2,12 @@
 #define STATES_ARRAY_DYNAMICARRAYSTATE_HPP
 
 #include "ArrayState.hpp"
+#include "Core/Algorithms/Array/DynamicArray.hpp"
 
-class DynamicArrayState : public ArrayState< SLLAnimationController > {
+class DynamicArrayState : public ArrayState< DArrayAnimationController > {
+private:
+    Algorithm::DynamicArray mDynamicArray;
+
 private:
     void AddInsertOperation();
     void AddInitializeOperation();

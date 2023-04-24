@@ -14,6 +14,7 @@ Algorithm::StaticArray::StaticArray(GUI::CodeHighlighter::Ptr codeHighlighter,
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
     visualizer.SetDefaultArrowType(ArrowType::Hidden);
     visualizer.SetShowHeadAndTail(false);
+    visualizer.SetShape(defaultShape);
     Random();
 }
 
