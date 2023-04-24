@@ -12,13 +12,28 @@ namespace GUI {
             Hidden,
             Active,
             Skip,
-            Count,
+            ArrowTypeCount,
         };
+
+        enum Orientation {
+            Horizontal,
+            Vertical,
+
+            OrientationCount,
+        };
+
+    public:
+        static constexpr float mNodeDistance = 20;
 
     private:
         FontHolder* fonts;
         std::vector< GUI::Node > list;
         std::vector< ArrowType > arrowState;
+
+        ArrowType defaultArrowType = ArrowType::Default;
+        bool mDisplayHeadAndTail;
+
+        Orientation mOrientation = Orientation::Horizontal;
 
     public:
         SinglyLinkedList();
@@ -27,6 +42,10 @@ namespace GUI {
         bool isSelectable() const;
         void Draw(Vector2 base = (Vector2){0, 0}, float t = 1.0f,
                   bool init = false);
+
+        void SetDefaultArrowType(ArrowType arrowType);
+        void SetShowHeadAndTail(bool show);
+        void SetOrientation(Orientation orientation);
 
     public:
         std::vector< GUI::Node >& GetList();
@@ -44,6 +63,9 @@ namespace GUI {
 
     private:
         void DrawArrow(Vector2 base, float t);
+
+    private:
+        Vector2 GetNodeDefaultPosition(std::size_t index);
     };
 };  // namespace GUI
 

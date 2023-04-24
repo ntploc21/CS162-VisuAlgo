@@ -13,18 +13,12 @@ namespace Algorithm {
     public:
         static constexpr int maxN = 10;
 
-    private:
-        // GUI::SinglyLinkedList visualizer;
-        // GUI::CodeHighlighter::Ptr codeHighlighter;
-        // SLLAnimationController::Ptr animController;
-
     public:
         SinglyLinkedList();
-        SinglyLinkedList(GUI::CodeHighlighter::Ptr _codeHighlighter,
+        SinglyLinkedList(GUI::CodeHighlighter::Ptr codeHighlighter,
                          SLLAnimationController::Ptr animController,
                          FontHolder* fonts);
         ~SinglyLinkedList();
-        void InitSLL();
 
     public:
         void InsertHead(int value);
@@ -32,7 +26,6 @@ namespace Algorithm {
         void InsertMiddle(int index, int value);
 
     public:
-        void Delete(int index);
         void DeleteHead();
         void DeleteTail();
         void DeleteMiddle(int index);
@@ -48,6 +41,9 @@ namespace Algorithm {
                                              Vector2) >
         HighlightArrowFromCur(int index, bool drawVisualizer = true,
                               bool reverse = false);
+
+    private:
+        void ResetVisualizer();
     };
 };  // namespace Algorithm
 

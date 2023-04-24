@@ -211,7 +211,7 @@ void Algorithm::Algorithm< GUIAlgorithm, AnimationState >::ApplyInput(
     visualizer.GetList().clear();
     visualizer.Import(input);
 
-    SLLAnimation state;
+    AnimationState state;
     state.SetDuration(0.5);
     state.SetHighlightLine(-1);
     state.SetSourceDataStructure(visualizer);

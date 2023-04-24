@@ -14,12 +14,11 @@ Algorithm::SinglyLinkedList::SinglyLinkedList(
     GUI::CodeHighlighter::Ptr codeHighlighter,
     SLLAnimationController::Ptr animController, FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
-    InitSLL();
+    Random();
 }
 
 Algorithm::SinglyLinkedList::~SinglyLinkedList() {}
 
-void Algorithm::SinglyLinkedList::InitSLL() { Random(); }
 void Algorithm::SinglyLinkedList::InsertHead(int value) {
     if (visualizer.GetList().size() == maxN) return;
     InitAction(
@@ -108,6 +107,8 @@ void Algorithm::SinglyLinkedList::InsertHead(int value) {
     animController->AddAnimation(anim4);
 
     visualizer.Relayout();
+
+    ResetVisualizer();
 }
 
 void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
@@ -207,6 +208,8 @@ void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
     animController->AddAnimation(anim4);
 
     visualizer.Relayout();
+
+    ResetVisualizer();
 }
 
 void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
@@ -417,14 +420,8 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
 
     visualizer.Relayout();
 
-    for (GUI::Node& node : nodes) {
-        node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
-    }
-    visualizer.ResetArrow();
+    ResetVisualizer();
 }
-
-void Algorithm::SinglyLinkedList::Delete(int index) {}
 
 void Algorithm::SinglyLinkedList::DeleteHead() {
     InitAction({"if(head == nullptr) return; // empty, do nothing",
@@ -548,6 +545,8 @@ void Algorithm::SinglyLinkedList::DeleteHead() {
     animController->AddAnimation(anim5);
 
     visualizer.Relayout();
+
+    ResetVisualizer();
 }
 
 void Algorithm::SinglyLinkedList::DeleteTail() {
@@ -698,6 +697,8 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
     animController->AddAnimation(animEnd);
 
     visualizer.Relayout();
+
+    ResetVisualizer();
 }
 
 void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
@@ -717,6 +718,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
         SLLAnimation anim1 = GenerateAnimation(
             0.75, 0, "head is exist, so we proceed to the next step");
         animController->AddAnimation(anim1);
+        nodes[0].AnimationOnNode(false);
     }
 
     {  // Line 2
@@ -838,6 +840,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
     }
 
     {  // Line 7
+        nodes[index + 1].SetLabel("aft/" + std::to_string(index));
         SLLAnimation anim7 =
             GenerateAnimation(0.75, 6, "Now we delete this vertex.");
         anim7.SetAnimation([this, index](GUI::SinglyLinkedList srcDS,
@@ -922,11 +925,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
 
     visualizer.Relayout();
 
-    for (GUI::Node& node : nodes) {
-        node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
-    }
-    visualizer.ResetArrow();
+    ResetVisualizer();
 }
 
 void Algorithm::SinglyLinkedList::Update(int index, int value) {
@@ -1016,6 +1015,8 @@ void Algorithm::SinglyLinkedList::Update(int index, int value) {
                           "Updated node " + std::to_string(index) +
                               "'s value to " + std::to_string(value) + "!");
     animController->AddAnimation(animFinal);
+
+    ResetVisualizer();
 }
 
 void Algorithm::SinglyLinkedList::Search(int value) {
@@ -1105,11 +1106,7 @@ void Algorithm::SinglyLinkedList::Search(int value) {
         animController->AddAnimation(animNotFound);
     }
 
-    for (GUI::Node& node : nodes) {
-        node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
-    }
-    visualizer.ResetArrow();
+    ResetVisualizer();
 }
 
 std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float, Vector2) >
@@ -1137,4 +1134,13 @@ Algorithm::SinglyLinkedList::HighlightArrowFromCur(int index,
         AnimationFactory::DrawActiveArrow(start, end, playingAt);
         return srcDS;
     };
+}
+
+void Algorithm::SinglyLinkedList::ResetVisualizer() {
+    auto& nodes = visualizer.GetList();
+    for (GUI::Node& node : nodes) {
+        node.AnimationOnNode(false);
+        node.SetNodeState(GUI::Node::Default);
+    }
+    visualizer.ResetArrow();
 }

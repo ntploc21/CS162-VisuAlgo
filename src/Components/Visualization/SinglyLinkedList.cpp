@@ -3,8 +3,9 @@
 #include "Core/Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
-GUI::SinglyLinkedList::SinglyLinkedList(FontHolder* fonts) : fonts(fonts) {}
-GUI::SinglyLinkedList::SinglyLinkedList() {}
+GUI::SinglyLinkedList::SinglyLinkedList(FontHolder* fonts)
+    : mDisplayHeadAndTail(true), fonts(fonts) {}
+GUI::SinglyLinkedList::SinglyLinkedList() : mDisplayHeadAndTail(true) {}
 GUI::SinglyLinkedList::~SinglyLinkedList() {}
 
 bool GUI::SinglyLinkedList::isSelectable() const { return false; }
@@ -12,13 +13,26 @@ bool GUI::SinglyLinkedList::isSelectable() const { return false; }
 void GUI::SinglyLinkedList::Draw(Vector2 base, float t, bool init) {
     base.x += mPosition.x;
     base.y += mPosition.y;
-    for (auto node : list) {
-        node.Draw(base, t);
-    }
     if (init)
         DrawArrow(base, t);
     else
         DrawArrow(base, 1.0f);
+    for (auto node : list) {
+        node.Draw(base, t);
+    }
+}
+
+void GUI::SinglyLinkedList::SetDefaultArrowType(ArrowType arrowType) {
+    defaultArrowType = arrowType;
+}
+
+void GUI::SinglyLinkedList::SetShowHeadAndTail(bool show) {
+    mDisplayHeadAndTail = show;
+}
+
+void GUI::SinglyLinkedList::SetOrientation(Orientation orientation) {
+    mOrientation = orientation;
+    Relayout();
 }
 
 std::vector< GUI::Node >& GUI::SinglyLinkedList::GetList() { return list; }
@@ -30,16 +44,22 @@ GUI::Node GUI::SinglyLinkedList::GenerateNode(int value) {
 void GUI::SinglyLinkedList::Import(std::vector< int > nodes) {
     list.clear();
 
-    float nodeDist = 20;
-    float length = 40 * nodes.size() + nodeDist * (nodes.size() - 1);
-    SetPosition((global::SCREEN_WIDTH - length) / 2, 150);
+    float length = 40 * nodes.size() + mNodeDistance * (nodes.size() - 1);
+
+    if (mOrientation == Orientation::Horizontal)
+        SetPosition((global::SCREEN_WIDTH - length) / 2, 150);
+    else if (mOrientation == Orientation::Vertical)
+        SetPosition(100 + (global::SCREEN_WIDTH - 40) / 2, 150);
 
     for (int i = 0; i < nodes.size(); i++) {
         GUI::Node guiNode = GenerateNode(nodes[i]);
-        guiNode.SetPosition(i * (40 + nodeDist), 0);
+        Vector2 newPos = GetNodeDefaultPosition(i);
+        guiNode.SetPosition(newPos.x, newPos.y);
         list.emplace_back(guiNode);
     }
     ResetArrow();
+
+    if (!mDisplayHeadAndTail) return;
 
     if (!list.empty()) list.at(0).SetLabel("head");
     if (list.size() > 1) list.back().SetLabel("tail");
@@ -50,14 +70,14 @@ void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node,
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
     if (index + 1 < list.size())
-        arrowState.insert(arrowState.begin() + index, ArrowType::Default);
+        arrowState.insert(arrowState.begin() + index, defaultArrowType);
     else
-        arrowState.insert(arrowState.end(), ArrowType::Default);
+        arrowState.insert(arrowState.end(), defaultArrowType);
 
     if (!rePosition) return;
-    float nodeDist = 20;
     for (int i = index; i < list.size(); i++) {
-        list.at(i).SetPosition(i * (40 + nodeDist), 0);
+        Vector2 newPos = GetNodeDefaultPosition(i);
+        list.at(i).SetPosition(newPos.x, newPos.y);
     }
 }
 
@@ -78,7 +98,7 @@ GUI::SinglyLinkedList::ArrowType GUI::SinglyLinkedList::GetArrowType(
 
 void GUI::SinglyLinkedList::ResetArrow() {
     std::size_t resize = std::max(0, int(list.size() - 1));
-    arrowState.assign(resize, ArrowType::Default);
+    arrowState.assign(resize, defaultArrowType);
     arrowState.resize(resize);
 }
 
@@ -109,6 +129,21 @@ void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
     }
 }
 
+Vector2 GUI::SinglyLinkedList::GetNodeDefaultPosition(std::size_t index) {
+    Vector2 answer = (Vector2){0, 0};
+    switch (mOrientation) {
+        case Orientation::Horizontal:
+            answer = (Vector2){index * (40 + mNodeDistance), 0};
+            break;
+        case Orientation::Vertical:
+            answer = (Vector2){0, index * (40 + mNodeDistance)};
+            break;
+        default:
+            break;
+    }
+    return answer;
+}
+
 void GUI::SinglyLinkedList::DeleteNode(std::size_t index, bool rePosition) {
     list.erase(list.begin() + index);
     if (!arrowState.empty())
@@ -116,8 +151,8 @@ void GUI::SinglyLinkedList::DeleteNode(std::size_t index, bool rePosition) {
                          std::min(index, arrowState.size() - 1));
 
     if (!rePosition) return;
-    float nodeDist = 20;
     for (int i = index; i < list.size(); i++) {
-        list.at(i).SetPosition(i * (40 + nodeDist), 0);
+        Vector2 newPos = GetNodeDefaultPosition(i);
+        list.at(i).SetPosition(newPos.x, newPos.y);
     }
 }
