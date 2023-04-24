@@ -98,8 +98,13 @@ void Algorithm::StaticArray::Search(int value) {
             GenerateAnimation(0.75, 3, "No element found!");
         animController->AddAnimation(animNotFound);
     }
+    ResetVisualizer();
+}
 
-    // const Vector2 tmp = Vector2{0, 0};
-
-    visualizer.ResetArrow();
+void Algorithm::StaticArray::ResetVisualizer() {
+    auto& nodes = visualizer.GetList();
+    for (GUI::Node& node : nodes) {
+        node.AnimationOnNode(false);
+        node.SetNodeState(GUI::Node::Default);
+    }
 }

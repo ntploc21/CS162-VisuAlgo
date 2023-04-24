@@ -21,6 +21,26 @@ void GUI::DynamicArray::Draw(Vector2 base, float t, bool init) {
     }
 }
 
+std::size_t GUI::DynamicArray::GetLength() const { return length; }
+
+std::size_t GUI::DynamicArray::GetCapacity() const { return capacity; }
+
+GUI::Node& GUI::DynamicArray::operator[](std::size_t index) {
+    if (index >= length)
+        throw std::to_string(index) +
+            " >= (length = " + std::to_string(length) +
+            "), variable inaccessible";
+    return list.at(index);
+}
+
+const GUI::Node& GUI::DynamicArray::operator[](std::size_t index) const {
+    if (index >= length)
+        throw std::to_string(index) +
+            " >= (length = " + std::to_string(length) +
+            "), variable inaccessible";
+    return list.at(index);
+}
+
 void GUI::DynamicArray::SetShape(GUI::Node::Shape shape) {
     mShape = shape;
     for (GUI::Node& node : list) node.SetShape(shape);
@@ -29,8 +49,17 @@ void GUI::DynamicArray::SetShape(GUI::Node::Shape shape) {
 GUI::Node::Shape GUI::DynamicArray::GetShape() const { return mShape; }
 
 void GUI::DynamicArray::Reserve(std::size_t size) {
-    capacity = size;
     list.resize(size);
+    if (size > capacity) {
+        for (int i = capacity; i < size; i++) {
+            GUI::Node guiNode = GenerateNode(0);
+            Vector2 newPos = GetNodeDefaultPosition(i);
+            guiNode.SetPosition(newPos.x, newPos.y);
+            guiNode.SetReachable(false);
+            list[i] = guiNode;
+        }
+    }
+    capacity = size;
 }
 
 void GUI::DynamicArray::Resize(std::size_t size) {
@@ -80,9 +109,7 @@ void GUI::DynamicArray::InsertNode(std::size_t index, GUI::Node node,
         capacity = (!capacity ? 0 : capacity * 2);
         Reserve(capacity);
     }
-
-    list.insert(list.begin() + index, node);
-    length++;
+    list[length++] = node;
 
     if (!rePosition) return;
     for (int i = index; i < list.size(); i++) {
@@ -98,7 +125,13 @@ void GUI::DynamicArray::Relayout() {
 }
 
 void GUI::DynamicArray::DeleteNode(std::size_t index, bool rePosition) {
+    if (index >= length)
+        throw std::to_string(index) +
+            " >= (length = " + std::to_string(length) +
+            "), variable inaccessible";
     list.erase(list.begin() + index);
+    list.push_back(GenerateNode(0));
+    list.back().SetReachable(false);
     length--;
 
     if (!rePosition) return;

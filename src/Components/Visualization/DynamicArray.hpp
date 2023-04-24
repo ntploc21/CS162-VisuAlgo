@@ -15,6 +15,12 @@ namespace GUI {
                   bool init = false);
 
     public:
+        std::size_t GetLength() const;
+        std::size_t GetCapacity() const;
+        GUI::Node& operator[](std::size_t index);
+        const GUI::Node& operator[](std::size_t index) const;
+
+    public:
         void SetShape(GUI::Node::Shape shape);
         GUI::Node::Shape GetShape() const;
 
@@ -35,7 +41,7 @@ namespace GUI {
     private:
         Vector2 GetNodeDefaultPosition(std::size_t index);
 
-    private:
+    public:
         std::size_t GetCapacityFromLength(std::size_t length);
 
     public:

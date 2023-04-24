@@ -30,6 +30,9 @@ namespace Algorithm {
 
     public:
         void Search(int value);
+
+    private:
+        void ResetVisualizer();
     };
 };  // namespace Algorithm
 
