@@ -7,6 +7,9 @@
 StaticArrayState::StaticArrayState(StateStack& stack, Context context)
     : ArrayState(stack, context, DataStructures::StaticArray) {
     AddOperations();
+
+    mStaticArray =
+        Algorithm::StaticArray(codeHighlighter, animController, context.fonts);
 }
 
 StaticArrayState::~StaticArrayState() {}
@@ -17,10 +20,12 @@ void StaticArrayState::Draw() {
     DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
                   BLACK);
 
+    animController->GetAnimation().Draw();
     operationList.Draw();
     navigation.Draw();
     codeHighlighter->Draw();
     footer.Draw(animController.get());
+    DrawCurrentActionText();
 }
 
 void StaticArrayState::AddInitializeOperation() {
@@ -32,34 +37,26 @@ void StaticArrayState::AddInitializeOperation() {
     /* Random */
 
     AddNoFieldOperationOption(container, "Random",
-                              [this]() { std::cout << "Random" << std::endl; });
+                              [this]() { mStaticArray.Random(); });
 
     /* Random Sorted */
-    AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-        std::cout << "Random Sorted" << std::endl;
-    });
+    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
+    //     std::cout << "Random Sorted" << std::endl;
+    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
-        container, "Random Fixed Size", {{"i = ", 50, 0, 9}},
+        container, "Random Fixed Size", {{"N = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Random Fixed Size parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int N = std::stoi(input["N = "]);
+            mStaticArray.RandomFixedSize(N);
         });
 
     /* User defined */
-    AddStringFieldOption(
-        container, "--- User defined list ---",
-        "arr = ", [this](std::map< std::string, std::string > input) {
-            std::cout << "--- User defined list --- parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
+    AddStringFieldOption(container, "--- User defined list ---", "arr = ",
+                         [this](std::map< std::string, std::string > input) {
+                             mStaticArray.UserDefined(input["arr = "]);
+                         });
 
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);
@@ -78,11 +75,12 @@ void StaticArrayState::AddUpdateOperation() {
         container, "Specify i in [0..N-1] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify i in [0..N-1] and v parameters: "
-                      << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            if (!(i >= 0 && i < mStaticArray.maxN)) return;
+            mStaticArray.Update(i, v);
+            SetCurrentAction("Update arr[" + input["i = "] +
+                             "] = " + input["v = "]);
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -100,10 +98,10 @@ void StaticArrayState::AddSearchOperation() {
     AddIntFieldOperationOption(
         container, "Specify v", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify v" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int v = std::stoi(input["v = "]);
+            mStaticArray.Search(v);
+            SetCurrentAction("Search for element has value equal to " +
+                             input["v = "]);
         });
 
     operationList.AddOperation(buttonSearch, container);
