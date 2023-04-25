@@ -8,7 +8,7 @@
 #include "Core/Algorithms/Algorithm.hpp"
 
 using ArrowType = GUI::SinglyLinkedList::ArrowType;
-using Orientation = GUI::SinglyLinkedList::Orientation;
+using Orientation = GUI::LinkedList::Orientation;
 
 namespace Algorithm {
     class Stack : public Algorithm< GUI::SinglyLinkedList, SLLAnimation > {

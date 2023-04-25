@@ -129,7 +129,9 @@ void SLLState::AddUpdateOperation() {
         container, "Specify i in [0..N-1] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            SLL.Update(std::stoi(input["i = "]), std::stoi(input["v = "]));
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            SLL.Update(i, v);
             SetCurrentAction("Update node " + input["i = "] + "'s value to " +
                              input["v = "]);
         });
