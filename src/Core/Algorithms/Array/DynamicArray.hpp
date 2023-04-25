@@ -30,11 +30,10 @@ namespace Algorithm {
         void Update(int index, int value);
 
     public:
+        void Access(int index);
+
+    public:
         void Search(int value);
-
-    private:
-        void ApplyInput(std::vector< int > input, std::size_t nMaxSize = maxN);
-
     private:
         void ResetVisualizer();
     };

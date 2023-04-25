@@ -14,6 +14,7 @@ private:
     void AddUpdateOperation();
     void AddDeleteOperation();
     void AddSearchOperation();
+    void AddAccessOperation();
 
 public:
     DynamicArrayState(StateStack& stack, Context context);

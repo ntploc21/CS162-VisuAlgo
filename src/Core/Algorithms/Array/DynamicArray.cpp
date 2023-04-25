@@ -225,10 +225,6 @@ void Algorithm::DynamicArray::PopBack() {
     animController->AddAnimation(animPopBack);
 
     visualizer.DeleteNode(visualizer.GetLength() - 1);
-    // node.ClearLabel();
-    // node.SetNodeState(GUI::Node::Default);
-    // node.SetValue(0);
-    // node.AnimationOnNode(false);
 }
 
 void Algorithm::DynamicArray::Update(int index, int value) {
@@ -255,6 +251,26 @@ void Algorithm::DynamicArray::Update(int index, int value) {
     node.AnimationOnNode(false);
     node.SetNodeState(GUI::Node::State::Default);
     node.SetValue(value);
+}
+
+void Algorithm::DynamicArray::Access(int index) {
+    InitAction({"return arr[i];"});
+
+    DArrayAnimation anim =
+        GenerateAnimation(0.75, 0,
+                          "The current Linked List is empty, the head we "
+                          "return will be NULL.");
+    if (visualizer.GetLength() > index) {
+        visualizer[index].AnimationOnNode(true);
+        visualizer[index].SetNodeState(GUI::Node::State::Active);
+        anim = GenerateAnimation(0.75, 0,
+                                 "Return the value stored at the head: " +
+                                     std::to_string(visualizer[0].GetValue()) +
+                                     ".");
+        visualizer[index].SetNodeState(GUI::Node::State::Default);
+        visualizer[index].AnimationOnNode(false);
+    }
+    animController->AddAnimation(anim);
 }
 
 void Algorithm::DynamicArray::Search(int value) {
@@ -310,36 +326,6 @@ void Algorithm::DynamicArray::Search(int value) {
         animController->AddAnimation(animNotFound);
     }
     ResetVisualizer();
-}
-
-void Algorithm::DynamicArray::ApplyInput(std::vector< int > input,
-                                         std::size_t nMaxSize) {
-    if (input.size() > nMaxSize) input.resize(nMaxSize);
-    InitAction({});
-
-    codeHighlighter->SetShowCode(false);
-    codeHighlighter->SetShowAction(false);
-
-    visualizer.Import(input);
-
-    DArrayAnimation state;
-    state.SetDuration(0.5);
-    state.SetHighlightLine(-1);
-    state.SetSourceDataStructure(visualizer);
-    state.SetAnimation([this](GUI::DynamicArray srcDS, float playingAt,
-                              Vector2 base) {
-        auto& nodes = srcDS.GetList();
-        for (GUI::Node& node : nodes) {
-            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
-            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
-            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
-        }
-        srcDS.Draw(base, playingAt, true);
-        return srcDS;
-    });
-    animController->AddAnimation(state);
-    animController->Reset();
-    animController->InteractionLock();
 }
 
 void Algorithm::DynamicArray::ResetVisualizer() {
