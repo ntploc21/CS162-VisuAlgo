@@ -4,24 +4,18 @@
 #include <string>
 
 // #include "BaseNode.hpp"
-#include "Components/Visualization/SinglyLinkedList.hpp"
+#include "Components/Visualization/DynamicArray.hpp"
 #include "Core/Algorithms/Algorithm.hpp"
 
-using ArrowType = GUI::SinglyLinkedList::ArrowType;
-
 namespace Algorithm {
-    class StaticArray
-        : public Algorithm< GUI::SinglyLinkedList, SLLAnimation > {
+    class StaticArray : public Algorithm< GUI::DynamicArray, DArrayAnimation > {
     public:
-        static constexpr int maxN = 10;
-        static constexpr ArrowType defaultArrowType = ArrowType::Hidden;
-        static constexpr GUI::Node::Shape defaultShape =
-            GUI::Node::Shape::Square;
+        static constexpr int maxN = 16;
 
     public:
         StaticArray();
         StaticArray(GUI::CodeHighlighter::Ptr codeHighlighter,
-                    SLLAnimationController::Ptr animController,
+                    DArrayAnimationController::Ptr animController,
                     FontHolder* fonts);
         ~StaticArray();
 
@@ -29,7 +23,13 @@ namespace Algorithm {
         void Update(int index, int value);
 
     public:
+        void Access(int index);
+
+    public:
         void Search(int value);
+
+    private:
+        void ApplyInput(std::vector< int > input, std::size_t nMaxSize);
 
     private:
         void ResetVisualizer();

@@ -50,6 +50,7 @@ protected:
     virtual void AddDeleteOperation();
     virtual void AddUpdateOperation();
     virtual void AddSearchOperation();
+    virtual void AddAccessOperation();
 
 protected:
     virtual void AddNoFieldOperationOption(
@@ -142,6 +143,7 @@ void ArrayState< T >::AddOperations() {
     AddInitializeOperation();
     AddInsertOperation();
     AddDeleteOperation();
+    AddAccessOperation();
     AddUpdateOperation();
     AddSearchOperation();
 
@@ -164,6 +166,9 @@ void ArrayState< T >::AddUpdateOperation() {}
 
 template< typename T >
 void ArrayState< T >::AddSearchOperation() {}
+
+template< typename T >
+inline void ArrayState< T >::AddAccessOperation() {}
 
 template< typename T >
 void ArrayState< T >::AddNoFieldOperationOption(

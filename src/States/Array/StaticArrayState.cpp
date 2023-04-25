@@ -106,3 +106,21 @@ void StaticArrayState::AddSearchOperation() {
 
     operationList.AddOperation(buttonSearch, container);
 }
+
+void StaticArrayState::AddAccessOperation() {
+    GUI::Button::Ptr buttonSearch(
+        new GUI::Button("Access", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+
+    /* ==== DEFINE OPERATIONS FOR ACCESS ==== */
+
+    AddIntFieldOperationOption(
+        container, "Specify i", {{"i = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            int i = std::stoi(input["i = "]);
+            mStaticArray.Access(i);
+            SetCurrentAction("Accessing arr[" + input["i = "] + "]");
+        });
+
+    operationList.AddOperation(buttonSearch, container);
+}
