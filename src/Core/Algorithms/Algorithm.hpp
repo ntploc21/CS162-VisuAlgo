@@ -55,6 +55,7 @@ namespace Algorithm {
         std::vector< int > ReadFromFileGenerator(std::string inputFile);
 
     protected:
+        virtual void GenerateRelayoutAnimation(Vector2 newPosition);
         virtual AnimationState GenerateAnimation(float duration,
                                                  int highlightLine,
                                                  std::string actionDescription);
@@ -144,6 +145,29 @@ Algorithm::Algorithm< GUIAlgorithm, AnimationState >::ReadFromFileGenerator(
     std::string inputFile) {
     // will be implemented later
     return std::vector< int >();
+}
+
+template< typename GUIAlgorithm, typename AnimationState >
+inline void
+Algorithm::Algorithm< GUIAlgorithm, AnimationState >::GenerateRelayoutAnimation(
+    Vector2 newPosition) {
+    AnimationState animRelayout =
+        GenerateAnimation(0.5, -1,
+                          "Re-layout the Linked List for visualization "
+                          "(not in the actual Linked "
+                          "List).\nThe whole process is still O(1).");
+    animRelayout.SetAnimation(
+        [this, newPosition](GUIAlgorithm srcDS, float playingAt, Vector2 base) {
+            Vector2 newPos = srcDS.GetPosition();
+            newPos.x += (newPosition.x - newPos.x) * playingAt;
+            newPos.y += (newPosition.y - newPos.y) * playingAt;
+            srcDS.SetPosition(newPos);
+
+            srcDS.Draw(base, playingAt);
+
+            return srcDS;
+        });
+    animController->AddAnimation(animRelayout);
 }
 
 template< typename GUIAlgorithm, typename AnimationState >

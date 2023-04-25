@@ -6,6 +6,8 @@
 
 DLLState::DLLState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::DoublyLinkedList) {
+    mDLL = Algorithm::DoublyLinkedList(codeHighlighter, animController,
+                                       context.fonts);
     AddOperations();
 }
 
@@ -19,8 +21,11 @@ void DLLState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+
+    animController->GetAnimation().Draw();
     codeHighlighter->Draw();
     footer.Draw(animController.get());
+    DrawCurrentActionText();
 }
 
 void DLLState::AddInsertOperation() {
@@ -34,20 +39,18 @@ void DLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "i = 0 (Head), specify v =" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int v = std::stoi(input["v = "]);
+            mDLL.InsertHead(v);
+            SetCurrentAction("Insert " + input["v = "] + " at head");
         });
 
     /* Insert tail */
     AddIntFieldOperationOption(
         container, "i = N (After Tail), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "i = N (After Tail), specify v =" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int v = std::stoi(input["v = "]);
+            mDLL.InsertAfterTail(v);
+            SetCurrentAction("Insert " + input["v = "] + " at tail");
         });
 
     /* Default insert */
@@ -56,11 +59,11 @@ void DLLState::AddInsertOperation() {
         container, "Specify both i in [0..N] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify both i in [0..N] and v parameters: "
-                      << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            // mDLL.InsertMiddle(i, v);
+            SetCurrentAction("Insert " + input["v = "] + " at index " +
+                             input["i = "]);
         });
 
     /* ====================================== */
@@ -75,40 +78,30 @@ void DLLState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty",
-                              [this]() { std::cout << "Empty" << std::endl; });
+    AddNoFieldOperationOption(container, "Empty", [this]() { mDLL.Empty(); });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random",
-                              [this]() { std::cout << "Random" << std::endl; });
+    AddNoFieldOperationOption(container, "Random", [this]() { mDLL.Random(); });
 
     /* Random Sorted */
-    AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-        std::cout << "Random Sorted" << std::endl;
-    });
+    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
+    //     std::cout << "Random Sorted" << std::endl;
+    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
-        container, "Random Fixed Size", {{"i = ", 50, 0, 9}},
+        container, "Random Fixed Size", {{"N = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Random Fixed Size parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int N = std::stoi(input["N = "]);
+            mDLL.RandomFixedSize(N);
         });
 
     /* User defined */
-    AddStringFieldOption(
-        container, "--- User defined list ---",
-        "arr = ", [this](std::map< std::string, std::string > input) {
-            std::cout << "--- User defined list --- parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
+    AddStringFieldOption(container, "--- User defined list ---", "arr = ",
+                         [this](std::map< std::string, std::string > input) {
+                             mDLL.UserDefined(input["arr = "]);
+                         });
 
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);
@@ -127,11 +120,11 @@ void DLLState::AddUpdateOperation() {
         container, "Specify i in [0..N-1] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify i in [0..N-1] and v parameters: "
-                      << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            // mDLL.Update(i, v);
+            SetCurrentAction("Update node " + input["i = "] + "'s value to " +
+                             input["v = "]);
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -147,12 +140,14 @@ void DLLState::AddDeleteOperation() {
     /* Delete head */
 
     AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
-        std::cout << "i = 0 (Head)" << std::endl;
+        // mDLL.DeleteHead();
+        SetCurrentAction("Remove i = 0 (Head)");
     });
 
     /* Delete tail */
     AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
-        std::cout << "i = N-1 (Tail)" << std::endl;
+        // mDLL.DeleteTail();
+        SetCurrentAction("Remove i = N - 1 (Tail)");
     });
 
     /* Delete specific element */
@@ -160,21 +155,20 @@ void DLLState::AddDeleteOperation() {
     AddIntFieldOperationOption(
         container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify i in [1..N-1]" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            // mDLL.DeleteMiddle(i);
+            SetCurrentAction("Remove index " + input["i = "]);
         });
     /* Delete elements with specific value */
 
-    AddIntFieldOperationOption(
-        container, "Specify v", {{"v = ", 50, 0, 99}},
-        [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify v" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
+    // AddIntFieldOperationOption(
+    //     container, "Specify v", {{"v = ", 50, 0, 99}},
+    //     [this](std::map< std::string, std::string > input) {
+    //         std::cout << "Specify v" << std::endl;
+    //         for (auto it : input) {
+    //             std::cout << it.first << it.second << std::endl;
+    //         }
+    //     });
     operationList.AddOperation(buttonDelete, container);
 }
 
@@ -190,10 +184,9 @@ void DLLState::AddSearchOperation() {
     AddIntFieldOperationOption(
         container, "Specify v", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify v" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int v = std::stoi(input["v = "]);
+            // mDLL.Search(v);
+            SetCurrentAction("Search " + input["v = "]);
         });
 
     operationList.AddOperation(buttonSearch, container);

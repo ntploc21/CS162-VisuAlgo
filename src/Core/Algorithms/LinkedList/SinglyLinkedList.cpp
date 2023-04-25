@@ -83,31 +83,14 @@ void Algorithm::SinglyLinkedList::InsertHead(int value) {
     SLLAnimation anim3 = GenerateAnimation(0.5, 2, "head points to node.");
     animController->AddAnimation(anim3);
 
-    float length = 40 * visualizer.GetList().size() +
-                   20 * (visualizer.GetList().size() - 1);
-    float actualPosX = (global::SCREEN_WIDTH - length) / 2;
-    SLLAnimation anim4 = GenerateAnimation(
-        0.5, -1,
-        "Re-layout the Linked List for visualization (not in the actual Linked "
-        "List).\nThe whole process is still O(1).");
-    anim4.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
-                                          float playingAt, Vector2 base) {
-        Vector2 newPos = srcDS.GetPosition();
-        newPos.x += (actualPosX - newPos.x) * playingAt;
-        srcDS.SetPosition(newPos);
-
-        if (playingAt == 1.0f && srcDS.GetList().size() == 2) {
-            srcDS.GetList().back().SetLabel("tail");
-        }
-
-        srcDS.Draw(base, playingAt);
-
-        return srcDS;
-    });
-    animController->AddAnimation(anim4);
-
-    visualizer.Relayout();
-
+    {  // Relayout
+        float length = 40 * visualizer.GetList().size() +
+                       20 * (visualizer.GetList().size() - 1);
+        float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+        GenerateRelayoutAnimation(
+            (Vector2){actualPosX, visualizer.GetPosition().y});
+        visualizer.Relayout();
+    }
     ResetVisualizer();
 }
 
@@ -188,27 +171,14 @@ void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
 
     visualizer.GetList().back().AnimationOnNode(false);
 
-    float length = 40 * visualizer.GetList().size() +
-                   20 * (visualizer.GetList().size() - 1);
-    float actualPosX = (global::SCREEN_WIDTH - length) / 2;
-    SLLAnimation anim4 = GenerateAnimation(
-        0.5, -1,
-        "Re-layout the Linked List for visualization (not in the actual Linked "
-        "List).\nThe whole process is still O(1).");
-    anim4.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
-                                          float playingAt, Vector2 base) {
-        Vector2 newPos = srcDS.GetPosition();
-        newPos.x += (actualPosX - newPos.x) * playingAt;
-        srcDS.SetPosition(newPos);
-
-        srcDS.Draw(base, playingAt);
-
-        return srcDS;
-    });
-    animController->AddAnimation(anim4);
-
-    visualizer.Relayout();
-
+    {  // Relayout
+        float length = 40 * visualizer.GetList().size() +
+                       20 * (visualizer.GetList().size() - 1);
+        float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+        GenerateRelayoutAnimation(
+            (Vector2){actualPosX, visualizer.GetPosition().y});
+        visualizer.Relayout();
+    }
     ResetVisualizer();
 }
 
@@ -396,30 +366,14 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
                                  nodes.back().GetPosition().y);
     }
 
-    {  // Re-layout (center the LL)
+    {  // Relayout
         float length = 40 * visualizer.GetList().size() +
                        20 * (visualizer.GetList().size() - 1);
         float actualPosX = (global::SCREEN_WIDTH - length) / 2;
-        SLLAnimation anim9 =
-            GenerateAnimation(0.5, -1,
-                              "Re-layout the Linked List for visualization "
-                              "(not in the actual Linked "
-                              "List).\nThe whole process is still O(1).");
-        anim9.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
-                                              float playingAt, Vector2 base) {
-            Vector2 newPos = srcDS.GetPosition();
-            newPos.x += (actualPosX - newPos.x) * playingAt;
-            srcDS.SetPosition(newPos);
-
-            srcDS.Draw(base, playingAt);
-
-            return srcDS;
-        });
-        animController->AddAnimation(anim9);
+        GenerateRelayoutAnimation(
+            (Vector2){actualPosX, visualizer.GetPosition().y});
+        visualizer.Relayout();
     }
-
-    visualizer.Relayout();
-
     ResetVisualizer();
 }
 
@@ -481,71 +435,63 @@ void Algorithm::SinglyLinkedList::DeleteHead() {
 
         return;
     }
-    nodes[1].SetLabel("head/0");
-    nodes[1].AnimationOnNode(true);
-    nodes[1].SetNodeState(GUI::Node::State::ActiveGreen);
-    nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 2));
-    SLLAnimation anim3 =
-        GenerateAnimation(0.75, 2, "head points to the next node.");
-    anim3.SetAnimation(HighlightArrowFromCur(0));
-    animController->AddAnimation(anim3);
+    {  // Line 3
+        nodes[1].SetLabel("head/0");
+        nodes[1].AnimationOnNode(true);
+        nodes[1].SetNodeState(GUI::Node::State::ActiveGreen);
+        nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 2));
+        SLLAnimation anim3 =
+            GenerateAnimation(0.75, 2, "head points to the next node.");
+        anim3.SetAnimation(HighlightArrowFromCur(0));
+        animController->AddAnimation(anim3);
+    }
 
-    visualizer.SetArrowType(0, ArrowType::Hidden);
-    nodes[1].AnimationOnNode(false);
-    SLLAnimation anim4 = GenerateAnimation(
-        0.75, 3, "Delete del, which was the (previous) head.");
-    anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                              Vector2 base) {
-        auto& nodes = srcDS.GetList();
+    {  // Line 4
+        visualizer.SetArrowType(0, ArrowType::Hidden);
+        nodes[1].AnimationOnNode(false);
+        SLLAnimation anim4 = GenerateAnimation(
+            0.75, 3, "Delete del, which was the (previous) head.");
+        anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
+                                  Vector2 base) {
+            auto& nodes = srcDS.GetList();
 
-        nodes[0].SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
-        nodes[0].SetValueFontSize(
-            AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
-        nodes[0].SetLabelFontSize(
-            AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+            nodes[0].SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) *
+                               20);
+            nodes[0].SetValueFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
+            nodes[0].SetLabelFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
 
-        srcDS.Draw(base, playingAt);
+            srcDS.Draw(base, playingAt);
 
-        base.x += srcDS.GetPosition().x;
-        base.y += srcDS.GetPosition().y;
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
 
-        Vector2 start = nodes[0].GetPosition();
-        Vector2 end = nodes[1].GetPosition();
+            Vector2 start = nodes[0].GetPosition();
+            Vector2 end = nodes[1].GetPosition();
 
-        start.x += base.x, start.y += base.y;
-        end.x += base.x, end.y += base.y;
-        AnimationFactory::DrawDirectionalArrow(start, end, true,
-                                               1.0f - playingAt);
+            start.x += base.x, start.y += base.y;
+            end.x += base.x, end.y += base.y;
+            AnimationFactory::DrawDirectionalArrow(start, end, true,
+                                                   1.0f - playingAt);
 
-        return srcDS;
-    });
-    animController->AddAnimation(anim4);
+            return srcDS;
+        });
+        animController->AddAnimation(anim4);
 
-    visualizer.DeleteNode(0);
-    visualizer.SetPosition(visualizer.GetPosition().x + 60,
-                           visualizer.GetPosition().y);
+        visualizer.DeleteNode(0);
+        visualizer.SetPosition(visualizer.GetPosition().x + 60,
+                               visualizer.GetPosition().y);
+    }
 
-    float length = 40 * visualizer.GetList().size() +
-                   20 * (visualizer.GetList().size() - 1);
-    float actualPosX = (global::SCREEN_WIDTH - length) / 2;
-    SLLAnimation anim5 = GenerateAnimation(
-        0.5, -1,
-        "Re-layout the Linked List for visualization (not in the actual Linked "
-        "List).\nThe whole process is still O(1).");
-    anim5.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
-                                          float playingAt, Vector2 base) {
-        Vector2 newPos = srcDS.GetPosition();
-        newPos.x += (actualPosX - newPos.x) * playingAt;
-        srcDS.SetPosition(newPos);
-
-        srcDS.Draw(base, playingAt);
-
-        return srcDS;
-    });
-    animController->AddAnimation(anim5);
-
-    visualizer.Relayout();
-
+    {  // Relayout
+        float length = 40 * visualizer.GetList().size() +
+                       20 * (visualizer.GetList().size() - 1);
+        float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+        GenerateRelayoutAnimation(
+            (Vector2){actualPosX, visualizer.GetPosition().y});
+        visualizer.Relayout();
+    }
     ResetVisualizer();
 }
 
@@ -628,76 +574,67 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
             nodes[k + 2].AnimationOnNode(false);
         }
     }
-    nodes[nodes.size() - 2].SetLabel("tail/pre/" +
-                                     std::to_string(nodes.size() - 2));
-    if (nodes.size() == 2) {
-        nodes.front().SetLabel("head/tail/pre/0");
+    {  // Line 5
+        nodes[nodes.size() - 2].SetLabel("tail/pre/" +
+                                         std::to_string(nodes.size() - 2));
+        if (nodes.size() == 2) {
+            nodes.front().SetLabel("head/tail/pre/0");
+        }
+        nodes.back().SetLabel("temp");
+        visualizer.SetArrowType(nodes.size() - 2, ArrowType::Hidden);
+        SLLAnimation anim5 = GenerateAnimation(
+            0.75, 4,
+            "temp is now point to tail. Set the tail to point at pre (the new "
+            "tail) and remove link from current tail to previous tail.");
+        anim5.SetAnimation(HighlightArrowFromCur(nodes.size() - 2, true, true));
     }
-    nodes.back().SetLabel("temp");
-    visualizer.SetArrowType(nodes.size() - 2, ArrowType::Hidden);
-    SLLAnimation anim5 = GenerateAnimation(
-        0.75, 4,
-        "temp is now point to tail. Set the tail to point at pre (the new "
-        "tail) and remove link from current tail to previous tail.");
-    anim5.SetAnimation(HighlightArrowFromCur(nodes.size() - 2, true, true));
 
-    nodes[nodes.size() - 2].SetNodeState(GUI::Node::ActiveBlue);
-    nodes[nodes.size() - 2].AnimationOnNode(true);
+    {  // Line 6
+        nodes[nodes.size() - 2].SetNodeState(GUI::Node::ActiveBlue);
+        nodes[nodes.size() - 2].AnimationOnNode(true);
 
-    SLLAnimation anim6 =
-        GenerateAnimation(0.75, 5,
-                          "Delete temp (the previous tail).\nThe whole process "
-                          "is O(N) just to find the pre pointer.");
-    anim6.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                              Vector2 base) {
-        auto& nodes = srcDS.GetList();
+        SLLAnimation anim6 = GenerateAnimation(
+            0.75, 5,
+            "Delete temp (the previous tail).\nThe whole process "
+            "is O(N) just to find the pre pointer.");
+        anim6.SetAnimation(
+            [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
+                auto& nodes = srcDS.GetList();
 
-        nodes.back().SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) *
-                               20);
-        nodes.back().SetValueFontSize(
-            AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
-        nodes.back().SetLabelFontSize(
-            AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+                nodes.back().SetRadius(
+                    AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+                nodes.back().SetValueFontSize(
+                    AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
+                nodes.back().SetLabelFontSize(
+                    AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
 
-        srcDS.Draw(base, playingAt);
+                srcDS.Draw(base, playingAt);
 
-        base.x += srcDS.GetPosition().x;
-        base.y += srcDS.GetPosition().y;
+                base.x += srcDS.GetPosition().x;
+                base.y += srcDS.GetPosition().y;
 
-        Vector2 start = nodes[nodes.size() - 2].GetPosition();
-        Vector2 end = nodes.back().GetPosition();
+                Vector2 start = nodes[nodes.size() - 2].GetPosition();
+                Vector2 end = nodes.back().GetPosition();
 
-        start.x += base.x, start.y += base.y;
-        end.x += base.x, end.y += base.y;
-        AnimationFactory::DrawDirectionalArrow(start, end, true,
-                                               1.0f - playingAt);
+                start.x += base.x, start.y += base.y;
+                end.x += base.x, end.y += base.y;
+                AnimationFactory::DrawDirectionalArrow(start, end, true,
+                                                       1.0f - playingAt);
 
-        return srcDS;
-    });
-    animController->AddAnimation(anim6);
-    visualizer.DeleteNode(nodes.size() - 1, true);
+                return srcDS;
+            });
+        animController->AddAnimation(anim6);
+        visualizer.DeleteNode(nodes.size() - 1, true);
+    }
 
-    float length = 40 * visualizer.GetList().size() +
-                   20 * (visualizer.GetList().size() - 1);
-    float actualPosX = (global::SCREEN_WIDTH - length) / 2;
-    SLLAnimation animEnd = GenerateAnimation(
-        0.5, -1,
-        "Re-layout the Linked List for visualization (not in the actualLinked "
-        "List).\nThe whole process is still O(1).");
-    animEnd.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
-                                            float playingAt, Vector2 base) {
-        Vector2 newPos = srcDS.GetPosition();
-        newPos.x += (actualPosX - newPos.x) * playingAt;
-        srcDS.SetPosition(newPos);
-
-        srcDS.Draw(base, playingAt);
-
-        return srcDS;
-    });
-    animController->AddAnimation(animEnd);
-
-    visualizer.Relayout();
-
+    {  // Relayout
+        float length = 40 * visualizer.GetList().size() +
+                       20 * (visualizer.GetList().size() - 1);
+        float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+        GenerateRelayoutAnimation(
+            (Vector2){actualPosX, visualizer.GetPosition().y});
+        visualizer.Relayout();
+    }
     ResetVisualizer();
 }
 
@@ -905,25 +842,10 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
         float length = 40 * visualizer.GetList().size() +
                        20 * (visualizer.GetList().size() - 1);
         float actualPosX = (global::SCREEN_WIDTH - length) / 2;
-        SLLAnimation anim9 =
-            GenerateAnimation(0.5, -1,
-                              "Re-layout the Linked List for visualization "
-                              "(not in the actual Linked "
-                              "List).\nThe whole process is still O(1).");
-        anim9.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
-                                              float playingAt, Vector2 base) {
-            Vector2 newPos = srcDS.GetPosition();
-            newPos.x += (actualPosX - newPos.x) * playingAt;
-            srcDS.SetPosition(newPos);
-
-            srcDS.Draw(base, playingAt);
-
-            return srcDS;
-        });
-        animController->AddAnimation(anim9);
+        GenerateRelayoutAnimation(
+            (Vector2){actualPosX, visualizer.GetPosition().y});
+        visualizer.Relayout();
     }
-
-    visualizer.Relayout();
 
     ResetVisualizer();
 }

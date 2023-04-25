@@ -11,10 +11,11 @@ namespace AnimationFactory {
     void DrawActiveArrow(Vector2 start, Vector2 end, float t);
 
     void DrawDoubleDirectionalArrow(Vector2 start, Vector2 end,
-                                    bool activeStart, bool activeEnd, float t1,
-                                    float t2);
+                                    bool activeStart, bool activeEnd,
+                                    float tStart, float tEnd);
 
-    void DrawDoubleActiveArrow(Vector2 start, Vector2 end, float t1, float t2);
+    void DrawDoubleActiveArrow(Vector2 start, Vector2 end, float tStart,
+                               float tEnd);
 
     float Dist(Vector2 p1, Vector2 p2);
     Vector2 InverseVector(Vector2 vector);

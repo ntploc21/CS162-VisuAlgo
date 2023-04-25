@@ -1,11 +1,10 @@
 #ifndef COMPONENTS_VISUALIZATION_SINGLYLINKEDLIST_HPP
 #define COMPONENTS_VISUALIZATION_SINGLYLINKEDLIST_HPP
 
-#include "DataStructure.hpp"
-#include "Node.hpp"
+#include "LinkedList.hpp"
 
 namespace GUI {
-    class SinglyLinkedList : public GUI::DataStructure {
+    class SinglyLinkedList : public GUI::LinkedList {
     public:
         enum ArrowType {
             Default,
@@ -15,31 +14,12 @@ namespace GUI {
             ArrowTypeCount,
         };
 
-        enum Orientation {
-            Horizontal,
-            Vertical,
-
-            OrientationCount,
-        };
-
-    public:
-        static constexpr float mNodeDistance = 20;
-
     private:
-        FontHolder* fonts;
-        std::vector< GUI::Node > list;
         std::vector< ArrowType > arrowState;
 
         ArrowType defaultArrowType = ArrowType::Default;
-        bool mDisplayHeadAndTail;
-
-        Orientation mOrientation = Orientation::Horizontal;
-        GUI::Node::Shape mShape = GUI::Node::Shape::Circle;
 
     public:
-        void SetShape(GUI::Node::Shape shape);
-        GUI::Node::Shape GetShape() const;
-
     public:
         SinglyLinkedList();
         SinglyLinkedList(FontHolder* fonts);
@@ -49,17 +29,12 @@ namespace GUI {
                   bool init = false);
 
         void SetDefaultArrowType(ArrowType arrowType);
-        void SetShowHeadAndTail(bool show);
-        void SetOrientation(Orientation orientation);
 
     public:
-        std::vector< GUI::Node >& GetList();
-        GUI::Node GenerateNode(int value);
         void Import(std::vector< int > nodes);
         void InsertNode(std::size_t index, GUI::Node node,
                         bool rePosition = true);
         void DeleteNode(std::size_t index, bool rePosition = true);
-        void Relayout();
 
     public:
         void SetArrowType(std::size_t index, ArrowType type);
@@ -68,9 +43,6 @@ namespace GUI {
 
     private:
         void DrawArrow(Vector2 base, float t);
-
-    private:
-        Vector2 GetNodeDefaultPosition(std::size_t index);
     };
 };  // namespace GUI
 

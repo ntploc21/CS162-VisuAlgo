@@ -15,7 +15,7 @@ namespace GUI {
             ActiveGreen,
             ActiveRed,
             Iterated,
-
+            Hide,
             StateCount,
         };
 

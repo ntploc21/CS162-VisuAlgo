@@ -91,19 +91,53 @@ void AnimationFactory::DrawActiveArrow(Vector2 start, Vector2 end, float t) {
 
 void AnimationFactory::DrawDoubleDirectionalArrow(Vector2 start, Vector2 end,
                                                   bool activeStart,
-                                                  bool activeEnd, float t1,
-                                                  float t2) {
+                                                  bool activeEnd, float tStart,
+                                                  float tEnd) {
     if (start.x == end.x && start.y == end.y) return;
-    if (std::max(t1, t2) < 0.20f) return;
+    if (std::max(tStart, tEnd) < 0.20f) return;
     float d = Dist(start, end);
     Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
 
     Vector2 unitVector = (Vector2){side.x / (d / 3), side.y / (d / 3)};
     Vector2 invVector = InverseVector(unitVector);
+
+    {  // from start -> end
+        start.x += invVector.x, end.x += invVector.x;
+        start.y += invVector.y, end.y += invVector.y;
+
+        DrawDirectionalArrow(start, end, activeStart, tStart);
+    }
+
+    {  // from end -> start
+        start.x -= 2 * invVector.x, end.x -= 2 * invVector.x;
+        start.y -= 2 * invVector.y, end.y -= 2 * invVector.y;
+        DrawDirectionalArrow(end, start, activeEnd, tEnd);
+    }
 }
 
 void AnimationFactory::DrawDoubleActiveArrow(Vector2 start, Vector2 end,
-                                             float t1, float t2) {}
+                                             float tStart, float tEnd) {
+    if (start.x == end.x && start.y == end.y) return;
+    if (std::max(tStart, tEnd) < 0.20f) return;
+    float d = Dist(start, end);
+    Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
+
+    Vector2 unitVector = (Vector2){side.x / (d / 3), side.y / (d / 3)};
+    Vector2 invVector = InverseVector(unitVector);
+
+    {  // from start -> end
+        start.x += invVector.x, end.x += invVector.x;
+        start.y += invVector.y, end.y += invVector.y;
+
+        DrawActiveArrow(start, end, tStart);
+    }
+
+    {  // from end -> start
+        start.x -= 2 * invVector.x, end.x -= 2 * invVector.x;
+        start.y -= 2 * invVector.y, end.y -= 2 * invVector.y;
+        DrawActiveArrow(end, start, tEnd);
+    }
+}
 
 void AnimationFactory::ReCalculateEnds(Vector2& start, Vector2& end,
                                        float radius) {

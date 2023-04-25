@@ -28,6 +28,7 @@ GUI::Node::~Node() {}
 bool GUI::Node::isSelectable() const { return false; }
 
 void GUI::Node::Draw(Vector2 base, float t) {
+    if (mNodeState == State::Hide) return;
     float width;
     base.x += mPosition.x;
     base.y += mPosition.y;
