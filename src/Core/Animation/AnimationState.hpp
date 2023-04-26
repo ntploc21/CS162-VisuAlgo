@@ -3,6 +3,7 @@
 
 #include <functional>
 
+#include "Components/Visualization/CircularLinkedList.hpp"
 #include "Components/Visualization/DataStructure.hpp"
 #include "Components/Visualization/DoublyLinkedList.hpp"
 #include "Components/Visualization/DynamicArray.hpp"
@@ -156,6 +157,7 @@ void Animation::AnimationState< T >::Draw(Vector2 base) {
 
 typedef Animation::AnimationState< GUI::SinglyLinkedList > SLLAnimation;
 typedef Animation::AnimationState< GUI::DoublyLinkedList > DLLAnimation;
+typedef Animation::AnimationState< GUI::CircularLinkedList > CLLAnimation;
 typedef Animation::AnimationState< GUI::DynamicArray > DArrayAnimation;
 
 #endif  // CORE_ANIMATION_ANIMATIONSTATE_HPP

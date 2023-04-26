@@ -131,6 +131,7 @@ add_executable(${PROJECT_NAME}
     src/Components/Visualization/LinkedList.cpp
     src/Components/Visualization/SinglyLinkedList.cpp
     src/Components/Visualization/DoublyLinkedList.cpp
+    src/Components/Visualization/CircularLinkedList.cpp
     src/Components/Visualization/DynamicArray.cpp
     
     # Core
@@ -145,6 +146,7 @@ add_executable(${PROJECT_NAME}
     src/Core/Algorithms/Array/DynamicArray.cpp
     ### LinkedList
     # src/Core/DataStructures/LinkedList/BaseNode.hpp
+    src/Core/Algorithms/LinkedList/CircularLinkedList.cpp
     src/Core/Algorithms/LinkedList/DoublyLinkedList.cpp
     src/Core/Algorithms/LinkedList/SinglyLinkedList.cpp
     src/Core/Algorithms/LinkedList/Queue.cpp
