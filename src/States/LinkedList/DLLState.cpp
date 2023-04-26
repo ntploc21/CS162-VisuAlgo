@@ -156,7 +156,7 @@ void DLLState::AddDeleteOperation() {
         container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            // mDLL.DeleteMiddle(i);
+            mDLL.DeleteMiddle(i);
             SetCurrentAction("Remove index " + input["i = "]);
         });
     /* Delete elements with specific value */

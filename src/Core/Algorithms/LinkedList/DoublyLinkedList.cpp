@@ -695,248 +695,224 @@ void Algorithm::DoublyLinkedList::DeleteTail() {
     visualizer.Relayout();
 }
 
-// void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
-//     InitAction(
-//         {"if(head == nullptr) return; // empty, do nothing",
-//          "Node *pre = head;", "for(int k=0;k<i-1;k++)",
-//          "	pre = pre->next;", "Node *del = pre->next, *aft =
-//          del->next;", "pre->next = aft, aft->prev = pre; // bypass del",
-//          "delete del;"});
+void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
+    InitAction(
+        {"if(head == nullptr) return; // empty, do nothing",
+         "Node *pre = head;", "for(int k=0;k<i-1;k++)",
+         "	pre = pre->next;", "Node *del = pre->next, *aft = del->next;",
+         " pre->next = aft, aft->prev = pre;  // bypass del", "delete del;"});
 
-//     /* Animation goes here */
-//     auto& nodes = visualizer.GetList();
-//     for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    /* Animation goes here */
+    auto& nodes = visualizer.GetList();
+    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
 
-//     {  // Line 1
-//         nodes[0].SetLabel("head/0");
-//         nodes[0].SetNodeState(GUI::Node::State::Active);
-//         DLLAnimation anim1 = GenerateAnimation(
-//             0.75, 0, "head is exist, so we proceed to the next step");
-//         animController->AddAnimation(anim1);
-//     }
+    {  // Line 1
+        nodes[0].SetLabel("head/0");
+        nodes[0].SetNodeState(GUI::Node::State::Active);
+        DLLAnimation anim1 = GenerateAnimation(
+            0.75, 0, "head is exist, so we proceed to the next step");
+        animController->AddAnimation(anim1);
+        nodes[0].AnimationOnNode(false);
+    }
 
-//     {  // Line 2
-//         nodes[0].SetLabel("head/pre/0");
-//         DLLAnimation anim1 =
-//             GenerateAnimation(0.75, 1,
-//                               "Set prev to head.\nPointer prev will stop
-//                               at " "one vertex before the deleted
-//                               vertex.");
-//         animController->AddAnimation(anim1);
-//     }
+    {  // Line 2
+        nodes[0].SetLabel("head/pre/0");
+        DLLAnimation anim1 =
+            GenerateAnimation(0.75, 1,
+                              "Set prev to head.\nPointer prev will stop at "
+                              "one vertex before the deleted vertex.");
+        animController->AddAnimation(anim1);
+    }
 
-//     nodes[0].AnimationOnNode(false);
-//     for (int k = 0; k <= index - 1; k++) {
-//         {  // Line 3
-//             DLLAnimation animLoop1 = GenerateAnimation(
-//                 0.75, 2,
-//                 "Increment k, index specified has not been reached.\nk: "
-//                 +
-//                     std::to_string(k) + ".");
-//             if (k == 0)
-//                 animLoop1.SetActionDescription("Enter the loop.\nk is
-//                 now: 0");
-//             if (k == index - 1)
-//                 animLoop1.SetActionDescription(
-//                     "k is " + std::to_string(k) +
-//                     ", prev now points to one vertex behind the vertex "
-//                     "to-be-deleted.\nWe stop searching and continue with
-//                     the " "removal.");
-//             else
-//                 animLoop1.SetAnimation(HighlightArrowFromCur(k));
-//             animController->AddAnimation(animLoop1);
-//         }
+    nodes[0].AnimationOnNode(false);
+    for (int k = 0; k <= index - 1; k++) {
+        {  // Line 3
+            DLLAnimation animLoop1 = GenerateAnimation(
+                0.75, 2,
+                "Increment k, index specified has not been reached.\nk: " +
+                    std::to_string(k) + ".");
+            if (k == 0)
+                animLoop1.SetActionDescription("Enter the loop.\nk is now: 0");
+            if (k == index - 1)
+                animLoop1.SetActionDescription(
+                    "k is " + std::to_string(k) +
+                    ", prev now points to one vertex behind the vertex "
+                    "to-be-deleted.\nWe stop searching and continue with the "
+                    "removal.");
+            else
+                animLoop1.SetAnimation(HighlightArrowNext(k));
+            animController->AddAnimation(animLoop1);
+        }
 
-//         if (k == index - 1) break;
+        if (k == index - 1) break;
 
-//         {  // Line 4
-//             nodes[k].SetNodeState(GUI::Node::Iterated);
-//             nodes[k].ClearLabel();
-//             if (k == 0) nodes[k].SetLabel("head");
+        {  // Line 4
+            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].ClearLabel();
+            if (k == 0) nodes[k].SetLabel("head");
 
-//             nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
-//             nodes[k + 1].SetNodeState(GUI::Node::Active);
-//             nodes[k + 1].AnimationOnNode(true);
-//             visualizer.SetArrowType(k, ArrowType::Active);
+            nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
+            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].AnimationOnNode(true);
+            visualizer.SetArrowTypeNext(k, ArrowType::Active);
 
-//             DLLAnimation animLoop2 = GenerateAnimation(
-//                 0.75, 3, "Pointer pre advances to the next vertex.");
-//             nodes[k + 1].AnimationOnNode(false);
-//             animController->AddAnimation(animLoop2);
-//         }
-//     }
+            DLLAnimation animLoop2 = GenerateAnimation(
+                0.75, 3, "Pointer pre advances to the next vertex.");
+            nodes[k + 1].AnimationOnNode(false);
+            animController->AddAnimation(animLoop2);
+        }
+    }
 
-//     nodes[index].SetLabel("del/" + std::to_string(index));
-//     nodes[index].SetNodeState(GUI::Node::State::ActiveRed);
-//     DLLAnimation anim5 = GenerateAnimation(
-//         0.75, 4,
-//         "We store reference to the vertex to-be-deleted.\nWe also store "
-//         "reference to the vertex after the to-be-deleted vertex.");
-//     anim5.SetAnimation(HighlightArrowFromCur(index - 1));
-//     visualizer.SetArrowType(index - 1, ArrowType::Active);
-//     nodes[index].AnimationOnNode(false);
+    {  // Line 5
+        nodes[index].SetLabel("del/" + std::to_string(index));
+        nodes[index].SetNodeState(GUI::Node::State::ActiveRed);
+        DLLAnimation anim5 = GenerateAnimation(
+            0.75, 4,
+            "We store reference to the vertex to-be-deleted.\nWe also store "
+            "reference to the vertex after the to-be-deleted vertex.");
+        anim5.SetAnimation(HighlightArrowNext(index - 1));
+        visualizer.SetArrowTypeNext(index - 1, ArrowType::Active);
+        nodes[index].AnimationOnNode(false);
 
-//     nodes[index + 1].SetLabel("aft/" + std::to_string(index + 1));
-//     nodes[index + 1].SetNodeState(GUI::Node::State::ActiveGreen);
-//     if (index + 1 == nodes.size() - 1)
-//         nodes[index + 1].SetLabel("tail/aft/" + std::to_string(index +
-//         1));
+        nodes[index + 1].SetLabel("aft/" + std::to_string(index + 1));
+        nodes[index + 1].SetNodeState(GUI::Node::State::ActiveGreen);
+        if (index + 1 == nodes.size() - 1)
+            nodes[index + 1].SetLabel("tail/aft/" + std::to_string(index + 1));
 
-//     DLLAnimation anim5_2 = GenerateAnimation(
-//         0.75, 4,
-//         "We store reference to the vertex to-be-deleted.\nWe also store "
-//         "reference to the vertex after the to-be-deleted vertex.");
-//     anim5_2.SetAnimation(HighlightArrowFromCur(index));
+        DLLAnimation anim5_2 = GenerateAnimation(
+            0.75, 4,
+            "We store reference to the vertex to-be-deleted.\nWe also store "
+            "reference to the vertex after the to-be-deleted vertex.");
+        anim5_2.SetAnimation(HighlightArrowNext(index));
 
-//     animController->AddAnimation(anim5);
-//     animController->AddAnimation(anim5_2);
+        animController->AddAnimation(anim5);
+        animController->AddAnimation(anim5_2);
+    }
 
-//     {  // Line 6
-//         nodes[index + 1].AnimationOnNode(false);
-//         visualizer.SetArrowType(index - 1, ArrowType::Hidden);
-//         visualizer.SetArrowType(index, ArrowType::Skip);
+    {  // Line 6
+        nodes[index + 1].AnimationOnNode(false);
+        visualizer.SetArrowTypeNext(index - 1, ArrowType::Hidden);
+        visualizer.SetArrowTypePrev(index - 1, ArrowType::Hidden);
+        visualizer.SetArrowTypeNext(index, ArrowType::Skip);
+        visualizer.SetArrowTypePrev(index, ArrowType::Skip);
 
-//         DLLAnimation anim6 =
-//             GenerateAnimation(1.50, 5,
-//                               "We connect the vertex behind the vertex "
-//                               "to-be-deleted (pointer prev) "
-//                               "with the next vertex after the vertex "
-//                               "to-be-deleted (pointer after).");
-//         anim6.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
-//                                          float playingAt, Vector2 base) {
-//             auto& nodes = srcDS.GetList();
+        DLLAnimation anim6 =
+            GenerateAnimation(1.50, 5,
+                              "We connect the vertex behind the vertex "
+                              "to-be-deleted (pointer prev) "
+                              "with the next vertex after the vertex "
+                              "to-be-deleted (pointer after).");
+        anim6.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
+                                         float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
 
-//             Vector2 beforeStart = nodes[index - 1].GetPosition();
-//             Vector2 start = nodes[index].GetPosition();
-//             Vector2 end = nodes[index + 1].GetPosition();
-//             Vector2 end2 = AnimationFactory::MoveNode(
-//                 start, end, std::max(0.0f, (playingAt - 0.5f) * 2));
-//             start = AnimationFactory::MoveNode(start,
-//                                                (Vector2){start.x, start.y
-//                                                - 60}, std::min(playingAt
-//                                                * 2, 1.0f));
-//             nodes[index].SetPosition(start.x, start.y);
+            Vector2 beforeStart = nodes[index - 1].GetPosition();
+            Vector2 start = nodes[index].GetPosition();
+            Vector2 end = nodes[index + 1].GetPosition();
+            Vector2 end2 = AnimationFactory::MoveNode(
+                start, end, std::max(0.0f, (playingAt - 0.5f) * 2));
+            start = AnimationFactory::MoveNode(start,
+                                               (Vector2){start.x, start.y - 60},
+                                               std::min(playingAt * 2, 1.0f));
+            nodes[index].SetPosition(start.x, start.y);
 
-//             srcDS.Draw(base, playingAt);
-//             base.x += srcDS.GetPosition().x;
-//             base.y += srcDS.GetPosition().y;
+            srcDS.Draw(base, playingAt);
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
 
-//             beforeStart.x += base.x, beforeStart.y += base.y;
-//             start.x += base.x, start.y += base.y;
-//             end.x += base.x, end.y += base.y;
-//             end2.x += base.x, end2.y += base.y;
+            beforeStart.x += base.x, beforeStart.y += base.y;
+            start.x += base.x, start.y += base.y;
+            end.x += base.x, end.y += base.y;
+            end2.x += base.x, end2.y += base.y;
 
-//             AnimationFactory::DrawDirectionalArrow(start, end,
-//             true, 1.0f); AnimationFactory::DrawActiveArrow(beforeStart,
-//             end2, 1.0f);
+            AnimationFactory::DrawDoubleActiveArrow(beforeStart, end2, 1.0f,
+                                                    0.0f);
+            AnimationFactory::DrawDoubleDirectionalArrow(
+                beforeStart, end2, false, false, 0.0f, 1.0f);
+            AnimationFactory::DrawDoubleDirectionalArrow(start, end, true, true,
+                                                         1.0f, 1.0f);
 
-//             return srcDS;
-//         });
-//         animController->AddAnimation(anim6);
+            return srcDS;
+        });
+        animController->AddAnimation(anim6);
 
-//         visualizer.SetArrowType(index - 1, ArrowType::Active);
-//         nodes[index].SetPosition(nodes[index].GetPosition().x,
-//                                  nodes[index].GetPosition().y - 60);
-//     }
+        visualizer.SetArrowTypeNext(index - 1, ArrowType::Active);
+        nodes[index].SetPosition(nodes[index].GetPosition().x,
+                                 nodes[index].GetPosition().y - 60);
+    }
 
-//     {  // Line 7
-//         DLLAnimation anim7 =
-//             GenerateAnimation(0.75, 6, "Now we delete this vertex.");
-//         anim7.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
-//                                          float playingAt, Vector2 base) {
-//             auto& nodes = srcDS.GetList();
+    {  // Line 7
+        DLLAnimation anim7 =
+            GenerateAnimation(0.75, 6, "Now we delete this vertex.");
+        anim7.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
+                                         float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
 
-//             nodes[index].SetRadius(
-//                 AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
-//             nodes[index].SetValueFontSize(
-//                 AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
-//             nodes[index].SetLabelFontSize(
-//                 AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+            nodes[index].SetRadius(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+            nodes[index].SetValueFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
+            nodes[index].SetLabelFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
 
-//             srcDS.Draw(base, playingAt);
+            srcDS.Draw(base, playingAt);
 
-//             base.x += srcDS.GetPosition().x;
-//             base.y += srcDS.GetPosition().y;
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
 
-//             Vector2 start = nodes[index].GetPosition();
-//             Vector2 end = nodes[index + 1].GetPosition();
+            Vector2 start = nodes[index].GetPosition();
+            Vector2 end = nodes[index + 1].GetPosition();
 
-//             start.x += base.x, start.y += base.y;
-//             end.x += base.x, end.y += base.y;
-//             AnimationFactory::DrawDirectionalArrow(start, end, true,
-//                                                    1.0f - playingAt);
+            start.x += base.x, start.y += base.y;
+            end.x += base.x, end.y += base.y;
+            AnimationFactory::DrawDoubleDirectionalArrow(
+                start, end, true, true, 1.0f - playingAt, 1.0f - playingAt);
 
-//             return srcDS;
-//         });
-//         animController->AddAnimation(anim7);
-//         visualizer.DeleteNode(index, false);
-//     }
+            return srcDS;
+        });
+        animController->AddAnimation(anim7);
+        visualizer.DeleteNode(index, false);
+    }
 
-//     {  // Re-layout
-//         DLLAnimation anim8 =
-//             GenerateAnimation(0.75, -1,
-//                               "Re-layout the Linked List for
-//                               visualization "
-//                               "(not in the actual Linked "
-//                               "List).\nThe whole process is still
-//                               O(1).");
-//         anim8.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
-//                                          float playingAt, Vector2 base) {
-//             auto& nodes = srcDS.GetList();
+    {  // Re-layout
+        DLLAnimation anim8 =
+            GenerateAnimation(0.75, -1,
+                              "Re-layout the Linked List for visualization "
+                              "(not in the actual Linked List).\nThe whole "
+                              "process is still O(1).");
+        anim8.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
+                                         float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
 
-//             for (int i = index; i < int(nodes.size()); i++) {
-//                 Vector2 cur = nodes[i].GetPosition();
-//                 Vector2 nxt = cur;
-//                 nxt.x -= 60;
-//                 nodes[i].SetPosition(
-//                     AnimationFactory::MoveNode(cur, nxt, playingAt));
-//             }
-//             srcDS.Draw(base, playingAt);
-//             return srcDS;
-//         });
-//         animController->AddAnimation(anim8);
+            for (int i = index; i < int(nodes.size()); i++) {
+                Vector2 cur = nodes[i].GetPosition();
+                Vector2 nxt = cur;
+                nxt.x -= 60;
+                nodes[i].SetPosition(
+                    AnimationFactory::MoveNode(cur, nxt, playingAt));
+            }
+            srcDS.Draw(base, playingAt);
+            return srcDS;
+        });
+        animController->AddAnimation(anim8);
 
-//         for (int i = index; i < int(nodes.size()); i++) {
-//             nodes[i].SetPosition(nodes[i].GetPosition().x - 60,
-//                                  nodes[i].GetPosition().y);
-//         }
-//     }
+        for (int i = index; i < int(nodes.size()); i++) {
+            nodes[i].SetPosition(nodes[i].GetPosition().x - 60,
+                                 nodes[i].GetPosition().y);
+        }
+    }
 
-//     {  // Re-layout (center the LL)
-//         float length = 40 * visualizer.GetList().size() +
-//                        20 * (visualizer.GetList().size() - 1);
-//         float actualPosX = (global::SCREEN_WIDTH - length) / 2;
-//         DLLAnimation anim9 =
-//             GenerateAnimation(0.5, -1,
-//                               "Re-layout the Linked List for
-//                               visualization "
-//                               "(not in the actual Linked "
-//                               "List).\nThe whole process is still
-//                               O(1).");
-//         anim9.SetAnimation([this, actualPosX](GUI::DoublyLinkedList
-//         srcDS,
-//                                               float playingAt, Vector2
-//                                               base)
-//                                               {
-//             Vector2 newPos = srcDS.GetPosition();
-//             newPos.x += (actualPosX - newPos.x) * playingAt;
-//             srcDS.SetPosition(newPos);
+    {  // Re-layout (center the LL)
+        float length = 40 * visualizer.GetList().size() +
+                       20 * (visualizer.GetList().size() - 1);
+        float actualPosX = (global::SCREEN_WIDTH - length) / 2;
+        GenerateRelayoutAnimation(
+            (Vector2){actualPosX, visualizer.GetPosition().y});
+    }
 
-//             srcDS.Draw(base, playingAt);
-
-//             return srcDS;
-//         });
-//         animController->AddAnimation(anim9);
-//     }
-
-//     visualizer.Relayout();
-
-//     for (GUI::Node& node : nodes) {
-//         node.AnimationOnNode(false);
-//         node.SetNodeState(GUI::Node::Default);
-//     }
-//     visualizer.ResetArrow();
-// }
+    visualizer.Relayout();
+    ResetVisualizer();
+}
 
 // void Algorithm::DoublyLinkedList::Update(int index, int value) {
 //     InitAction({"if(head == nullptr) return; // NO_ELEMENT",

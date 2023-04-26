@@ -28,7 +28,7 @@ namespace Algorithm {
     public:
         void DeleteHead();
         void DeleteTail();
-        //     void DeleteMiddle(int index);
+        void DeleteMiddle(int index);
 
         // public:
         //     void Update(int index, int value);
