@@ -1010,134 +1010,97 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
 //     animController->AddAnimation(animFinal);
 // }
 
-// void Algorithm::DoublyLinkedList::Search(int value) {
-//     InitAction({"Node *cur = head;", "while(cur != nullptr) {",
-//                 "	if(cur->value == v) return cur;",
-//                 "	cur = cur->next;", "}",
-//                 "return nullptr; // NOT_FOUND"});
+void Algorithm::DoublyLinkedList::Search(int value) {
+    InitAction({"Node *cur = head;", "while(cur != nullptr) {",
+                "	if(cur->value == v) return cur;",
+                "	cur = cur->next;", "}",
+                "return nullptr; // NOT_FOUND"});
 
-//     if (!visualizer.GetList().size()) {
-//         animController->AddAnimation(
-//             GenerateAnimation(0.5, 0, "Set cur to head."));
-//         animController->AddAnimation(GenerateAnimation(
-//             1, 1, "cur is currently NULL, so we will halt the while
-//             loop."));
-//         animController->AddAnimation(
-//             GenerateAnimation(0.5, 5, "Element not found, return NULL"));
-//         animController->Continue();
-//         return;
-//     }
-//     auto& nodes = visualizer.GetList();
-//     for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    if (!visualizer.GetList().size()) {
+        animController->AddAnimation(
+            GenerateAnimation(0.5, 0, "Set cur to head."));
+        animController->AddAnimation(GenerateAnimation(
+            1, 1, "cur is currently NULL, so we will halt the while loop."));
+        animController->AddAnimation(
+            GenerateAnimation(0.5, 5, "Element not found, return NULL"));
+        animController->Continue();
+        return;
+    }
+    auto& nodes = visualizer.GetList();
+    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
 
-//     nodes[0].SetNodeState(GUI::Node::Active);
-//     nodes[0].SetLabel("head/cur/0");
-//     DLLAnimation anim1 = GenerateAnimation(0.5, 0, "Set cur to head.");
-//     animController->AddAnimation(anim1);
+    nodes[0].SetNodeState(GUI::Node::Active);
+    nodes[0].SetLabel("head/cur/0");
+    DLLAnimation anim1 = GenerateAnimation(0.5, 0, "Set cur to head.");
+    animController->AddAnimation(anim1);
 
-//     int i = 0;
-//     bool found = false;
-//     do {
-//         nodes[i].AnimationOnNode(false);
-//         DLLAnimation animLoop1 =
-//             GenerateAnimation(0.5, 1, "Check whether the current node is
-//             NULL");
-//         animController->AddAnimation(animLoop1);
-//         if (i == nodes.size()) break;
-//         DLLAnimation animLoop2 = GenerateAnimation(
-//             1, 2, "Check if the current node's value is equal to v");
-//         DLLAnimation animLoop3;
-//         if (nodes[i].GetValue() == value) {
-//             animLoop3 = GenerateAnimation(
-//                 0.5, 2,
-//                 "Found value v = " + std::to_string(value) +
-//                     " at this highlighted vertex so we return node at
-//                     index "
-//                     + std::to_string(i) + ".\nThe whole operation is
-//                     O(N)");
-//             found = true;
-//             nodes[i].ClearLabel();
-//             if (i == 0)
-//                 nodes[i].SetLabel("head");
-//             else if (i + 1 == nodes.size())
-//                 nodes[i].SetLabel("tail");
-//         } else {
-//             nodes[i].AnimationOnNode(true);
-//             nodes[i].SetNodeState(GUI::Node::Iterated);
-//             if (i == 0)
-//                 nodes[i].SetLabel("head");
-//             else if (i + 1 == nodes.size())
-//                 nodes[i].SetLabel("tail");
-//             else
-//                 nodes[i].ClearLabel();
+    int i = 0;
+    bool found = false;
+    do {
+        nodes[i].AnimationOnNode(false);
+        DLLAnimation animLoop1 =
+            GenerateAnimation(0.5, 1, "Check whether the current node is NULL");
+        animController->AddAnimation(animLoop1);
+        if (i == nodes.size()) break;
+        DLLAnimation animLoop2 = GenerateAnimation(
+            1, 2, "Check if the current node's value is equal to v");
+        DLLAnimation animLoop3;
+        if (nodes[i].GetValue() == value) {
+            animLoop3 = GenerateAnimation(
+                0.5, 2,
+                "Found value v = " + std::to_string(value) +
+                    " at this highlighted vertex so we return node at index " +
+                    std::to_string(i) + ".\nThe whole operation is O(N)");
+            found = true;
+            nodes[i].ClearLabel();
+            if (i == 0)
+                nodes[i].SetLabel("head");
+            else if (i + 1 == nodes.size())
+                nodes[i].SetLabel("tail");
+        } else {
+            nodes[i].AnimationOnNode(true);
+            nodes[i].SetNodeState(GUI::Node::Iterated);
+            if (i == 0)
+                nodes[i].SetLabel("head");
+            else if (i + 1 == nodes.size())
+                nodes[i].SetLabel("tail");
+            else
+                nodes[i].ClearLabel();
 
-//             if (i + 1 < nodes.size()) {
-//                 nodes[i + 1].SetNodeState(GUI::Node::Active);
-//                 if (i + 1 == nodes.size() - 1)
-//                     nodes[i + 1].SetLabel("tail/cur/" + std::to_string(i
-//                     + 1));
-//                 else
-//                     nodes[i + 1].SetLabel("cur/" + std::to_string(i +
-//                     1));
-//             }
-//             animLoop3 = GenerateAnimation(0.5, 3, "Advance to the next
-//             node");
+            if (i + 1 < nodes.size()) {
+                nodes[i + 1].SetNodeState(GUI::Node::Active);
+                if (i + 1 == nodes.size() - 1)
+                    nodes[i + 1].SetLabel("tail/cur/" + std::to_string(i + 1));
+                else
+                    nodes[i + 1].SetLabel("cur/" + std::to_string(i + 1));
+            }
+            animLoop3 = GenerateAnimation(0.5, 3, "Advance to the next node");
 
-//             if (i + 1 < nodes.size()) {
-//                 animLoop3.SetAnimation(HighlightArrowFromCur(i));
-//                 visualizer.SetArrowType(i, ArrowType::Active);
-//             }
-//         }
-//         animController->AddAnimation(animLoop2);
-//         animController->AddAnimation(animLoop3);
-//         nodes[i].AnimationOnNode(false);
-//     } while (!found && ++i);
+            if (i + 1 < nodes.size()) {
+                animLoop3.SetAnimation(HighlightArrowNext(i));
+                visualizer.SetArrowTypeNext(i, ArrowType::Active);
+            }
+        }
+        animController->AddAnimation(animLoop2);
+        animController->AddAnimation(animLoop3);
+        nodes[i].AnimationOnNode(false);
+    } while (!found && ++i);
 
-//     if (!found) {
-//         DLLAnimation animNotFound = GenerateAnimation(
-//             0.5, 5,
-//             "cur is null (we have gone past the tail after O(N)
-//             step(s)).\n" "We can conclude that value v = " +
-//                 std::to_string(value) +
-//                 " is NOT FOUND in the Linked "
-//                 "List");
-//         animController->AddAnimation(animNotFound);
-//     }
+    if (!found) {
+        DLLAnimation animNotFound = GenerateAnimation(
+            0.5, 5,
+            "cur is null (we have gone past the tail after O(N) step(s)).\n"
+            "We can conclude that value v = " +
+                std::to_string(value) + " is NOT FOUND in the Linked List");
+        animController->AddAnimation(animNotFound);
+    }
 
-//     for (GUI::Node& node : nodes) {
-//         node.AnimationOnNode(false);
-//         node.SetNodeState(GUI::Node::Default);
-//     }
-//     visualizer.ResetArrow();
-// }
-
-// std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float,
-// Vector2) > Algorithm::DoublyLinkedList::HighlightArrowFromCur(int index,
-//                                                    bool drawVisualizer,
-//                                                    bool reverse) {
-//     return [this, index, drawVisualizer, reverse](
-//                GUI::DoublyLinkedList srcDS, float playingAt, Vector2
-//                base) {
-//         auto& nodes = srcDS.GetList();
-//         if (drawVisualizer) srcDS.Draw(base, playingAt);
-//         base.x += srcDS.GetPosition().x;
-//         base.y += srcDS.GetPosition().y;
-
-//         Vector2 start = nodes[index].GetPosition();
-//         Vector2 end = nodes[index + 1].GetPosition();
-//         if (srcDS.GetArrowType(index + 1) == ArrowType::Skip) {
-//             if (!(index + 2 < nodes.size())) return srcDS;
-//             end = nodes[index + 2].GetPosition();
-//         }
-
-//         start.x += base.x, start.y += base.y;
-//         end.x += base.x, end.y += base.y;
-
-//         if (reverse) playingAt = 1.0f - playingAt;
-//         AnimationFactory::DrawActiveArrow(start, end, playingAt);
-//         return srcDS;
-//     };
-// }
+    for (GUI::Node& node : nodes) {
+        node.AnimationOnNode(false);
+        node.SetNodeState(GUI::Node::Default);
+    }
+    visualizer.ResetArrow();
+}
 
 std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float, Vector2) >
 Algorithm::DoublyLinkedList::HighlightArrowNext(int index, bool drawVisualizer,

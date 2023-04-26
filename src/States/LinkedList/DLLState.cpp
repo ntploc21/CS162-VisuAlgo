@@ -185,7 +185,7 @@ void DLLState::AddSearchOperation() {
         container, "Specify v", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
             int v = std::stoi(input["v = "]);
-            // mDLL.Search(v);
+            mDLL.Search(v);
             SetCurrentAction("Search " + input["v = "]);
         });
 
