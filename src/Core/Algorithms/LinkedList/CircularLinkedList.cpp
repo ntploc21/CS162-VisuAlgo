@@ -20,21 +20,32 @@ Algorithm::CircularLinkedList::CircularLinkedList(
 Algorithm::CircularLinkedList::~CircularLinkedList() {}
 
 void Algorithm::CircularLinkedList::InsertHead(int value) {
-    if (visualizer.GetList().size() == maxN) return;
-    InitAction(
-        {"Node *node = new Node(v);", "node->next = head;", "head = node;"});
+    auto& nodes = visualizer.GetList();
+    if (nodes.size() == maxN) return;
+    InitAction({"Node *node = new Node(v);", "node->next = head;",
+                "head = node;", "if(tail == nullptr) head->next = head;",
+                "else tail->next = head;"});
 
     /* Animation goes here */
 
-    visualizer.SetPosition(visualizer.GetPosition().x - 60,
-                           visualizer.GetPosition().y);
+    // visualizer.SetPosition(visualizer.GetPosition().x - 60,
+    //                        visualizer.GetPosition().y);
 
+    if (nodes.empty()) {
+        visualizer.SetCircularArrowType(ArrowType::Hidden);
+    }
     GUI::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetPosition((Vector2){0, -60});
     newNode.SetNodeState(GUI::Node::Active);
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
 
-    visualizer.InsertNode(0, newNode);
+    visualizer.InsertNode(0, newNode, false);
+
+    if (nodes.size() > 1) {
+        visualizer.SetCircularEnds(1, nodes.size() - 1);
+    }
+
     visualizer.SetArrowType(0, ArrowType::Hidden);
 
     CLLAnimation anim1 = GenerateAnimation(
@@ -47,15 +58,19 @@ void Algorithm::CircularLinkedList::InsertHead(int value) {
             node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
             node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
 
+            std::cout << node.GetPosition().x << " " << node.GetPosition().y
+                      << " | " << srcDS.GetPosition().x << " "
+                      << srcDS.GetPosition().y << std::endl;
+
             srcDS.Draw(base, playingAt);
             return srcDS;
         });
     animController->AddAnimation(anim1);
-    visualizer.GetList()[0].AnimationOnNode(false);
+    nodes[0].AnimationOnNode(false);
 
     CLLAnimation anim2 =
         GenerateAnimation(0.5, 1, "node->next points to the current head.");
-    if (visualizer.GetList().size() > 1) {
+    if (nodes.size() > 1) {
         anim2.SetAnimation([this](GUI::CircularLinkedList srcDS,
                                   float playingAt, Vector2 base) {
             srcDS.Draw(base, playingAt);
@@ -73,15 +88,101 @@ void Algorithm::CircularLinkedList::InsertHead(int value) {
         });
         visualizer.SetArrowType(0, ArrowType::Active);
 
-        visualizer.GetList()[1].ClearLabel();
+        nodes[1].ClearLabel();
     } else
         anim2.SetActionDescription(
             "node->next points to the current head.\nHead is currently null.");
     animController->AddAnimation(anim2);
 
-    visualizer.GetList()[0].SetLabel("head");
-    CLLAnimation anim3 = GenerateAnimation(0.5, 2, "head points to node.");
-    animController->AddAnimation(anim3);
+    {  // Line 3
+        nodes[0].SetLabel("head");
+        CLLAnimation anim3 = GenerateAnimation(0.5, 2, "head points to node.");
+        animController->AddAnimation(anim3);
+    }
+
+    {  // Line 4
+        if (nodes.size() == 1) {
+            CLLAnimation anim4 =
+                GenerateAnimation(0.5, 3,
+                                  "tail = NULL, so the current circular linked "
+                                  "list only have one element.");
+            anim4.SetAnimation(HighlightCircularArrow());
+            animController->AddAnimation(anim4);
+            visualizer.SetCircularArrowType(ArrowType::Default);
+            visualizer.SetCircularEnds(0, 0);
+        } else {
+            visualizer.SetCircularArrowType(ArrowType::Hidden);
+            CLLAnimation anim4 =
+                GenerateAnimation(0.5, 3,
+                                  "tail <> NULL, we will move our tail->next "
+                                  "to point to the current head.");
+            anim4.SetAnimation([this](GUI::CircularLinkedList srcDS,
+                                      float playingAt, Vector2 base) {
+                srcDS.Draw(base, playingAt);
+                base.x += srcDS.GetPosition().x;
+                base.y += srcDS.GetPosition().y;
+
+                auto& nodes = srcDS.GetList();
+                Vector2 start = nodes.back().GetPosition();
+                Vector2 from = nodes[1].GetPosition();
+                Vector2 to = nodes.front().GetPosition();
+                start.x += base.x, start.y += base.y;
+                from.x += base.x, from.y += base.y;
+                to.x += base.x, to.y += base.y;
+
+                AnimationFactory::DrawCircularArrow(
+                    AnimationFactory::MoveNode(from, to, playingAt), start,
+                    false, 1.0f);
+
+                return srcDS;
+            });
+            animController->AddAnimation(anim4);
+
+            visualizer.SetCircularArrowType(ArrowType::Default);
+            visualizer.SetCircularEnds(0, nodes.size() - 1);
+        }
+    }
+
+    {  // Re-layout
+        CLLAnimation anim8 =
+            GenerateAnimation(0.75, -1,
+                              "Re-layout the Linked List for visualization "
+                              "(not in the actual Linked "
+                              "List).\nThe whole process is still O(1).");
+        anim8.SetAnimation([this](GUI::CircularLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
+
+            Vector2 posInserted = nodes[0].GetPosition();
+            Vector2 posAfter = posInserted;
+            posAfter.y += 60;
+
+            Vector2 newPosInserted =
+                AnimationFactory::MoveNode(posInserted, posAfter, playingAt);
+            nodes[0].SetPosition(newPosInserted);
+
+            for (int i = 1; i < int(nodes.size()); i++) {
+                Vector2 cur = nodes[i].GetPosition();
+                Vector2 nxt = cur;
+                nxt.x += 60;
+                nodes[i].SetPosition(
+                    AnimationFactory::MoveNode(cur, nxt, playingAt));
+            }
+            srcDS.Draw(base, playingAt);
+            return srcDS;
+        });
+        animController->AddAnimation(anim8);
+
+        for (int i = 0; i < int(nodes.size()) - 1; i++) {
+            nodes[i].SetPosition(nodes[i + 1].GetPosition());
+        }
+        if (nodes.size() > 1) {
+            nodes.back().SetPosition(nodes.back().GetPosition().x + 60,
+                                     nodes.back().GetPosition().y);
+        } else
+            nodes.back().SetPosition(nodes.back().GetPosition().x,
+                                     nodes.back().GetPosition().y + 60);
+    }
 
     {  // Relayout
         float length = 40 * visualizer.GetList().size() +
@@ -1055,6 +1156,29 @@ Algorithm::CircularLinkedList::HighlightArrowFromCur(int index,
 
         if (reverse) playingAt = 1.0f - playingAt;
         AnimationFactory::DrawActiveArrow(start, end, playingAt);
+        return srcDS;
+    };
+}
+
+std::function< GUI::CircularLinkedList(GUI::CircularLinkedList, float,
+                                       Vector2) >
+Algorithm::CircularLinkedList::HighlightCircularArrow(bool drawVisualizer,
+                                                      bool reverse) {
+    return [this, drawVisualizer, reverse](GUI::CircularLinkedList srcDS,
+                                           float playingAt, Vector2 base) {
+        auto& nodes = srcDS.GetList();
+        if (drawVisualizer) srcDS.Draw(base, playingAt);
+        base.x += srcDS.GetPosition().x;
+        base.y += srcDS.GetPosition().y;
+
+        Vector2 start = nodes.front().GetPosition();
+        Vector2 end = nodes.back().GetPosition();
+
+        start.x += base.x, start.y += base.y;
+        end.x += base.x, end.y += base.y;
+
+        if (reverse) playingAt = 1.0f - playingAt;
+        AnimationFactory::DrawCircularArrow(start, end, true, playingAt);
         return srcDS;
     };
 }

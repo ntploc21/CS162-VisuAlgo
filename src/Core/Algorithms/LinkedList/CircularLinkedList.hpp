@@ -41,6 +41,10 @@ namespace Algorithm {
                                                Vector2) >
         HighlightArrowFromCur(int index, bool drawVisualizer = true,
                               bool reverse = false);
+        std::function< GUI::CircularLinkedList(GUI::CircularLinkedList, float,
+                                               Vector2) >
+        HighlightCircularArrow(bool drawVisualizer = true,
+                               bool reverse = false);
 
     private:
         void ResetVisualizer();

@@ -39,10 +39,10 @@ void CLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "i = 0 (Head), specify v =" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            CLL.InsertHead(std::stoi(input["v = "]));
+            operationList.ToggleOperations();
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            SetCurrentAction("Insert " + input["v = "] + " at head");
         });
 
     /* Insert tail */
@@ -126,11 +126,11 @@ void CLLState::AddUpdateOperation() {
         container, "Specify i in [0..N-1] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify i in [0..N-1] and v parameters: "
-                      << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            CLL.Update(i, v);
+            SetCurrentAction("Update node " + input["i = "] + "'s value to " +
+                             input["v = "]);
         });
 
     operationList.AddOperation(buttonUpdate, container);
