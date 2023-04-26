@@ -122,7 +122,7 @@ void DLLState::AddUpdateOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
-            // mDLL.Update(i, v);
+            mDLL.Update(i, v);
             SetCurrentAction("Update node " + input["i = "] + "'s value to " +
                              input["v = "]);
         });

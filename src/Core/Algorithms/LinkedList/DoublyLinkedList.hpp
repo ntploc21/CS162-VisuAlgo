@@ -30,8 +30,8 @@ namespace Algorithm {
         void DeleteTail();
         void DeleteMiddle(int index);
 
-        // public:
-        //     void Update(int index, int value);
+    public:
+        void Update(int index, int value);
 
     public:
         void Search(int value);
