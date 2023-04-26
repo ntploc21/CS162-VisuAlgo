@@ -147,16 +147,24 @@ void AnimationFactory::DrawDoubleActiveArrow(Vector2 start, Vector2 end,
 */
 void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
                                          bool active, float t) {
-    ReCalculateEnds(start, end, -20);
+    // ReCalculateEnds(start, end, -20, true, false);
+    // if (start.x == end.x)
+    start.x -= 20, end.x += 20;
 
     Color lineColor = (active ? (Color){255, 138, 39, 255} : BLACK);
+
+    float maxY = std::max(start.y, end.y);
+
+    float leftVerticalSegmentLength = 60 + maxY - end.y;
+    float rightVerticalSegmentLength = 60 + maxY - start.y;
+
     float shortHorizontalSegmentLength = 20;
-    float verticalSegmentLength = 60;
     float bottomSegmentLength =
         std::abs(start.x - end.x) + 2 * shortHorizontalSegmentLength;
 
     float totalLength =
-        (shortHorizontalSegmentLength + verticalSegmentLength) * 2 +
+        shortHorizontalSegmentLength * 2 +
+        (leftVerticalSegmentLength + rightVerticalSegmentLength) +
         bottomSegmentLength;
 
     std::vector< float > stops;
@@ -169,7 +177,7 @@ void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
     // |
     stops.push_back(firstSegmentEnd);
     float secondSegmentEnd =
-        firstSegmentEnd + verticalSegmentLength / totalLength;
+        firstSegmentEnd + leftVerticalSegmentLength / totalLength;
 
     // -----...------
     stops.push_back(secondSegmentEnd);
@@ -179,7 +187,7 @@ void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
     // |
     stops.push_back(thirdSegmentEnd);
     float fourthSegmentEnd =
-        thirdSegmentEnd + verticalSegmentLength / totalLength;
+        thirdSegmentEnd + rightVerticalSegmentLength / totalLength;
 
     // ->
     stops.push_back(fourthSegmentEnd);
@@ -206,7 +214,7 @@ void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
         _end = (Vector2){_from.x + dt.x, _from.y + dt.y};
         if (calcProgress(index) == -1.0f) return false;
         if (calcProgress(index) < 1.0f || index == 4) {
-            ReCalculateEnds(_from, _end, -20);
+            ReCalculateEnds(_from, _end, -20, true, true);
             DrawDirectionalArrow(_from, _end, active, calcProgress(index));
         } else {
             DrawLineEx(_from, _end, 3, lineColor);
@@ -219,13 +227,13 @@ void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
     Vector2 dt = (Vector2){shortHorizontalSegmentLength, 0};
     if (!DrawArrow(from, to, 0, dt)) return;
     // 2
-    dt = (Vector2){0, verticalSegmentLength};
+    dt = (Vector2){0, leftVerticalSegmentLength};
     if (!DrawArrow(from, to, 1, dt)) return;
     // 3
     dt = (Vector2){-bottomSegmentLength, 0};
     if (!DrawArrow(from, to, 2, dt)) return;
     // 4
-    dt = (Vector2){0, -verticalSegmentLength};
+    dt = (Vector2){0, -rightVerticalSegmentLength};
     if (!DrawArrow(from, to, 3, dt)) return;
     // 5
     dt = (Vector2){shortHorizontalSegmentLength, 0};
@@ -233,18 +241,20 @@ void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
 }
 
 void AnimationFactory::ReCalculateEnds(Vector2& start, Vector2& end,
-                                       float radius) {
-    if (start.x == end.x && start.y == end.y) {
-        start.x += radius, end.x -= radius;
-        return;
-    }
+                                       float radius, bool applyX, bool applyY) {
+    // if (start.x == end.x && applyX) start.x += radius, end.x -= radius;
+    // if (start.y == end.y && applyY) start.y += radius, end.y -= radius;
 
     if (start.x == end.x && start.y == end.y) return;
     Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
 
     float d = Dist(start, end);
-    start.x += side.x * radius / d;
-    start.y += side.y * radius / d;
-    end.x -= side.x * radius / d;
-    end.y -= side.y * radius / d;
+    if (applyX) {
+        start.x += side.x * radius / d;
+        end.x -= side.x * radius / d;
+    }
+    if (applyY) {
+        start.y += side.y * radius / d;
+        end.y -= side.y * radius / d;
+    }
 }

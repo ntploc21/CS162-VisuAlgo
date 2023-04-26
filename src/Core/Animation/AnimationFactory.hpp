@@ -25,7 +25,8 @@ namespace AnimationFactory {
 
     Color BlendColor(Color src, Color dst, float t);
 
-    void ReCalculateEnds(Vector2 &start, Vector2 &end, float radius);
+    void ReCalculateEnds(Vector2 &start, Vector2 &end, float radius,
+                         bool applyX = true, bool applyY = true);
     /* Empty AnimationState */
 };  // namespace AnimationFactory
 
