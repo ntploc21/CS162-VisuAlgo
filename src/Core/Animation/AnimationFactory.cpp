@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include <iostream>
+#include <vector>
 
 float AnimationFactory::BounceOut(float t) {
     // -- Bounce out
@@ -139,8 +140,105 @@ void AnimationFactory::DrawDoubleActiveArrow(Vector2 start, Vector2 end,
     }
 }
 
+/*
+    -> ... >-
+    |       |
+    ---------
+*/
+void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
+                                         bool active, float t) {
+    ReCalculateEnds(start, end, -20);
+
+    Color lineColor = (active ? (Color){255, 138, 39, 255} : BLACK);
+    float shortHorizontalSegmentLength = 20;
+    float verticalSegmentLength = 60;
+    float bottomSegmentLength =
+        std::abs(start.x - end.x) + 2 * shortHorizontalSegmentLength;
+
+    float totalLength =
+        (shortHorizontalSegmentLength + verticalSegmentLength) * 2 +
+        bottomSegmentLength;
+
+    std::vector< float > stops;
+
+    // >-
+    stops.push_back(0);
+
+    float firstSegmentEnd = shortHorizontalSegmentLength / totalLength;
+
+    // |
+    stops.push_back(firstSegmentEnd);
+    float secondSegmentEnd =
+        firstSegmentEnd + verticalSegmentLength / totalLength;
+
+    // -----...------
+    stops.push_back(secondSegmentEnd);
+    float thirdSegmentEnd =
+        secondSegmentEnd + bottomSegmentLength / totalLength;
+
+    // |
+    stops.push_back(thirdSegmentEnd);
+    float fourthSegmentEnd =
+        thirdSegmentEnd + verticalSegmentLength / totalLength;
+
+    // ->
+    stops.push_back(fourthSegmentEnd);
+
+    //
+    stops.push_back(1.0f);
+
+    int currentStop = 0;
+    for (; currentStop < stops.size() - 1; currentStop++) {
+        if (t <= stops[currentStop + 1]) break;
+    }
+
+    auto calcProgress = [stops, t](std::size_t index) -> float {
+        if (t <= stops[index]) return -1.0f;
+        return std::min(1.0f,
+                        (t - stops[index]) / (stops[index + 1] - stops[index]));
+    };
+
+    Vector2 from = end;
+    Vector2 to = (Vector2){0, 0};
+
+    auto DrawArrow = [&](Vector2& _from, Vector2& _end, std::size_t index,
+                         Vector2 dt) -> bool {
+        _end = (Vector2){_from.x + dt.x, _from.y + dt.y};
+        if (calcProgress(index) == -1.0f) return false;
+        if (calcProgress(index) < 1.0f || index == 4) {
+            ReCalculateEnds(_from, _end, -20);
+            DrawDirectionalArrow(_from, _end, active, calcProgress(index));
+        } else {
+            DrawLineEx(_from, _end, 3, lineColor);
+            _from = _end;
+        }
+        return true;
+    };
+
+    // 1
+    Vector2 dt = (Vector2){shortHorizontalSegmentLength, 0};
+    if (!DrawArrow(from, to, 0, dt)) return;
+    // 2
+    dt = (Vector2){0, verticalSegmentLength};
+    if (!DrawArrow(from, to, 1, dt)) return;
+    // 3
+    dt = (Vector2){-bottomSegmentLength, 0};
+    if (!DrawArrow(from, to, 2, dt)) return;
+    // 4
+    dt = (Vector2){0, -verticalSegmentLength};
+    if (!DrawArrow(from, to, 3, dt)) return;
+    // 5
+    dt = (Vector2){shortHorizontalSegmentLength, 0};
+    if (!DrawArrow(from, to, 4, dt)) return;
+}
+
 void AnimationFactory::ReCalculateEnds(Vector2& start, Vector2& end,
                                        float radius) {
+    if (start.x == end.x && start.y == end.y) {
+        start.x += radius, end.x -= radius;
+        return;
+    }
+
     if (start.x == end.x && start.y == end.y) return;
     Vector2 side = (Vector2){end.x - start.x, end.y - start.y};
 

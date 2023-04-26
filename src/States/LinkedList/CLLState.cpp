@@ -6,6 +6,8 @@
 
 CLLState::CLLState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::CircularLinkedList) {
+    CLL = Algorithm::CircularLinkedList(codeHighlighter, animController,
+                                        context.fonts);
     AddOperations();
 }
 
@@ -19,8 +21,11 @@ void CLLState::Draw() {
 
     operationList.Draw();
     navigation.Draw();
+
+    animController->GetAnimation().Draw();
     codeHighlighter->Draw();
     footer.Draw(animController.get());
+    DrawCurrentActionText();
 }
 
 void CLLState::AddInsertOperation() {
@@ -75,40 +80,34 @@ void CLLState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty",
-                              [this]() { std::cout << "Empty" << std::endl; });
+    AddNoFieldOperationOption(container, "Empty", [this]() { CLL.Empty(); });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random",
-                              [this]() { std::cout << "Random" << std::endl; });
+    AddNoFieldOperationOption(container, "Random", [this]() { CLL.Random(); });
 
     /* Random Sorted */
-    AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-        std::cout << "Random Sorted" << std::endl;
-    });
+    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
+    //     std::cout << "Random Sorted" << std::endl;
+    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
-        container, "Random Fixed Size", {{"i = ", 50, 0, 9}},
+        container, "Random Fixed Size", {{"N = ", 50, 0, CLL.maxN}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Random Fixed Size parameters:" << std::endl;
+            assert(input.size() == 1);
+            assert(input.begin()->first == "N = ");
 
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            CLL.RandomFixedSize(std::stoi(input.begin()->second));
         });
 
     /* User defined */
-    AddStringFieldOption(
-        container, "--- User defined list ---",
-        "arr = ", [this](std::map< std::string, std::string > input) {
-            std::cout << "--- User defined list --- parameters:" << std::endl;
-
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
+    AddStringFieldOption(container, "--- User defined list ---", "arr = ",
+                         [this](std::map< std::string, std::string > input) {
+                             assert(input.size() == 1);
+                             assert(input.begin()->first == "arr = ");
+                             CLL.UserDefined(input.begin()->second);
+                         });
 
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);
