@@ -36,7 +36,7 @@ GUI::Node GUI::LinkedList::GenerateNode(int value) {
 void GUI::LinkedList::Import(std::vector< int > nodes) {
     list.clear();
 
-    float length = 40 * nodes.size() + mNodeDistance * (nodes.size() - 1);
+    float length = 40 * nodes.size() + mNodeDistance * (int(nodes.size()) - 1);
 
     if (mOrientation == Orientation::Horizontal)
         SetPosition((global::SCREEN_WIDTH - length) / 2, 150);
