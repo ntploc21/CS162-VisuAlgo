@@ -6,7 +6,7 @@
 
 #include "Global.hpp"
 
-using ArrowType = GUI::SinglyLinkedList::ArrowType;
+using ArrowType = GUI::LinkedList::ArrowType;
 
 Algorithm::SinglyLinkedList::SinglyLinkedList() {}
 

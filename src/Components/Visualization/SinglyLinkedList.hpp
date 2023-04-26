@@ -5,19 +5,8 @@
 
 namespace GUI {
     class SinglyLinkedList : public GUI::LinkedList {
-    public:
-        enum ArrowType {
-            Default,
-            Hidden,
-            Active,
-            Skip,
-            ArrowTypeCount,
-        };
-
     private:
         std::vector< ArrowType > arrowState;
-
-        ArrowType defaultArrowType = ArrowType::Default;
 
     public:
     public:
@@ -27,8 +16,6 @@ namespace GUI {
         bool isSelectable() const;
         void Draw(Vector2 base = (Vector2){0, 0}, float t = 1.0f,
                   bool init = false);
-
-        void SetDefaultArrowType(ArrowType arrowType);
 
     public:
         void Import(std::vector< int > nodes);

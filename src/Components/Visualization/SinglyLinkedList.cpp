@@ -22,10 +22,6 @@ void GUI::SinglyLinkedList::Draw(Vector2 base, float t, bool init) {
     }
 }
 
-void GUI::SinglyLinkedList::SetDefaultArrowType(ArrowType arrowType) {
-    defaultArrowType = arrowType;
-}
-
 void GUI::SinglyLinkedList::Import(std::vector< int > nodes) {
     GUI::LinkedList::Import(nodes);
     ResetArrow();
@@ -36,9 +32,9 @@ void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node,
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
     if (index + 1 < list.size())
-        arrowState.insert(arrowState.begin() + index, defaultArrowType);
+        arrowState.insert(arrowState.begin() + index, ArrowType::Default);
     else
-        arrowState.insert(arrowState.end(), defaultArrowType);
+        arrowState.insert(arrowState.end(), ArrowType::Default);
 
     if (!rePosition) return;
     for (int i = index; i < list.size(); i++) {
@@ -58,7 +54,7 @@ GUI::SinglyLinkedList::ArrowType GUI::SinglyLinkedList::GetArrowType(
 
 void GUI::SinglyLinkedList::ResetArrow() {
     std::size_t resize = std::max(0, int(list.size() - 1));
-    arrowState.assign(resize, defaultArrowType);
+    arrowState.assign(resize, ArrowType::Default);
     arrowState.resize(resize);
 }
 
