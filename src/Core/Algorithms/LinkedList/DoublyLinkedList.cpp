@@ -836,12 +836,16 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
         });
         animController->AddAnimation(anim6);
 
+        visualizer.SetArrowTypePrev(index - 1, ArrowType::Default);
         visualizer.SetArrowTypeNext(index - 1, ArrowType::Active);
         nodes[index].SetPosition(nodes[index].GetPosition().x,
                                  nodes[index].GetPosition().y - 60);
     }
 
     {  // Line 7
+        nodes[index + 1].SetLabel("aft/" + std::to_string(index));
+        if (index + 1 == nodes.size() - 1)
+            nodes[index + 1].SetLabel("tail/aft/" + std::to_string(index));
         DLLAnimation anim7 =
             GenerateAnimation(0.75, 6, "Now we delete this vertex.");
         anim7.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
