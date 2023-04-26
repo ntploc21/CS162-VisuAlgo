@@ -61,7 +61,7 @@ void DLLState::AddInsertOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
-            // mDLL.InsertMiddle(i, v);
+            mDLL.InsertMiddle(i, v);
             SetCurrentAction("Insert " + input["v = "] + " at index " +
                              input["i = "]);
         });
@@ -140,13 +140,13 @@ void DLLState::AddDeleteOperation() {
     /* Delete head */
 
     AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
-        // mDLL.DeleteHead();
+        mDLL.DeleteHead();
         SetCurrentAction("Remove i = 0 (Head)");
     });
 
     /* Delete tail */
     AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
-        // mDLL.DeleteTail();
+        mDLL.DeleteTail();
         SetCurrentAction("Remove i = N - 1 (Tail)");
     });
 

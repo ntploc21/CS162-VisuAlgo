@@ -82,15 +82,20 @@ void GUI::DoublyLinkedList::ResetArrow() {
 void GUI::DoublyLinkedList::DrawArrow(Vector2 base, float t) {
     for (int i = 0; i < int(list.size()) - 1; i++) {
         if (list[i].GetNodeState() == GUI::Node::State::Hide) continue;
-        if (arrowStateNext[i] == ArrowType::Hidden &&
-            arrowStatePrev[i] == ArrowType::Hidden)
+        if ((arrowStateNext[i] == ArrowType::Hidden &&
+             arrowStatePrev[i] == ArrowType::Hidden) ||
+            (arrowStateNext[i] == ArrowType::Skip &&
+             arrowStatePrev[i] == ArrowType::Skip))
             continue;
 
         Vector2 start = list[i].GetPosition();
 
         int nextIndex;
         for (nextIndex = i + 1; nextIndex < list.size(); nextIndex++)
-            if (list[nextIndex].GetNodeState() != GUI::Node::State::Hide) break;
+            if (list[nextIndex].GetNodeState() == GUI::Node::State::Hide ||
+                (arrowStateNext[nextIndex] != ArrowType::Skip &&
+                 arrowStatePrev[nextIndex] != ArrowType::Skip))
+                break;
 
         if (nextIndex == list.size())
             break;  // all of the nodes behind the current node is hidden, so we

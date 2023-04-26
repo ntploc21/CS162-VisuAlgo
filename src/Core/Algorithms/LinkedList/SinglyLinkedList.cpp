@@ -512,7 +512,7 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
         nodes[0].SetLabel("head/0");
         nodes[0].SetNodeState(GUI::Node::State::Active);
         SLLAnimation anim1 = GenerateAnimation(
-            0.75, 0, "head is exist, so we proceed to the next step");
+            0.75, 0, "head is exist, so we proceed to the next step.");
         animController->AddAnimation(anim1);
         nodes[0].AnimationOnNode(false);
     }
@@ -524,7 +524,7 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
         nodes[1].SetNodeState(GUI::Node::ActiveGreen);
         nodes[1].SetLabel("temp/1");
         SLLAnimation anim1 = GenerateAnimation(
-            0.75, 1, "Set pre to head. And temp to pre->next");
+            0.75, 1, "Set pre to head. And temp to pre->next.");
         anim1.SetAnimation(HighlightArrowFromCur(0));
         visualizer.SetArrowType(0, ArrowType::Active);
         animController->AddAnimation(anim1);

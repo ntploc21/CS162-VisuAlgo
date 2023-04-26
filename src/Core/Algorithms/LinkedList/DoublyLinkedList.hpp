@@ -23,11 +23,11 @@ namespace Algorithm {
     public:
         void InsertHead(int value);
         void InsertAfterTail(int value);
-        //     void InsertMiddle(int index, int value);
+        void InsertMiddle(int index, int value);
 
-        // public:
-        //     void DeleteHead();
-        //     void DeleteTail();
+    public:
+        void DeleteHead();
+        void DeleteTail();
         //     void DeleteMiddle(int index);
 
         // public:
@@ -36,15 +36,24 @@ namespace Algorithm {
         // public:
         //     void Search(int value);
 
-        // private:
-        //     std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList,
-        //     float,
-        //                                          Vector2) >
-        //     HighlightArrowFromCur(int index, bool drawVisualizer = true,
-        //                           bool reverse = false);
+    private:
+        std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float,
+                                             Vector2) >
+        HighlightArrowNext(int index, bool drawVisualizer = true,
+                           bool reverse = false);
 
-        // private:
-        //     void ResetVisualizer();
+        std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float,
+                                             Vector2) >
+        HighlightArrowPrev(int index, bool drawVisualizer = true,
+                           bool reverse = false);
+
+        std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float,
+                                             Vector2) >
+        HighlightArrowBoth(int index, bool drawVisualizer = true,
+                           bool reverse = false);
+
+    private:
+        void ResetVisualizer();
     };
 };  // namespace Algorithm
 
