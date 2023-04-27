@@ -804,12 +804,53 @@ void Algorithm::CircularLinkedList::DeleteTail() {
         }
         nodes.back().SetLabel("temp");
         visualizer.SetArrowType(nodes.size() - 2, ArrowType::Hidden);
+        visualizer.SetCircularArrowType(ArrowType::Hidden);
+
         CLLAnimation anim5 = GenerateAnimation(
             0.75, 4,
             "temp is now point to tail. Set the tail to point at pre (the "
             "new "
             "tail) and remove link from current tail to previous tail.");
-        anim5.SetAnimation(HighlightArrowFromCur(nodes.size() - 2, true, true));
+        anim5.SetAnimation([this](GUI::CircularLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
+            Vector2 initBack = nodes.back().GetPosition();
+            Vector2 newBack = initBack;
+            newBack.y -= 60;
+            nodes.back().SetPosition(
+                AnimationFactory::MoveNode(initBack, newBack, playingAt));
+            srcDS.Draw(base, playingAt);
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
+
+            newBack = nodes.back().GetPosition();
+            Vector2 nodeFront = nodes.front().GetPosition();
+            Vector2 prvBack = nodes[nodes.size() - 2].GetPosition();
+
+            initBack.x += base.x, initBack.y += base.y;
+            newBack.x += base.x, newBack.y += base.y;
+            nodeFront.x += base.x, nodeFront.y += base.y;
+            prvBack.x += base.x, prvBack.y += base.y;
+
+            AnimationFactory::DrawDirectionalArrow(
+                prvBack, newBack, true, std::min(1.0f, (1.0f - playingAt) * 2));
+
+            AnimationFactory::DrawCircularArrow(
+                nodeFront,
+                AnimationFactory::MoveNode(initBack, prvBack, playingAt), false,
+                1.0f);
+
+            return srcDS;
+        });
+
+        animController->AddAnimation(anim5);
+
+        visualizer.SetCircularArrowType(ArrowType::Default);
+        visualizer.SetCircularEnds(0, nodes.size() - 2);
+
+        Vector2 newPosBack = nodes.back().GetPosition();
+        newPosBack.y -= 60;
+        nodes.back().SetPosition(newPosBack);
     }
 
     {  // Line 6
@@ -833,20 +874,11 @@ void Algorithm::CircularLinkedList::DeleteTail() {
 
             srcDS.Draw(base, playingAt);
 
-            base.x += srcDS.GetPosition().x;
-            base.y += srcDS.GetPosition().y;
-
-            Vector2 start = nodes[nodes.size() - 2].GetPosition();
-            Vector2 end = nodes.back().GetPosition();
-
-            start.x += base.x, start.y += base.y;
-            end.x += base.x, end.y += base.y;
-            AnimationFactory::DrawDirectionalArrow(start, end, true,
-                                                   1.0f - playingAt);
-
             return srcDS;
         });
         animController->AddAnimation(anim6);
+
+        nodes[nodes.size() - 2].AnimationOnNode(false);
         visualizer.DeleteNode(nodes.size() - 1, true);
     }
 

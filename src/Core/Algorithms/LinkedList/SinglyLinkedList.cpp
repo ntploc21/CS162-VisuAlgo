@@ -587,6 +587,7 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
             "temp is now point to tail. Set the tail to point at pre (the new "
             "tail) and remove link from current tail to previous tail.");
         anim5.SetAnimation(HighlightArrowFromCur(nodes.size() - 2, true, true));
+        animController->AddAnimation(anim5);
     }
 
     {  // Line 6
@@ -610,16 +611,16 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
 
                 srcDS.Draw(base, playingAt);
 
-                base.x += srcDS.GetPosition().x;
-                base.y += srcDS.GetPosition().y;
+                // base.x += srcDS.GetPosition().x;
+                // base.y += srcDS.GetPosition().y;
 
-                Vector2 start = nodes[nodes.size() - 2].GetPosition();
-                Vector2 end = nodes.back().GetPosition();
+                // Vector2 start = nodes[nodes.size() - 2].GetPosition();
+                // Vector2 end = nodes.back().GetPosition();
 
-                start.x += base.x, start.y += base.y;
-                end.x += base.x, end.y += base.y;
-                AnimationFactory::DrawDirectionalArrow(start, end, true,
-                                                       1.0f - playingAt);
+                // start.x += base.x, start.y += base.y;
+                // end.x += base.x, end.y += base.y;
+                // AnimationFactory::DrawDirectionalArrow(start, end, true,
+                //                                        1.0f - playingAt);
 
                 return srcDS;
             });
