@@ -61,11 +61,13 @@ void CLLState::AddInsertOperation() {
         container, "Specify both i in [0..N] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify both i in [0..N] and v parameters: "
-                      << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            if (!(i > 0 && i < CLL.maxN)) return;
+            CLL.InsertMiddle(i, std::stoi(input["v = "]));
+            operationList.ToggleOperations();
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            SetCurrentAction("Insert " + input["v = "] + " at index " +
+                             input["i = "]);
         });
 
     /* ====================================== */

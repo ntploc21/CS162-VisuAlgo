@@ -414,7 +414,7 @@ void Algorithm::CircularLinkedList::InsertMiddle(int index, int value) {
         newNode.AnimationOnNode(true);
         newNode.SetLabel("node");
         Vector2 newNodePos = nodes[index].GetPosition();
-        newNodePos.y += 60;
+        newNodePos.y -= 60;
 
         visualizer.InsertNode(index, newNode, false);
         visualizer.SetArrowType(index, ArrowType::Skip);
