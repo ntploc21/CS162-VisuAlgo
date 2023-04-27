@@ -537,7 +537,8 @@ void Algorithm::CircularLinkedList::InsertMiddle(int index, int value) {
 
 void Algorithm::CircularLinkedList::DeleteHead() {
     InitAction({"if(head == nullptr) return; // empty, do nothing",
-                "Node *del = head;", "head = head->next;", "delete del;"});
+                "Node *del = head;", "head = head->next;", "tail->next = head;",
+                "delete del;"});
     auto& nodes = visualizer.GetList();
     if (!nodes.size()) {
         CLLAnimation animNoElement = GenerateAnimation(
@@ -546,33 +547,39 @@ void Algorithm::CircularLinkedList::DeleteHead() {
         animController->AddAnimation(animNoElement);
         return;
     }
-    nodes[0].SetLabel("head/0");
-    nodes[0].AnimationOnNode(true);
-    nodes[0].SetNodeState(GUI::Node::State::Active);
-    CLLAnimation anim1 = GenerateAnimation(
-        0.75, 0, "head is exist, so we proceed to the next step");
-    animController->AddAnimation(anim1);
 
-    nodes[0].AnimationOnNode(false);
-    nodes[0].SetLabel("head/del/0");
+    {  // Line 1
+        nodes[0].SetLabel("head/0");
+        nodes[0].AnimationOnNode(true);
+        nodes[0].SetNodeState(GUI::Node::State::Active);
+        CLLAnimation anim1 = GenerateAnimation(
+            0.75, 0, "head is exist, so we proceed to the next step");
+        animController->AddAnimation(anim1);
 
-    if (nodes.size() > 1)
+        nodes[0].AnimationOnNode(false);
+        nodes[0].SetLabel("head/del/0");
+    }
 
-        nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 1));
+    {  // Line 2
+        if (nodes.size() > 1)
 
-    CLLAnimation anim2 =
-        GenerateAnimation(0.75, 1, "The head is the only vertex in this List.");
-    if (nodes.size() > 1)
-        anim2.SetActionDescription("The head has a next node");
+            nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 1));
 
-    animController->AddAnimation(anim2);
-    nodes[0].SetLabel("del");
+        CLLAnimation anim2 = GenerateAnimation(
+            0.75, 1, "The head is the only vertex in this List.");
+        if (nodes.size() > 1)
+            anim2.SetActionDescription("The head has a next node");
+
+        animController->AddAnimation(anim2);
+        nodes[0].SetLabel("del");
+    }
 
     if (nodes.size() == 1) {
         CLLAnimation anim3 =
             GenerateAnimation(0.75, 1, "Head points to next (which is null).");
         animController->AddAnimation(anim3);
 
+        visualizer.SetCircularArrowType(ArrowType::Hidden);
         CLLAnimation anim4 = GenerateAnimation(
             0.75, 3, "Remove head vertex.\nWe now have an empty List.");
         anim4.SetAnimation([this](GUI::CircularLinkedList srcDS,
@@ -586,6 +593,14 @@ void Algorithm::CircularLinkedList::DeleteHead() {
                 AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
 
             srcDS.Draw(base, playingAt);
+
+            Vector2 pos = node.GetPosition();
+            pos.x += base.x + srcDS.GetPosition().x;
+            pos.y += base.y + srcDS.GetPosition().y;
+
+            AnimationFactory::DrawCircularArrow(pos, pos, false,
+                                                1.0f - playingAt);
+
             return srcDS;
         });
         visualizer.DeleteNode(0);
@@ -593,6 +608,7 @@ void Algorithm::CircularLinkedList::DeleteHead() {
 
         return;
     }
+
     {  // Line 3
         nodes[1].SetLabel("head/0");
         nodes[1].AnimationOnNode(true);
@@ -602,14 +618,59 @@ void Algorithm::CircularLinkedList::DeleteHead() {
             GenerateAnimation(0.75, 2, "head points to the next node.");
         anim3.SetAnimation(HighlightArrowFromCur(0));
         animController->AddAnimation(anim3);
+
+        visualizer.SetArrowType(0, ArrowType::Active);
     }
 
     {  // Line 4
+        visualizer.SetCircularArrowType(ArrowType::Hidden);
+
+        CLLAnimation anim4 =
+            GenerateAnimation(0.75, 3, "tail->next now point to the new head.");
+        anim4.SetAnimation([this](GUI::CircularLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
+
+            Vector2 start = nodes[0].GetPosition();
+
+            Vector2 newPosForOldHead = start;
+            newPosForOldHead.y -= 60;
+
+            nodes[0].SetPosition(
+                AnimationFactory::MoveNode(start, newPosForOldHead, playingAt));
+
+            srcDS.Draw(base, playingAt);
+
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
+            Vector2 end = nodes[1].GetPosition();
+            Vector2 endCircular = nodes.back().GetPosition();
+
+            start.x += base.x, start.y += base.y;
+            end.x += base.x, end.y += base.y;
+            endCircular.x += base.x, endCircular.y += base.y;
+
+            AnimationFactory::DrawCircularArrow(
+                AnimationFactory::MoveNode(start, end, playingAt), endCircular,
+                false, 1.0f);
+
+            return srcDS;
+        });
+        animController->AddAnimation(anim4);
+
+        nodes[0].SetPosition(nodes[0].GetPosition().x,
+                             nodes[0].GetPosition().y - 60);
+
+        visualizer.SetCircularEnds(1, nodes.size() - 1);
+        visualizer.SetCircularArrowType(ArrowType::Default);
+    }
+
+    {  // Line 5
         visualizer.SetArrowType(0, ArrowType::Hidden);
         nodes[1].AnimationOnNode(false);
-        CLLAnimation anim4 = GenerateAnimation(
+        CLLAnimation anim5 = GenerateAnimation(
             0.75, 3, "Delete del, which was the (previous) head.");
-        anim4.SetAnimation([this](GUI::CircularLinkedList srcDS,
+        anim5.SetAnimation([this](GUI::CircularLinkedList srcDS,
                                   float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -627,15 +688,17 @@ void Algorithm::CircularLinkedList::DeleteHead() {
 
             Vector2 start = nodes[0].GetPosition();
             Vector2 end = nodes[1].GetPosition();
+            Vector2 endCircular = nodes.back().GetPosition();
 
             start.x += base.x, start.y += base.y;
             end.x += base.x, end.y += base.y;
+            endCircular.x += base.x, endCircular.y += base.y;
+
             AnimationFactory::DrawDirectionalArrow(start, end, true,
                                                    1.0f - playingAt);
-
             return srcDS;
         });
-        animController->AddAnimation(anim4);
+        animController->AddAnimation(anim5);
 
         visualizer.DeleteNode(0);
         visualizer.SetPosition(visualizer.GetPosition().x + 60,

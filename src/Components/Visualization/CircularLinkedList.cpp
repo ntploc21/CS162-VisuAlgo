@@ -133,6 +133,9 @@ void GUI::CircularLinkedList::DeleteNode(std::size_t index, bool rePosition) {
     if (!arrowState.empty())
         arrowState.erase(arrowState.begin() +
                          std::min(index, arrowState.size() - 1));
+    if (list.empty()) {
+        SetCircularArrowType(ArrowType::Hidden);
+    }
     SetCircularEnds(0, list.size() - 1);
 
     if (!rePosition) return;

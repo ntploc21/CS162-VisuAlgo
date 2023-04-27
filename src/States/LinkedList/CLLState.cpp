@@ -148,12 +148,14 @@ void CLLState::AddDeleteOperation() {
     /* Delete head */
 
     AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
-        std::cout << "i = 0 (Head)" << std::endl;
+        CLL.DeleteHead();
+        SetCurrentAction("Remove i = 0 (Head)");
     });
 
     /* Delete tail */
     AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
-        std::cout << "i = N-1 (Tail)" << std::endl;
+        CLL.DeleteTail();
+        SetCurrentAction("Remove i = N-1 (Tail)");
     });
 
     /* Delete specific element */
@@ -161,10 +163,10 @@ void CLLState::AddDeleteOperation() {
     AddIntFieldOperationOption(
         container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify i in [1..N-1]" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            int i = std::stoi(input["i = "]);
+            if (!(i > 0 && i < CLL.maxN)) return;
+            CLL.DeleteMiddle(i);
+            SetCurrentAction("Remove i = " + input["i = "]);
         });
     /* Delete elements with specific value */
 
