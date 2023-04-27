@@ -969,7 +969,9 @@ void Algorithm::SinglyLinkedList::Search(int value) {
     int i = 0;
     bool found = false;
     do {
-        nodes[i].AnimationOnNode(false);
+        if (i < nodes.size()) {
+            nodes[i].AnimationOnNode(false);
+        }
         SLLAnimation animLoop1 =
             GenerateAnimation(0.5, 1, "Check whether the current node is NULL");
         animController->AddAnimation(animLoop1);

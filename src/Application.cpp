@@ -124,16 +124,18 @@ void Application::LoadResources() {
 
     // Load images
     images->Load(Textures::Blank, "assets/images/favicon.png");
-    images->Load(Textures::StaticArray, "assets/images/favicon.png", 250, 160);
-    images->Load(Textures::DynamicArray, "assets/images/favicon.png", 250, 160);
-    images->Load(Textures::SinglyLinkedList, "assets/images/list.gif", 250,
-                 160);
-    images->Load(Textures::DoublyLinkedList, "assets/images/list.gif", 250,
-                 160);
-    images->Load(Textures::CircularLinkedList, "assets/images/list.gif", 250,
-                 160);
-    images->Load(Textures::Stack, "assets/images/list.gif", 250, 160);
-    images->Load(Textures::Queue, "assets/images/list.gif", 250, 160);
+    images->Load(Textures::StaticArray, "assets/images/StaticArray.png", 250,
+                 160, true);
+    images->Load(Textures::DynamicArray, "assets/images/DynamicArray.png", 250,
+                 160, true);
+    images->Load(Textures::SinglyLinkedList,
+                 "assets/images/SinglyLinkedList.png", 250, 160, true);
+    images->Load(Textures::DoublyLinkedList,
+                 "assets/images/DoublyLinkedList.png", 250, 160, true);
+    images->Load(Textures::CircularLinkedList,
+                 "assets/images/CircularLinkedList.png", 250, 160, true);
+    images->Load(Textures::Stack, "assets/images/Stack.png", 250, 160, true);
+    images->Load(Textures::Queue, "assets/images/Queue.png", 250, 160, true);
     images->Load(Textures::Favicon, "assets/images/favicon.png");
 }
 

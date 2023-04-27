@@ -17,7 +17,7 @@ public:
     ~TextureHolder();
     void Load(Textures::ID id, const std::string& filename);
     void Load(Textures::ID id, const std::string& filename, int width,
-              int height);
+              int height, bool cropCenter = false);
     void LoadFromImage(Textures::ID id, Image& image);
     void LoadFromImage(Textures::ID id, Image& image, int width, int height);
     Texture& Get(Textures::ID id);

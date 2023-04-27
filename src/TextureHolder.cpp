@@ -15,10 +15,20 @@ void TextureHolder::Load(Textures::ID id, const std::string& filename) {
 }
 
 void TextureHolder::Load(Textures::ID id, const std::string& filename,
-                         int width, int height) {
+                         int width, int height, bool cropCenter) {
     std::unique_ptr< Texture > texture(new Texture());
     Image img = LoadImage(filename.c_str());
-    ImageResize(&img, width, height);
+
+    if (cropCenter) {
+        ImageResize(&img, img.width * (1.0f * height / img.height), height);
+
+        float x = (img.width - width) / 2;
+        float y = 0;
+
+        ImageCrop(&img, (Rectangle){x, y, (float)width, (float)height});
+    } else
+        ImageResize(&img, width, height);
+
     *texture = LoadTextureFromImage(img);
     UnloadImage(img);
     InsertResource(id, std::move(texture));
