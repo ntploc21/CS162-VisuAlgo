@@ -196,16 +196,17 @@ void Algorithm::CircularLinkedList::InsertHead(int value) {
 }
 
 void Algorithm::CircularLinkedList::InsertAfterTail(int value) {
-    int prvSize = visualizer.GetList().size();
+    auto& nodes = visualizer.GetList();
+    int prvSize = nodes.size();
     if (prvSize == 0) {
         InsertHead(value);
         return;
     }
     if (prvSize == maxN) return;
-    if (visualizer.GetList().size() == maxN) return;
+    if (nodes.size() == maxN) return;
 
-    InitAction(
-        {"Node *node = new Node(v);", "tail->next = node;", "tail = node;"});
+    InitAction({"Node *node = new Node(v);", "tail->next = node;",
+                "tail = node;", "tail->next = head;"});
 
     /* Animation goes here */
 
@@ -214,18 +215,20 @@ void Algorithm::CircularLinkedList::InsertAfterTail(int value) {
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
 
-    Vector2 pos = visualizer.GetList().back().GetPosition();
-    pos.x += 60;
+    Vector2 pos = nodes.back().GetPosition();
+    pos.y -= 60;
     newNode.SetPosition(pos);
 
-    visualizer.InsertNode(prvSize, newNode);
-    visualizer.SetArrowType(prvSize - 1, ArrowType::Hidden);
+    {  // Line 1
+        visualizer.InsertNode(prvSize, newNode, false);
+        visualizer.SetCircularEnds(0, prvSize - 1);
+        visualizer.SetArrowType(prvSize - 1, ArrowType::Hidden);
 
-    CLLAnimation anim1 = GenerateAnimation(
-        1, 0,
-        "Create new vertex to store value " + std::to_string(value) + ".");
-    anim1.SetAnimation(
-        [this](GUI::CircularLinkedList srcDS, float playingAt, Vector2 base) {
+        CLLAnimation anim1 = GenerateAnimation(
+            1, 0,
+            "Create new vertex to store value " + std::to_string(value) + ".");
+        anim1.SetAnimation([this](GUI::CircularLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
             GUI::Node& node = srcDS.GetList().back();
             node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
             node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
@@ -234,43 +237,96 @@ void Algorithm::CircularLinkedList::InsertAfterTail(int value) {
             srcDS.Draw(base, playingAt);
             return srcDS;
         });
-    animController->AddAnimation(anim1);
+        animController->AddAnimation(anim1);
+    }
 
-    visualizer.GetList().back().SetNodeState(GUI::Node::State::Iterated);
-    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Active);
-    visualizer.GetList()[prvSize - 1].AnimationOnNode(true);
-    CLLAnimation anim2 =
-        GenerateAnimation(1, 1, "Current tail->next points to the node.");
-    anim2.SetAnimation([this, prvSize](GUI::CircularLinkedList srcDS,
-                                       float playingAt, Vector2 base) {
-        srcDS.Draw(base, playingAt);
-        base.x += srcDS.GetPosition().x;
-        base.y += srcDS.GetPosition().y;
+    {  // Line 2
+        nodes.back().SetNodeState(GUI::Node::State::Iterated);
+        nodes[prvSize - 1].SetNodeState(GUI::Node::State::Active);
+        nodes[prvSize - 1].AnimationOnNode(true);
+        visualizer.SetCircularArrowType(ArrowType::Hidden);
 
-        Vector2 start = srcDS.GetList()[prvSize - 1].GetPosition();
-        Vector2 end = srcDS.GetList()[prvSize].GetPosition();
-        start.x += base.x, start.y += base.y;
-        end.x += base.x, end.y += base.y;
+        CLLAnimation anim2 =
+            GenerateAnimation(1, 1, "Current tail->next points to the node.");
+        anim2.SetAnimation([this, prvSize](GUI::CircularLinkedList srcDS,
+                                           float playingAt, Vector2 base) {
+            srcDS.Draw(base, playingAt);
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
 
-        AnimationFactory::DrawActiveArrow(start, end, playingAt);
+            Vector2 startCircular = srcDS.GetList().front().GetPosition();
+            Vector2 start = srcDS.GetList()[prvSize - 1].GetPosition();
+            Vector2 end = srcDS.GetList()[prvSize].GetPosition();
+            startCircular.x += base.x, startCircular.y += base.y;
+            start.x += base.x, start.y += base.y;
+            end.x += base.x, end.y += base.y;
 
-        return srcDS;
-    });
-    visualizer.SetArrowType(prvSize - 1, ArrowType::Default);
+            AnimationFactory::DrawActiveArrow(start, end, playingAt);
+            AnimationFactory::DrawCircularArrow(startCircular, start, false,
+                                                1.0f - playingAt);
 
-    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Default);
-    visualizer.GetList()[prvSize - 1].ClearLabel();
-    if (prvSize - 1 == 0) visualizer.GetList()[prvSize - 1].SetLabel("head");
-    animController->AddAnimation(anim2);
+            return srcDS;
+        });
+        visualizer.SetArrowType(prvSize - 1, ArrowType::Default);
 
-    visualizer.GetList().back().SetLabel("tail");
-    CLLAnimation anim3 =
-        GenerateAnimation(0.5, 2,
-                          "tail points to node.\nThe whole operation is O(1) "
-                          "if we maintain the tail pointer.");
-    animController->AddAnimation(anim3);
+        nodes[prvSize - 1].SetNodeState(GUI::Node::State::Default);
+        nodes[prvSize - 1].ClearLabel();
+        if (prvSize - 1 == 0) nodes[prvSize - 1].SetLabel("head");
+        animController->AddAnimation(anim2);
+    }
 
-    visualizer.GetList().back().AnimationOnNode(false);
+    {  // Line 3
+        nodes.back().SetLabel("tail");
+        CLLAnimation anim3 = GenerateAnimation(
+            0.5, 2,
+            "tail points to node.\nThe whole operation is O(1) "
+            "if we maintain the tail pointer.");
+        animController->AddAnimation(anim3);
+
+        nodes.back().AnimationOnNode(false);
+    }
+
+    {  // Line 4
+        visualizer.SetCircularEnds(0, nodes.size() - 1);
+        CLLAnimation anim4 = GenerateAnimation(
+            0.5, 3,
+            "As the tail points to node, we will move our tail->next "
+            "to point to the current head.");
+        anim4.SetAnimation(HighlightCircularArrow());
+        animController->AddAnimation(anim4);
+        visualizer.SetCircularArrowType(ArrowType::Default);
+
+        visualizer.SetCircularArrowType(ArrowType::Default);
+        visualizer.SetCircularEnds(0, nodes.size() - 1);
+    }
+
+    {  // Re-layout
+        CLLAnimation anim8 =
+            GenerateAnimation(0.75, -1,
+                              "Re-layout the Linked List for visualization "
+                              "(not in the actual Linked "
+                              "List).\nThe whole process is still O(1).");
+        anim8.SetAnimation([this](GUI::CircularLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
+
+            Vector2 posInserted = nodes.back().GetPosition();
+            Vector2 posAfter = posInserted;
+            posAfter.y += 60;
+            posAfter.x += 60;
+
+            Vector2 newPosInserted =
+                AnimationFactory::MoveNode(posInserted, posAfter, playingAt);
+            nodes.back().SetPosition(newPosInserted);
+
+            srcDS.Draw(base, playingAt);
+            return srcDS;
+        });
+        animController->AddAnimation(anim8);
+
+        nodes.back().SetPosition(nodes.back().GetPosition().x + 60,
+                                 nodes.back().GetPosition().y + 60);
+    }
 
     {  // Relayout
         float length = 40 * visualizer.GetList().size() +
@@ -311,7 +367,8 @@ void Algorithm::CircularLinkedList::InsertMiddle(int index, int value) {
                 animLoop1.SetActionDescription("Enter the loop.\nk is now: 0");
             if (k == index - 1)
                 animLoop1.SetActionDescription(
-                    "We have found the insertion point.\nWe continue the next "
+                    "We have found the insertion point.\nWe continue the "
+                    "next "
                     "insertion step.");
             else
                 animLoop1.SetAnimation(HighlightArrowFromCur(k));
@@ -636,7 +693,8 @@ void Algorithm::CircularLinkedList::DeleteTail() {
     nodes.back().SetNodeState(GUI::Node::Active);
     for (int k = 0; k <= nodes.size() - 2; k++) {
         {  // Line 2
-            // if (k == nodes.size() - 1) nodes.back().AnimationOnNode(true);
+            // if (k == nodes.size() - 1)
+            // nodes.back().AnimationOnNode(true);
             CLLAnimation animLoop1 = GenerateAnimation(
                 0.75, 2, "Check if temp is pointing at tail yet.");
             animController->AddAnimation(animLoop1);
@@ -685,7 +743,8 @@ void Algorithm::CircularLinkedList::DeleteTail() {
         visualizer.SetArrowType(nodes.size() - 2, ArrowType::Hidden);
         CLLAnimation anim5 = GenerateAnimation(
             0.75, 4,
-            "temp is now point to tail. Set the tail to point at pre (the new "
+            "temp is now point to tail. Set the tail to point at pre (the "
+            "new "
             "tail) and remove link from current tail to previous tail.");
         anim5.SetAnimation(HighlightArrowFromCur(nodes.size() - 2, true, true));
     }
@@ -781,7 +840,8 @@ void Algorithm::CircularLinkedList::DeleteMiddle(int index) {
                 animLoop1.SetActionDescription(
                     "k is " + std::to_string(k) +
                     ", prev now points to one vertex behind the vertex "
-                    "to-be-deleted.\nWe stop searching and continue with the "
+                    "to-be-deleted.\nWe stop searching and continue with "
+                    "the "
                     "removal.");
             else
                 animLoop1.SetAnimation(HighlightArrowFromCur(k));
@@ -997,7 +1057,8 @@ void Algorithm::CircularLinkedList::Update(int index, int value) {
                 animLoop1.SetActionDescription("Enter the loop.\nk is now: 0");
             if (k == index)
                 animLoop1.SetActionDescription(
-                    "We have found the point we want to update.\nWe will exit "
+                    "We have found the point we want to update.\nWe will "
+                    "exit "
                     "the for-loop.");
             else
                 animLoop1.SetAnimation(HighlightArrowFromCur(k));
@@ -1081,7 +1142,8 @@ void Algorithm::CircularLinkedList::Search(int value) {
             animLoop3 = GenerateAnimation(
                 0.5, 2,
                 "Found value v = " + std::to_string(value) +
-                    " at this highlighted vertex so we return node at index " +
+                    " at this highlighted vertex so we return node at "
+                    "index " +
                     std::to_string(i) + ".\nThe whole operation is O(N)");
             found = true;
             nodes[i].ClearLabel();

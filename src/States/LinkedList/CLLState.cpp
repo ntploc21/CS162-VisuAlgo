@@ -49,10 +49,10 @@ void CLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = N (After Tail), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "i = N (After Tail), specify v =" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            CLL.InsertAfterTail(std::stoi(input["v = "]));
+            operationList.ToggleOperations();
+            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            SetCurrentAction("Insert " + input["v = "] + " at tail");
         });
 
     /* Default insert */
