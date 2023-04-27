@@ -115,12 +115,13 @@ void GUI::CircularLinkedList::DrawArrow(Vector2 base, float t) {
     Vector2 end = list[mCircularEnds.second].GetPosition();
     start.x += base.x, start.y += base.y;
     end.x += base.x, end.y += base.y;
+
     switch (circularArrowState) {
         case ArrowType::Default:
             AnimationFactory::DrawCircularArrow(start, end, false, t);
             break;
         case ArrowType::Active:
-            AnimationFactory::DrawDirectionalArrow(start, end, true, t);
+            AnimationFactory::DrawCircularArrow(start, end, true, t);
         case ArrowType::Skip:
         case ArrowType::Hidden:
         default:

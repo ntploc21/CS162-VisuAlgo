@@ -193,10 +193,9 @@ void CLLState::AddSearchOperation() {
     AddIntFieldOperationOption(
         container, "Specify v", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify v" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
+            CLL.Search(std::stoi(input["v = "]));
+            operationList.ToggleOperations();
+            SetCurrentAction("Search " + input["v = "]);
         });
 
     operationList.AddOperation(buttonSearch, container);

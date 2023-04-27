@@ -1199,43 +1199,48 @@ void Algorithm::CircularLinkedList::Update(int index, int value) {
 }
 
 void Algorithm::CircularLinkedList::Search(int value) {
-    InitAction({"Node *cur = head;", "while(cur != nullptr) {",
-                "	if(cur->value == v) return cur;",
-                "	cur = cur->next;", "}",
-                "return nullptr; // NOT_FOUND"});
+    InitAction({"if(head == nullptr) return nullptr; // empty, NOT_FOUND",
+                "Node* cur = head;", "do {",
+                "    if(cur->value == v) return cur;", "    cur = cur->next;",
+                "} while (cur != head);", "return nullptr; // NOT_FOUND"});
 
-    if (!visualizer.GetList().size()) {
-        animController->AddAnimation(
-            GenerateAnimation(0.5, 0, "Set cur to head."));
-        animController->AddAnimation(GenerateAnimation(
-            1, 1, "cur is currently NULL, so we will halt the while loop."));
-        animController->AddAnimation(
-            GenerateAnimation(0.5, 5, "Element not found, return NULL"));
-        animController->Continue();
-        return;
-    }
     auto& nodes = visualizer.GetList();
     for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    if (!nodes.size()) {
+        CLLAnimation animNoElement =
+            GenerateAnimation(0.75, 0,
+                              "head is currently NULL, so there is no element "
+                              "to search for, return NULL.");
+        animController->AddAnimation(animNoElement);
+        return;
+    }
 
-    nodes[0].SetNodeState(GUI::Node::Active);
-    nodes[0].SetLabel("head/cur/0");
-    CLLAnimation anim1 = GenerateAnimation(0.5, 0, "Set cur to head.");
-    animController->AddAnimation(anim1);
+    {  // Line 1
+        nodes[0].SetLabel("head/0");
+        nodes[0].SetNodeState(GUI::Node::State::Active);
+        CLLAnimation anim1 = GenerateAnimation(
+            0.5, 0, "head is exist, so we proceed to the next step");
+        animController->AddAnimation(anim1);
+        nodes[0].AnimationOnNode(false);
+    }
+
+    {  // Line 2
+        nodes[0].SetLabel("head/cur/0");
+        CLLAnimation anim2 = GenerateAnimation(0.5, 1, "Set cur to head.");
+        animController->AddAnimation(anim2);
+    }
 
     int i = 0;
     bool found = false;
     do {
-        nodes[i].AnimationOnNode(false);
-        CLLAnimation animLoop1 =
-            GenerateAnimation(0.5, 1, "Check whether the current node is NULL");
-        animController->AddAnimation(animLoop1);
         if (i == nodes.size()) break;
-        CLLAnimation animLoop2 = GenerateAnimation(
-            1, 2, "Check if the current node's value is equal to v");
-        CLLAnimation animLoop3;
+
+        CLLAnimation animLoop1 = GenerateAnimation(
+            0.5, 3, "Check if the current node's value is equal to v");
+        CLLAnimation animLoop2;
         if (nodes[i].GetValue() == value) {
-            animLoop3 = GenerateAnimation(
-                0.5, 2,
+            animLoop1 = GenerateAnimation(
+                0.5, 3,
                 "Found value v = " + std::to_string(value) +
                     " at this highlighted vertex so we return node at "
                     "index " +
@@ -1246,6 +1251,8 @@ void Algorithm::CircularLinkedList::Search(int value) {
                 nodes[i].SetLabel("head");
             else if (i + 1 == nodes.size())
                 nodes[i].SetLabel("tail");
+
+            animController->AddAnimation(animLoop1);
         } else {
             nodes[i].AnimationOnNode(true);
             nodes[i].SetNodeState(GUI::Node::Iterated);
@@ -1263,23 +1270,34 @@ void Algorithm::CircularLinkedList::Search(int value) {
                 else
                     nodes[i + 1].SetLabel("cur/" + std::to_string(i + 1));
             }
-            animLoop3 = GenerateAnimation(0.5, 3, "Advance to the next node");
+            animLoop2 = GenerateAnimation(0.5, 4, "Advance to the next node.");
 
             if (i + 1 < nodes.size()) {
-                animLoop3.SetAnimation(HighlightArrowFromCur(i));
+                animLoop2.SetAnimation(HighlightArrowFromCur(i));
                 visualizer.SetArrowType(i, ArrowType::Active);
+            } else {
+                animLoop2.SetAnimation(HighlightCircularArrow());
+                visualizer.SetCircularArrowType(ArrowType::Active);
             }
+            nodes[i].AnimationOnNode(false);
+            if (i + 1 < nodes.size()) nodes[i + 1].AnimationOnNode(false);
+
+            CLLAnimation animLoop3 = GenerateAnimation(
+                0.5, 5,
+                "Check whether we have iterated over all of the nodes.");
+
+            animController->AddAnimation(animLoop1);
+            animController->AddAnimation(animLoop2);
+            animController->AddAnimation(animLoop3);
         }
-        animController->AddAnimation(animLoop2);
-        animController->AddAnimation(animLoop3);
         nodes[i].AnimationOnNode(false);
     } while (!found && ++i);
 
     if (!found) {
         CLLAnimation animNotFound = GenerateAnimation(
-            0.5, 5,
-            "cur is null (we have gone past the tail after O(N) step(s)).\n"
-            "We can conclude that value v = " +
+            0.5, 6,
+            "We have iterated over the whole Linked List (we have gone past "
+            "the tail after O(N) step(s)). We can conclude that value v = " +
                 std::to_string(value) +
                 " is NOT FOUND in the Linked "
                 "List");
