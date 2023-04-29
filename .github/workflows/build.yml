@@ -1,0 +1,50 @@
+name: build
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install cmake clang-format clang-tidy
+          sudo apt-get install libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+      - name: Install Raylib
+        run: |
+          git clone https://github.com/raysan5/raylib.git raylib
+          cd raylib
+          mkdir build && cd build
+          cmake -DBUILD_SHARED_LIBS=ON ..
+          make
+          sudo make install
+          cd ../..
+      - name: Run clang-format
+        run: clang-format --dry-run --Werror src/**/*.*pp
+      - name: Run CMake
+        run: cmake -S. -Bbuild
+      - name: Run Make
+        run: make -Cbuild
+      - name: Run clang-tidy
+        run: clang-tidy src/**/*.*pp -p build/
+
+# name: Hello World!
+
+# on:
+#   workflow_dispatch
+
+# jobs:
+#   say-hello:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Say Hello World!
+#         run: echo "Hello World, I'm running!"
+  
+#   say-hi:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Say Hi!
+#         run: echo "Hi World, I'm running!"
