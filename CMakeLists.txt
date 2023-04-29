@@ -103,6 +103,7 @@ add_executable(${PROJECT_NAME}
     src/States/Array/StaticArrayState.cpp
     src/States/Array/DynamicArrayState.cpp
     # src/States/Array/ArrayState.cpp
+    # src/States/Array/ArrayState.cpp
 
     ## Linked List
     src/States/LinkedList/SLLState.cpp
@@ -110,6 +111,7 @@ add_executable(${PROJECT_NAME}
     src/States/LinkedList/CLLState.cpp
     src/States/LinkedList/StackState.cpp
     src/States/LinkedList/QueueState.cpp
+    # src/States/LinkedList/LLState.cpp
     # src/States/LinkedList/LLState.cpp
 
     # Components
@@ -136,6 +138,9 @@ add_executable(${PROJECT_NAME}
     
     # Core
     ## Animation
+    # src/Core/Animation/AnimationController.cpp
+    # src/Core/Animation/AnimationState.cpp
+    src/Core/Animation/AnimationFactory.cpp
     # src/Core/Animation/AnimationController.cpp
     # src/Core/Animation/AnimationState.cpp
     src/Core/Animation/AnimationFactory.cpp

@@ -58,10 +58,6 @@ void Algorithm::CircularLinkedList::InsertHead(int value) {
             node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
             node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
 
-            std::cout << node.GetPosition().x << " " << node.GetPosition().y
-                      << " | " << srcDS.GetPosition().x << " "
-                      << srcDS.GetPosition().y << std::endl;
-
             srcDS.Draw(base, playingAt);
             return srcDS;
         });

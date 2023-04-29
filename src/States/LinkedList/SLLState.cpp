@@ -84,12 +84,17 @@ void SLLState::AddInitializeOperation() {
 
     /* Empty */
     AddNoFieldOperationOption(container, "Empty", [this]() { SLL.Empty(); });
+    AddNoFieldOperationOption(container, "Empty", [this]() { SLL.Empty(); });
 
     /* Random */
 
     AddNoFieldOperationOption(container, "Random", [this]() { SLL.Random(); });
+    AddNoFieldOperationOption(container, "Random", [this]() { SLL.Random(); });
 
     /* Random Sorted */
+    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
+    //     std::cout << "Random Sorted" << std::endl;
+    // });
     // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
     //     std::cout << "Random Sorted" << std::endl;
     // });
@@ -100,11 +105,20 @@ void SLLState::AddInitializeOperation() {
         [this](std::map< std::string, std::string > input) {
             assert(input.size() == 1);
             assert(input.begin()->first == "N = ");
+            assert(input.size() == 1);
+            assert(input.begin()->first == "N = ");
 
+            SLL.RandomFixedSize(std::stoi(input.begin()->second));
             SLL.RandomFixedSize(std::stoi(input.begin()->second));
         });
 
     /* User defined */
+    AddStringFieldOption(container, "--- User defined list ---", "arr = ",
+                         [this](std::map< std::string, std::string > input) {
+                             assert(input.size() == 1);
+                             assert(input.begin()->first == "arr = ");
+                             SLL.UserDefined(input.begin()->second);
+                         });
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
                              assert(input.size() == 1);
