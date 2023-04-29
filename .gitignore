@@ -11,3 +11,4 @@ build/
 *.bat
 lib/
 docs/
+*.xlsx
