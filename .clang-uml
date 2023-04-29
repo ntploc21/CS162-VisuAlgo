@@ -1,0 +1,27 @@
+compilation_database_dir: build
+output_directory: docs/diagrams
+generate_method_arguments: none
+diagrams:
+  GUI:
+    type: class
+    include_relations_also_as_members: false
+    include:
+      namespaces:
+        - GUI
+    exclude:
+      access:
+        - public
+        - protected
+        - private
+  Algorithm:
+    type: class
+    include_relations_also_as_members: false
+    include:
+      namespaces:
+        - Algorithm
+  Animation:
+    type: class
+    include_relations_also_as_members: false
+    include:
+      namespaces:
+        - Animation
