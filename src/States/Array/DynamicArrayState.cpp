@@ -49,15 +49,16 @@ void DynamicArrayState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "Back", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            int v = std::stoi(input["v = "]);
-            try {
-                mDynamicArray.PushBack(v);
-                SetCurrentAction("Push v = " + input["v = "] +
-                                 " at back (i = length - 1)");
-                ClearError();
-            } catch (std::exception& e) {
-                SetCurrentError(e.what());
+            if (mDynamicArray.size() == mDynamicArray.maxN) {
+                SetCurrentError("Array is full");
+                return;
             }
+
+            int v = std::stoi(input["v = "]);
+            mDynamicArray.PushBack(v);
+            SetCurrentAction("Push v = " + input["v = "] +
+                             " at back (i = length - 1)");
+            Success();
         });
 
     /* Default insert */
@@ -144,12 +145,12 @@ void DynamicArrayState::AddUpdateOperation() {
             int v = std::stoi(input["v = "]);
             if (i >= mDynamicArray.size()) {
                 SetCurrentError("You can't modify inaccessible element");
-            } else {
-                mDynamicArray.Update(i, v);
-                SetCurrentAction("Update arr[" + input["i = "] +
-                                 "] = " + input["v = "]);
-                ClearError();
+                return;
             }
+            mDynamicArray.Update(i, v);
+            SetCurrentAction("Update arr[" + input["i = "] +
+                             "] = " + input["v = "]);
+            Success();
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -167,7 +168,7 @@ void DynamicArrayState::AddDeleteOperation() {
     AddNoFieldOperationOption(container, "Back (i = length - 1)", [this]() {
         mDynamicArray.PopBack();
         SetCurrentAction("Remove i = length - 1 (Back)");
-        ClearError();
+        Success();
     });
 
     /* Delete specific element */
@@ -176,16 +177,6 @@ void DynamicArrayState::AddDeleteOperation() {
     //     container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
     //     [this](std::map< std::string, std::string > input) {
     //         std::cout << "Specify i in [1..N-1]" << std::endl;
-    //         for (auto it : input) {
-    //             std::cout << it.first << it.second << std::endl;
-    //         }
-    //     });
-    /* Delete elements with specific value */
-
-    // AddIntFieldOperationOption(
-    //     container, "Specify v", {{"v = ", 50, 0, 99}},
-    //     [this](std::map< std::string, std::string > input) {
-    //         std::cout << "Specify v" << std::endl;
     //         for (auto it : input) {
     //             std::cout << it.first << it.second << std::endl;
     //         }
@@ -209,7 +200,7 @@ void DynamicArrayState::AddSearchOperation() {
             mDynamicArray.Search(v);
             SetCurrentAction("Search for element has value equal to " +
                              input["v = "]);
-            ClearError();
+            Success();
         });
 
     operationList.AddOperation(buttonSearch, container);
@@ -223,17 +214,17 @@ void DynamicArrayState::AddAccessOperation() {
     /* ==== DEFINE OPERATIONS FOR ACCESS ==== */
 
     AddIntFieldOperationOption(
-        container, "Specify i", {{"i = ", 50, 0, mDynamicArray.maxN}},
+        container, "Specify i", {{"i = ", 50, 0, mDynamicArray.maxN - 1}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             if (i >= mDynamicArray.size()) {
                 SetCurrentError("You can't modify element out of range [0.." +
                                 std::to_string(mDynamicArray.size() - 1) + "]");
-            } else {
-                mDynamicArray.Access(i);
-                SetCurrentAction("Accessing arr[" + input["i = "] + "]");
-                ClearError();
+                return;
             }
+            mDynamicArray.Access(i);
+            SetCurrentAction("Accessing arr[" + input["i = "] + "]");
+            Success();
         });
 
     operationList.AddOperation(buttonSearch, container);
