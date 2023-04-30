@@ -18,6 +18,10 @@ Algorithm::StaticArray::StaticArray(
 
 Algorithm::StaticArray::~StaticArray() {}
 
+std::size_t Algorithm::StaticArray::size() const {
+    return visualizer.GetLength();
+}
+
 void Algorithm::StaticArray::Update(int index, int value) {
     InitAction({"arr[i] = v;"});
 

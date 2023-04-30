@@ -40,9 +40,9 @@ void SLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            // if(SLL.) return;
             SLL.InsertHead(std::stoi(input["v = "]));
-            operationList.ToggleOperations();
-            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            Success();
             SetCurrentAction("Insert " + input["v = "] + " at head");
         });
 
@@ -84,11 +84,9 @@ void SLLState::AddInitializeOperation() {
 
     /* Empty */
     AddNoFieldOperationOption(container, "Empty", [this]() { SLL.Empty(); });
-    AddNoFieldOperationOption(container, "Empty", [this]() { SLL.Empty(); });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random", [this]() { SLL.Random(); });
     AddNoFieldOperationOption(container, "Random", [this]() { SLL.Random(); });
 
     /* Random Sorted */
@@ -105,20 +103,11 @@ void SLLState::AddInitializeOperation() {
         [this](std::map< std::string, std::string > input) {
             assert(input.size() == 1);
             assert(input.begin()->first == "N = ");
-            assert(input.size() == 1);
-            assert(input.begin()->first == "N = ");
 
-            SLL.RandomFixedSize(std::stoi(input.begin()->second));
             SLL.RandomFixedSize(std::stoi(input.begin()->second));
         });
 
     /* User defined */
-    AddStringFieldOption(container, "--- User defined list ---", "arr = ",
-                         [this](std::map< std::string, std::string > input) {
-                             assert(input.size() == 1);
-                             assert(input.begin()->first == "arr = ");
-                             SLL.UserDefined(input.begin()->second);
-                         });
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
                              assert(input.size() == 1);

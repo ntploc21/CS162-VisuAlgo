@@ -26,6 +26,7 @@ void StaticArrayState::Draw() {
     codeHighlighter->Draw();
     footer.Draw(animController.get());
     DrawCurrentActionText();
+    DrawCurrentErrorText();
 }
 
 void StaticArrayState::AddInitializeOperation() {
@@ -36,8 +37,10 @@ void StaticArrayState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random",
-                              [this]() { mStaticArray.Random(); });
+    AddNoFieldOperationOption(container, "Random", [this]() {
+        mStaticArray.Random();
+        ClearError();
+    });
 
     /* Random Sorted */
     // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
@@ -50,12 +53,18 @@ void StaticArrayState::AddInitializeOperation() {
         [this](std::map< std::string, std::string > input) {
             int N = std::stoi(input["N = "]);
             mStaticArray.RandomFixedSize(N);
+            ClearError();
         });
 
     /* User defined */
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
-                             mStaticArray.UserDefined(input["arr = "]);
+                             try {
+                                 mStaticArray.UserDefined(input["arr = "]);
+                                 ClearError();
+                             } catch (std::exception& e) {
+                                 SetCurrentError(e.what());
+                             }
                          });
 
     /* ====================================== */
@@ -77,10 +86,14 @@ void StaticArrayState::AddUpdateOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
-            if (!(i >= 0 && i < mStaticArray.maxN)) return;
-            mStaticArray.Update(i, v);
-            SetCurrentAction("Update arr[" + input["i = "] +
-                             "] = " + input["v = "]);
+            if (i >= mStaticArray.size()) {
+                SetCurrentError("You can't modify inaccessible element");
+            } else {
+                mStaticArray.Update(i, v);
+                SetCurrentAction("Update arr[" + input["i = "] +
+                                 "] = " + input["v = "]);
+                ClearError();
+            }
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -102,6 +115,7 @@ void StaticArrayState::AddSearchOperation() {
             mStaticArray.Search(v);
             SetCurrentAction("Search for element has value equal to " +
                              input["v = "]);
+            ClearError();
         });
 
     operationList.AddOperation(buttonSearch, container);
@@ -118,8 +132,14 @@ void StaticArrayState::AddAccessOperation() {
         container, "Specify i", {{"i = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            mStaticArray.Access(i);
-            SetCurrentAction("Accessing arr[" + input["i = "] + "]");
+            if (i >= mStaticArray.size()) {
+                SetCurrentError("You can't access inaccessible element");
+                return;
+            } else {
+                mStaticArray.Access(i);
+                SetCurrentAction("Accessing arr[" + input["i = "] + "]");
+                ClearError();
+            }
         });
 
     operationList.AddOperation(buttonSearch, container);

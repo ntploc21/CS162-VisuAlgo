@@ -18,6 +18,7 @@ namespace Algorithm {
                     DArrayAnimationController::Ptr animController,
                     FontHolder* fonts);
         ~StaticArray();
+        std::size_t size() const;
 
     public:
         void Update(int index, int value);
