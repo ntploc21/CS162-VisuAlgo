@@ -98,6 +98,19 @@ void StackState::AddInitializeOperation() {
                              }
                          });
 
+    /* Input from file */
+    AddNoFieldOperationOption(container, "File", [this]() {
+        try {
+            std::string file = Utils::OpenFileDiaglog(
+                "Select file with input", "Select your input file",
+                {"*.txt", "*.inp"}, "", false);
+            mStackAlgorithm.UserDefined(Utils::ReadInputFromFile(file));
+            ClearError();
+        } catch (std::exception& e) {
+            SetCurrentError("No file is selected");
+        }
+    });
+
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);
 }

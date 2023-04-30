@@ -1,6 +1,33 @@
 #include "Utils.hpp"
 
+#include <fstream>
+
 #include "raygui.h"
+
+std::string Utils::OpenFileDiaglog(std::string title, std::string description,
+                                   std::vector< std::string > filters,
+                                   std::string defaultPath,
+                                   bool allowMultipleSelect) {
+    char const **cFilters = new char const *[filters.size()];
+    for (int i = 0; i < filters.size(); i++) {
+        cFilters[i] = filters[i].c_str();
+    }
+    char *filename = tinyfd_openFileDialog(
+        title.c_str(), defaultPath.c_str(), filters.size(), cFilters,
+        description.c_str(), allowMultipleSelect ? 1 : 0);
+
+    delete[] cFilters;
+    return std::string(filename);
+}
+
+std::string Utils::ReadInputFromFile(std::string path) {
+    std::ifstream file(path);
+    if (!file.is_open()) return std::string();
+    std::string input((std::istreambuf_iterator< char >(file)),
+                      std::istreambuf_iterator< char >());
+    file.close();
+    return input;
+}
 
 int Utils::Rand(int lower, int upper) {
     std::mt19937 rng(

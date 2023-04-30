@@ -158,6 +158,7 @@ add_executable(${PROJECT_NAME}
     
     ## Utils
     src/Utils/Utils.cpp
+    include/tinyfiledialogs.c
 )
 
 target_link_libraries(${PROJECT_NAME} raylib)

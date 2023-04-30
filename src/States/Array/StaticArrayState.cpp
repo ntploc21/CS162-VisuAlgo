@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Global.hpp"
+#include "Utils/Utils.hpp"
 
 StaticArrayState::StaticArrayState(StateStack& stack, Context context)
     : ArrayState(stack, context, DataStructures::StaticArray) {
@@ -66,6 +67,19 @@ void StaticArrayState::AddInitializeOperation() {
                                  SetCurrentError(e.what());
                              }
                          });
+
+    /* Input from file */
+    AddNoFieldOperationOption(container, "File", [this]() {
+        try {
+            std::string file = Utils::OpenFileDiaglog(
+                "Select file with input", "Select your input file",
+                {"*.txt", "*.inp"}, "", false);
+            mStaticArray.UserDefined(Utils::ReadInputFromFile(file));
+            ClearError();
+        } catch (std::exception& e) {
+            SetCurrentError("No file is selected");
+        }
+    });
 
     /* ====================================== */
     operationList.AddOperation(buttonInitialize, container);
