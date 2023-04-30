@@ -72,6 +72,8 @@ void GUI::InputField::AllFieldDisableEdit() {
               false);
 }
 
+void GUI::InputField::Randomize() {}
+
 void GUI::InputField::SetLabel(std::string labelContent) {
     label = labelContent;
 }

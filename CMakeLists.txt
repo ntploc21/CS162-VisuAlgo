@@ -94,7 +94,6 @@ add_executable(${PROJECT_NAME}
     src/Container.cpp
     src/Identifiers/CategoryInfo.cpp
     src/Identifiers/DSInfo.cpp
-    src/Utils.cpp
 
     # States
     src/States/HomepageState.cpp
@@ -157,16 +156,9 @@ add_executable(${PROJECT_NAME}
     src/Algorithms/LinkedList/Queue.cpp
     src/Algorithms/LinkedList/Stack.cpp
     
-
-    ### Add
-
-    ### Update
-
-    ### Search
-
-    ### Delete
-
-    ### Export
+    ## Utils
+    src/Utils/Random.cpp
+    src/Utils/Utils.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} raylib)

@@ -2,6 +2,8 @@
 
 #include <string.h>
 
+#include "Utils/Random.hpp"
+
 GUI::IntegerInputField::IntegerInputField(FontHolder* fonts)
     : GUI::InputField(fonts), input(0), mMinValue(0), mMaxValue(0) {}
 GUI::IntegerInputField::~IntegerInputField() {}
@@ -24,3 +26,7 @@ void GUI::IntegerInputField::SetConstraint(int minValue, int maxValue) {
 }
 
 bool GUI::IntegerInputField::isSelectable() const { return false; }
+
+void GUI::IntegerInputField::Randomize() {
+    input = Random::Rand(mMinValue, mMaxValue);
+}
