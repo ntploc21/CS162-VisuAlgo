@@ -4,8 +4,8 @@
 #include <string>
 
 // #include "BaseNode.hpp"
+#include "Algorithms/Algorithm.hpp"
 #include "Components/Visualization/DynamicArray.hpp"
-#include "Core/Algorithms/Algorithm.hpp"
 
 namespace Algorithm {
     class DynamicArray
@@ -34,6 +34,7 @@ namespace Algorithm {
 
     public:
         void Search(int value);
+
     private:
         void ResetVisualizer();
     };

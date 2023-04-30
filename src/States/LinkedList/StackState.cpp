@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../Global.hpp"
+#include "Global.hpp"
 
 StackState::StackState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::Stack) {

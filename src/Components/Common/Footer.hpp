@@ -1,8 +1,8 @@
 #ifndef COMPONENTS_COMMON_FOOTER_HPP
 #define COMPONENTS_COMMON_FOOTER_HPP
 
+#include "Animation/AnimationController.hpp"
 #include "Container.hpp"
-#include "Core/Animation/AnimationController.hpp"
 
 namespace GUI {
     template< typename T >

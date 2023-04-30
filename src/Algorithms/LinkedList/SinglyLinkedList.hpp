@@ -4,8 +4,8 @@
 #include <string>
 
 // #include "BaseNode.hpp"
+#include "Algorithms/Algorithm.hpp"
 #include "Components/Visualization/SinglyLinkedList.hpp"
-#include "Core/Algorithms/Algorithm.hpp"
 
 namespace Algorithm {
     class SinglyLinkedList

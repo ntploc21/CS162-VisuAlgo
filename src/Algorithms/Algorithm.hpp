@@ -11,9 +11,9 @@
 #include <string>
 #include <vector>
 
+#include "Animation/AnimationController.hpp"
+#include "Animation/AnimationFactory.hpp"
 #include "Components/Common/CodeHighlighter.hpp"
-#include "Core/Animation/AnimationController.hpp"
-#include "Core/Animation/AnimationFactory.hpp"
 namespace Algorithm {
     template< typename GUIAlgorithm, typename AnimationState >
     class Algorithm {

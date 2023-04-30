@@ -1,7 +1,7 @@
 #ifndef STATES_SETTINGSSTATE_HPP
 #define STATES_SETTINGSSTATE_HPP
 
-#include "../State.hpp"
+#include "State.hpp"
 
 class SettingsState : public State {
 private:

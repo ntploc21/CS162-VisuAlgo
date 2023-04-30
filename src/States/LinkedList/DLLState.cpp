@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../Global.hpp"
+#include "Global.hpp"
 
 DLLState::DLLState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::DoublyLinkedList) {

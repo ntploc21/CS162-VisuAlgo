@@ -1,8 +1,8 @@
 #ifndef CORE_ALGORITHMS_LINKEDLIST_QUEUE_HPP
 #define CORE_ALGORITHMS_LINKEDLIST_QUEUE_HPP
 
+#include "Algorithms/Algorithm.hpp"
 #include "Components/Visualization/SinglyLinkedList.hpp"
-#include "Core/Algorithms/Algorithm.hpp"
 
 namespace Algorithm {
     class Queue : public Algorithm< GUI::SinglyLinkedList, SLLAnimation > {

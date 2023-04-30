@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../Global.hpp"
+#include "Global.hpp"
 
 DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
     : ArrayState(stack, context, DataStructures::DynamicArray) {

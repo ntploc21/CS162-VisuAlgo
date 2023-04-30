@@ -1,6 +1,6 @@
 #include "CircularLinkedList.hpp"
 
-#include "Core/Animation/AnimationFactory.hpp"
+#include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
 GUI::CircularLinkedList::CircularLinkedList(FontHolder* fonts)

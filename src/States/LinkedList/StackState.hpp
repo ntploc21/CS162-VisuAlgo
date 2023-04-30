@@ -1,7 +1,7 @@
 #ifndef STATES_LINKEDLIST_STACKSTATE_HPP
 #define STATES_LINKEDLIST_STACKSTATE_HPP
 
-#include "Core/Algorithms/LinkedList/Stack.hpp"
+#include "Algorithms/LinkedList/Stack.hpp"
 #include "LLState.hpp"
 
 class StackState : public LLState< SLLAnimationController > {

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Core/Animation/AnimationFactory.hpp"
+#include "Animation/AnimationFactory.hpp"
 
 void GUI::Node::SetShape(Shape shape) { mShape = shape; }
 

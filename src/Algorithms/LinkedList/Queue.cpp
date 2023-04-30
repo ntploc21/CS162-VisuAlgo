@@ -4,7 +4,7 @@
 #include <cstring>
 #include <iomanip>
 
-#include "Core/Animation/AnimationFactory.hpp"
+#include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
 using ArrowType = GUI::SinglyLinkedList::ArrowType;

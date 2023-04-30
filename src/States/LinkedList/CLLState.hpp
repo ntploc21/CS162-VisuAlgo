@@ -1,7 +1,7 @@
 #ifndef STATES_LINKEDLIST_CLLSTATE_HPP
 #define STATES_LINKEDLIST_CLLSTATE_HPP
 
-#include "Core/Algorithms/LinkedList/CircularLinkedList.hpp"
+#include "Algorithms/LinkedList/CircularLinkedList.hpp"
 #include "LLState.hpp"
 
 class CLLState : public LLState< CLLAnimationController > {

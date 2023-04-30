@@ -1,8 +1,8 @@
 #ifndef STATES_ARRAY_DYNAMICARRAYSTATE_HPP
 #define STATES_ARRAY_DYNAMICARRAYSTATE_HPP
 
+#include "Algorithms/Array/DynamicArray.hpp"
 #include "ArrayState.hpp"
-#include "Core/Algorithms/Array/DynamicArray.hpp"
 
 class DynamicArrayState : public ArrayState< DArrayAnimationController > {
 private:

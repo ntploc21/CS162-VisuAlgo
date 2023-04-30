@@ -1,6 +1,6 @@
 #include "LinkedList.hpp"
 
-#include "Core/Animation/AnimationFactory.hpp"
+#include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
 GUI::LinkedList::LinkedList(FontHolder* fonts)

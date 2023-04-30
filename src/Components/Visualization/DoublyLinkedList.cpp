@@ -1,6 +1,6 @@
 #include "DoublyLinkedList.hpp"
 
-#include "Core/Animation/AnimationFactory.hpp"
+#include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
 GUI::DoublyLinkedList::DoublyLinkedList(FontHolder* fonts)

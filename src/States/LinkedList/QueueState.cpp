@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../Global.hpp"
+#include "Global.hpp"
 
 QueueState::QueueState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::Queue) {

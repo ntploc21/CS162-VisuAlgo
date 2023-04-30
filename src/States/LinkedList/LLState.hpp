@@ -1,12 +1,12 @@
 #ifndef STATES_LINKEDLIST_LLSTATE_HPP
 #define STATES_LINKEDLIST_LLSTATE_HPP
 
+#include "Animation/AnimationController.hpp"
 #include "Components/Common/CodeHighlighter.hpp"
 #include "Components/Common/Footer.hpp"
 #include "Components/Common/OperationContainer.hpp"
 #include "Components/Common/OperationList.hpp"
 #include "Components/Common/OptionInputField.hpp"
-#include "Core/Animation/AnimationController.hpp"
 #include "State.hpp"
 
 template< typename T >

@@ -1,7 +1,7 @@
 #ifndef STATES_LINKEDLIST_SLLSTATE_HPP
 #define STATES_LINKEDLIST_SLLSTATE_HPP
 
-#include "Core/Algorithms/LinkedList/SinglyLinkedList.hpp"
+#include "Algorithms/LinkedList/SinglyLinkedList.hpp"
 #include "LLState.hpp"
 
 class SLLState : public LLState< SLLAnimationController > {

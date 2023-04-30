@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../Global.hpp"
+#include "Global.hpp"
 
 StaticArrayState::StaticArrayState(StateStack& stack, Context context)
     : ArrayState(stack, context, DataStructures::StaticArray) {

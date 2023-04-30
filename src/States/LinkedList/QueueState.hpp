@@ -1,7 +1,7 @@
 #ifndef STATES_LINKEDLIST_QUEUESTATE_HPP
 #define STATES_LINKEDLIST_QUEUESTATE_HPP
 
-#include "Core/Algorithms/LinkedList/Queue.hpp"
+#include "Algorithms/LinkedList/Queue.hpp"
 #include "LLState.hpp"
 
 class QueueState : public LLState< SLLAnimationController > {

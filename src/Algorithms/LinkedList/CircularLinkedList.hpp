@@ -4,8 +4,8 @@
 #include <string>
 
 // #include "BaseNode.hpp"
+#include "Algorithms/Algorithm.hpp"
 #include "Components/Visualization/CircularLinkedList.hpp"
-#include "Core/Algorithms/Algorithm.hpp"
 
 namespace Algorithm {
     class CircularLinkedList

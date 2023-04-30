@@ -1,6 +1,6 @@
 #include "SinglyLinkedList.hpp"
 
-#include "Core/Animation/AnimationFactory.hpp"
+#include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
 GUI::SinglyLinkedList::SinglyLinkedList(FontHolder* fonts)

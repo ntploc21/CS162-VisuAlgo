@@ -4,8 +4,8 @@
 #include <string>
 
 // #include "BaseNode.hpp"
+#include "Algorithms/Algorithm.hpp"
 #include "Components/Visualization/SinglyLinkedList.hpp"
-#include "Core/Algorithms/Algorithm.hpp"
 
 using ArrowType = GUI::SinglyLinkedList::ArrowType;
 using Orientation = GUI::LinkedList::Orientation;

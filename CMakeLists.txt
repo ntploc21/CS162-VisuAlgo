@@ -140,22 +140,22 @@ add_executable(${PROJECT_NAME}
     ## Animation
     # src/Core/Animation/AnimationController.cpp
     # src/Core/Animation/AnimationState.cpp
-    src/Core/Animation/AnimationFactory.cpp
+    src/Animation/AnimationFactory.cpp
     # src/Core/Animation/AnimationController.cpp
     # src/Core/Animation/AnimationState.cpp
-    src/Core/Animation/AnimationFactory.cpp
+    src/Animation/AnimationFactory.cpp
 
     ## Algorithms
     ### Array
-    src/Core/Algorithms/Array/StaticArray.cpp
-    src/Core/Algorithms/Array/DynamicArray.cpp
+    src/Algorithms/Array/StaticArray.cpp
+    src/Algorithms/Array/DynamicArray.cpp
     ### LinkedList
     # src/Core/DataStructures/LinkedList/BaseNode.hpp
-    src/Core/Algorithms/LinkedList/CircularLinkedList.cpp
-    src/Core/Algorithms/LinkedList/DoublyLinkedList.cpp
-    src/Core/Algorithms/LinkedList/SinglyLinkedList.cpp
-    src/Core/Algorithms/LinkedList/Queue.cpp
-    src/Core/Algorithms/LinkedList/Stack.cpp
+    src/Algorithms/LinkedList/CircularLinkedList.cpp
+    src/Algorithms/LinkedList/DoublyLinkedList.cpp
+    src/Algorithms/LinkedList/SinglyLinkedList.cpp
+    src/Algorithms/LinkedList/Queue.cpp
+    src/Algorithms/LinkedList/Stack.cpp
     
 
     ### Add

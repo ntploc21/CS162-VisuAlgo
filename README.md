@@ -51,9 +51,9 @@ Notable features include:
     - [**Components/**](src/Components) contains UI components.
         - [**Common/**](src/Components/Common/) contains commonly used UI components (e.g Button, etc).
         - [**Visualization/**](src/Components/Visualization/) contains UI components used mainly for visualization (e.g ```GUI::Node```, ```GUI::SinglyLinkedList```, etc).
-    - [**Core/**](src/Core) processes visualization.
-        - [**Animation/**](src/Core/Animation) processes animation (navigating animation, define an animation, etc)
-        - [**Algorithms/**](src/Core/Algorithms/) generate step-by-step instruction for animating/visualizing the data structures and algorithms
+    - [**Core/**](src/Core) contains core data structures and algorithms.
+    - [**Animation/**](src/Animation/) processes animation and visualization also animation controller such as play, pause, stop, etc.
+    - [**Algorithms/**](src/Algorithms/) generate step-by-step instruction for animating/visualizing the data structures and algorithms
     - [**States/**](src/States) contains VisuAlgo scene
     - [**Identifiers/**](src/Identifiers) contains VisuAlgo identifiers for scene, font, and stuff
 - [**include/**](include) contains the library header files
