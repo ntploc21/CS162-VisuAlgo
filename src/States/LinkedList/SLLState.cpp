@@ -68,20 +68,22 @@ void SLLState::AddInsertOperation() {
     /* Default insert */
 
     AddIntFieldOperationOption(
-        container, "Specify both i in [0..N] and v",
+        container, "Specify both i in [1..N-1] and v",
         {{"i = ", 50, 0, SLL.maxN - 1}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            int i = std::stoi(input["i = "]);
             if (SLL.size() == SLL.maxN) {
                 SetCurrentError("List is full");
                 return;
             }
-            if (i > SLL.size()) {
-                SetCurrentError("Index out of bound");
+
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            if (i <= 0 || i >= SLL.size()) {
+                SetCurrentError("Invalid index");
                 return;
             }
 
-            SLL.InsertMiddle(i, std::stoi(input["v = "]));
+            SLL.InsertMiddle(i, v);
             Success();
             SetCurrentAction("Insert " + input["v = "] + " at index " +
                              input["i = "]);
@@ -123,7 +125,8 @@ void SLLState::AddInitializeOperation() {
     AddIntFieldOperationOption(
         container, "Random Fixed Size", {{"N = ", 50, 0, SLL.maxN}},
         [this](std::map< std::string, std::string > input) {
-            SLL.RandomFixedSize(std::stoi(input.begin()->second));
+            int N = std::stoi(input.begin()->second);
+            SLL.RandomFixedSize(N);
             ClearError();
         });
 
@@ -133,8 +136,8 @@ void SLLState::AddInitializeOperation() {
                              try {
                                  SLL.UserDefined(input.begin()->second);
                                  ClearError();
-                             } catch (const std::exception& e) {
-                                 SetCurrentError(e.what());
+                             } catch (std::invalid_argument& e) {
+                                 SetCurrentError("Invalid input");
                              }
                          });
 
@@ -198,16 +201,21 @@ void SLLState::AddDeleteOperation() {
     AddIntFieldOperationOption(
         container, "Specify i in [1..N-2]", {{"i = ", 50, 0, SLL.maxN}},
         [this](std::map< std::string, std::string > input) {
+            if (SLL.size() == 0) {
+                SetCurrentError("List is empty");
+                return;
+            }
+
             int i = std::stoi(input["i = "]);
-            if (i >= SLL.size()) {
-                SetCurrentError("Index out of bound");
+            if (i < 1 || i >= SLL.size() - 1) {
+                SetCurrentError("Invalid index");
                 return;
             }
             SLL.DeleteMiddle(i);
             SetCurrentAction("Remove i = " + input["i = "]);
             Success();
         });
-    /* Delete elements with specific value */
+
     operationList.AddOperation(buttonDelete, container);
 }
 

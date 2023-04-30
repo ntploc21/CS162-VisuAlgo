@@ -24,7 +24,6 @@ std::size_t Algorithm::SinglyLinkedList::size() const {
 }
 
 void Algorithm::SinglyLinkedList::InsertHead(int value) {
-    if (visualizer.GetList().size() == maxN) return;
     InitAction(
         {"Node *node = new Node(v);", "node->next = head;", "head = node;"});
 
@@ -99,13 +98,11 @@ void Algorithm::SinglyLinkedList::InsertHead(int value) {
 }
 
 void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
-    int prvSize = visualizer.GetList().size();
+    int prvSize = visualizer.size();
     if (prvSize == 0) {
         InsertHead(value);
         return;
     }
-    if (prvSize == maxN) return;
-    if (visualizer.GetList().size() == maxN) return;
 
     InitAction(
         {"Node *node = new Node(v);", "tail->next = node;", "tail = node;"});
@@ -187,8 +184,6 @@ void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
 }
 
 void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
-    if (!(index >= 1 && index < visualizer.GetList().size())) return;
-    if (visualizer.GetList().size() == maxN) return;
     InitAction({"Node *pre = head;", "for(int k=0;k<i-1;k++)",
                 "	pre = pre->next;", "Node *aft = pre->next;",
                 "Node *node = new Node(v);", "node->next = aft;",
@@ -615,17 +610,6 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
 
                 srcDS.Draw(base, playingAt);
 
-                // base.x += srcDS.GetPosition().x;
-                // base.y += srcDS.GetPosition().y;
-
-                // Vector2 start = nodes[nodes.size() - 2].GetPosition();
-                // Vector2 end = nodes.back().GetPosition();
-
-                // start.x += base.x, start.y += base.y;
-                // end.x += base.x, end.y += base.y;
-                // AnimationFactory::DrawDirectionalArrow(start, end, true,
-                //                                        1.0f - playingAt);
-
                 return srcDS;
             });
         animController->AddAnimation(anim6);
@@ -652,6 +636,15 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
 
     /* Animation goes here */
     auto& nodes = visualizer.GetList();
+
+    if (!nodes.size()) {
+        SLLAnimation animNoElement = GenerateAnimation(
+            0.75, 0,
+            "head is currently NULL, so there is no element to delete.");
+        animController->AddAnimation(animNoElement);
+        return;
+    }
+
     for (GUI::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1
