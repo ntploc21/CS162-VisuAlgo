@@ -17,6 +17,8 @@ GUI::Node::Shape GUI::LinkedList::GetShape() const { return mShape; }
 
 bool GUI::LinkedList::isSelectable() const { return false; }
 
+std::size_t GUI::LinkedList::size() const { return list.size(); }
+
 void GUI::LinkedList::SetShowHeadAndTail(bool show) {
     mDisplayHeadAndTail = show;
 }
