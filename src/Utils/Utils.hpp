@@ -1,9 +1,16 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include <cassert>
+#include <chrono>
+#include <random>
+
 #include "raylib.h"
 
 namespace Utils {
+
+    int Rand(int lower, int upper);
+
     void DrawTextBoxed(
         Font font, const char* text, Rectangle rec, float fontSize,
         float spacing, bool wordWrap,

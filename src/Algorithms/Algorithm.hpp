@@ -14,6 +14,8 @@
 #include "Animation/AnimationController.hpp"
 #include "Animation/AnimationFactory.hpp"
 #include "Components/Common/CodeHighlighter.hpp"
+#include "Utils/Utils.hpp"
+
 namespace Algorithm {
     template< typename GUIAlgorithm, typename AnimationState >
     class Algorithm {
@@ -31,9 +33,6 @@ namespace Algorithm {
         GUI::CodeHighlighter::Ptr codeHighlighter;
         typename Animation::AnimationController< AnimationState >::Ptr
             animController;
-
-    protected:
-        int Rand(int lower, int upper);
 
     public:
         virtual void Empty();
@@ -83,15 +82,6 @@ template< typename GUIAlgorithm, typename AnimationState >
 Algorithm::Algorithm< GUIAlgorithm, AnimationState >::~Algorithm() {}
 
 template< typename GUIAlgorithm, typename AnimationState >
-int Algorithm::Algorithm< GUIAlgorithm, AnimationState >::Rand(int lower,
-                                                               int upper) {
-    std::mt19937 rng(
-        std::chrono::steady_clock::now().time_since_epoch().count());
-    assert(lower <= upper);
-    return lower + rng() % (upper - lower + 1);
-}
-
-template< typename GUIAlgorithm, typename AnimationState >
 std::vector< int >
 Algorithm::Algorithm< GUIAlgorithm, AnimationState >::EmptyGenerator() {
     return std::vector< int >();
@@ -100,7 +90,7 @@ Algorithm::Algorithm< GUIAlgorithm, AnimationState >::EmptyGenerator() {
 template< typename GUIAlgorithm, typename AnimationState >
 std::vector< int >
 Algorithm::Algorithm< GUIAlgorithm, AnimationState >::RandomGenerator() {
-    int nSize = Rand(1, 10);
+    int nSize = Utils::Rand(1, 10);
     // params["nSize"] = (char)(nSize + '0');
     return RandomFixedSizeGenerator(nSize);
 }
@@ -110,7 +100,7 @@ std::vector< int >
 Algorithm::Algorithm< GUIAlgorithm, AnimationState >::RandomFixedSizeGenerator(
     int nSize) {
     std::vector< int > answer(nSize);
-    for (int& v : answer) v = Rand(1, 99);
+    for (int& v : answer) v = Utils::Rand(1, 99);
     return answer;
 }
 
