@@ -14,6 +14,7 @@ namespace Algorithm {
               SLLAnimationController::Ptr animController, FontHolder* fonts);
         Queue();
         ~Queue();
+        std::size_t size() const;
 
     public:
         void EnqueueEmpty(int value);

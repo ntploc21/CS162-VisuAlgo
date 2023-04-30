@@ -19,6 +19,7 @@ Algorithm::Queue::Queue(GUI::CodeHighlighter::Ptr codeHighlighter,
 }
 
 Algorithm::Queue::~Queue() {}
+std::size_t Algorithm::Queue::size() const { return visualizer.size(); }
 void Algorithm::Queue::EnqueueEmpty(int value) {
     if (visualizer.GetList().size() == maxN) return;
     InitAction({"Node *node = new Node(v);", "node->next = head;",
@@ -61,13 +62,11 @@ void Algorithm::Queue::EnqueueEmpty(int value) {
 }
 
 void Algorithm::Queue::Enqueue(int value) {
-    int prvSize = visualizer.GetList().size();
+    int prvSize = visualizer.size();
     if (prvSize == 0) {
         EnqueueEmpty(value);
         return;
     }
-    if (prvSize == maxN) return;
-    if (visualizer.GetList().size() == maxN) return;
 
     InitAction(
         {"Node *node = new Node(v);", "tail->next = node;", "tail = node;"});

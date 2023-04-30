@@ -39,9 +39,14 @@ void QueueState::AddInsertOperation() {
         container, "Enqueue v = … to the front of the queue",
         {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (queue.size() == queue.maxN) {
+                SetCurrentError("Queue is full");
+                return;
+            }
             int value = std::stoi(input["v = "]);
             queue.Enqueue(value);
             SetCurrentAction("Enqueue " + input["v = "] + " at back (tail)");
+            Success();
         });
 
     /* ====================================== */
@@ -56,12 +61,17 @@ void QueueState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty", [this]() { queue.Empty(); });
+    AddNoFieldOperationOption(container, "Empty", [this]() {
+        queue.Empty();
+        ClearError();
+    });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random",
-                              [this]() { queue.Random(); });
+    AddNoFieldOperationOption(container, "Random", [this]() {
+        queue.Random();
+        ClearError();
+    });
 
     /* Random Sorted */
     // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
@@ -72,18 +82,21 @@ void QueueState::AddInitializeOperation() {
     AddIntFieldOperationOption(
         container, "Random Fixed Size", {{"N = ", 50, 0, queue.maxN}},
         [this](std::map< std::string, std::string > input) {
-            assert(input.size() == 1);
-            assert(input.begin()->first == "N = ");
+            int N = std::stoi(input.begin()->second);
 
-            queue.RandomFixedSize(std::stoi(input.begin()->second));
+            queue.RandomFixedSize(N);
+            ClearError();
         });
 
     /* User defined */
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
-                             assert(input.size() == 1);
-                             assert(input.begin()->first == "arr = ");
-                             queue.UserDefined(input.begin()->second);
+                             try {
+                                 queue.UserDefined(input.begin()->second);
+                                 ClearError();
+                             } catch (const std::invalid_argument& e) {
+                                 SetCurrentError("Invalid input");
+                             }
                          });
 
     /* ====================================== */
@@ -102,6 +115,7 @@ void QueueState::AddDeleteOperation() {
     AddNoFieldOperationOption(container, "Dequeue the front", [this]() {
         queue.Dequeue();
         SetCurrentAction("Remove i = 0 (Head)");
+        Success();
     });
     operationList.AddOperation(buttonDelete, container);
 }
@@ -117,11 +131,13 @@ void QueueState::AddSearchOperation() {
     AddNoFieldOperationOption(container, "Front", [this]() {
         queue.PeekFront();
         SetCurrentAction("Peek front (head)");
+        Success();
     });
 
     AddNoFieldOperationOption(container, "Back", [this]() {
         queue.PeekBack();
         SetCurrentAction("Peek back (tail)");
+        Success();
     });
 
     operationList.AddOperation(buttonSearch, container);
