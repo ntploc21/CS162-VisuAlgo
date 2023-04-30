@@ -13,6 +13,10 @@ Algorithm::DynamicArray::DynamicArray(
 
 Algorithm::DynamicArray::~DynamicArray() {}
 
+std::size_t Algorithm::DynamicArray::size() const {
+    return visualizer.GetLength();
+}
+
 void Algorithm::DynamicArray::PushBack(int value) {
     InitAction({"if(length == capacity) {",
                 "	capacity = (capacity == 0) ? 1 : 2 * capacity;",

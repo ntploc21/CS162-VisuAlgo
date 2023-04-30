@@ -19,6 +19,7 @@ namespace Algorithm {
                      DArrayAnimationController::Ptr animController,
                      FontHolder* fonts);
         ~DynamicArray();
+        std::size_t size() const;
 
     public:
         void PushBack(int value);

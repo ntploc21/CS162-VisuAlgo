@@ -26,6 +26,7 @@ void DynamicArrayState::Draw() {
     codeHighlighter->Draw();
     footer.Draw(animController.get());
     DrawCurrentActionText();
+    DrawCurrentErrorText();
 }
 
 void DynamicArrayState::AddInsertOperation() {
@@ -49,9 +50,14 @@ void DynamicArrayState::AddInsertOperation() {
         container, "Back", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
             int v = std::stoi(input["v = "]);
-            mDynamicArray.PushBack(v);
-            SetCurrentAction("Push v = " + input["v = "] +
-                             " at back (i = length - 1)");
+            try {
+                mDynamicArray.PushBack(v);
+                SetCurrentAction("Push v = " + input["v = "] +
+                                 " at back (i = length - 1)");
+                ClearError();
+            } catch (std::exception& e) {
+                SetCurrentError(e.what());
+            }
         });
 
     /* Default insert */
@@ -79,13 +85,17 @@ void DynamicArrayState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty",
-                              [this]() { mDynamicArray.Empty(); });
+    AddNoFieldOperationOption(container, "Empty", [this]() {
+        mDynamicArray.Empty();
+        ClearError();
+    });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random",
-                              [this]() { mDynamicArray.Random(); });
+    AddNoFieldOperationOption(container, "Random", [this]() {
+        mDynamicArray.Random();
+        ClearError();
+    });
 
     /* Random Sorted */
     // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
@@ -94,16 +104,23 @@ void DynamicArrayState::AddInitializeOperation() {
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
-        container, "Random Fixed Size", {{"length = ", 50, 0, 9}},
+        container, "Random Fixed Size",
+        {{"length = ", 50, 0, mDynamicArray.maxN}},
         [this](std::map< std::string, std::string > input) {
             int length = std::stoi(input["length = "]);
             mDynamicArray.RandomFixedSize(length);
+            ClearError();
         });
 
     /* User defined */
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
-                             mDynamicArray.UserDefined(input["arr = "]);
+                             try {
+                                 mDynamicArray.UserDefined(input["arr = "]);
+                                 ClearError();
+                             } catch (std::exception& e) {
+                                 SetCurrentError(e.what());
+                             }
                          });
 
     /* ====================================== */
@@ -125,9 +142,14 @@ void DynamicArrayState::AddUpdateOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
-            mDynamicArray.Update(i, v);
-            SetCurrentAction("Update arr[" + input["i = "] +
-                             "] = " + input["v = "]);
+            if (i >= mDynamicArray.size()) {
+                SetCurrentError("You can't modify inaccessible element");
+            } else {
+                mDynamicArray.Update(i, v);
+                SetCurrentAction("Update arr[" + input["i = "] +
+                                 "] = " + input["v = "]);
+                ClearError();
+            }
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -145,6 +167,7 @@ void DynamicArrayState::AddDeleteOperation() {
     AddNoFieldOperationOption(container, "Back (i = length - 1)", [this]() {
         mDynamicArray.PopBack();
         SetCurrentAction("Remove i = length - 1 (Back)");
+        ClearError();
     });
 
     /* Delete specific element */
@@ -186,6 +209,7 @@ void DynamicArrayState::AddSearchOperation() {
             mDynamicArray.Search(v);
             SetCurrentAction("Search for element has value equal to " +
                              input["v = "]);
+            ClearError();
         });
 
     operationList.AddOperation(buttonSearch, container);
@@ -199,11 +223,17 @@ void DynamicArrayState::AddAccessOperation() {
     /* ==== DEFINE OPERATIONS FOR ACCESS ==== */
 
     AddIntFieldOperationOption(
-        container, "Specify i", {{"i = ", 50, 0, 99}},
+        container, "Specify i", {{"i = ", 50, 0, mDynamicArray.maxN}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            mDynamicArray.Access(i);
-            SetCurrentAction("Accessing arr[" + input["i = "] + "]");
+            if (i >= mDynamicArray.size()) {
+                SetCurrentError("You can't modify element out of range [0.." +
+                                std::to_string(mDynamicArray.size() - 1) + "]");
+            } else {
+                mDynamicArray.Access(i);
+                SetCurrentAction("Accessing arr[" + input["i = "] + "]");
+                ClearError();
+            }
         });
 
     operationList.AddOperation(buttonSearch, container);
