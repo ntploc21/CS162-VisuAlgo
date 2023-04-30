@@ -18,6 +18,11 @@ Algorithm::DoublyLinkedList::DoublyLinkedList(
 }
 
 Algorithm::DoublyLinkedList::~DoublyLinkedList() {}
+
+std::size_t Algorithm::DoublyLinkedList::size() const {
+    return visualizer.size();
+}
+
 void Algorithm::DoublyLinkedList::InsertHead(int value) {
     if (visualizer.GetList().size() == maxN) return;
     InitAction({"Node *node = new Node(v);", "node->next = head",

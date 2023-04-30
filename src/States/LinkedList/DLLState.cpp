@@ -26,6 +26,7 @@ void DLLState::Draw() {
     codeHighlighter->Draw();
     footer.Draw(animController.get());
     DrawCurrentActionText();
+    DrawCurrentErrorText();
 }
 
 void DLLState::AddInsertOperation() {
@@ -39,18 +40,30 @@ void DLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (mDLL.size() == mDLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+
             int v = std::stoi(input["v = "]);
             mDLL.InsertHead(v);
             SetCurrentAction("Insert " + input["v = "] + " at head");
+            Success();
         });
 
     /* Insert tail */
     AddIntFieldOperationOption(
         container, "i = N (After Tail), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (mDLL.size() == mDLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+
             int v = std::stoi(input["v = "]);
             mDLL.InsertAfterTail(v);
             SetCurrentAction("Insert " + input["v = "] + " at tail");
+            Success();
         });
 
     /* Default insert */
@@ -61,9 +74,20 @@ void DLLState::AddInsertOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
+
+            if (mDLL.size() == mDLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+            if (i > mDLL.size()) {
+                SetCurrentError("Index out of bound");
+                return;
+            }
+
             mDLL.InsertMiddle(i, v);
             SetCurrentAction("Insert " + input["v = "] + " at index " +
                              input["i = "]);
+            Success();
         });
 
     /* ====================================== */
@@ -78,11 +102,17 @@ void DLLState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty", [this]() { mDLL.Empty(); });
+    AddNoFieldOperationOption(container, "Empty", [this]() {
+        mDLL.Empty();
+        ClearError();
+    });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random", [this]() { mDLL.Random(); });
+    AddNoFieldOperationOption(container, "Random", [this]() {
+        mDLL.Random();
+        ClearError();
+    });
 
     /* Random Sorted */
     // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
@@ -95,12 +125,18 @@ void DLLState::AddInitializeOperation() {
         [this](std::map< std::string, std::string > input) {
             int N = std::stoi(input["N = "]);
             mDLL.RandomFixedSize(N);
+            ClearError();
         });
 
     /* User defined */
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
-                             mDLL.UserDefined(input["arr = "]);
+                             try {
+                                 mDLL.UserDefined(input["arr = "]);
+                                 ClearError();
+                             } catch (const std::exception& e) {
+                                 SetCurrentError(e.what());
+                             }
                          });
 
     /* ====================================== */
@@ -122,9 +158,16 @@ void DLLState::AddUpdateOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
+
+            if (i >= mDLL.size()) {
+                SetCurrentError("Index out of bound");
+                return;
+            }
+
             mDLL.Update(i, v);
             SetCurrentAction("Update node " + input["i = "] + "'s value to " +
                              input["v = "]);
+            Success();
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -142,12 +185,14 @@ void DLLState::AddDeleteOperation() {
     AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
         mDLL.DeleteHead();
         SetCurrentAction("Remove i = 0 (Head)");
+        Success();
     });
 
     /* Delete tail */
     AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
         mDLL.DeleteTail();
         SetCurrentAction("Remove i = N - 1 (Tail)");
+        Success();
     });
 
     /* Delete specific element */
@@ -156,19 +201,15 @@ void DLLState::AddDeleteOperation() {
         container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
+            if (i >= mDLL.size()) {
+                SetCurrentError("Index out of bound");
+                return;
+            }
+
             mDLL.DeleteMiddle(i);
             SetCurrentAction("Remove index " + input["i = "]);
+            Success();
         });
-    /* Delete elements with specific value */
-
-    // AddIntFieldOperationOption(
-    //     container, "Specify v", {{"v = ", 50, 0, 99}},
-    //     [this](std::map< std::string, std::string > input) {
-    //         std::cout << "Specify v" << std::endl;
-    //         for (auto it : input) {
-    //             std::cout << it.first << it.second << std::endl;
-    //         }
-    //     });
     operationList.AddOperation(buttonDelete, container);
 }
 
@@ -187,6 +228,7 @@ void DLLState::AddSearchOperation() {
             int v = std::stoi(input["v = "]);
             mDLL.Search(v);
             SetCurrentAction("Search " + input["v = "]);
+            Success();
         });
 
     operationList.AddOperation(buttonSearch, container);
