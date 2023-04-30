@@ -49,7 +49,7 @@ void StaticArrayState::AddInitializeOperation() {
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
-        container, "Random Fixed Size", {{"N = ", 50, 0, 9}},
+        container, "Random Fixed Size", {{"N = ", 50, 0, mStaticArray.maxN}},
         [this](std::map< std::string, std::string > input) {
             int N = std::stoi(input["N = "]);
             mStaticArray.RandomFixedSize(N);
@@ -82,18 +82,18 @@ void StaticArrayState::AddUpdateOperation() {
 
     AddIntFieldOperationOption(
         container, "Specify i in [0..N-1] and v",
-        {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
+        {{"i = ", 50, 0, mStaticArray.maxN - 1}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
             if (i >= mStaticArray.size()) {
                 SetCurrentError("You can't modify inaccessible element");
-            } else {
-                mStaticArray.Update(i, v);
-                SetCurrentAction("Update arr[" + input["i = "] +
-                                 "] = " + input["v = "]);
-                ClearError();
+                return;
             }
+            mStaticArray.Update(i, v);
+            SetCurrentAction("Update arr[" + input["i = "] +
+                             "] = " + input["v = "]);
+            Success();
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -115,7 +115,7 @@ void StaticArrayState::AddSearchOperation() {
             mStaticArray.Search(v);
             SetCurrentAction("Search for element has value equal to " +
                              input["v = "]);
-            ClearError();
+            Success();
         });
 
     operationList.AddOperation(buttonSearch, container);
@@ -129,17 +129,16 @@ void StaticArrayState::AddAccessOperation() {
     /* ==== DEFINE OPERATIONS FOR ACCESS ==== */
 
     AddIntFieldOperationOption(
-        container, "Specify i", {{"i = ", 50, 0, 99}},
+        container, "Specify i", {{"i = ", 50, 0, mStaticArray.maxN - 1}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             if (i >= mStaticArray.size()) {
                 SetCurrentError("You can't access inaccessible element");
                 return;
-            } else {
-                mStaticArray.Access(i);
-                SetCurrentAction("Accessing arr[" + input["i = "] + "]");
-                ClearError();
             }
+            mStaticArray.Access(i);
+            SetCurrentAction("Accessing arr[" + input["i = "] + "]");
+            Success();
         });
 
     operationList.AddOperation(buttonSearch, container);
