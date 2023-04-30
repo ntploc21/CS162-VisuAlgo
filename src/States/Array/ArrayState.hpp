@@ -28,6 +28,7 @@ public:
     virtual void SetCurrentError(std::string error);
     virtual void ClearError();
     virtual void ClearAction();
+    virtual void Success();
 
 protected:
     virtual void DrawCurrentActionText();
@@ -125,6 +126,13 @@ inline void ArrayState< T >::ClearError() {
 template< typename T >
 inline void ArrayState< T >::ClearAction() {
     mCurrentAction.clear();
+}
+
+template< typename T >
+inline void ArrayState< T >::Success() {
+    operationList.ToggleOperations();
+    SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+    ClearError();
 }
 
 template< typename T >
