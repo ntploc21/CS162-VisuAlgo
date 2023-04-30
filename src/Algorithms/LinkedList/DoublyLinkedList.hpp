@@ -19,6 +19,7 @@ namespace Algorithm {
                          DLLAnimationController::Ptr animController,
                          FontHolder* fonts);
         ~DoublyLinkedList();
+        std::size_t size() const;
 
     public:
         void InsertHead(int value);
