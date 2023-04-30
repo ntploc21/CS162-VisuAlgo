@@ -24,7 +24,6 @@ std::size_t Algorithm::DoublyLinkedList::size() const {
 }
 
 void Algorithm::DoublyLinkedList::InsertHead(int value) {
-    if (visualizer.GetList().size() == maxN) return;
     InitAction({"Node *node = new Node(v);", "node->next = head",
                 "if(head != nullptr) head->prev = node;", "head = node;"});
 
@@ -145,8 +144,6 @@ void Algorithm::DoublyLinkedList::InsertAfterTail(int value) {
         InsertHead(value);
         return;
     }
-    if (prvSize == maxN) return;
-    if (visualizer.GetList().size() == maxN) return;
 
     InitAction({"Node *node = new Node(v);",
                 "tail->next = node, node->prev = tail;", "tail = node;"});
@@ -279,8 +276,6 @@ void Algorithm::DoublyLinkedList::InsertAfterTail(int value) {
 }
 
 void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
-    if (!(index >= 1 && index < visualizer.GetList().size())) return;
-    if (visualizer.GetList().size() == maxN) return;
     InitAction({"Node *pre = head;", "for(int k=0;k<i-1;k++)",
                 "	pre = pre->next;", "Node *aft = pre->next;",
                 "Node *node = new Node(v);",
@@ -709,6 +704,15 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
 
     /* Animation goes here */
     auto& nodes = visualizer.GetList();
+
+    if (!nodes.size()) {
+        DLLAnimation animNoElement = GenerateAnimation(
+            0.75, 0,
+            "head is currently NULL, so there is no element to delete.");
+        animController->AddAnimation(animNoElement);
+        return;
+    }
+
     for (GUI::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1

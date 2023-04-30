@@ -69,18 +69,18 @@ void DLLState::AddInsertOperation() {
     /* Default insert */
 
     AddIntFieldOperationOption(
-        container, "Specify both i in [0..N] and v",
+        container, "Specify both i in [1..N-1] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            int i = std::stoi(input["i = "]);
-            int v = std::stoi(input["v = "]);
-
             if (mDLL.size() == mDLL.maxN) {
                 SetCurrentError("List is full");
                 return;
             }
-            if (i > mDLL.size()) {
-                SetCurrentError("Index out of bound");
+
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            if (i <= 0 || i >= mDLL.size()) {
+                SetCurrentError("Invalid index");
                 return;
             }
 
@@ -201,7 +201,7 @@ void DLLState::AddDeleteOperation() {
         container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            if (i >= mDLL.size()) {
+            if (i < 1 || i >= mDLL.size()) {
                 SetCurrentError("Index out of bound");
                 return;
             }
