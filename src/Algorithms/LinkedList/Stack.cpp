@@ -14,8 +14,9 @@ Algorithm::Stack::Stack() {}
 
 Algorithm::Stack::~Stack() {}
 
+std::size_t Algorithm::Stack::size() const { return visualizer.size(); }
+
 void Algorithm::Stack::Push(int value) {
-    if (visualizer.GetList().size() == maxN) return;
     InitAction(
         {"Node *node = new Node(v);", "node->next = head;", "head = node;"});
 

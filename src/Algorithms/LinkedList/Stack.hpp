@@ -21,6 +21,7 @@ namespace Algorithm {
               SLLAnimationController::Ptr animController, FontHolder* fonts);
         Stack();
         ~Stack();
+        std::size_t size() const;
 
     public:
         void Push(int value);
