@@ -92,6 +92,7 @@ add_executable(${PROJECT_NAME}
     src/TextureHolder.cpp
     src/Component.cpp
     src/Container.cpp
+    src/Settings.cpp
     src/Identifiers/CategoryInfo.cpp
     src/Identifiers/DSInfo.cpp
 

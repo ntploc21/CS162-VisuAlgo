@@ -3,6 +3,7 @@
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "Global.hpp"
+#include "Settings.hpp"
 
 // States
 #include "States/Array/DynamicArrayState.hpp"
@@ -27,6 +28,9 @@ void Application::Init() {
     SetWindowIcon(favicon);
 
     UnloadImage(favicon);
+
+    Settings& settings = Settings::getInstance();
+    settings.LoadDefaultColors();
     // SetTargetFPS(global::kFramesPerSecond);
 
     mStack.PushState(States::Homepage);
