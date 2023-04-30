@@ -19,6 +19,10 @@ Algorithm::SinglyLinkedList::SinglyLinkedList(
 
 Algorithm::SinglyLinkedList::~SinglyLinkedList() {}
 
+std::size_t Algorithm::SinglyLinkedList::size() const {
+    return visualizer.size();
+}
+
 void Algorithm::SinglyLinkedList::InsertHead(int value) {
     if (visualizer.GetList().size() == maxN) return;
     InitAction(

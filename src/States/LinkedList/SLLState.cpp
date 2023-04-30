@@ -27,6 +27,7 @@ void SLLState::Draw() {
     codeHighlighter->Draw();
     footer.Draw(animController.get());
     DrawCurrentActionText();
+    DrawCurrentErrorText();
 }
 
 void SLLState::AddInsertOperation() {
@@ -40,7 +41,11 @@ void SLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
-            // if(SLL.) return;
+            if (SLL.size() == SLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+
             SLL.InsertHead(std::stoi(input["v = "]));
             Success();
             SetCurrentAction("Insert " + input["v = "] + " at head");
@@ -50,9 +55,13 @@ void SLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = N (After Tail), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (SLL.size() == SLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+
             SLL.InsertAfterTail(std::stoi(input["v = "]));
-            operationList.ToggleOperations();
-            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            Success();
             SetCurrentAction("Insert " + input["v = "] + " at tail");
         });
 
@@ -63,10 +72,17 @@ void SLLState::AddInsertOperation() {
         {{"i = ", 50, 0, SLL.maxN - 1}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            if (!(i > 0 && i < SLL.maxN)) return;
+            if (SLL.size() == SLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+            if (i > SLL.size()) {
+                SetCurrentError("Index out of bound");
+                return;
+            }
+
             SLL.InsertMiddle(i, std::stoi(input["v = "]));
-            operationList.ToggleOperations();
-            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+            Success();
             SetCurrentAction("Insert " + input["v = "] + " at index " +
                              input["i = "]);
         });
@@ -83,11 +99,17 @@ void SLLState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty", [this]() { SLL.Empty(); });
+    AddNoFieldOperationOption(container, "Empty", [this]() {
+        SLL.Empty();
+        ClearError();
+    });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random", [this]() { SLL.Random(); });
+    AddNoFieldOperationOption(container, "Random", [this]() {
+        SLL.Random();
+        ClearError();
+    });
 
     /* Random Sorted */
     // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
@@ -101,18 +123,19 @@ void SLLState::AddInitializeOperation() {
     AddIntFieldOperationOption(
         container, "Random Fixed Size", {{"N = ", 50, 0, SLL.maxN}},
         [this](std::map< std::string, std::string > input) {
-            assert(input.size() == 1);
-            assert(input.begin()->first == "N = ");
-
             SLL.RandomFixedSize(std::stoi(input.begin()->second));
+            ClearError();
         });
 
     /* User defined */
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
-                             assert(input.size() == 1);
-                             assert(input.begin()->first == "arr = ");
-                             SLL.UserDefined(input.begin()->second);
+                             try {
+                                 SLL.UserDefined(input.begin()->second);
+                                 ClearError();
+                             } catch (const std::exception& e) {
+                                 SetCurrentError(e.what());
+                             }
                          });
 
     /* ====================================== */
@@ -134,9 +157,15 @@ void SLLState::AddUpdateOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
+
+            if (i >= SLL.size()) {
+                SetCurrentError("Index out of bound");
+                return;
+            }
             SLL.Update(i, v);
             SetCurrentAction("Update node " + input["i = "] + "'s value to " +
                              input["v = "]);
+            Success();
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -154,12 +183,14 @@ void SLLState::AddDeleteOperation() {
     AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
         SLL.DeleteHead();
         SetCurrentAction("Remove i = 0 (Head)");
+        Success();
     });
 
     /* Delete tail */
     AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
         SLL.DeleteTail();
         SetCurrentAction("Remove i = N-1 (Tail)");
+        Success();
     });
 
     /* Delete specific element */
@@ -168,20 +199,15 @@ void SLLState::AddDeleteOperation() {
         container, "Specify i in [1..N-2]", {{"i = ", 50, 0, SLL.maxN}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            if (!(i > 0 && i < SLL.maxN)) return;
+            if (i >= SLL.size()) {
+                SetCurrentError("Index out of bound");
+                return;
+            }
             SLL.DeleteMiddle(i);
             SetCurrentAction("Remove i = " + input["i = "]);
+            Success();
         });
     /* Delete elements with specific value */
-
-    // AddIntFieldOperationOption(
-    //     container, "Specify v", {{"v = ", 50, 0, 99}},
-    //     [this](std::map< std::string, std::string > input) {
-    //         std::cout << "Specify v" << std::endl;
-    //         for (auto it : input) {
-    //             std::cout << it.first << it.second << std::endl;
-    //         }
-    //     });
     operationList.AddOperation(buttonDelete, container);
 }
 
@@ -200,6 +226,7 @@ void SLLState::AddSearchOperation() {
             SLL.Search(std::stoi(input["v = "]));
             operationList.ToggleOperations();
             SetCurrentAction("Search " + input["v = "]);
+            Success();
         });
     operationList.AddOperation(buttonSearch, container);
 }

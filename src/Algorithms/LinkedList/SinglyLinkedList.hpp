@@ -19,6 +19,7 @@ namespace Algorithm {
                          SLLAnimationController::Ptr animController,
                          FontHolder* fonts);
         ~SinglyLinkedList();
+        std::size_t size() const;
 
     public:
         void InsertHead(int value);

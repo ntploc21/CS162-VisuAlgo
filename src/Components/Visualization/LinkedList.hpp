@@ -43,6 +43,7 @@ namespace GUI {
         bool isSelectable() const;
         virtual void Draw(Vector2 base = (Vector2){0, 0}, float t = 1.0f,
                           bool init = false) = 0;
+        virtual std::size_t size() const;
 
         virtual void SetShowHeadAndTail(bool show);
         virtual void SetOrientation(Orientation orientation);
