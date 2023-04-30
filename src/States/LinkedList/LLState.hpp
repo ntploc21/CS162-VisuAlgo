@@ -25,10 +25,14 @@ public:
     virtual void Draw() = 0;
     virtual bool Update(float dt);
     virtual void SetCurrentAction(std::string action);
+    virtual void SetCurrentError(std::string error);
+    virtual void ClearError();
     virtual void ClearAction();
+    virtual void Success();
 
 protected:
     virtual void DrawCurrentActionText();
+    virtual void DrawCurrentErrorText();
 
 protected:
     void InitNavigationBar();
@@ -38,6 +42,7 @@ protected:
     GUI::CodeHighlighter::Ptr codeHighlighter;
     GUI::Footer< T > footer;
     std::string mCurrentAction;
+    std::string mCurrentError;
 
 protected:
     typename T::Ptr animController;
@@ -108,8 +113,25 @@ inline void LLState< T >::SetCurrentAction(std::string action) {
 }
 
 template< typename T >
+inline void LLState< T >::SetCurrentError(std::string error) {
+    mCurrentError = error;
+}
+
+template< typename T >
+inline void LLState< T >::ClearError() {
+    mCurrentError.clear();
+}
+
+template< typename T >
 inline void LLState< T >::ClearAction() {
     mCurrentAction.clear();
+}
+
+template< typename T >
+inline void LLState< T >::Success() {
+    operationList.ToggleOperations();
+    SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+    ClearError();
 }
 
 template< typename T >
@@ -123,6 +145,18 @@ inline void LLState< T >::DrawCurrentActionText() {
                (Vector2){x, global::SCREEN_HEIGHT - 376}, 32, 0, BLACK);
 
     // codeHighlighter->SetPosition(, global::SCREEN_HEIGHT - 334);
+}
+
+template< typename T >
+inline void LLState< T >::DrawCurrentErrorText() {
+    Font font = GetContext().fonts->Get(Fonts::Default_Bold);
+    float width = MeasureTextEx(font, mCurrentError.c_str(), 24, 0).x;
+    float x = 50;
+
+    DrawTextEx(
+        font, mCurrentError.c_str(),
+        (Vector2){x, global::SCREEN_HEIGHT - operationList.GetSize().y - 90},
+        24, 0, RED);
 }
 
 template< typename T >
@@ -191,6 +225,7 @@ void LLState< T >::AddIntFieldOperationOption(
         intField.get()->SetLabel(field.label);
         intField.get()->SetInputFieldSize((Vector2){(float)field.width, 30});
         intField.get()->SetConstraint(field.minValue, field.maxValue);
+        intField.get()->Randomize();
         intFields.push_back(intField);
     }
 
