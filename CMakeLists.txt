@@ -157,7 +157,6 @@ add_executable(${PROJECT_NAME}
     src/Algorithms/LinkedList/Stack.cpp
     
     ## Utils
-    src/Utils/Random.cpp
     src/Utils/Utils.cpp
 )
 
