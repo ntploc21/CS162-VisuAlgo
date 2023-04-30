@@ -26,6 +26,7 @@ void CLLState::Draw() {
     codeHighlighter->Draw();
     footer.Draw(animController.get());
     DrawCurrentActionText();
+    DrawCurrentErrorText();
 }
 
 void CLLState::AddInsertOperation() {
@@ -39,35 +40,51 @@ void CLLState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (CLL.size() == CLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+
             CLL.InsertHead(std::stoi(input["v = "]));
-            operationList.ToggleOperations();
-            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
             SetCurrentAction("Insert " + input["v = "] + " at head");
+            Success();
         });
 
     /* Insert tail */
     AddIntFieldOperationOption(
         container, "i = N (After Tail), specify v =", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (CLL.size() == CLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+
             CLL.InsertAfterTail(std::stoi(input["v = "]));
-            operationList.ToggleOperations();
-            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
             SetCurrentAction("Insert " + input["v = "] + " at tail");
+            Success();
         });
 
     /* Default insert */
 
     AddIntFieldOperationOption(
-        container, "Specify both i in [0..N] and v",
+        container, "Specify both i in [1..N-1] and v",
         {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (CLL.size() == CLL.maxN) {
+                SetCurrentError("List is full");
+                return;
+            }
+
             int i = std::stoi(input["i = "]);
-            if (!(i > 0 && i < CLL.maxN)) return;
+            if (i <= 0 || i >= CLL.size()) {
+                SetCurrentError("Invalid index");
+                return;
+            }
+
             CLL.InsertMiddle(i, std::stoi(input["v = "]));
-            operationList.ToggleOperations();
-            SetMouseCursor(MOUSE_CURSOR_DEFAULT);
             SetCurrentAction("Insert " + input["v = "] + " at index " +
                              input["i = "]);
+            Success();
         });
 
     /* ====================================== */
@@ -82,33 +99,39 @@ void CLLState::AddInitializeOperation() {
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
     /* Empty */
-    AddNoFieldOperationOption(container, "Empty", [this]() { CLL.Empty(); });
+    AddNoFieldOperationOption(container, "Empty", [this]() {
+        CLL.Empty();
+        ClearError();
+    });
 
     /* Random */
 
-    AddNoFieldOperationOption(container, "Random", [this]() { CLL.Random(); });
-
-    /* Random Sorted */
-    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-    //     std::cout << "Random Sorted" << std::endl;
-    // });
+    AddNoFieldOperationOption(container, "Random", [this]() {
+        CLL.Random();
+        ClearError();
+    });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(
         container, "Random Fixed Size", {{"N = ", 50, 0, CLL.maxN}},
         [this](std::map< std::string, std::string > input) {
-            assert(input.size() == 1);
-            assert(input.begin()->first == "N = ");
-
-            CLL.RandomFixedSize(std::stoi(input.begin()->second));
+            try {
+                CLL.RandomFixedSize(std::stoi(input.begin()->second));
+                ClearError();
+            } catch (std::invalid_argument) {
+                SetCurrentError("Invalid input");
+            }
         });
 
     /* User defined */
     AddStringFieldOption(container, "--- User defined list ---", "arr = ",
                          [this](std::map< std::string, std::string > input) {
-                             assert(input.size() == 1);
-                             assert(input.begin()->first == "arr = ");
-                             CLL.UserDefined(input.begin()->second);
+                             try {
+                                 CLL.UserDefined(input.begin()->second);
+                                 ClearError();
+                             } catch (std::invalid_argument) {
+                                 SetCurrentError("Invalid input");
+                             }
                          });
 
     /* ====================================== */
@@ -130,9 +153,16 @@ void CLLState::AddUpdateOperation() {
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
+
+            if (i >= CLL.size()) {
+                SetCurrentError("Invalid index");
+                return;
+            }
+
             CLL.Update(i, v);
             SetCurrentAction("Update node " + input["i = "] + "'s value to " +
                              input["v = "]);
+            Success();
         });
 
     operationList.AddOperation(buttonUpdate, container);
@@ -150,12 +180,14 @@ void CLLState::AddDeleteOperation() {
     AddNoFieldOperationOption(container, "i = 0 (Head)", [this]() {
         CLL.DeleteHead();
         SetCurrentAction("Remove i = 0 (Head)");
+        Success();
     });
 
     /* Delete tail */
     AddNoFieldOperationOption(container, "i = N-1 (Tail)", [this]() {
         CLL.DeleteTail();
         SetCurrentAction("Remove i = N-1 (Tail)");
+        Success();
     });
 
     /* Delete specific element */
@@ -163,21 +195,20 @@ void CLLState::AddDeleteOperation() {
     AddIntFieldOperationOption(
         container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
         [this](std::map< std::string, std::string > input) {
+            if (CLL.size() == 0) {
+                SetCurrentError("List is empty");
+                return;
+            }
+
             int i = std::stoi(input["i = "]);
-            if (!(i > 0 && i < CLL.maxN)) return;
+            if (i < 1 || i >= CLL.size()) {
+                SetCurrentError("Invalid index");
+                return;
+            }
             CLL.DeleteMiddle(i);
             SetCurrentAction("Remove i = " + input["i = "]);
         });
-    /* Delete elements with specific value */
 
-    AddIntFieldOperationOption(
-        container, "Specify v", {{"v = ", 50, 0, 99}},
-        [this](std::map< std::string, std::string > input) {
-            std::cout << "Specify v" << std::endl;
-            for (auto it : input) {
-                std::cout << it.first << it.second << std::endl;
-            }
-        });
     operationList.AddOperation(buttonDelete, container);
 }
 
@@ -196,6 +227,7 @@ void CLLState::AddSearchOperation() {
             CLL.Search(std::stoi(input["v = "]));
             operationList.ToggleOperations();
             SetCurrentAction("Search " + input["v = "]);
+            Success();
         });
 
     operationList.AddOperation(buttonSearch, container);
