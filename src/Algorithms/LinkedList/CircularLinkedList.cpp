@@ -19,17 +19,17 @@ Algorithm::CircularLinkedList::CircularLinkedList(
 
 Algorithm::CircularLinkedList::~CircularLinkedList() {}
 
+std::size_t Algorithm::CircularLinkedList::size() const {
+    return visualizer.size();
+}
+
 void Algorithm::CircularLinkedList::InsertHead(int value) {
     auto& nodes = visualizer.GetList();
-    if (nodes.size() == maxN) return;
     InitAction({"Node *node = new Node(v);", "node->next = head;",
                 "head = node;", "if(tail == nullptr) head->next = head;",
                 "else tail->next = head;"});
 
     /* Animation goes here */
-
-    // visualizer.SetPosition(visualizer.GetPosition().x - 60,
-    //                        visualizer.GetPosition().y);
 
     if (nodes.empty()) {
         visualizer.SetCircularArrowType(ArrowType::Hidden);
@@ -198,8 +198,6 @@ void Algorithm::CircularLinkedList::InsertAfterTail(int value) {
         InsertHead(value);
         return;
     }
-    if (prvSize == maxN) return;
-    if (nodes.size() == maxN) return;
 
     InitAction({"Node *node = new Node(v);", "tail->next = node;",
                 "tail = node;", "tail->next = head;"});
@@ -336,8 +334,6 @@ void Algorithm::CircularLinkedList::InsertAfterTail(int value) {
 }
 
 void Algorithm::CircularLinkedList::InsertMiddle(int index, int value) {
-    if (!(index >= 1 && index < visualizer.GetList().size())) return;
-    if (visualizer.GetList().size() == maxN) return;
     InitAction({"Node *pre = head;", "for(int k=0;k<i-1;k++)",
                 "	pre = pre->next;", "Node *aft = pre->next;",
                 "Node *node = new Node(v);", "node->next = aft;",
@@ -898,6 +894,15 @@ void Algorithm::CircularLinkedList::DeleteMiddle(int index) {
 
     /* Animation goes here */
     auto& nodes = visualizer.GetList();
+
+    if (!nodes.size()) {
+        CLLAnimation animNoElement = GenerateAnimation(
+            0.75, 0,
+            "head is currently NULL, so there is no element to delete.");
+        animController->AddAnimation(animNoElement);
+        return;
+    }
+
     for (GUI::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1

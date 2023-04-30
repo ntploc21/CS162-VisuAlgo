@@ -19,6 +19,7 @@ namespace Algorithm {
                            CLLAnimationController::Ptr animController,
                            FontHolder* fonts);
         ~CircularLinkedList();
+        std::size_t size() const;
 
     public:
         void InsertHead(int value);
