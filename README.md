@@ -42,20 +42,21 @@ Notable features include:
     cmake -G [You generator] -S . -B build/
     make -C build
     ```
-    - You can find the generator you are using with ```cmake -h``` and plug it in ```[Your generator]```
-    - If you are using other generator that doesnt generate Makefile, you can search "Build project with [Your generator]" and search for a solution
+    - You can find the generator you are using with ```cmake -h``` and plug it in ```[Your generator]```.
+    - If you are using other generator that doesnt generate Makefile, you can search "Build project with [Your generator]" and search for a solution.
 3. Enjoy!
 
 ## Directory Structure
-- [**src/**](src) contains source code.
-    - [**Components/**](src/Components) contains UI components.
-        - [**Common/**](src/Components/Common/) contains commonly used UI components (e.g Button, etc).
-        - [**Visualization/**](src/Components/Visualization/) contains UI components used mainly for visualization (e.g ```GUI::Node```, ```GUI::SinglyLinkedList```, etc).
-    - [**Core/**](src/Core) contains core data structures and algorithms.
-    - [**Animation/**](src/Animation/) processes animation and visualization also animation controller such as play, pause, stop, etc.
+- [**src/**](src) contains source code
     - [**Algorithms/**](src/Algorithms/) generate step-by-step instruction for animating/visualizing the data structures and algorithms
-    - [**States/**](src/States) contains VisuAlgo scene
+    - [**Animation/**](src/Animation/) processes animation and visualization also animation controller such as play, pause, stop, etc
+    - [**Components/**](src/Components) contains UI components
+        - [**Common/**](src/Components/Common/) contains commonly used UI components (e.g Button, etc)
+        - [**Visualization/**](src/Components/Visualization/) contains UI components used mainly for visualization (e.g ```GUI::Node```, ```GUI::SinglyLinkedList```, etc)
+    - [**Core/**](src/Core) contains core data structures and algorithms
     - [**Identifiers/**](src/Identifiers) contains VisuAlgo identifiers for scene, font, and stuff
+    - [**States/**](src/States) contains VisuAlgo scene
+    - [**Utils/**](src/Utils) contains utility functions
 - [**include/**](include) contains the library header files
 - [**assets/**](assets) contains the assets of the project
 - [**unittest/**](unittest) contains all of the unit tests of the project

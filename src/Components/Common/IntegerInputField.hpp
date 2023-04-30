@@ -15,6 +15,9 @@ namespace GUI {
         void SetConstraint(int minValue, int maxValue);
         bool isSelectable() const;
 
+    public:
+        void Randomize();
+
     private:
         int mMinValue;
         int mMaxValue;

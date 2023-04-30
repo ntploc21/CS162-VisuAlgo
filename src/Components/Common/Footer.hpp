@@ -15,7 +15,7 @@ namespace GUI {
 };  // namespace GUI
 
 #include "Global.hpp"
-#include "Utils.hpp"
+#include "Utils/Utils.hpp"
 // #include "raygui.h"
 
 template< typename T >

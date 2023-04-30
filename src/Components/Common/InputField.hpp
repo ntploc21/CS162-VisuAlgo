@@ -30,6 +30,9 @@ namespace GUI {
         virtual bool GetEditMode() const;
         virtual void AllFieldDisableEdit();
 
+    public:
+        virtual void Randomize();
+
     protected:
         bool editMode;
         std::size_t mFieldIndex;

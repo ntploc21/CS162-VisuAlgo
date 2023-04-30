@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Utils.hpp"
+#include "Utils/Utils.hpp"
 
 GUI::CodeHighlighter::CodeHighlighter(FontHolder *fonts)
     : fonts(fonts), mShowCode(false), mShowActionDescription(false) {
