@@ -54,16 +54,14 @@ void Algorithm::StaticArray::Access(int index) {
         GenerateAnimation(0.75, 0,
                           "The current Linked List is empty, the head we "
                           "return will be NULL.");
-    if (visualizer.GetLength() > index) {
-        visualizer[index].AnimationOnNode(true);
-        visualizer[index].SetNodeState(GUI::Node::State::Active);
-        anim = GenerateAnimation(0.75, 0,
-                                 "Return the value stored at the head: " +
-                                     std::to_string(visualizer[0].GetValue()) +
-                                     ".");
-        visualizer[index].SetNodeState(GUI::Node::State::Default);
-        visualizer[index].AnimationOnNode(false);
-    }
+    visualizer[index].AnimationOnNode(true);
+    visualizer[index].SetNodeState(GUI::Node::State::Active);
+    anim =
+        GenerateAnimation(0.75, 0,
+                          "Return the value stored at the head: " +
+                              std::to_string(visualizer[0].GetValue()) + ".");
+    visualizer[index].SetNodeState(GUI::Node::State::Default);
+    visualizer[index].AnimationOnNode(false);
     animController->AddAnimation(anim);
 }
 
