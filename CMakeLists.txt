@@ -31,41 +31,25 @@ endif()
 
 # Unit testing
 
-# enable_testing()
-# include(CTest)
+enable_testing()
+include(CTest)
 
-# add_executable(core_base_create_test_exe
-#     UnitTest/doctest_main.cpp
-#     UnitTest/Operations/Create/Create.test.cpp
-#     src/Core/Operations/Create/Create.cpp
-# )
+add_executable(core_base_list_test_exe
+    unitTest/doctest_main.cpp
+    unitTest/List.test.cpp
+)
 
-# add_executable(core_base_singly_linked_list_exe
-#     UnitTest/doctest_main.cpp
-#     UnitTest/DataStructures/SinglyLinkedList.test.cpp
-#     # src/Core/DataStructures/LinkedList/SinglyLinkedList.hpp
-#     src/Core/Operations/Create/Create.cpp
-# )
+target_include_directories(core_base_list_test_exe PRIVATE include)
 
-# target_include_directories(core_base_create_test_exe PRIVATE include)
-# target_include_directories(core_base_singly_linked_list_exe PRIVATE include)
+if(NOT MSVC)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+endif()
 
-# if(NOT MSVC)
-#     target_link_directories(core_base_create_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
-#     target_link_directories(core_base_singly_linked_list_exe PRIVATE -fsanitize=address,undefined,leak -g)
-# endif()
+add_test(core_base_list_test core_base_list_test_exe)
 
-# add_test(core_base_create_test core_base_create_test_exe)
-
-# add_test(core_base_singly_linked_list core_base_singly_linked_list_exe)
-
-# add_custom_target(run_base_create_test ALL
-#     COMMAND ctest --output-on-failure
-#     DEPENDS core_base_create_test_exe)
-
-# add_custom_target(run_base_singly_linked_list ALL
-#     COMMAND ctest --output-on-failure
-#     DEPENDS core_base_singly_linked_list_exe)
+add_custom_target(run_base_list_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_base_list_test_exe)
 
 # YAML
 
