@@ -39,17 +39,41 @@ add_executable(core_base_list_test_exe
     unittest/List.test.cpp
 )
 
+add_executable(core_stack_test_exe
+    unittest/doctest_main.cpp
+    unittest/Stack.test.cpp
+)
+
+add_executable(core_queue_test_exe
+    unittest/doctest_main.cpp
+    unittest/Queue.test.cpp
+)
+
 target_include_directories(core_base_list_test_exe PRIVATE include)
+target_include_directories(core_stack_test_exe PRIVATE include)
+target_include_directories(core_queue_test_exe PRIVATE include)
 
 if(NOT MSVC)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
     target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
 endif()
 
 add_test(core_base_list_test core_base_list_test_exe)
+add_test(core_stack_test core_stack_test_exe)
+add_test(core_queue_test core_queue_test_exe)
 
 add_custom_target(run_base_list_test ALL
     COMMAND ctest --output-on-failure
     DEPENDS core_base_list_test_exe)
+
+add_custom_target(run_stack_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_stack_test_exe)
+
+add_custom_target(run_queue_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_queue_test_exe)
 
 # YAML
 
