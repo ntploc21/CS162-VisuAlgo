@@ -90,19 +90,6 @@ void DynamicArrayState::AddInsertOperation() {
             Success();
         });
 
-    /* Default insert */
-
-    // AddIntFieldOperationOption(
-    //     container, "Specify both i in [0..N] and v",
-    //     {{"i = ", 50, 0, 9}, {"v = ", 50, 0, 99}},
-    //     [this](std::map< std::string, std::string > input) {
-    //         std::cout << "Specify both i in [0..N] and v parameters: "
-    //                   << std::endl;
-    //         for (auto it : input) {
-    //             std::cout << it.first << it.second << std::endl;
-    //         }
-    //     });
-
     /* ====================================== */
     operationList.AddOperation(buttonInsert, container);
 }
@@ -204,7 +191,7 @@ void DynamicArrayState::AddDeleteOperation() {
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
-    /* Delete head */
+    /* Delete front */
     AddNoFieldOperationOption(container, "Front (i = 0)", [this]() {
         mDynamicArray.Remove(0);
         SetCurrentAction("Remove i = 0 (Front)");
@@ -226,23 +213,13 @@ void DynamicArrayState::AddDeleteOperation() {
             Success();
         });
 
-    /* Delete tail */
+    /* Delete back */
     AddNoFieldOperationOption(container, "Back (i = length - 2)", [this]() {
         mDynamicArray.PopBack();
         SetCurrentAction("Remove i = length - 1 (Back)");
         Success();
     });
 
-    /* Delete specific element */
-
-    // AddIntFieldOperationOption(
-    //     container, "Specify i in [1..N-1]", {{"i = ", 50, 0, 9}},
-    //     [this](std::map< std::string, std::string > input) {
-    //         std::cout << "Specify i in [1..N-1]" << std::endl;
-    //         for (auto it : input) {
-    //             std::cout << it.first << it.second << std::endl;
-    //         }
-    //     });
     operationList.AddOperation(buttonDelete, container);
 }
 

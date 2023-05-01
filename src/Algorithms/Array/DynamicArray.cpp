@@ -423,23 +423,14 @@ void Algorithm::DynamicArray::Remove(int index) {
                               "elements after i to the left.");
         animRemove.SetAnimation([index, this](GUI::DynamicArray srcDS,
                                               float playingAt, Vector2 base) {
-            // if (playingAt <= 0.3f) {
-            //     srcDS.Draw(base, std::min(1.0f, playingAt * (1.0f / 0.3f)));
-            //     return srcDS;
-            // }
-            // if (playingAt >= 0.45f) srcDS[index].SetValue(0);
-            // if (playingAt >= 0.60f) srcDS[index].SetReachable(false);
-            // if (playingAt >= 0.7f) {
-            //     srcDS[index].SetNodeState(GUI::Node::State::Iterated);
-            //     srcDS.Draw(base, (playingAt - 0.7f) * (1.0f / 0.3f));
-            // } else
-            //     srcDS.Draw(base, 1.0f);
             if (playingAt >= 0.80f) srcDS[index].SetValue(0);
             srcDS.Draw(base, playingAt);
             return srcDS;
         });
         animController->AddAnimation(animRemove);
         node.ClearLabel();
+        node.SetValue(0);
+        node.AnimationOnNode(false);
     }
 
     {  // Line 3
