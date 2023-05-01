@@ -36,14 +36,43 @@ void DynamicArrayState::AddInsertOperation() {
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
     /* Insert head */
-    // AddIntFieldOperationOption(
-    //     container, "i = 0 (Head), specify v =", {{"v = ", 50, 0, 99}},
-    //     [this](std::map< std::string, std::string > input) {
-    //         std::cout << "i = 0 (Head), specify v =" << std::endl;
-    //         for (auto it : input) {
-    //             std::cout << it.first << it.second << std::endl;
-    //         }
-    //     });
+    AddIntFieldOperationOption(
+        container, "Front", {{"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            if (mDynamicArray.size() == mDynamicArray.maxN) {
+                SetCurrentError("Array is full");
+                return;
+            }
+
+            int v = std::stoi(input["v = "]);
+            mDynamicArray.Push(0, v);
+            SetCurrentAction("Push v = " + input["v = "] + " at front (i = 0)");
+            Success();
+        });
+
+    /* Insert middle */
+    AddIntFieldOperationOption(
+        container, "Specify i in [1..N-1] and v =",
+        {{"i = ", 50, 0, mDynamicArray.maxN}, {"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            if (mDynamicArray.size() == mDynamicArray.maxN) {
+                SetCurrentError("Array is full");
+                return;
+            }
+
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            if (i <= 0 || i >= mDynamicArray.size()) {
+                SetCurrentError("i must be in [1.." +
+                                std::to_string(mDynamicArray.size() - 1) + "]");
+                return;
+            }
+
+            mDynamicArray.Push(i, v);
+            SetCurrentAction("Push v = " + input["v = "] +
+                             " at i = " + input["i = "]);
+            Success();
+        });
 
     /* Insert tail */
     AddIntFieldOperationOption(
@@ -57,7 +86,7 @@ void DynamicArrayState::AddInsertOperation() {
             int v = std::stoi(input["v = "]);
             mDynamicArray.PushBack(v);
             SetCurrentAction("Push v = " + input["v = "] +
-                             " at back (i = length - 1)");
+                             " at back (i = length)");
             Success();
         });
 
@@ -176,9 +205,29 @@ void DynamicArrayState::AddDeleteOperation() {
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
     /* Delete head */
+    AddNoFieldOperationOption(container, "Front (i = 0)", [this]() {
+        mDynamicArray.Remove(0);
+        SetCurrentAction("Remove i = 0 (Front)");
+        Success();
+    });
+
+    /* Delete middle */
+    AddIntFieldOperationOption(
+        container, "Specify i in [1..N-1]",
+        {{"i = ", 50, 0, mDynamicArray.maxN}},
+        [this](std::map< std::string, std::string > input) {
+            int i = std::stoi(input["i = "]);
+            if (i >= mDynamicArray.size() - 1) {
+                SetCurrentError("Invalid index");
+                return;
+            }
+            mDynamicArray.Remove(i);
+            SetCurrentAction("Remove i = " + input["i = "]);
+            Success();
+        });
 
     /* Delete tail */
-    AddNoFieldOperationOption(container, "Back (i = length - 1)", [this]() {
+    AddNoFieldOperationOption(container, "Back (i = length - 2)", [this]() {
         mDynamicArray.PopBack();
         SetCurrentAction("Remove i = length - 1 (Back)");
         Success();

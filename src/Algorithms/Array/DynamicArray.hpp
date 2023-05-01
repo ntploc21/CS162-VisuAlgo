@@ -22,9 +22,12 @@ namespace Algorithm {
         std::size_t size() const;
 
     public:
+        void Push(int index, int value);
+
         void PushBack(int value);
 
     public:
+        void Remove(int index);
         void PopBack();
 
     public:
