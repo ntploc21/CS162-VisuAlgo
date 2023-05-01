@@ -35,8 +35,8 @@ enable_testing()
 include(CTest)
 
 add_executable(core_base_list_test_exe
-    unitTest/doctest_main.cpp
-    unitTest/List.test.cpp
+    unittest/doctest_main.cpp
+    unittest/List.test.cpp
 )
 
 target_include_directories(core_base_list_test_exe PRIVATE include)
