@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 
+#include "Core/Deque.hpp"
 #include "NonCopyable.hpp"
 #include "State.hpp"
 
@@ -39,13 +40,17 @@ private:
     struct PendingChange {
         explicit PendingChange(Action action,
                                States::ID stateID = States::None);
+        PendingChange();
         Action action;
         States::ID stateID;
     };
 
 private:
     std::vector< State::Ptr > mStack;
-    std::vector< PendingChange > mPendingList;
+    // Core::Deque< State::Ptr > mStack;
+    // std::vector< PendingChange > mPendingList;
+    Core::Deque< PendingChange > mPendingList;
+
     State::Context mContext;
     std::map< States::ID, std::function< State::Ptr() > > mFactories;
 };

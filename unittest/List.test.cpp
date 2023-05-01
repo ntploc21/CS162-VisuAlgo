@@ -165,4 +165,16 @@ TEST_CASE("Core::Deque functionality") {
 
         list.clear();
     }
+
+    SUBCASE("idk") {
+        Core::Deque< int > list2({});
+
+        list2.push_back(5);
+        list2.push_back(9);
+        list2.push_back(3);
+
+        CHECK(list2[0] == 5);
+        CHECK(list2[1] == 9);
+        CHECK(list2[2] == 3);
+    }
 }

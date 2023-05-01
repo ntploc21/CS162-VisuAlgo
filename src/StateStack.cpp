@@ -60,3 +60,5 @@ bool StateStack::IsEmpty() const { return mPendingList.empty(); }
 
 StateStack::PendingChange::PendingChange(Action action, States::ID stateID)
     : action(action), stateID(stateID) {}
+
+StateStack::PendingChange::PendingChange() {}

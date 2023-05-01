@@ -95,7 +95,6 @@ add_executable(${PROJECT_NAME}
     src/Application.cpp
     src/State.cpp
     src/StateStack.cpp
-    src/SceneNode.cpp
     src/FontHolder.cpp
     src/TextureHolder.cpp
     src/Component.cpp
@@ -137,7 +136,6 @@ add_executable(${PROJECT_NAME}
     src/Components/Common/CodeHighlighter.cpp
     ## Visualization
     src/Components/Visualization/Node.cpp
-    src/Components/Visualization/DataStructure.cpp
     src/Components/Visualization/LinkedList.cpp
     src/Components/Visualization/SinglyLinkedList.cpp
     src/Components/Visualization/DoublyLinkedList.cpp

@@ -109,7 +109,12 @@ void GUI::DynamicArray::InsertNode(std::size_t index, GUI::Node node,
         capacity = (!capacity ? 0 : capacity * 2);
         Reserve(capacity);
     }
-    list[length++] = node;
+
+    for (int i = list.size() - 1; i > index; i--) {
+        list[i] = list[i - 1];
+    }
+    list[index] = node;
+    length++;
 
     if (!rePosition) return;
     for (int i = index; i < list.size(); i++) {

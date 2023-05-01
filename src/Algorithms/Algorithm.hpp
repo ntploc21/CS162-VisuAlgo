@@ -238,6 +238,7 @@ void Algorithm::Algorithm< GUIAlgorithm, AnimationState >::ApplyInput(
         srcDS.Draw(base, playingAt, true);
         return srcDS;
     });
+
     animController->AddAnimation(state);
     animController->Reset();
     animController->InteractionLock();

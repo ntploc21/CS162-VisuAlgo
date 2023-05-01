@@ -62,7 +62,7 @@ protected:
         std::function< void() > action);
     virtual void AddIntFieldOperationOption(
         GUI::OperationContainer::Ptr container, std::string title,
-        std::vector< IntegerInput > fields,
+        Core::Deque< IntegerInput > fields,
         std::function< void(std::map< std::string, std::string >) > action);
     virtual void AddStringFieldOption(
         GUI::OperationContainer::Ptr container, std::string title,
@@ -214,11 +214,11 @@ void LLState< T >::AddNoFieldOperationOption(
 template< typename T >
 void LLState< T >::AddIntFieldOperationOption(
     GUI::OperationContainer::Ptr container, std::string title,
-    std::vector< IntegerInput > fields,
+    Core::Deque< IntegerInput > fields,
     std::function< void(std::map< std::string, std::string >) > action) {
     GUI::OptionInputField::Ptr button(
         new GUI::OptionInputField(GetContext().fonts));
-    std::vector< GUI::InputField::Ptr > intFields;
+    Core::Deque< GUI::InputField::Ptr > intFields;
     for (auto field : fields) {
         GUI::IntegerInputField::Ptr intField(
             new GUI::IntegerInputField(GetContext().fonts));

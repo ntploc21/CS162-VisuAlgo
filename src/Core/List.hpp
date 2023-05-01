@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
+#include <iostream>
 #include <iterator>
 #include <stdexcept>
 
@@ -36,7 +37,8 @@ namespace Core {
 
             node_prev->mNext = node;
             node_prev->mPrev = node->mPrev;
-            node->mPrev = node_prev;
+            // node->mPrev = node_prev;
+            node_prev->mNext->mPrev = node_prev;
             if (node_prev->mPrev != nullptr) {
                 node_prev->mPrev->mNext = node_prev;
             }
@@ -500,7 +502,7 @@ namespace Core {
 
         /* Prefix decrement */
         const_iterator& operator--() {
-            ptr = ptr->prev;
+            ptr = ptr->mPrev;
             return *this;
         }
 
