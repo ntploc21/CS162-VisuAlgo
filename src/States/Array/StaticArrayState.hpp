@@ -8,8 +8,10 @@ private:
     Algorithm::StaticArray mStaticArray;
 
 private:
+    void AddInsertOperation();
     void AddInitializeOperation();
     void AddUpdateOperation();
+    void AddDeleteOperation();
     void AddSearchOperation();
     void AddAccessOperation();
 

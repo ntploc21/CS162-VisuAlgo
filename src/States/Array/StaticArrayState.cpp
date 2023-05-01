@@ -30,6 +30,57 @@ void StaticArrayState::Draw() {
     DrawCurrentErrorText();
 }
 
+void StaticArrayState::AddInsertOperation() {
+    GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+
+    /* ==== DEFINE OPERATIONS FOR INSERT ==== */
+
+    /* Insert head */
+    AddIntFieldOperationOption(
+        container, "Front", {{"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            int v = std::stoi(input["v = "]);
+            mStaticArray.Insert(0, v);
+            SetCurrentAction("Insert v = " + input["v = "] +
+                             " at front (i = 0)");
+            Success();
+        });
+
+    /* Insert middle */
+    AddIntFieldOperationOption(
+        container, "Specify i in [1..N-1] and v =",
+        {{"i = ", 50, 0, mStaticArray.maxN}, {"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            int i = std::stoi(input["i = "]);
+            int v = std::stoi(input["v = "]);
+            if (i <= 0 || i >= mStaticArray.size()) {
+                SetCurrentError("i must be in [1.." +
+                                std::to_string(mStaticArray.size() - 1) + "]");
+                return;
+            }
+
+            mStaticArray.Insert(i, v);
+            SetCurrentAction("Push v = " + input["v = "] +
+                             " at i = " + input["i = "]);
+            Success();
+        });
+
+    /* Insert tail */
+    AddIntFieldOperationOption(
+        container, "Back", {{"v = ", 50, 0, 99}},
+        [this](std::map< std::string, std::string > input) {
+            int v = std::stoi(input["v = "]);
+            mStaticArray.Insert(mStaticArray.size() - 1, v);
+            SetCurrentAction("Insert v = " + input["v = "] +
+                             " at back (i = length - 1)");
+            Success();
+        });
+
+    /* ====================================== */
+    operationList.AddOperation(buttonInsert, container);
+}
+
 void StaticArrayState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(
         new GUI::Button("Create", GetContext().fonts));
@@ -111,6 +162,44 @@ void StaticArrayState::AddUpdateOperation() {
         });
 
     operationList.AddOperation(buttonUpdate, container);
+}
+
+void StaticArrayState::AddDeleteOperation() {
+    GUI::Button::Ptr buttonDelete(new GUI::Button("Pop", GetContext().fonts));
+    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+
+    /* ==== DEFINE OPERATIONS FOR DELETE ==== */
+
+    /* Delete front */
+    AddNoFieldOperationOption(container, "Front (i = 0)", [this]() {
+        mStaticArray.Delete(0);
+        SetCurrentAction("Remove i = 0 (Front)");
+        Success();
+    });
+
+    /* Delete middle */
+    AddIntFieldOperationOption(
+        container, "Specify i in [1..N-1]",
+        {{"i = ", 50, 0, mStaticArray.maxN}},
+        [this](std::map< std::string, std::string > input) {
+            int i = std::stoi(input["i = "]);
+            if (i >= mStaticArray.size() - 1) {
+                SetCurrentError("Invalid index");
+                return;
+            }
+            mStaticArray.Delete(i);
+            SetCurrentAction("Remove i = " + input["i = "]);
+            Success();
+        });
+
+    /* Delete back */
+    AddNoFieldOperationOption(container, "Back (i = length - 2)", [this]() {
+        mStaticArray.Delete(mStaticArray.size() - 1);
+        SetCurrentAction("Remove i = length - 1 (Back)");
+        Success();
+    });
+
+    operationList.AddOperation(buttonDelete, container);
 }
 
 void StaticArrayState::AddSearchOperation() {
