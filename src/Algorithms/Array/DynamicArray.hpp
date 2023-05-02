@@ -9,7 +9,7 @@
 
 namespace Algorithm {
     class DynamicArray
-        : public Algorithm< GUI::DynamicArray, DArrayAnimation > {
+        : public Algorithm< GUIVisualizer::DynamicArray, DArrayAnimation > {
     public:
         static constexpr int maxN = 16;
 

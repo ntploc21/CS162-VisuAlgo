@@ -5,11 +5,13 @@
 #include "Animation/AnimationFactory.hpp"
 #include "Settings.hpp"
 
-void GUI::Node::SetShape(Shape shape) { mShape = shape; }
+void GUIVisualizer::Node::SetShape(Shape shape) { mShape = shape; }
 
-GUI::Node::Shape GUI::Node::GetShape() const { return mShape; }
+GUIVisualizer::Node::Shape GUIVisualizer::Node::GetShape() const {
+    return mShape;
+}
 
-GUI::Node::Node(int value, FontHolder* fonts)
+GUIVisualizer::Node::Node(int value, FontHolder* fonts)
     : fonts(fonts), mValue(value), mRadius(20.0f), valueFontSize(24),
       labelFontSize(20), mDefaultColor(WHITE), mActiveColor(ORANGE),
       mBorderColor(BLACK), animateNode(false), mNodeState(Default),
@@ -17,18 +19,18 @@ GUI::Node::Node(int value, FontHolder* fonts)
     AddColor();
 }
 
-GUI::Node::Node()
+GUIVisualizer::Node::Node()
     : mValue(0), mRadius(20.0f), valueFontSize(24), labelFontSize(20),
       mDefaultColor(WHITE), mActiveColor(ORANGE), mBorderColor(BLACK),
       animateNode(false), mNodeState(Default), mReachable(true) {
     AddColor();
 }
 
-GUI::Node::~Node() {}
+GUIVisualizer::Node::~Node() {}
 
-bool GUI::Node::isSelectable() const { return false; }
+bool GUIVisualizer::Node::isSelectable() const { return false; }
 
-void GUI::Node::Draw(Vector2 base, float t) {
+void GUIVisualizer::Node::Draw(Vector2 base, float t) {
     if (mNodeState == State::Hide) return;
     float width;
     base.x += mPosition.x;
@@ -50,23 +52,25 @@ void GUI::Node::Draw(Vector2 base, float t) {
     DrawLabel(base);
 }
 
-void GUI::Node::SetActive(bool active) { mActive = active; }
+void GUIVisualizer::Node::SetActive(bool active) { mActive = active; }
 
-bool GUI::Node::IsActive() { return mActive; }
+bool GUIVisualizer::Node::IsActive() { return mActive; }
 
-void GUI::Node::SetValue(int value) { mValue = value; }
+void GUIVisualizer::Node::SetValue(int value) { mValue = value; }
 
-int GUI::Node::GetValue() const { return mValue; }
+int GUIVisualizer::Node::GetValue() const { return mValue; }
 
-void GUI::Node::SetLabel(std::string label) { mLabel = label; }
+void GUIVisualizer::Node::SetLabel(std::string label) { mLabel = label; }
 
-void GUI::Node::ClearLabel() { mLabel.clear(); }
+void GUIVisualizer::Node::ClearLabel() { mLabel.clear(); }
 
-void GUI::Node::AnimationOnNode(bool animate) { animateNode = animate; }
+void GUIVisualizer::Node::AnimationOnNode(bool animate) {
+    animateNode = animate;
+}
 
-void GUI::Node::SetRadius(float radius) { mRadius = radius; }
+void GUIVisualizer::Node::SetRadius(float radius) { mRadius = radius; }
 
-void GUI::Node::DrawLabel(Vector2 base) {
+void GUIVisualizer::Node::DrawLabel(Vector2 base) {
     const Color labelColor =
         Settings::getInstance().getColor(ColorTheme::Visualizer_Label);
     // Draw Label
@@ -80,7 +84,7 @@ void GUI::Node::DrawLabel(Vector2 base) {
                labelColor);
 }
 
-void GUI::Node::DrawNode(Vector2 base, float t) {
+void GUIVisualizer::Node::DrawNode(Vector2 base, float t) {
     Color borderColor = GetOutlineColor(t);
     Color defaultColor = GetBackgroundColor(t);
     Color valueColor = GetTextColor(t);
@@ -108,15 +112,21 @@ void GUI::Node::DrawNode(Vector2 base, float t) {
     }
 }
 
-void GUI::Node::SetValueFontSize(int fontSize) { valueFontSize = fontSize; }
+void GUIVisualizer::Node::SetValueFontSize(int fontSize) {
+    valueFontSize = fontSize;
+}
 
-void GUI::Node::SetLabelFontSize(int fontSize) { labelFontSize = fontSize; }
+void GUIVisualizer::Node::SetLabelFontSize(int fontSize) {
+    labelFontSize = fontSize;
+}
 
-void GUI::Node::SetNodeState(State state) { mNodeState = state; }
+void GUIVisualizer::Node::SetNodeState(State state) { mNodeState = state; }
 
-GUI::Node::State GUI::Node::GetNodeState() const { return mNodeState; }
+GUIVisualizer::Node::State GUIVisualizer::Node::GetNodeState() const {
+    return mNodeState;
+}
 
-Color GUI::Node::GetOutlineColor(float t) {
+Color GUIVisualizer::Node::GetOutlineColor(float t) {
     Color src =
         Settings::getInstance().getColor(mOutlineColor[GetNodeState()].first);
     Color dst =
@@ -126,7 +136,7 @@ Color GUI::Node::GetOutlineColor(float t) {
     return AnimationFactory::BlendColor(src, dst, t);
 }
 
-Color GUI::Node::GetBackgroundColor(float t) {
+Color GUIVisualizer::Node::GetBackgroundColor(float t) {
     Color src = Settings::getInstance().getColor(
         mBackgroundColor[GetNodeState()].first);
     Color dst = Settings::getInstance().getColor(
@@ -136,7 +146,7 @@ Color GUI::Node::GetBackgroundColor(float t) {
     return AnimationFactory::BlendColor(src, dst, t);
 }
 
-Color GUI::Node::GetTextColor(float t) {
+Color GUIVisualizer::Node::GetTextColor(float t) {
     Color src =
         Settings::getInstance().getColor(mTextColor[GetNodeState()].first);
     Color dst =
@@ -146,7 +156,7 @@ Color GUI::Node::GetTextColor(float t) {
     return AnimationFactory::BlendColor(src, dst, t);
 }
 
-void GUI::Node::AddColor() {
+void GUIVisualizer::Node::AddColor() {
     // (src, dst)
     // Outline color
     mOutlineColor[State::Default] = {
@@ -206,6 +216,8 @@ void GUI::Node::AddColor() {
         ColorTheme::Visualizer_Node_ActiveRed_Text2};
 }
 
-void GUI::Node::SetReachable(bool reachable) { mReachable = reachable; }
+void GUIVisualizer::Node::SetReachable(bool reachable) {
+    mReachable = reachable;
+}
 
-bool GUI::Node::GetReachable() const { return mReachable; }
+bool GUIVisualizer::Node::GetReachable() const { return mReachable; }

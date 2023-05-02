@@ -230,7 +230,7 @@ void Algorithm::Algorithm< GUIAlgorithm, AnimationState >::ApplyInput(
     state.SetAnimation([this](GUIAlgorithm srcDS, float playingAt,
                               Vector2 base) {
         auto& nodes = srcDS.GetList();
-        for (GUI::Node& node : nodes) {
+        for (GUIVisualizer::Node& node : nodes) {
             node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
             node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
             node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);

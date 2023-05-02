@@ -6,7 +6,7 @@
 
 #include "Global.hpp"
 
-using ArrowType = GUI::LinkedList::ArrowType;
+using ArrowType = GUIVisualizer::LinkedList::ArrowType;
 
 Algorithm::DoublyLinkedList::DoublyLinkedList() {}
 
@@ -32,8 +32,8 @@ void Algorithm::DoublyLinkedList::InsertHead(int value) {
     visualizer.SetPosition(visualizer.GetPosition().x - 60,
                            visualizer.GetPosition().y);
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
-    newNode.SetNodeState(GUI::Node::Active);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetNodeState(GUIVisualizer::Node::Active);
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
     {  // Line 1
@@ -45,9 +45,9 @@ void Algorithm::DoublyLinkedList::InsertHead(int value) {
         DLLAnimation anim1 = GenerateAnimation(
             1, 0,
             "Create new vertex to store value " + std::to_string(value) + ".");
-        anim1.SetAnimation([this](GUI::DoublyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
-            GUI::Node& node = srcDS.GetList().at(0);
+        anim1.SetAnimation([this](GUIVisualizer::DoublyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            GUIVisualizer::Node& node = srcDS.GetList().at(0);
             node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
             node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
             node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
@@ -67,39 +67,39 @@ void Algorithm::DoublyLinkedList::InsertHead(int value) {
             DLLAnimation anim2 = GenerateAnimation(
                 0.5f, 1, "node->next points to the current head.");
 
-            anim2.SetAnimation([this, start, end](GUI::DoublyLinkedList srcDS,
-                                                  float playingAt,
-                                                  Vector2 base) mutable {
-                srcDS.Draw(base, playingAt);
-                base.x += srcDS.GetPosition().x;
-                base.y += srcDS.GetPosition().y;
-                start.x += base.x, end.x += base.x;
-                start.y += base.y, end.y += base.y;
+            anim2.SetAnimation(
+                [this, start, end](GUIVisualizer::DoublyLinkedList srcDS,
+                                   float playingAt, Vector2 base) mutable {
+                    srcDS.Draw(base, playingAt);
+                    base.x += srcDS.GetPosition().x;
+                    base.y += srcDS.GetPosition().y;
+                    start.x += base.x, end.x += base.x;
+                    start.y += base.y, end.y += base.y;
 
-                AnimationFactory::DrawDoubleActiveArrow(start, end, playingAt,
-                                                        0.0f);
+                    AnimationFactory::DrawDoubleActiveArrow(start, end,
+                                                            playingAt, 0.0f);
 
-                return srcDS;
-            });
+                    return srcDS;
+                });
             animController->AddAnimation(anim2);
 
             DLLAnimation anim3 = GenerateAnimation(
                 0.5f, 2, "Current head->prev points to node.");
-            anim3.SetAnimation([this, start, end](GUI::DoublyLinkedList srcDS,
-                                                  float playingAt,
-                                                  Vector2 base) mutable {
-                srcDS.Draw(base, playingAt);
-                base.x += srcDS.GetPosition().x;
-                base.y += srcDS.GetPosition().y;
+            anim3.SetAnimation(
+                [this, start, end](GUIVisualizer::DoublyLinkedList srcDS,
+                                   float playingAt, Vector2 base) mutable {
+                    srcDS.Draw(base, playingAt);
+                    base.x += srcDS.GetPosition().x;
+                    base.y += srcDS.GetPosition().y;
 
-                start.x += base.x, start.y += base.y;
-                end.x += base.x, end.y += base.y;
+                    start.x += base.x, start.y += base.y;
+                    end.x += base.x, end.y += base.y;
 
-                AnimationFactory::DrawDoubleActiveArrow(start, end, 1.0f,
-                                                        playingAt);
+                    AnimationFactory::DrawDoubleActiveArrow(start, end, 1.0f,
+                                                            playingAt);
 
-                return srcDS;
-            });
+                    return srcDS;
+                });
             animController->AddAnimation(anim3);
 
             visualizer.SetArrowTypeNext(0, ArrowType::Active);
@@ -150,8 +150,8 @@ void Algorithm::DoublyLinkedList::InsertAfterTail(int value) {
 
     /* Animation goes here */
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
-    newNode.SetNodeState(GUI::Node::Active);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetNodeState(GUIVisualizer::Node::Active);
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
 
@@ -167,9 +167,9 @@ void Algorithm::DoublyLinkedList::InsertAfterTail(int value) {
         DLLAnimation anim1 = GenerateAnimation(
             1, 0,
             "Create new vertex to store value " + std::to_string(value) + ".");
-        anim1.SetAnimation([this](GUI::DoublyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
-            GUI::Node& node = srcDS.GetList().back();
+        anim1.SetAnimation([this](GUIVisualizer::DoublyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            GUIVisualizer::Node& node = srcDS.GetList().back();
             node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
             node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
             node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
@@ -184,28 +184,29 @@ void Algorithm::DoublyLinkedList::InsertAfterTail(int value) {
         Vector2 start = visualizer.GetList()[prvSize - 1].GetPosition();
         Vector2 end = visualizer.GetList()[prvSize].GetPosition();
 
-        visualizer.GetList().back().SetNodeState(GUI::Node::State::Iterated);
+        visualizer.GetList().back().SetNodeState(
+            GUIVisualizer::Node::State::Iterated);
         visualizer.GetList()[prvSize - 1].SetNodeState(
-            GUI::Node::State::Active);
+            GUIVisualizer::Node::State::Active);
         visualizer.GetList()[prvSize - 1].AnimationOnNode(true);
         DLLAnimation anim2Next =
             GenerateAnimation(0.5, 1,
                               "Current tail->next points to the node.\nAnd "
                               "node->prev points to the tail.");
-        anim2Next.SetAnimation([this, start, end](GUI::DoublyLinkedList srcDS,
-                                                  float playingAt,
-                                                  Vector2 base) mutable {
-            srcDS.Draw(base, playingAt);
-            base.x += srcDS.GetPosition().x;
-            base.y += srcDS.GetPosition().y;
-            start.x += base.x, end.x += base.x;
-            start.y += base.y, end.y += base.y;
+        anim2Next.SetAnimation(
+            [this, start, end](GUIVisualizer::DoublyLinkedList srcDS,
+                               float playingAt, Vector2 base) mutable {
+                srcDS.Draw(base, playingAt);
+                base.x += srcDS.GetPosition().x;
+                base.y += srcDS.GetPosition().y;
+                start.x += base.x, end.x += base.x;
+                start.y += base.y, end.y += base.y;
 
-            AnimationFactory::DrawDoubleActiveArrow(start, end, playingAt,
-                                                    0.0f);
+                AnimationFactory::DrawDoubleActiveArrow(start, end, playingAt,
+                                                        0.0f);
 
-            return srcDS;
-        });
+                return srcDS;
+            });
         animController->AddAnimation(anim2Next);
         visualizer.GetList()[prvSize - 1].AnimationOnNode(false);
         visualizer.GetList()[prvSize].AnimationOnNode(false);
@@ -214,27 +215,27 @@ void Algorithm::DoublyLinkedList::InsertAfterTail(int value) {
             GenerateAnimation(0.5, 1,
                               "Current tail->next points to the node.\nAnd "
                               "node->prev points to the tail.");
-        anim2Prev.SetAnimation([this, start, end](GUI::DoublyLinkedList srcDS,
-                                                  float playingAt,
-                                                  Vector2 base) mutable {
-            srcDS.Draw(base, playingAt);
-            base.x += srcDS.GetPosition().x;
-            base.y += srcDS.GetPosition().y;
+        anim2Prev.SetAnimation(
+            [this, start, end](GUIVisualizer::DoublyLinkedList srcDS,
+                               float playingAt, Vector2 base) mutable {
+                srcDS.Draw(base, playingAt);
+                base.x += srcDS.GetPosition().x;
+                base.y += srcDS.GetPosition().y;
 
-            start.x += base.x, start.y += base.y;
-            end.x += base.x, end.y += base.y;
+                start.x += base.x, start.y += base.y;
+                end.x += base.x, end.y += base.y;
 
-            AnimationFactory::DrawDoubleActiveArrow(start, end, 1.0f,
-                                                    playingAt);
+                AnimationFactory::DrawDoubleActiveArrow(start, end, 1.0f,
+                                                        playingAt);
 
-            return srcDS;
-        });
+                return srcDS;
+            });
         animController->AddAnimation(anim2Prev);
         visualizer.GetList()[prvSize - 1].AnimationOnNode(true);
         visualizer.GetList()[prvSize].AnimationOnNode(true);
 
         visualizer.GetList()[prvSize - 1].SetNodeState(
-            GUI::Node::State::Default);
+            GUIVisualizer::Node::State::Default);
 
         visualizer.SetArrowTypeNext(prvSize - 1, ArrowType::Default);
         visualizer.SetArrowTypePrev(prvSize - 1, ArrowType::Default);
@@ -260,7 +261,7 @@ void Algorithm::DoublyLinkedList::InsertAfterTail(int value) {
         0.5, -1,
         "Re-layout the Linked List for visualization (not in the actual Linked "
         "List).\nThe whole process is still O(1).");
-    anim4.SetAnimation([this, actualPosX](GUI::DoublyLinkedList srcDS,
+    anim4.SetAnimation([this, actualPosX](GUIVisualizer::DoublyLinkedList srcDS,
                                           float playingAt, Vector2 base) {
         Vector2 newPos = srcDS.GetPosition();
         newPos.x += (actualPosX - newPos.x) * playingAt;
@@ -283,10 +284,10 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
                 "pre->next = node, node->prev = pre;"});
     /* Animation goes here */
     auto& nodes = visualizer.GetList();
-    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    for (GUIVisualizer::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1
-        nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::Active);
         nodes[0].SetLabel("head/pre/0");
         nodes[0].AnimationOnNode(true);
         DLLAnimation anim1 = GenerateAnimation(0.75, 0, "Set pre to head.");
@@ -312,12 +313,12 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
         if (k == index - 1) break;
 
         {  // Line 3
-            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].SetNodeState(GUIVisualizer::Node::Iterated);
             nodes[k].ClearLabel();
             if (k == 0) nodes[k].SetLabel("head");
 
             nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
-            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].SetNodeState(GUIVisualizer::Node::Active);
             nodes[k + 1].AnimationOnNode(true);
             visualizer.SetArrowTypeNext(k, ArrowType::Active);
 
@@ -330,7 +331,7 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
 
     {  // line 4
         nodes[index].SetLabel("aft/" + std::to_string(index));
-        nodes[index].SetNodeState(GUI::Node::ActiveBlue);
+        nodes[index].SetNodeState(GUIVisualizer::Node::ActiveBlue);
         nodes[index].AnimationOnNode(true);
         DLLAnimation anim4 = GenerateAnimation(
             0.75, 3,
@@ -342,9 +343,9 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
         nodes[index].AnimationOnNode(false);
     }
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
     {  // line 5
-        newNode.SetNodeState(GUI::Node::ActiveGreen);
+        newNode.SetNodeState(GUIVisualizer::Node::ActiveGreen);
         newNode.AnimationOnNode(true);
         newNode.SetLabel("node");
         Vector2 newNodePos = nodes[index].GetPosition();
@@ -372,25 +373,25 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
         nodes[index + 1].SetLabel("aft/" + std::to_string(index + 1));
         DLLAnimation anim6 =
             GenerateAnimation(0.75, 5, "node->next points to aft.");
-        anim6.SetAnimation([this, start, end](GUI::DoublyLinkedList srcDS,
-                                              float playingAt,
-                                              Vector2 base) mutable {
-            auto& nodes = srcDS.GetList();
-            srcDS.Draw(base, playingAt);
+        anim6.SetAnimation(
+            [this, start, end](GUIVisualizer::DoublyLinkedList srcDS,
+                               float playingAt, Vector2 base) mutable {
+                auto& nodes = srcDS.GetList();
+                srcDS.Draw(base, playingAt);
 
-            base.x += srcDS.GetPosition().x;
-            base.y += srcDS.GetPosition().y;
-            start.x += base.x, start.y += base.y;
-            end.x += base.x, end.y += base.y;
+                base.x += srcDS.GetPosition().x;
+                base.y += srcDS.GetPosition().y;
+                start.x += base.x, start.y += base.y;
+                end.x += base.x, end.y += base.y;
 
-            AnimationFactory::DrawDoubleActiveArrow(start, end, playingAt,
-                                                    playingAt);
-            if (playingAt == 1.0f) {
-                AnimationFactory::DrawDoubleDirectionalArrow(start, end, true,
-                                                             true, 1.0f, 1.0f);
-            }
-            return srcDS;
-        });
+                AnimationFactory::DrawDoubleActiveArrow(start, end, playingAt,
+                                                        playingAt);
+                if (playingAt == 1.0f) {
+                    AnimationFactory::DrawDoubleDirectionalArrow(
+                        start, end, true, true, 1.0f, 1.0f);
+                }
+                return srcDS;
+            });
         animController->AddAnimation(anim6);
         visualizer.SetArrowTypeNext(index, ArrowType::Active);
         visualizer.SetArrowTypePrev(index, ArrowType::Active);
@@ -401,8 +402,9 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
         visualizer.SetArrowTypePrev(index - 1, ArrowType::Hidden);
         DLLAnimation anim6Next =
             GenerateAnimation(0.75, 6, "pre->next points to node.");
-        anim6Next.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
-                                             float playingAt, Vector2 base) {
+        anim6Next.SetAnimation([this, index](
+                                   GUIVisualizer::DoublyLinkedList srcDS,
+                                   float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
             srcDS.Draw(base, playingAt);
 
@@ -440,7 +442,7 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
                               "Re-layout the Linked List for visualization "
                               "(not in the actual Linked "
                               "List).\nThe whole process is still O(1).");
-        anim8.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
+        anim8.SetAnimation([this, index](GUIVisualizer::DoublyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -480,9 +482,9 @@ void Algorithm::DoublyLinkedList::InsertMiddle(int index, int value) {
 
     visualizer.Relayout();
 
-    for (GUI::Node& node : nodes) {
+    for (GUIVisualizer::Node& node : nodes) {
         node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
+        node.SetNodeState(GUIVisualizer::Node::Default);
     }
     visualizer.ResetArrow();
 }
@@ -501,7 +503,7 @@ void Algorithm::DoublyLinkedList::DeleteHead() {
     }
     nodes[0].SetLabel("head/0");
     nodes[0].AnimationOnNode(true);
-    nodes[0].SetNodeState(GUI::Node::State::Active);
+    nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
     DLLAnimation anim1 = GenerateAnimation(
         0.75, 0, "head is exist, so we proceed to the next step");
     animController->AddAnimation(anim1);
@@ -528,8 +530,8 @@ void Algorithm::DoublyLinkedList::DeleteHead() {
 
         DLLAnimation anim4 = GenerateAnimation(
             0.75, 3, "Remove head vertex.\nWe now have an empty List.");
-        anim4.SetAnimation([this](GUI::DoublyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
+        anim4.SetAnimation([this](GUIVisualizer::DoublyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
             auto& node = srcDS.GetList().front();
 
             node.SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
@@ -548,7 +550,7 @@ void Algorithm::DoublyLinkedList::DeleteHead() {
     }
     nodes[1].SetLabel("head/0");
     nodes[1].AnimationOnNode(true);
-    nodes[1].SetNodeState(GUI::Node::State::ActiveGreen);
+    nodes[1].SetNodeState(GUIVisualizer::Node::State::ActiveGreen);
     nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 2));
     DLLAnimation anim3 =
         GenerateAnimation(0.75, 2, "head points to the next node.");
@@ -560,8 +562,8 @@ void Algorithm::DoublyLinkedList::DeleteHead() {
     nodes[1].AnimationOnNode(false);
     DLLAnimation anim4 = GenerateAnimation(
         0.75, 3, "Delete del, which was the (previous) head.");
-    anim4.SetAnimation([this](GUI::DoublyLinkedList srcDS, float playingAt,
-                              Vector2 base) {
+    anim4.SetAnimation([this](GUIVisualizer::DoublyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
         auto& nodes = srcDS.GetList();
 
         nodes[0].SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
@@ -613,12 +615,12 @@ void Algorithm::DoublyLinkedList::DeleteTail() {
     {  // Line 1
         nodes[0].SetLabel("head/0");
         // nodes[0].AnimationOnNode(true);
-        // nodes[0].SetNodeState(GUI::Node::State::Active);
+        // nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
         DLLAnimation anim1 = GenerateAnimation(
             0.75, 0, "head is exist, so we proceed to the next step");
         animController->AddAnimation(anim1);
 
-        // nodes[0].SetNodeState(GUI::Node::State::Default);
+        // nodes[0].SetNodeState(GUIVisualizer::Node::State::Default);
     }
 
     int prvSize = nodes.size();
@@ -630,7 +632,7 @@ void Algorithm::DoublyLinkedList::DeleteTail() {
 
         nodes.back().SetLabel("del");
         nodes.back().AnimationOnNode(true);
-        nodes.back().SetNodeState(GUI::Node::State::ActiveRed);
+        nodes.back().SetNodeState(GUIVisualizer::Node::State::ActiveRed);
 
         DLLAnimation anim2 =
             GenerateAnimation(0.75, 1, "Set del to (old) tail.");
@@ -642,7 +644,8 @@ void Algorithm::DoublyLinkedList::DeleteTail() {
 
     {  // Line 3
         nodes[prvSize - 2].AnimationOnNode(true);
-        nodes[prvSize - 2].SetNodeState(GUI::Node::State::ActiveGreen);
+        nodes[prvSize - 2].SetNodeState(
+            GUIVisualizer::Node::State::ActiveGreen);
         visualizer.SetArrowTypePrev(prvSize - 2, ArrowType::Hidden);
         DLLAnimation anim3 =
             GenerateAnimation(0.75, 2, "Set tail to tail->prev.");
@@ -656,8 +659,8 @@ void Algorithm::DoublyLinkedList::DeleteTail() {
             0.75, 3,
             "Set the next of (new) tail to null.; Delete tmp.\nThe whole "
             "operations is just O(1) as we can access (old) tail.prev.");
-        anim4.SetAnimation([this](GUI::DoublyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
+        anim4.SetAnimation([this](GUIVisualizer::DoublyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
             nodes.back().SetRadius(
@@ -713,11 +716,11 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
         return;
     }
 
-    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    for (GUIVisualizer::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1
         nodes[0].SetLabel("head/0");
-        nodes[0].SetNodeState(GUI::Node::State::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
         DLLAnimation anim1 = GenerateAnimation(
             0.75, 0, "head is exist, so we proceed to the next step");
         animController->AddAnimation(anim1);
@@ -756,12 +759,12 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
         if (k == index - 1) break;
 
         {  // Line 4
-            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].SetNodeState(GUIVisualizer::Node::Iterated);
             nodes[k].ClearLabel();
             if (k == 0) nodes[k].SetLabel("head");
 
             nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
-            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].SetNodeState(GUIVisualizer::Node::Active);
             nodes[k + 1].AnimationOnNode(true);
             visualizer.SetArrowTypeNext(k, ArrowType::Active);
 
@@ -774,7 +777,7 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
 
     {  // Line 5
         nodes[index].SetLabel("del/" + std::to_string(index));
-        nodes[index].SetNodeState(GUI::Node::State::ActiveRed);
+        nodes[index].SetNodeState(GUIVisualizer::Node::State::ActiveRed);
         DLLAnimation anim5 = GenerateAnimation(
             0.75, 4,
             "We store reference to the vertex to-be-deleted.\nWe also store "
@@ -784,7 +787,7 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
         nodes[index].AnimationOnNode(false);
 
         nodes[index + 1].SetLabel("aft/" + std::to_string(index + 1));
-        nodes[index + 1].SetNodeState(GUI::Node::State::ActiveGreen);
+        nodes[index + 1].SetNodeState(GUIVisualizer::Node::State::ActiveGreen);
         if (index + 1 == nodes.size() - 1)
             nodes[index + 1].SetLabel("tail/aft/" + std::to_string(index + 1));
 
@@ -811,7 +814,7 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
                               "to-be-deleted (pointer prev) "
                               "with the next vertex after the vertex "
                               "to-be-deleted (pointer after).");
-        anim6.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
+        anim6.SetAnimation([this, index](GUIVisualizer::DoublyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -857,7 +860,7 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
             nodes[index + 1].SetLabel("tail/aft/" + std::to_string(index));
         DLLAnimation anim7 =
             GenerateAnimation(0.75, 6, "Now we delete this vertex.");
-        anim7.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
+        anim7.SetAnimation([this, index](GUIVisualizer::DoublyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -893,7 +896,7 @@ void Algorithm::DoublyLinkedList::DeleteMiddle(int index) {
                               "Re-layout the Linked List for visualization "
                               "(not in the actual Linked List).\nThe whole "
                               "process is still O(1).");
-        anim8.SetAnimation([this, index](GUI::DoublyLinkedList srcDS,
+        anim8.SetAnimation([this, index](GUIVisualizer::DoublyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -942,7 +945,7 @@ void Algorithm::DoublyLinkedList::Update(int index, int value) {
         return;
     }
     {  // Line 1
-        nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::Active);
         nodes[0].SetLabel("head/0");
         nodes[0].AnimationOnNode(true);
         DLLAnimation anim1 = GenerateAnimation(
@@ -952,7 +955,7 @@ void Algorithm::DoublyLinkedList::Update(int index, int value) {
     }
 
     {  // Line 2
-        // nodes[0].SetNodeState(GUI::Node::Active);
+        // nodes[0].SetNodeState(GUIVisualizer::Node::Active);
         nodes[0].SetLabel("head/cur/0");
         DLLAnimation anim2 = GenerateAnimation(0.75, 1, "Set cur to head.");
         animController->AddAnimation(anim2);
@@ -983,12 +986,12 @@ void Algorithm::DoublyLinkedList::Update(int index, int value) {
         if (k == index) break;
 
         {  // Line 3
-            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].SetNodeState(GUIVisualizer::Node::Iterated);
             nodes[k].ClearLabel();
             if (k == 0) nodes[k].SetLabel("head");
 
             nodes[k + 1].SetLabel("cur/" + std::to_string(k + 1));
-            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].SetNodeState(GUIVisualizer::Node::Active);
             nodes[k + 1].AnimationOnNode(true);
             visualizer.SetArrowTypeNext(k, ArrowType::Active);
 
@@ -1000,7 +1003,7 @@ void Algorithm::DoublyLinkedList::Update(int index, int value) {
     }
 
     // nodes[index].AnimationOnNode(true);
-    nodes[index].SetNodeState(GUI::Node::ActiveGreen);
+    nodes[index].SetNodeState(GUIVisualizer::Node::ActiveGreen);
     DLLAnimation animFocusNode =
         GenerateAnimation(0.75, 4,
                           "Updating node " + std::to_string(index) +
@@ -1033,9 +1036,9 @@ void Algorithm::DoublyLinkedList::Search(int value) {
         return;
     }
     auto& nodes = visualizer.GetList();
-    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    for (GUIVisualizer::Node& node : nodes) node.AnimationOnNode(true);
 
-    nodes[0].SetNodeState(GUI::Node::Active);
+    nodes[0].SetNodeState(GUIVisualizer::Node::Active);
     nodes[0].SetLabel("head/cur/0");
     DLLAnimation anim1 = GenerateAnimation(0.5, 0, "Set cur to head.");
     animController->AddAnimation(anim1);
@@ -1065,7 +1068,7 @@ void Algorithm::DoublyLinkedList::Search(int value) {
                 nodes[i].SetLabel("tail");
         } else {
             nodes[i].AnimationOnNode(true);
-            nodes[i].SetNodeState(GUI::Node::Iterated);
+            nodes[i].SetNodeState(GUIVisualizer::Node::Iterated);
             if (i == 0)
                 nodes[i].SetLabel("head");
             else if (i + 1 == nodes.size())
@@ -1074,7 +1077,7 @@ void Algorithm::DoublyLinkedList::Search(int value) {
                 nodes[i].ClearLabel();
 
             if (i + 1 < nodes.size()) {
-                nodes[i + 1].SetNodeState(GUI::Node::Active);
+                nodes[i + 1].SetNodeState(GUIVisualizer::Node::Active);
                 if (i + 1 == nodes.size() - 1)
                     nodes[i + 1].SetLabel("tail/cur/" + std::to_string(i + 1));
                 else
@@ -1101,18 +1104,20 @@ void Algorithm::DoublyLinkedList::Search(int value) {
         animController->AddAnimation(animNotFound);
     }
 
-    for (GUI::Node& node : nodes) {
+    for (GUIVisualizer::Node& node : nodes) {
         node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
+        node.SetNodeState(GUIVisualizer::Node::Default);
     }
     visualizer.ResetArrow();
 }
 
-std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float, Vector2) >
+std::function< GUIVisualizer::DoublyLinkedList(GUIVisualizer::DoublyLinkedList,
+                                               float, Vector2) >
 Algorithm::DoublyLinkedList::HighlightArrowNext(int index, bool drawVisualizer,
                                                 bool reverse) {
     return [this, index, drawVisualizer, reverse](
-               GUI::DoublyLinkedList srcDS, float playingAt, Vector2 base) {
+               GUIVisualizer::DoublyLinkedList srcDS, float playingAt,
+               Vector2 base) {
         auto& nodes = srcDS.GetList();
         if (drawVisualizer) srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;
@@ -1121,7 +1126,8 @@ Algorithm::DoublyLinkedList::HighlightArrowNext(int index, bool drawVisualizer,
         Vector2 start = nodes[index].GetPosition();
         int nextIndex;
         for (nextIndex = index + 1; nextIndex < nodes.size(); nextIndex++)
-            if (nodes[nextIndex].GetNodeState() == GUI::Node::State::Hide ||
+            if (nodes[nextIndex].GetNodeState() ==
+                    GUIVisualizer::Node::State::Hide ||
                 (srcDS.GetArrowTypeNext(nextIndex) != ArrowType::Skip ||
                  srcDS.GetArrowTypePrev(nextIndex) != ArrowType::Skip))
                 break;
@@ -1151,11 +1157,13 @@ Algorithm::DoublyLinkedList::HighlightArrowNext(int index, bool drawVisualizer,
     };
 }
 
-std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float, Vector2) >
+std::function< GUIVisualizer::DoublyLinkedList(GUIVisualizer::DoublyLinkedList,
+                                               float, Vector2) >
 Algorithm::DoublyLinkedList::HighlightArrowPrev(int index, bool drawVisualizer,
                                                 bool reverse) {
     return [this, index, drawVisualizer, reverse](
-               GUI::DoublyLinkedList srcDS, float playingAt, Vector2 base) {
+               GUIVisualizer::DoublyLinkedList srcDS, float playingAt,
+               Vector2 base) {
         auto& nodes = srcDS.GetList();
         if (drawVisualizer) srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;
@@ -1164,7 +1172,8 @@ Algorithm::DoublyLinkedList::HighlightArrowPrev(int index, bool drawVisualizer,
         Vector2 start = nodes[index].GetPosition();
         int nextIndex;
         for (nextIndex = index + 1; nextIndex < nodes.size(); nextIndex++)
-            if (nodes[nextIndex].GetNodeState() == GUI::Node::State::Hide ||
+            if (nodes[nextIndex].GetNodeState() ==
+                    GUIVisualizer::Node::State::Hide ||
                 (srcDS.GetArrowTypeNext(nextIndex) != ArrowType::Skip ||
                  srcDS.GetArrowTypePrev(nextIndex) != ArrowType::Skip))
                 break;
@@ -1194,11 +1203,13 @@ Algorithm::DoublyLinkedList::HighlightArrowPrev(int index, bool drawVisualizer,
     };
 }
 
-std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float, Vector2) >
+std::function< GUIVisualizer::DoublyLinkedList(GUIVisualizer::DoublyLinkedList,
+                                               float, Vector2) >
 Algorithm::DoublyLinkedList::HighlightArrowBoth(int index, bool drawVisualizer,
                                                 bool reverse) {
     return [this, index, drawVisualizer, reverse](
-               GUI::DoublyLinkedList srcDS, float playingAt, Vector2 base) {
+               GUIVisualizer::DoublyLinkedList srcDS, float playingAt,
+               Vector2 base) {
         auto& nodes = srcDS.GetList();
         if (drawVisualizer) srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;
@@ -1207,7 +1218,8 @@ Algorithm::DoublyLinkedList::HighlightArrowBoth(int index, bool drawVisualizer,
         Vector2 start = nodes[index].GetPosition();
         int nextIndex;
         for (nextIndex = index + 1; nextIndex < nodes.size(); nextIndex++)
-            if (nodes[nextIndex].GetNodeState() == GUI::Node::State::Hide ||
+            if (nodes[nextIndex].GetNodeState() ==
+                    GUIVisualizer::Node::State::Hide ||
                 (srcDS.GetArrowTypeNext(nextIndex) != ArrowType::Skip ||
                  srcDS.GetArrowTypePrev(nextIndex) != ArrowType::Skip))
                 break;
@@ -1230,9 +1242,9 @@ Algorithm::DoublyLinkedList::HighlightArrowBoth(int index, bool drawVisualizer,
 
 void Algorithm::DoublyLinkedList::ResetVisualizer() {
     auto& nodes = visualizer.GetList();
-    for (GUI::Node& node : nodes) {
+    for (GUIVisualizer::Node& node : nodes) {
         node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
+        node.SetNodeState(GUIVisualizer::Node::Default);
     }
     visualizer.ResetArrow();
 }

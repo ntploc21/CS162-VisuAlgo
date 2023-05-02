@@ -5,7 +5,8 @@
 #include "Components/Visualization/SinglyLinkedList.hpp"
 
 namespace Algorithm {
-    class Queue : public Algorithm< GUI::SinglyLinkedList, SLLAnimation > {
+    class Queue
+        : public Algorithm< GUIVisualizer::SinglyLinkedList, SLLAnimation > {
     public:
         static constexpr int maxN = 10;
 
@@ -28,8 +29,8 @@ namespace Algorithm {
         void PeekBack();
 
     private:
-        std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float,
-                                             Vector2) >
+        std::function< GUIVisualizer::SinglyLinkedList(
+            GUIVisualizer::SinglyLinkedList, float, Vector2) >
         HighlightArrowFromCur(int index, bool drawVisualizer = true,
                               bool reverse = false);
     };

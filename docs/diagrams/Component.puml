@@ -1,0 +1,221 @@
+@startuml
+abstract "GUI::Component" as C_0000265092519911491147
+abstract C_0000265092519911491147 {
++Component() : void
++~Component() : void
++Draw() : void
+{abstract} +isSelectable() const = 0 : bool
++isSelected() const : bool
++select() : void
++deselect() : void
++ToggleVisible() : void
++SetVisible() : void
++GetVisible() : bool
++SetPosition() : void
++SetPosition() : void
++GetPosition() : Vector2
++GetSize() : Vector2
+#UpdateMouseCursorWhenHover() : void
+#UpdateMouseCursorWhenHover() : void
+#GetHoverStatus() : bool
+#GetHoverStatus() : bool
+#mPosition : Vector2
+#mVisible : bool
+}
+class "GUI::Container" as C_0002094582007680481506
+class C_0002094582007680481506 {
++Container() : void
++pack() : void
++UnpackAll() : void
++Draw() : void
++isSelectable() const : bool
++GetChildren() : Core::Deque<Component::Ptr>
++DrawCurrent() : void
++GetSize() : Vector2
+}
+class "GUIComponent::Button" as C_0000579426271199988151
+class C_0000579426271199988151 {
++Button() : void
++Button() : void
++~Button() : void
++Draw() : void
++SetAction() : void
++isSelectable() const : bool
++SetButtonHoverColor() : void
++SetButtonColor() : void
++SetTextColor() : void
++SetSize() : void
++SetText() : void
++SetFontSize() : void
++GetFontSize() const : float
++SetTextAlignment() : void
++EnableFitContent() : void
++DisableFitContent() : void
++GetSize() : Vector2
++SetActionOnHover() : void
+}
+enum "GUIComponent::Button::TextAlignment" as C_0001000316439174706510
+enum C_0001000316439174706510 {
+Left
+Center
+Right
+AlignmentCount
+}
+class "GUIComponent::CodeHighlighter" as C_0001553370114525402126
+class C_0001553370114525402126 {
++CodeHighlighter() : void
++~CodeHighlighter() : void
++Draw() : void
++isSelectable() const : bool
++InitButtons() : void
++AddCode() : void
++Highlight() : void
++ToggleShowCode() : void
++ToggleShowAction() : void
++SetShowCode() : void
++SetShowAction() : void
++AddActionDescription() : void
+}
+class "GUIComponent::Footer<T>" as C_0001112287034431475294
+class C_0001112287034431475294 {
++Footer<T>() : void
++~Footer<T>() : void
++Draw() : void
+}
+class "GUIComponent::OperationContainer" as C_0001186100083805678308
+class C_0001186100083805678308 {
++OperationContainer() : void
++~OperationContainer() : void
++DrawCurrent() : void
++SetVisible() : void
+}
+class "GUIComponent::OperationList" as C_0001209929364258763054
+class C_0001209929364258763054 {
++ShowOptions() : void
++HideAllOptions() : void
++ToggleOperations() : void
++Draw() : void
++OperationList() : void
++OperationList() : void
++~OperationList() : void
++AddOperation() : void
++InitActionBar() : void
++GetSize() : Vector2
+}
+abstract "GUIComponent::InputField" as C_0002145592623225047661
+abstract C_0002145592623225047661 {
++InputField() : void
++~InputField() : void
+{abstract} +ExtractValue() = 0 : std::string
++Draw() : void
+{abstract} +DrawField() = 0 : void
++isSelectable() const : bool
++SetLabelSize() : void
++SetInputFieldSize() : void
++GetSize() : Vector2
++SetLabel() : void
++GetLabel() const : std::string
+#IsClicked() const : bool
+#SetEditMode() : void
+#GetEditMode() const : bool
+#AllFieldDisableEdit() : void
++Randomize() : void
+#editMode : bool
+#mFieldIndex : std::size_t
+#labelFontSize : float
+#inputFieldSize : Vector2
+#label : std::string
+#fonts : FontHolder *
+#extractedValue : std::string
+{static} +fields : std::vector<bool>
+}
+class "GUIComponent::OptionInputField" as C_0001355663222217028843
+class C_0001355663222217028843 {
++OptionInputField() : void
++~OptionInputField() : void
++SetOption() : void
++SetNoFieldOption() : void
++ToggleInputFields() : void
++DrawCurrent() : void
++SetVisible() : void
++GetSize() : Vector2
+}
+class "GUIComponent::NavigationBar" as C_0000298923407290677679
+class C_0000298923407290677679 {
++NavigationBar() : void
++NavigationBar() : void
++~NavigationBar() : void
++SetHomepageID() : void
++SetDirectLink() : void
++SetCategory() : void
++InsertTitle() : void
++SetActiveTitle() : void
++ClearTitle() : void
++SetVisableTitle() : void
++isSelectable() const : bool
++Draw() : void
+}
+class "GUIComponent::NavigationBar::TitleInfo" as C_0002130532074804349894
+class C_0002130532074804349894 {
++stateID : States::ID
++abbrTitle : std::string
++titleName : std::string
+}
+class "GUIComponent::IntegerInputField" as C_0000776741018672088007
+class C_0000776741018672088007 {
++IntegerInputField() : void
++~IntegerInputField() : void
++ExtractValue() : std::string
++DrawField() : void
++SetConstraint() : void
++isSelectable() const : bool
++Randomize() : void
+}
+class "GUIComponent::StringInputField" as C_0002093905708996433155
+class C_0002093905708996433155 {
++StringInputField() : void
++~StringInputField() : void
++ExtractValue() : std::string
++DrawField() : void
++isSelectable() const : bool
+}
+class "GUIComponent::Card" as C_0000279944572524923025
+class C_0000279944572524923025 {
++Card() : void
++Card() : void
++~Card() : void
++SetLink() : void
++SetStateID() : void
++SetText() : void
++isSelectable() const : bool
++Draw() : void
+}
+C_0002094582007680481506 ..> C_0000265092519911491147
+C_0002094582007680481506 o-- C_0000265092519911491147 : #mChildren
+C_0000265092519911491147 <|-- C_0002094582007680481506
+C_0000265092519911491147 <|-- C_0000579426271199988151
+C_0001000316439174706510 --+ C_0000579426271199988151
+C_0001553370114525402126 o-- C_0000579426271199988151 : -mButtonShowCode
+C_0001553370114525402126 o-- C_0000579426271199988151 : -mButtonShowAction
+C_0000265092519911491147 <|-- C_0001553370114525402126
+C_0002094582007680481506 <|-- C_0001112287034431475294
+C_0002094582007680481506 <|-- C_0001186100083805678308
+C_0001209929364258763054 ..> C_0000579426271199988151
+C_0001209929364258763054 ..> C_0002094582007680481506
+C_0001209929364258763054 o-- C_0002094582007680481506 : -buttons
+C_0001209929364258763054 o-- C_0002094582007680481506 : -optionContainers
+C_0001209929364258763054 o-- C_0000579426271199988151 : -toggleButton
+C_0002094582007680481506 <|-- C_0001209929364258763054
+C_0000265092519911491147 <|-- C_0002145592623225047661
+C_0001355663222217028843 ..> C_0002145592623225047661
+C_0001355663222217028843 o-- C_0002094582007680481506 : -mInputField
+C_0002094582007680481506 <|-- C_0001355663222217028843
+C_0000265092519911491147 <|-- C_0000298923407290677679
+C_0002130532074804349894 --+ C_0000298923407290677679
+C_0002145592623225047661 <|-- C_0000776741018672088007
+C_0002145592623225047661 <|-- C_0002093905708996433155
+C_0000265092519911491147 <|-- C_0000279944572524923025
+
+'Generated with clang-uml, version 0.3.4
+'LLVM version clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+@enduml

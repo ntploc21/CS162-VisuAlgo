@@ -9,7 +9,7 @@
 
 namespace Algorithm {
     class CircularLinkedList
-        : public Algorithm< GUI::CircularLinkedList, CLLAnimation > {
+        : public Algorithm< GUIVisualizer::CircularLinkedList, CLLAnimation > {
     public:
         static constexpr int maxN = 10;
 
@@ -38,12 +38,12 @@ namespace Algorithm {
         void Search(int value);
 
     private:
-        std::function< GUI::CircularLinkedList(GUI::CircularLinkedList, float,
-                                               Vector2) >
+        std::function< GUIVisualizer::CircularLinkedList(
+            GUIVisualizer::CircularLinkedList, float, Vector2) >
         HighlightArrowFromCur(int index, bool drawVisualizer = true,
                               bool reverse = false);
-        std::function< GUI::CircularLinkedList(GUI::CircularLinkedList, float,
-                                               Vector2) >
+        std::function< GUIVisualizer::CircularLinkedList(
+            GUIVisualizer::CircularLinkedList, float, Vector2) >
         HighlightCircularArrow(bool drawVisualizer = true,
                                bool reverse = false);
 

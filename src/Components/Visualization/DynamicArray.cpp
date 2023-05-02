@@ -4,16 +4,17 @@
 
 #include "Global.hpp"
 
-GUI::DynamicArray::DynamicArray() : mShape(GUI::Node::Shape::Square) {}
+GUIVisualizer::DynamicArray::DynamicArray()
+    : mShape(GUIVisualizer::Node::Shape::Square) {}
 
-GUI::DynamicArray::DynamicArray(FontHolder* fonts)
-    : fonts(fonts), mShape(GUI::Node::Shape::Square) {}
+GUIVisualizer::DynamicArray::DynamicArray(FontHolder* fonts)
+    : fonts(fonts), mShape(GUIVisualizer::Node::Shape::Square) {}
 
-bool GUI::DynamicArray::isSelectable() const { return false; }
+bool GUIVisualizer::DynamicArray::isSelectable() const { return false; }
 
-GUI::DynamicArray::~DynamicArray() {}
+GUIVisualizer::DynamicArray::~DynamicArray() {}
 
-void GUI::DynamicArray::Draw(Vector2 base, float t, bool init) {
+void GUIVisualizer::DynamicArray::Draw(Vector2 base, float t, bool init) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     for (auto node : list) {
@@ -21,11 +22,14 @@ void GUI::DynamicArray::Draw(Vector2 base, float t, bool init) {
     }
 }
 
-std::size_t GUI::DynamicArray::GetLength() const { return length; }
+std::size_t GUIVisualizer::DynamicArray::GetLength() const { return length; }
 
-std::size_t GUI::DynamicArray::GetCapacity() const { return capacity; }
+std::size_t GUIVisualizer::DynamicArray::GetCapacity() const {
+    return capacity;
+}
 
-GUI::Node& GUI::DynamicArray::operator[](std::size_t index) {
+GUIVisualizer::Node& GUIVisualizer::DynamicArray::operator[](
+    std::size_t index) {
     if (index >= length)
         throw std::to_string(index) +
             " >= (length = " + std::to_string(length) +
@@ -33,7 +37,8 @@ GUI::Node& GUI::DynamicArray::operator[](std::size_t index) {
     return list.at(index);
 }
 
-const GUI::Node& GUI::DynamicArray::operator[](std::size_t index) const {
+const GUIVisualizer::Node& GUIVisualizer::DynamicArray::operator[](
+    std::size_t index) const {
     if (index >= length)
         throw std::to_string(index) +
             " >= (length = " + std::to_string(length) +
@@ -41,18 +46,20 @@ const GUI::Node& GUI::DynamicArray::operator[](std::size_t index) const {
     return list.at(index);
 }
 
-void GUI::DynamicArray::SetShape(GUI::Node::Shape shape) {
+void GUIVisualizer::DynamicArray::SetShape(GUIVisualizer::Node::Shape shape) {
     mShape = shape;
-    for (GUI::Node& node : list) node.SetShape(shape);
+    for (GUIVisualizer::Node& node : list) node.SetShape(shape);
 }
 
-GUI::Node::Shape GUI::DynamicArray::GetShape() const { return mShape; }
+GUIVisualizer::Node::Shape GUIVisualizer::DynamicArray::GetShape() const {
+    return mShape;
+}
 
-void GUI::DynamicArray::Reserve(std::size_t size) {
+void GUIVisualizer::DynamicArray::Reserve(std::size_t size) {
     list.resize(size);
     if (size > capacity) {
         for (int i = capacity; i < size; i++) {
-            GUI::Node guiNode = GenerateNode(0);
+            GUIVisualizer::Node guiNode = GenerateNode(0);
             Vector2 newPos = GetNodeDefaultPosition(i);
             guiNode.SetPosition(newPos.x, newPos.y);
             guiNode.SetReachable(false);
@@ -62,7 +69,7 @@ void GUI::DynamicArray::Reserve(std::size_t size) {
     capacity = size;
 }
 
-void GUI::DynamicArray::Resize(std::size_t size) {
+void GUIVisualizer::DynamicArray::Resize(std::size_t size) {
     if (size > capacity) Reserve(GetCapacityFromLength(size));
     for (int i = size; i < length; i++) {
         list[i] = GenerateNode(0);
@@ -71,17 +78,19 @@ void GUI::DynamicArray::Resize(std::size_t size) {
     length = size;
 }
 
-void GUI::DynamicArray::Clear() { Resize(0); }
+void GUIVisualizer::DynamicArray::Clear() { Resize(0); }
 
-std::vector< GUI::Node >& GUI::DynamicArray::GetList() { return list; }
+std::vector< GUIVisualizer::Node >& GUIVisualizer::DynamicArray::GetList() {
+    return list;
+}
 
-GUI::Node GUI::DynamicArray::GenerateNode(int value) {
-    GUI::Node node = GUI::Node(value, fonts);
+GUIVisualizer::Node GUIVisualizer::DynamicArray::GenerateNode(int value) {
+    GUIVisualizer::Node node = GUIVisualizer::Node(value, fonts);
     node.SetShape(mShape);
     return node;
 }
 
-void GUI::DynamicArray::Import(std::vector< int > nodes) {
+void GUIVisualizer::DynamicArray::Import(std::vector< int > nodes) {
     list.clear();
 
     Reserve(GetCapacityFromLength(nodes.size()));
@@ -92,7 +101,7 @@ void GUI::DynamicArray::Import(std::vector< int > nodes) {
 
     length = nodes.size();
     for (int i = 0; i < capacity; i++) {
-        GUI::Node guiNode = GenerateNode(0);
+        GUIVisualizer::Node guiNode = GenerateNode(0);
         if (i < length) guiNode.SetValue(nodes[i]);
         Vector2 newPos = GetNodeDefaultPosition(i);
         guiNode.SetPosition(newPos.x, newPos.y);
@@ -102,8 +111,9 @@ void GUI::DynamicArray::Import(std::vector< int > nodes) {
     }
 }
 
-void GUI::DynamicArray::InsertNode(std::size_t index, GUI::Node node,
-                                   bool rePosition) {
+void GUIVisualizer::DynamicArray::InsertNode(std::size_t index,
+                                             GUIVisualizer::Node node,
+                                             bool rePosition) {
     assert(index >= 0 && index <= list.size());
     if (length == capacity) {
         capacity = (!capacity ? 0 : capacity * 2);
@@ -123,13 +133,14 @@ void GUI::DynamicArray::InsertNode(std::size_t index, GUI::Node node,
     }
 }
 
-void GUI::DynamicArray::Relayout() {
+void GUIVisualizer::DynamicArray::Relayout() {
     std::vector< int > values;
     for (auto node : list) values.emplace_back(node.GetValue());
     Import(values);
 }
 
-void GUI::DynamicArray::DeleteNode(std::size_t index, bool rePosition) {
+void GUIVisualizer::DynamicArray::DeleteNode(std::size_t index,
+                                             bool rePosition) {
     if (index >= length)
         throw std::to_string(index) +
             " >= (length = " + std::to_string(length) +
@@ -146,13 +157,14 @@ void GUI::DynamicArray::DeleteNode(std::size_t index, bool rePosition) {
     }
 }
 
-Vector2 GUI::DynamicArray::GetNodeDefaultPosition(std::size_t index) {
+Vector2 GUIVisualizer::DynamicArray::GetNodeDefaultPosition(std::size_t index) {
     Vector2 answer = (Vector2){index * (40 + mNodeDistance), 0};
     return answer;
 }
 
 // return capacity such that capacity = 2^x >= length (x smallest)
-std::size_t GUI::DynamicArray::GetCapacityFromLength(std::size_t length) {
+std::size_t GUIVisualizer::DynamicArray::GetCapacityFromLength(
+    std::size_t length) {
     if (length == 0) return 0;
     if (length == 1) return 1;
     return (1 << (int(log2(length - 1)) + 1));

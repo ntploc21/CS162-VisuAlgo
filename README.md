@@ -113,7 +113,9 @@ Will be updated soon!
 
 ![Algorithms](docs/diagrams/Algorithm.png)
 
-![GUI](docs/diagrams/GUI.png)
+![Visualization component](docs/diagrams/Visualizer.png)
+
+![Commonly used component](docs/diagrams/Component.png)
 
 ## Contributor
 22125050 - Nguyen Thanh Phuoc Loc

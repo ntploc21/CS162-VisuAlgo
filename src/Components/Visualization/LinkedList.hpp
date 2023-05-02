@@ -4,7 +4,7 @@
 #include "Container.hpp"
 #include "Node.hpp"
 
-namespace GUI {
+namespace GUIVisualizer {
     class LinkedList : public GUI::Container {
     public:
         enum ArrowType {
@@ -26,15 +26,15 @@ namespace GUI {
 
     protected:
         FontHolder* fonts;
-        std::vector< GUI::Node > list;
+        std::vector< Node > list;
         bool mDisplayHeadAndTail;
 
         Orientation mOrientation = Orientation::Horizontal;
-        GUI::Node::Shape mShape = GUI::Node::Shape::Circle;
+        Node::Shape mShape = Node::Shape::Circle;
 
     public:
-        void SetShape(GUI::Node::Shape shape);
-        GUI::Node::Shape GetShape() const;
+        void SetShape(Node::Shape shape);
+        Node::Shape GetShape() const;
 
     public:
         LinkedList();
@@ -49,10 +49,10 @@ namespace GUI {
         virtual void SetOrientation(Orientation orientation);
 
     public:
-        virtual std::vector< GUI::Node >& GetList();
-        virtual GUI::Node GenerateNode(int value);
+        virtual std::vector< Node >& GetList();
+        virtual Node GenerateNode(int value);
         virtual void Import(std::vector< int > nodes);
-        virtual void InsertNode(std::size_t index, GUI::Node node,
+        virtual void InsertNode(std::size_t index, Node node,
                                 bool rePosition = true);
         virtual void DeleteNode(std::size_t index, bool rePosition = true);
         virtual void Relayout();
@@ -60,6 +60,6 @@ namespace GUI {
     protected:
         Vector2 GetNodeDefaultPosition(std::size_t index);
     };
-};  // namespace GUI
+};      // namespace GUIVisualizer
 
 #endif  // COMPONENTS_VISUALIZATION_LINKEDLIST_HPP

@@ -3,8 +3,8 @@
 
 #include "LinkedList.hpp"
 
-namespace GUI {
-    class DoublyLinkedList : public GUI::LinkedList {
+namespace GUIVisualizer {
+    class DoublyLinkedList : public GUIVisualizer::LinkedList {
     public:
     private:
         std::vector< ArrowType > arrowStateNext;
@@ -21,8 +21,7 @@ namespace GUI {
 
     public:
         void Import(std::vector< int > nodes);
-        void InsertNode(std::size_t index, GUI::Node node,
-                        bool rePosition = true);
+        void InsertNode(std::size_t index, Node node, bool rePosition = true);
         void DeleteNode(std::size_t index, bool rePosition = true);
 
     public:
@@ -35,6 +34,6 @@ namespace GUI {
     private:
         void DrawArrow(Vector2 base, float t);
     };
-};  // namespace GUI
+};      // namespace GUIVisualizer
 
 #endif  // COMPONENTS_VISUALIZATION_DOUBLYLINKEDLIST_HPP

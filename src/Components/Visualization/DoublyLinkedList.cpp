@@ -3,14 +3,15 @@
 #include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
-GUI::DoublyLinkedList::DoublyLinkedList(FontHolder* fonts)
-    : GUI::LinkedList(fonts) {}
-GUI::DoublyLinkedList::DoublyLinkedList() : GUI::LinkedList() {}
-GUI::DoublyLinkedList::~DoublyLinkedList() {}
+GUIVisualizer::DoublyLinkedList::DoublyLinkedList(FontHolder* fonts)
+    : GUIVisualizer::LinkedList(fonts) {}
+GUIVisualizer::DoublyLinkedList::DoublyLinkedList()
+    : GUIVisualizer::LinkedList() {}
+GUIVisualizer::DoublyLinkedList::~DoublyLinkedList() {}
 
-bool GUI::DoublyLinkedList::isSelectable() const { return false; }
+bool GUIVisualizer::DoublyLinkedList::isSelectable() const { return false; }
 
-void GUI::DoublyLinkedList::Draw(Vector2 base, float t, bool init) {
+void GUIVisualizer::DoublyLinkedList::Draw(Vector2 base, float t, bool init) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     if (init)
@@ -22,13 +23,14 @@ void GUI::DoublyLinkedList::Draw(Vector2 base, float t, bool init) {
     }
 }
 
-void GUI::DoublyLinkedList::Import(std::vector< int > nodes) {
-    GUI::LinkedList::Import(nodes);
+void GUIVisualizer::DoublyLinkedList::Import(std::vector< int > nodes) {
+    GUIVisualizer::LinkedList::Import(nodes);
     ResetArrow();
 }
 
-void GUI::DoublyLinkedList::InsertNode(std::size_t index, GUI::Node node,
-                                       bool rePosition) {
+void GUIVisualizer::DoublyLinkedList::InsertNode(std::size_t index,
+                                                 GUIVisualizer::Node node,
+                                                 bool rePosition) {
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
     if (index + 1 < list.size()) {
@@ -48,29 +50,29 @@ void GUI::DoublyLinkedList::InsertNode(std::size_t index, GUI::Node node,
     }
 }
 
-void GUI::DoublyLinkedList::SetArrowTypeNext(std::size_t index,
-                                             ArrowType type) {
+void GUIVisualizer::DoublyLinkedList::SetArrowTypeNext(std::size_t index,
+                                                       ArrowType type) {
     if (!(index >= 0 && index < int(list.size()) - 1)) return;
     arrowStateNext[index] = type;
 }
 
-void GUI::DoublyLinkedList::SetArrowTypePrev(std::size_t index,
-                                             ArrowType type) {
+void GUIVisualizer::DoublyLinkedList::SetArrowTypePrev(std::size_t index,
+                                                       ArrowType type) {
     if (!(index >= 0 && index < int(list.size()) - 1)) return;
     arrowStatePrev[index] = type;
 }
 
-GUI::DoublyLinkedList::ArrowType GUI::DoublyLinkedList::GetArrowTypeNext(
-    std::size_t index) {
+GUIVisualizer::DoublyLinkedList::ArrowType
+GUIVisualizer::DoublyLinkedList::GetArrowTypeNext(std::size_t index) {
     return arrowStateNext[index];
 }
 
-GUI::DoublyLinkedList::ArrowType GUI::DoublyLinkedList::GetArrowTypePrev(
-    std::size_t index) {
+GUIVisualizer::DoublyLinkedList::ArrowType
+GUIVisualizer::DoublyLinkedList::GetArrowTypePrev(std::size_t index) {
     return arrowStatePrev[index];
 }
 
-void GUI::DoublyLinkedList::ResetArrow() {
+void GUIVisualizer::DoublyLinkedList::ResetArrow() {
     std::size_t resize = std::max(0, int(list.size() - 1));
     arrowStateNext.assign(resize, ArrowType::Default);
     arrowStateNext.resize(resize);
@@ -79,9 +81,10 @@ void GUI::DoublyLinkedList::ResetArrow() {
     arrowStatePrev.resize(resize);
 }
 
-void GUI::DoublyLinkedList::DrawArrow(Vector2 base, float t) {
+void GUIVisualizer::DoublyLinkedList::DrawArrow(Vector2 base, float t) {
     for (int i = 0; i < int(list.size()) - 1; i++) {
-        if (list[i].GetNodeState() == GUI::Node::State::Hide) continue;
+        if (list[i].GetNodeState() == GUIVisualizer::Node::State::Hide)
+            continue;
         if ((arrowStateNext[i] == ArrowType::Hidden &&
              arrowStatePrev[i] == ArrowType::Hidden) ||
             (arrowStateNext[i] == ArrowType::Skip &&
@@ -92,7 +95,8 @@ void GUI::DoublyLinkedList::DrawArrow(Vector2 base, float t) {
 
         int nextIndex;
         for (nextIndex = i + 1; nextIndex < list.size(); nextIndex++)
-            if (list[nextIndex].GetNodeState() == GUI::Node::State::Hide ||
+            if (list[nextIndex].GetNodeState() ==
+                    GUIVisualizer::Node::State::Hide ||
                 (arrowStateNext[nextIndex] != ArrowType::Skip &&
                  arrowStatePrev[nextIndex] != ArrowType::Skip))
                 break;
@@ -114,7 +118,8 @@ void GUI::DoublyLinkedList::DrawArrow(Vector2 base, float t) {
     }
 }
 
-void GUI::DoublyLinkedList::DeleteNode(std::size_t index, bool rePosition) {
+void GUIVisualizer::DoublyLinkedList::DeleteNode(std::size_t index,
+                                                 bool rePosition) {
     list.erase(list.begin() + index);
     if (!arrowStateNext.empty()) {
         arrowStateNext.erase(arrowStateNext.begin() +

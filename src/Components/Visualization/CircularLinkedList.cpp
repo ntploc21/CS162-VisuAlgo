@@ -3,15 +3,16 @@
 #include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
-GUI::CircularLinkedList::CircularLinkedList(FontHolder* fonts)
-    : GUI::LinkedList(fonts), circularArrowState(ArrowType::Default) {}
-GUI::CircularLinkedList::CircularLinkedList()
-    : GUI::LinkedList(), circularArrowState(ArrowType::Default) {}
-GUI::CircularLinkedList::~CircularLinkedList() {}
+GUIVisualizer::CircularLinkedList::CircularLinkedList(FontHolder* fonts)
+    : GUIVisualizer::LinkedList(fonts), circularArrowState(ArrowType::Default) {
+}
+GUIVisualizer::CircularLinkedList::CircularLinkedList()
+    : GUIVisualizer::LinkedList(), circularArrowState(ArrowType::Default) {}
+GUIVisualizer::CircularLinkedList::~CircularLinkedList() {}
 
-bool GUI::CircularLinkedList::isSelectable() const { return false; }
+bool GUIVisualizer::CircularLinkedList::isSelectable() const { return false; }
 
-void GUI::CircularLinkedList::Draw(Vector2 base, float t, bool init) {
+void GUIVisualizer::CircularLinkedList::Draw(Vector2 base, float t, bool init) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     if (init)
@@ -23,14 +24,15 @@ void GUI::CircularLinkedList::Draw(Vector2 base, float t, bool init) {
     }
 }
 
-void GUI::CircularLinkedList::Import(std::vector< int > nodes) {
-    GUI::LinkedList::Import(nodes);
+void GUIVisualizer::CircularLinkedList::Import(std::vector< int > nodes) {
+    GUIVisualizer::LinkedList::Import(nodes);
     SetCircularEnds(0, list.size() - 1);
     ResetArrow();
 }
 
-void GUI::CircularLinkedList::InsertNode(std::size_t index, GUI::Node node,
-                                         bool rePosition) {
+void GUIVisualizer::CircularLinkedList::InsertNode(std::size_t index,
+                                                   GUIVisualizer::Node node,
+                                                   bool rePosition) {
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
     if (index + 1 < list.size())
@@ -46,37 +48,38 @@ void GUI::CircularLinkedList::InsertNode(std::size_t index, GUI::Node node,
     }
 }
 
-void GUI::CircularLinkedList::SetCircularArrowType(ArrowType type) {
+void GUIVisualizer::CircularLinkedList::SetCircularArrowType(ArrowType type) {
     circularArrowState = type;
 }
 
-GUI::LinkedList::ArrowType GUI::CircularLinkedList::GetCircularArrowType(
-    std::size_t index) {
+GUIVisualizer::LinkedList::ArrowType
+GUIVisualizer::CircularLinkedList::GetCircularArrowType(std::size_t index) {
     return circularArrowState;
 }
 
-void GUI::CircularLinkedList::SetCircularEnds(std::size_t from,
-                                              std::size_t to) {
+void GUIVisualizer::CircularLinkedList::SetCircularEnds(std::size_t from,
+                                                        std::size_t to) {
     if (!(from >= 0 && from < list.size())) return;
     if (!(to >= 0 && to < list.size())) return;
     mCircularEnds = std::make_pair(from, to);
 }
 
 std::pair< std::size_t, std::size_t >
-GUI::CircularLinkedList::GetCircularEnds() {
+GUIVisualizer::CircularLinkedList::GetCircularEnds() {
     return mCircularEnds;
 }
 
-void GUI::CircularLinkedList::SetArrowType(std::size_t index, ArrowType type) {
+void GUIVisualizer::CircularLinkedList::SetArrowType(std::size_t index,
+                                                     ArrowType type) {
     if (index >= 0 && index < int(arrowState.size())) arrowState[index] = type;
 }
 
-GUI::LinkedList::ArrowType GUI::CircularLinkedList::GetArrowType(
-    std::size_t index) {
+GUIVisualizer::LinkedList::ArrowType
+GUIVisualizer::CircularLinkedList::GetArrowType(std::size_t index) {
     return arrowState[index];
 }
 
-void GUI::CircularLinkedList::ResetArrow() {
+void GUIVisualizer::CircularLinkedList::ResetArrow() {
     std::size_t resize = std::max(0, int(list.size() - 1));
     arrowState.assign(resize, ArrowType::Default);
     arrowState.resize(resize);
@@ -84,7 +87,7 @@ void GUI::CircularLinkedList::ResetArrow() {
     SetCircularEnds(0, list.size() - 1);
 }
 
-void GUI::CircularLinkedList::DrawArrow(Vector2 base, float t) {
+void GUIVisualizer::CircularLinkedList::DrawArrow(Vector2 base, float t) {
     for (int i = 0; i < int(list.size()) - 1; i++) {
         Vector2 start = list[i].GetPosition();
         Vector2 end = list[i + 1].GetPosition();
@@ -129,7 +132,8 @@ void GUI::CircularLinkedList::DrawArrow(Vector2 base, float t) {
     }
 }
 
-void GUI::CircularLinkedList::DeleteNode(std::size_t index, bool rePosition) {
+void GUIVisualizer::CircularLinkedList::DeleteNode(std::size_t index,
+                                                   bool rePosition) {
     list.erase(list.begin() + index);
     if (!arrowState.empty())
         arrowState.erase(arrowState.begin() +
