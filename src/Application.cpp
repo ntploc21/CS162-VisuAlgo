@@ -116,13 +116,13 @@ void Application::RegisterStates() {
 
 void Application::LoadResources() {
     // Load fonts
-    fonts->Load(Fonts::Default, "../assets/fonts/PTSans-Regular.ttf");
-    fonts->Load(Fonts::Default_Italic, "../assets/fonts/PTSans-Italic.ttf");
-    fonts->Load(Fonts::Default_Bold, "../assets/fonts/PTSans-Bold.ttf");
-    fonts->Load(Fonts::Silkscreen, "../assets/fonts/Silkscreen-Regular.ttf");
-    fonts->Load(Fonts::Consolas, "../assets/fonts/CONSOLA.TTF");
-    fonts->Load(Fonts::Courier, "../assets/fonts/CourierPrime-Regular.ttf");
-    fonts->Load(Fonts::Courier_Bold, "../assets/fonts/CourierPrime-Bold.ttf");
+    fonts->Load(Fonts::Default, "assets/fonts/PTSans-Regular.ttf");
+    fonts->Load(Fonts::Default_Italic, "assets/fonts/PTSans-Italic.ttf");
+    fonts->Load(Fonts::Default_Bold, "assets/fonts/PTSans-Bold.ttf");
+    fonts->Load(Fonts::Silkscreen, "assets/fonts/Silkscreen-Regular.ttf");
+    fonts->Load(Fonts::Consolas, "assets/fonts/CONSOLA.TTF");
+    fonts->Load(Fonts::Courier, "assets/fonts/CourierPrime-Regular.ttf");
+    fonts->Load(Fonts::Courier_Bold, "assets/fonts/CourierPrime-Bold.ttf");
 
     // ==============
 
