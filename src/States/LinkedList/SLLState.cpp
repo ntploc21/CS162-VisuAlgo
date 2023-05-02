@@ -2,16 +2,16 @@
 
 #include "Components/Visualization/Node.hpp"
 
-SLLState::SLLState(StateStack& stack, Context context)
+State::SLLState::SLLState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::SinglyLinkedList) {
     AddOperations();
     SLL = Algorithm::SinglyLinkedList(codeHighlighter, animController,
                                       context.fonts);
 }
 
-SLLState::~SLLState() {}
+State::SLLState::~SLLState() {}
 
-void SLLState::AddInsertOperation() {
+void State::SLLState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(
         new GUI::Button("Insert", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -74,7 +74,7 @@ void SLLState::AddInsertOperation() {
     operationList.AddOperation(buttonInsert, container);
 }
 
-void SLLState::AddInitializeOperation() {
+void State::SLLState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(
         new GUI::Button("Create", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -139,7 +139,7 @@ void SLLState::AddInitializeOperation() {
     operationList.AddOperation(buttonInitialize, container);
 }
 
-void SLLState::AddUpdateOperation() {
+void State::SLLState::AddUpdateOperation() {
     GUI::Button::Ptr buttonUpdate(
         new GUI::Button("Update", GetContext().fonts));
     /*  */
@@ -168,7 +168,7 @@ void SLLState::AddUpdateOperation() {
     operationList.AddOperation(buttonUpdate, container);
 }
 
-void SLLState::AddDeleteOperation() {
+void State::SLLState::AddDeleteOperation() {
     GUI::Button::Ptr buttonDelete(
         new GUI::Button("Delete", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -213,7 +213,7 @@ void SLLState::AddDeleteOperation() {
     operationList.AddOperation(buttonDelete, container);
 }
 
-void SLLState::AddSearchOperation() {
+void State::SLLState::AddSearchOperation() {
     GUI::Button::Ptr buttonSearch(
         new GUI::Button("Search", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());

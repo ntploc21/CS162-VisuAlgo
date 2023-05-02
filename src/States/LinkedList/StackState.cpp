@@ -2,16 +2,16 @@
 
 #include <iostream>
 
-StackState::StackState(StateStack& stack, Context context)
+State::StackState::StackState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::Stack) {
     AddOperations();
     mStackAlgorithm =
         Algorithm::Stack(codeHighlighter, animController, context.fonts);
 }
 
-StackState::~StackState() {}
+State::StackState::~StackState() {}
 
-void StackState::AddInsertOperation() {
+void State::StackState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
@@ -36,7 +36,7 @@ void StackState::AddInsertOperation() {
     operationList.AddOperation(buttonInsert, container);
 }
 
-void StackState::AddInitializeOperation() {
+void State::StackState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(
         new GUI::Button("Create", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -98,7 +98,7 @@ void StackState::AddInitializeOperation() {
     operationList.AddOperation(buttonInitialize, container);
 }
 
-void StackState::AddDeleteOperation() {
+void State::StackState::AddDeleteOperation() {
     GUI::Button::Ptr buttonDelete(new GUI::Button("Pop", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
@@ -114,7 +114,7 @@ void StackState::AddDeleteOperation() {
     operationList.AddOperation(buttonDelete, container);
 }
 
-void StackState::AddSearchOperation() {
+void State::StackState::AddSearchOperation() {
     GUI::Button::Ptr buttonSearch(new GUI::Button("Peek", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 

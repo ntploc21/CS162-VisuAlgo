@@ -4,16 +4,16 @@
 
 #include "Global.hpp"
 
-DLLState::DLLState(StateStack& stack, Context context)
+State::DLLState::DLLState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::DoublyLinkedList) {
     mDLL = Algorithm::DoublyLinkedList(codeHighlighter, animController,
                                        context.fonts);
     AddOperations();
 }
 
-DLLState::~DLLState() {}
+State::DLLState::~DLLState() {}
 
-void DLLState::AddInsertOperation() {
+void State::DLLState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(
         new GUI::Button("Insert", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -78,7 +78,7 @@ void DLLState::AddInsertOperation() {
     operationList.AddOperation(buttonInsert, container);
 }
 
-void DLLState::AddInitializeOperation() {
+void State::DLLState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(
         new GUI::Button("Create", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -140,7 +140,7 @@ void DLLState::AddInitializeOperation() {
     operationList.AddOperation(buttonInitialize, container);
 }
 
-void DLLState::AddUpdateOperation() {
+void State::DLLState::AddUpdateOperation() {
     GUI::Button::Ptr buttonUpdate(
         new GUI::Button("Update", GetContext().fonts));
     /*  */
@@ -170,7 +170,7 @@ void DLLState::AddUpdateOperation() {
     operationList.AddOperation(buttonUpdate, container);
 }
 
-void DLLState::AddDeleteOperation() {
+void State::DLLState::AddDeleteOperation() {
     GUI::Button::Ptr buttonDelete(
         new GUI::Button("Delete", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -210,7 +210,7 @@ void DLLState::AddDeleteOperation() {
     operationList.AddOperation(buttonDelete, container);
 }
 
-void DLLState::AddSearchOperation() {
+void State::DLLState::AddSearchOperation() {
     GUI::Button::Ptr buttonSearch(
         new GUI::Button("Search", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());

@@ -6,23 +6,25 @@
 #include "Components/Common/Card.hpp"
 #include "State.hpp"
 
-class HomepageState : public State {
-private:
-public:
-    HomepageState(StateStack& stack, Context context);
-    ~HomepageState();
-    void Draw();
-    bool Update(float dt);
+namespace State {
+    class HomepageState : public State {
+    private:
+    public:
+        HomepageState(StateStack& stack, Context context);
+        ~HomepageState();
+        void Draw();
+        bool Update(float dt);
 
-private:
-    void DrawIntroduction();
-    void InitCards();
-    void CreateCard(States::ID stateID, std::string title,
-                    Textures::ID textureID, int x, int y);
+    private:
+        void DrawIntroduction();
+        void InitCards();
+        void CreateCard(States::ID stateID, std::string title,
+                        Textures::ID textureID, int x, int y);
 
-private:
-    GUI::Container mCards;
-    bool hasInitializeCard;
-};
+    private:
+        GUI::Container mCards;
+        bool hasInitializeCard;
+    };
+};      // namespace State
 
 #endif  // STATES_HOMEPAGESTATE_HPP

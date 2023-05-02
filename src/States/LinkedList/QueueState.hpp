@@ -4,19 +4,21 @@
 #include "Algorithms/LinkedList/Queue.hpp"
 #include "LLState.hpp"
 
-class QueueState : public LLState< SLLAnimationController > {
-private:
-    Algorithm::Queue queue;
+namespace State {
+    class QueueState : public LLState< SLLAnimationController > {
+    private:
+        Algorithm::Queue queue;
 
-public:
-    void AddInsertOperation();
-    void AddInitializeOperation();
-    void AddDeleteOperation();
-    void AddSearchOperation();
+    public:
+        void AddInsertOperation();
+        void AddInitializeOperation();
+        void AddDeleteOperation();
+        void AddSearchOperation();
 
-public:
-    QueueState(StateStack& stack, Context context);
-    ~QueueState();
-};
+    public:
+        QueueState(StateStack& stack, Context context);
+        ~QueueState();
+    };
+};      // namespace State
 
 #endif  // STATES_LINKEDLIST_QUEUESTATE_HPP

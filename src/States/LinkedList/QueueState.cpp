@@ -4,15 +4,15 @@
 
 #include "Global.hpp"
 
-QueueState::QueueState(StateStack& stack, Context context)
+State::QueueState::QueueState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::Queue) {
     AddOperations();
     queue = Algorithm::Queue(codeHighlighter, animController, context.fonts);
 }
 
-QueueState::~QueueState() {}
+State::QueueState::~QueueState() {}
 
-void QueueState::AddInsertOperation() {
+void State::QueueState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(
         new GUI::Button("Enqueue", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -38,7 +38,7 @@ void QueueState::AddInsertOperation() {
     operationList.AddOperation(buttonInsert, container);
 }
 
-void QueueState::AddInitializeOperation() {
+void State::QueueState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(
         new GUI::Button("Create", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -101,7 +101,7 @@ void QueueState::AddInitializeOperation() {
     operationList.AddOperation(buttonInitialize, container);
 }
 
-void QueueState::AddDeleteOperation() {
+void State::QueueState::AddDeleteOperation() {
     GUI::Button::Ptr buttonDelete(
         new GUI::Button("Dequeue", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -118,7 +118,7 @@ void QueueState::AddDeleteOperation() {
     operationList.AddOperation(buttonDelete, container);
 }
 
-void QueueState::AddSearchOperation() {
+void State::QueueState::AddSearchOperation() {
     GUI::Button::Ptr buttonSearch(new GUI::Button("Peek", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 

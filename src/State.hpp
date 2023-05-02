@@ -13,42 +13,44 @@
 #include "Identifiers/DSInfo.hpp"
 #include "NonCopyable.hpp"
 
-class StateStack;
+namespace State {
+    class StateStack;
 
-class State : private NonCopyable< State > {
-public:
-    typedef std::unique_ptr< State > Ptr;
-    struct Context {
-        Context();
-        Context(FontHolder* fonts, TextureHolder* textures,
-                CategoryInfo* categories, DSInfo* dsInfo);
-        FontHolder* fonts;
-        TextureHolder* textures;
-        CategoryInfo* categories;
-        DSInfo* dsInfo;
+    class State : private NonCopyable< State > {
+    public:
+        typedef std::unique_ptr< State > Ptr;
+        struct Context {
+            Context();
+            Context(FontHolder* fonts, TextureHolder* textures,
+                    CategoryInfo* categories, DSInfo* dsInfo);
+            FontHolder* fonts;
+            TextureHolder* textures;
+            CategoryInfo* categories;
+            DSInfo* dsInfo;
+        };
+
+    public:
+        State(StateStack& stack, Context context);
+        virtual ~State();
+        virtual void Draw() = 0;
+        virtual bool Update(float dt) = 0;
+        // virtual bool handleEvent(Event event) = 0;
+
+    protected:
+        void RequestStackPush(States::ID stateID);
+        void RequestStackPop();
+        void RequestStackClear();
+        Context GetContext() const;
+
+        void InitNavigationBar();
+
+    private:
+        StateStack* mStack;
+        Context mContext;
+
+    protected:
+        GUI::NavigationBar navigation;
     };
-
-public:
-    State(StateStack& stack, Context context);
-    virtual ~State();
-    virtual void Draw() = 0;
-    virtual bool Update(float dt) = 0;
-    // virtual bool handleEvent(Event event) = 0;
-
-protected:
-    void RequestStackPush(States::ID stateID);
-    void RequestStackPop();
-    void RequestStackClear();
-    Context GetContext() const;
-
-    void InitNavigationBar();
-
-private:
-    StateStack* mStack;
-    Context mContext;
-
-protected:
-    GUI::NavigationBar navigation;
-};
+};      // namespace State
 
 #endif  // STATE_HPP

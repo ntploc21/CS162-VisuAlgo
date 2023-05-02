@@ -4,19 +4,21 @@
 #include "Algorithms/LinkedList/Stack.hpp"
 #include "LLState.hpp"
 
-class StackState : public LLState< SLLAnimationController > {
-private:
-    Algorithm::Stack mStackAlgorithm;
+namespace State {
+    class StackState : public LLState< SLLAnimationController > {
+    private:
+        Algorithm::Stack mStackAlgorithm;
 
-public:
-    void AddInsertOperation();
-    void AddInitializeOperation();
-    void AddDeleteOperation();
-    void AddSearchOperation();
+    public:
+        void AddInsertOperation();
+        void AddInitializeOperation();
+        void AddDeleteOperation();
+        void AddSearchOperation();
 
-public:
-    StackState(StateStack& stack, Context context);
-    ~StackState();
-};
+    public:
+        StackState(StateStack& stack, Context context);
+        ~StackState();
+    };
+};      // namespace State
 
 #endif  // STATES_LINKEDLIST_STACKSTATE_HPP

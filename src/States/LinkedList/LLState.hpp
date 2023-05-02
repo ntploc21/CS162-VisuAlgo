@@ -11,69 +11,72 @@
 #include "Settings.hpp"
 #include "State.hpp"
 
-template< typename T >
-class LLState : public State {
-public:
-    struct IntegerInput {
-        std::string label;
-        int width;
-        int minValue;
-        int maxValue;
+namespace State {
+    template< typename T >
+    class LLState : public State {
+    public:
+        struct IntegerInput {
+            std::string label;
+            int width;
+            int minValue;
+            int maxValue;
+        };
+
+    public:
+        LLState(StateStack& stack, Context context,
+                DataStructures::ID activeDS);
+        ~LLState();
+        virtual void Draw();
+        virtual bool Update(float dt);
+        virtual void SetCurrentAction(std::string action);
+        virtual void SetCurrentError(std::string error);
+        virtual void ClearError();
+        virtual void ClearAction();
+        virtual void Success();
+
+    protected:
+        virtual void DrawCurrentActionText();
+        virtual void DrawCurrentErrorText();
+
+    protected:
+        void InitNavigationBar();
+        Context mContext;
+
+    protected:
+        GUI::CodeHighlighter::Ptr codeHighlighter;
+        GUI::Footer< T > footer;
+        std::string mCurrentAction;
+        std::string mCurrentError;
+
+    protected:
+        typename T::Ptr animController;
+
+    protected:
+        GUI::OperationList operationList;
+        virtual void AddOperations();  // DO NOT OVERRIDE THIS FUNCTION
+        virtual void AddInitializeOperation();
+        virtual void AddInsertOperation();
+        virtual void AddDeleteOperation();
+        virtual void AddUpdateOperation();
+        virtual void AddSearchOperation();
+
+    protected:
+        virtual void AddNoFieldOperationOption(
+            GUI::OperationContainer::Ptr container, std::string title,
+            std::function< void() > action);
+        virtual void AddIntFieldOperationOption(
+            GUI::OperationContainer::Ptr container, std::string title,
+            Core::Deque< IntegerInput > fields,
+            std::function< void(std::map< std::string, std::string >) > action);
+        virtual void AddStringFieldOption(
+            GUI::OperationContainer::Ptr container, std::string title,
+            std::string label,
+            std::function< void(std::map< std::string, std::string >) > action);
+
+    private:
+        DataStructures::ID activeDS;
     };
-
-public:
-    LLState(StateStack& stack, Context context, DataStructures::ID activeDS);
-    ~LLState();
-    virtual void Draw();
-    virtual bool Update(float dt);
-    virtual void SetCurrentAction(std::string action);
-    virtual void SetCurrentError(std::string error);
-    virtual void ClearError();
-    virtual void ClearAction();
-    virtual void Success();
-
-protected:
-    virtual void DrawCurrentActionText();
-    virtual void DrawCurrentErrorText();
-
-protected:
-    void InitNavigationBar();
-    Context mContext;
-
-protected:
-    GUI::CodeHighlighter::Ptr codeHighlighter;
-    GUI::Footer< T > footer;
-    std::string mCurrentAction;
-    std::string mCurrentError;
-
-protected:
-    typename T::Ptr animController;
-
-protected:
-    GUI::OperationList operationList;
-    virtual void AddOperations();  // DO NOT OVERRIDE THIS FUNCTION
-    virtual void AddInitializeOperation();
-    virtual void AddInsertOperation();
-    virtual void AddDeleteOperation();
-    virtual void AddUpdateOperation();
-    virtual void AddSearchOperation();
-
-protected:
-    virtual void AddNoFieldOperationOption(
-        GUI::OperationContainer::Ptr container, std::string title,
-        std::function< void() > action);
-    virtual void AddIntFieldOperationOption(
-        GUI::OperationContainer::Ptr container, std::string title,
-        Core::Deque< IntegerInput > fields,
-        std::function< void(std::map< std::string, std::string >) > action);
-    virtual void AddStringFieldOption(
-        GUI::OperationContainer::Ptr container, std::string title,
-        std::string label,
-        std::function< void(std::map< std::string, std::string >) > action);
-
-private:
-    DataStructures::ID activeDS;
-};
+};  // namespace State
 
 #include <iostream>
 
@@ -82,8 +85,8 @@ private:
 #include "Global.hpp"
 
 template< typename T >
-LLState< T >::LLState(StateStack& stack, Context context,
-                      DataStructures::ID activeDS)
+State::LLState< T >::LLState(StateStack& stack, Context context,
+                             DataStructures::ID activeDS)
     : State(stack, context), activeDS(activeDS),
       codeHighlighter(new GUI::CodeHighlighter(context.fonts)),
       footer(GUI::Footer< T >()), animController(new T()) {
@@ -97,10 +100,10 @@ LLState< T >::LLState(StateStack& stack, Context context,
 }
 
 template< typename T >
-LLState< T >::~LLState() {}
+State::LLState< T >::~LLState() {}
 
 template< typename T >
-inline void LLState< T >::Draw() {
+inline void State::LLState< T >::Draw() {
     const Color sidebarColor =
         Settings::getInstance().getColor(ColorTheme::NavigationBar_Background);
     DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, sidebarColor);
@@ -119,7 +122,7 @@ inline void LLState< T >::Draw() {
 }
 
 template< typename T >
-bool LLState< T >::Update(float dt) {
+bool State::LLState< T >::Update(float dt) {
     animController->Update(dt);
     codeHighlighter->Highlight(
         animController->GetAnimation().GetHighlightedLine());
@@ -129,34 +132,34 @@ bool LLState< T >::Update(float dt) {
 }
 
 template< typename T >
-inline void LLState< T >::SetCurrentAction(std::string action) {
+inline void State::LLState< T >::SetCurrentAction(std::string action) {
     mCurrentAction = action;
 }
 
 template< typename T >
-inline void LLState< T >::SetCurrentError(std::string error) {
+inline void State::LLState< T >::SetCurrentError(std::string error) {
     mCurrentError = error;
 }
 
 template< typename T >
-inline void LLState< T >::ClearError() {
+inline void State::LLState< T >::ClearError() {
     mCurrentError.clear();
 }
 
 template< typename T >
-inline void LLState< T >::ClearAction() {
+inline void State::LLState< T >::ClearAction() {
     mCurrentAction.clear();
 }
 
 template< typename T >
-inline void LLState< T >::Success() {
+inline void State::LLState< T >::Success() {
     operationList.ToggleOperations();
     SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     ClearError();
 }
 
 template< typename T >
-inline void LLState< T >::DrawCurrentActionText() {
+inline void State::LLState< T >::DrawCurrentActionText() {
     const Color textColor = Settings::getInstance().getColor(ColorTheme::Text);
 
     float rightAlignment = global::SCREEN_WIDTH - 50;
@@ -171,7 +174,7 @@ inline void LLState< T >::DrawCurrentActionText() {
 }
 
 template< typename T >
-inline void LLState< T >::DrawCurrentErrorText() {
+inline void State::LLState< T >::DrawCurrentErrorText() {
     const Color errorTextColor =
         Settings::getInstance().getColor(ColorTheme::Visualizer_ErrorText);
     Font font = GetContext().fonts->Get(Fonts::Default_Bold);
@@ -185,7 +188,7 @@ inline void LLState< T >::DrawCurrentErrorText() {
 }
 
 template< typename T >
-void LLState< T >::InitNavigationBar() {
+void State::LLState< T >::InitNavigationBar() {
     navigation.SetVisableTitle(true);
     auto info = GetContext().categories->Get(Category::LinkedList);
     navigation.SetCategory(info.categoryName);
@@ -197,7 +200,7 @@ void LLState< T >::InitNavigationBar() {
 }
 
 template< typename T >
-void LLState< T >::AddOperations() {
+void State::LLState< T >::AddOperations() {
     AddInitializeOperation();
     AddInsertOperation();
     AddDeleteOperation();
@@ -210,22 +213,22 @@ void LLState< T >::AddOperations() {
 }
 
 template< typename T >
-void LLState< T >::AddInitializeOperation() {}
+void State::LLState< T >::AddInitializeOperation() {}
 
 template< typename T >
-void LLState< T >::AddInsertOperation() {}
+void State::LLState< T >::AddInsertOperation() {}
 
 template< typename T >
-void LLState< T >::AddDeleteOperation() {}
+void State::LLState< T >::AddDeleteOperation() {}
 
 template< typename T >
-void LLState< T >::AddUpdateOperation() {}
+void State::LLState< T >::AddUpdateOperation() {}
 
 template< typename T >
-void LLState< T >::AddSearchOperation() {}
+void State::LLState< T >::AddSearchOperation() {}
 
 template< typename T >
-void LLState< T >::AddNoFieldOperationOption(
+void State::LLState< T >::AddNoFieldOperationOption(
     GUI::OperationContainer::Ptr container, std::string title,
     std::function< void() > action) {
     GUI::OptionInputField::Ptr button(
@@ -237,7 +240,7 @@ void LLState< T >::AddNoFieldOperationOption(
 }
 
 template< typename T >
-void LLState< T >::AddIntFieldOperationOption(
+void State::LLState< T >::AddIntFieldOperationOption(
     GUI::OperationContainer::Ptr container, std::string title,
     Core::Deque< IntegerInput > fields,
     std::function< void(std::map< std::string, std::string >) > action) {
@@ -260,7 +263,7 @@ void LLState< T >::AddIntFieldOperationOption(
 }
 
 template< typename T >
-void LLState< T >::AddStringFieldOption(
+void State::LLState< T >::AddStringFieldOption(
     GUI::OperationContainer::Ptr container, std::string title,
     std::string label,
     std::function< void(std::map< std::string, std::string >) > action) {
