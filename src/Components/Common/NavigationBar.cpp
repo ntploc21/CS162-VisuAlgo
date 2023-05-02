@@ -6,9 +6,9 @@
 #include "Settings.hpp"
 
 GUI::NavigationBar::NavigationBar(FontHolder* fonts)
-    : fonts(fonts), hasTitle(false), atSettings(false) {}
+    : fonts(fonts), hasTitle(false) {}
 
-GUI::NavigationBar::NavigationBar() : hasTitle(false), atSettings(false) {}
+GUI::NavigationBar::NavigationBar() : hasTitle(false) {}
 
 bool GUI::NavigationBar::isSelectable() const { return false; }
 
@@ -23,13 +23,8 @@ void GUI::NavigationBar::Draw(Vector2 base) {
         toLink(homepageID);
         willGotoNextScreen = true;
     }
-    if (DrawSettings()) {
-        if (atSettings)
-            backToPrvState();
-        else {
-            toLink(settingsID);
-            willGotoNextScreen = true;
-        }
+    if (DrawSwitchTheme()) {
+        Settings::getInstance().SwitchTheme();
     }
 
     if (hasTitle) {
@@ -45,17 +40,9 @@ void GUI::NavigationBar::Draw(Vector2 base) {
 
 void GUI::NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
 
-void GUI::NavigationBar::SetSettingsID(States::ID id) { settingsID = id; }
-
 void GUI::NavigationBar::SetDirectLink(std::function< void(States::ID) > link) {
     toLink = link;
 }
-
-void GUI::NavigationBar::SetBackToPreviousLink(std::function< void() > link) {
-    backToPrvState = link;
-}
-
-void GUI::NavigationBar::AtSettings(bool settings) { atSettings = settings; }
 
 void GUI::NavigationBar::SetCategory(std::string category) {
     currentCategory = category;
@@ -139,15 +126,14 @@ States::ID GUI::NavigationBar::DrawTitles() {
     return States::None;
 }
 
-bool GUI::NavigationBar::DrawSettings() {
-    std::string text = "Settings";
-    if (atSettings) text = "Back";
+bool GUI::NavigationBar::DrawSwitchTheme() {
+    std::string text = "Switch theme";
     Font settingsFont = fonts->Get(Fonts::Silkscreen);
     float spanWidth = MeasureTextEx(settingsFont, text.c_str(), 24, -0.1).x;
     Color settingsColor = (Color){25, 125, 84, 255};
 
     float paddingX = 8, paddingY = 2;
-    float posX = global::SCREEN_WIDTH - 125, posY = 8;
+    float posX = global::SCREEN_WIDTH - spanWidth - 20, posY = 8;
     hoverBounds["settings-bound"] =
         (Rectangle){posX - paddingX, posY - paddingY, spanWidth + paddingX * 2,
                     24 + 2 * paddingY};

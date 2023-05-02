@@ -11,6 +11,7 @@
 
 class Settings : private NonCopyable< Settings > {
 private:
+    std::size_t mCurrentColorTheme;
     std::map< std::size_t, Color > mColors;
 
 private:
@@ -23,13 +24,15 @@ public:
 
 public:
     static Settings& getInstance();
-    void LoadDefaultColors();
-
-    Color& getColor(std::size_t id);
     Color getColor(std::size_t id) const;
+    void Load();
+    void SwitchTheme();
 
-    void SaveToFile(const std::string& path);
-    void LoadFromFile(const std::string& path);
+private:
+    void LoadDefaultColors();
+    void LoadDarkColors();
+    // void SaveToFile(const std::string& path);
+    // void LoadFromFile(const std::string& path);
 };
 
 #endif  // SETTINGS_HPP_

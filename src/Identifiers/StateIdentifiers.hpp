@@ -5,7 +5,6 @@ namespace States {
     enum ID {
         None,
         Homepage,
-        Settings,
         StaticArray,
         DynamicArray,
         SinglyLinkedList,

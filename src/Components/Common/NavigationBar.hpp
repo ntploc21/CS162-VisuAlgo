@@ -17,11 +17,7 @@ namespace GUI {
         ~NavigationBar();
 
         void SetHomepageID(States::ID id);
-        void SetSettingsID(States::ID id);
         void SetDirectLink(std::function< void(States::ID) > link);
-        void SetBackToPreviousLink(std::function< void() > link);
-
-        void AtSettings(bool settings);
 
         void SetCategory(std::string category);
 
@@ -37,7 +33,7 @@ namespace GUI {
         void Draw(Vector2 base = (Vector2){0, 0});
 
     private:
-        bool DrawSettings();
+        bool DrawSwitchTheme();
         bool DrawLogo();
         States::ID DrawTitles();
 
@@ -56,15 +52,12 @@ namespace GUI {
 
     private:
         std::function< void(States::ID) > toLink;
-        std::function< void() > backToPrvState;
         States::ID homepageID;
-        States::ID settingsID;
-        bool atSettings;
 
     private:
         std::map< std::string, Rectangle > hoverBounds;
         bool isHover;
     };
-};  // namespace GUI
+};      // namespace GUI
 
 #endif  // COMPONENTS_NAVIGATIONBAR_HPP

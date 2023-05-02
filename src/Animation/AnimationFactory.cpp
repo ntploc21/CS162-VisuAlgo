@@ -2,8 +2,9 @@
 
 #include <math.h>
 
-#include <iostream>
 #include <vector>
+
+#include "Settings.hpp"
 
 float AnimationFactory::BounceOut(float t) {
     // -- Bounce out
@@ -33,6 +34,7 @@ void AnimationFactory::DrawDirectionalArrow(Vector2 start, Vector2 end,
                                             bool active, float t) {
     if (start.x == end.x && start.y == end.y) return;
     if (t < 0.20f) return;
+
     ReCalculateEnds(start, end, 20);
 
     float d = Dist(start, end);
@@ -50,10 +52,15 @@ void AnimationFactory::DrawDirectionalArrow(Vector2 start, Vector2 end,
 
     end = (Vector2){end.x - unitVector.x, end.y - unitVector.y};
 
-    Color lineColor = (active ? (Color){255, 138, 39, 255} : BLACK);
+    Color lineColor = (active ? Settings::getInstance().getColor(
+                                    ColorTheme::Visualizer_Arrow_Active)
+                              : Settings::getInstance().getColor(
+                                    ColorTheme::Visualizer_Arrow_Default));
 
     DrawLineEx(start, end, 3, lineColor);
-    DrawTriangle(arrowP1, arrowPoint, arrowP2, BLACK);
+    DrawTriangle(
+        arrowP1, arrowPoint, arrowP2,
+        Settings::getInstance().getColor(ColorTheme::Visualizer_Arrow_Default));
 }
 
 float AnimationFactory::Dist(Vector2 p1, Vector2 p2) {
@@ -87,7 +94,9 @@ void AnimationFactory::DrawActiveArrow(Vector2 start, Vector2 end, float t) {
 
     float d = Dist(start, end);
     end = (Vector2){start.x + side.x * t, start.y + side.y * t};
-    DrawLineEx(start, end, 3, (Color){255, 138, 39, 255});
+    DrawLineEx(
+        start, end, 3,
+        Settings::getInstance().getColor(ColorTheme::Visualizer_Arrow_Active));
 }
 
 void AnimationFactory::DrawDoubleDirectionalArrow(Vector2 start, Vector2 end,
@@ -151,7 +160,10 @@ void AnimationFactory::DrawCircularArrow(Vector2 start, Vector2 end,
     // if (start.x == end.x)
     start.x -= 20, end.x += 20;
 
-    Color lineColor = (active ? (Color){255, 138, 39, 255} : BLACK);
+    Color lineColor = (active ? Settings::getInstance().getColor(
+                                    ColorTheme::Visualizer_Arrow_Active)
+                              : Settings::getInstance().getColor(
+                                    ColorTheme::Visualizer_Arrow_Default));
 
     float maxY = std::max(start.y, end.y);
 

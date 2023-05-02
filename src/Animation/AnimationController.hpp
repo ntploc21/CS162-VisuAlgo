@@ -3,6 +3,7 @@
 
 #include "AnimationState.hpp"
 #include "Container.hpp"
+#include "Core/Deque.hpp"
 
 namespace Animation {
     template< typename T = SLLAnimation >

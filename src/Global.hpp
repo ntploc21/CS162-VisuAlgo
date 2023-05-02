@@ -10,6 +10,4 @@ namespace global {
     const std::string kTitle = "CS162 - VisuAlgo Clone";
 
     const std::string favicon = "assets/images/favicon.png";
-
-    const std::string defaultColorPath = "assets/themes/default-theme.dat";
 }  // namespace global

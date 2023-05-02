@@ -15,7 +15,6 @@
 #include "States/LinkedList/QueueState.hpp"
 #include "States/LinkedList/SLLState.hpp"
 #include "States/LinkedList/StackState.hpp"
-#include "States/SettingsState.hpp"
 
 std::vector< bool > GUI::InputField::fields(std::vector< bool >(0));
 
@@ -31,7 +30,6 @@ void Application::Init() {
     UnloadImage(favicon);
 
     Settings& settings = Settings::getInstance();
-    settings.LoadDefaultColors();
     // SetTargetFPS(global::kFramesPerSecond);
 
     mStack.PushState(States::Homepage);
@@ -107,7 +105,6 @@ void Application::RegisterStates() {
 
     // Register States
     mStack.RegisterState< HomepageState >(States::Homepage);
-    mStack.RegisterState< SettingsState >(States::Settings);
     mStack.RegisterState< StaticArrayState >(States::StaticArray);
     mStack.RegisterState< DynamicArrayState >(States::DynamicArray);
     mStack.RegisterState< SLLState >(States::SinglyLinkedList);
@@ -146,7 +143,7 @@ void Application::LoadResources() {
     images->Load(Textures::Favicon, "assets/images/favicon.png");
 
     // ===============
-    Settings::getInstance().LoadDefaultColors();
+    Settings::getInstance().Load();
 }
 
 Application::Application()

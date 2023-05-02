@@ -105,7 +105,6 @@ add_executable(${PROJECT_NAME}
 
     # States
     src/States/HomepageState.cpp
-    src/States/SettingsState.cpp
     ## Array
     src/States/Array/StaticArrayState.cpp
     src/States/Array/DynamicArrayState.cpp
