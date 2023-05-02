@@ -36,7 +36,7 @@ void StaticArrayState::AddInsertOperation() {
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
-    /* Insert head */
+    /* Insert front */
     AddIntFieldOperationOption(
         container, "Front", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
@@ -66,7 +66,7 @@ void StaticArrayState::AddInsertOperation() {
             Success();
         });
 
-    /* Insert tail */
+    /* Insert back */
     AddIntFieldOperationOption(
         container, "Back", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {

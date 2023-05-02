@@ -85,8 +85,7 @@ void DynamicArrayState::AddInsertOperation() {
 
             int v = std::stoi(input["v = "]);
             mDynamicArray.PushBack(v);
-            SetCurrentAction("Push v = " + input["v = "] +
-                             " at back (i = length)");
+            SetCurrentAction("Push v = " + input["v = "] + " at back (i = length)");
             Success();
         });
 
