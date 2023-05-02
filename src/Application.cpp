@@ -104,14 +104,14 @@ void Application::RegisterStates() {
                       Category::LinkedList, Textures::Queue, "Queue", "Queue"});
 
     // Register States
-    mStack.RegisterState< HomepageState >(States::Homepage);
-    mStack.RegisterState< StaticArrayState >(States::StaticArray);
-    mStack.RegisterState< DynamicArrayState >(States::DynamicArray);
-    mStack.RegisterState< SLLState >(States::SinglyLinkedList);
-    mStack.RegisterState< DLLState >(States::DoublyLinkedList);
-    mStack.RegisterState< CLLState >(States::CircularLinkedList);
-    mStack.RegisterState< StackState >(States::Stack);
-    mStack.RegisterState< QueueState >(States::Queue);
+    mStack.RegisterState< State::HomepageState >(States::Homepage);
+    mStack.RegisterState< State::StaticArrayState >(States::StaticArray);
+    mStack.RegisterState< State::DynamicArrayState >(States::DynamicArray);
+    mStack.RegisterState< State::SLLState >(States::SinglyLinkedList);
+    mStack.RegisterState< State::DLLState >(States::DoublyLinkedList);
+    mStack.RegisterState< State::CLLState >(States::CircularLinkedList);
+    mStack.RegisterState< State::StackState >(States::Stack);
+    mStack.RegisterState< State::QueueState >(States::Queue);
 }
 
 void Application::LoadResources() {
@@ -147,7 +147,7 @@ void Application::LoadResources() {
 }
 
 Application::Application()
-    : mStack(State::Context(
+    : mStack(State::State::Context(
           fonts = new FontHolder(), images = new TextureHolder(),
           categories = new CategoryInfo(), dsInfo = new DSInfo())) {
     RegisterStates();

@@ -4,20 +4,22 @@
 #include "Algorithms/LinkedList/DoublyLinkedList.hpp"
 #include "LLState.hpp"
 
-class DLLState : public LLState< DLLAnimationController > {
-private:
-    Algorithm::DoublyLinkedList mDLL;
+namespace State {
+    class DLLState : public LLState< DLLAnimationController > {
+    private:
+        Algorithm::DoublyLinkedList mDLL;
 
-public:
-    void AddInsertOperation();
-    void AddInitializeOperation();
-    void AddUpdateOperation();
-    void AddDeleteOperation();
-    void AddSearchOperation();
+    public:
+        void AddInsertOperation();
+        void AddInitializeOperation();
+        void AddUpdateOperation();
+        void AddDeleteOperation();
+        void AddSearchOperation();
 
-public:
-    DLLState(StateStack& stack, Context context);
-    ~DLLState();
-};
+    public:
+        DLLState(StateStack& stack, Context context);
+        ~DLLState();
+    };
+};      // namespace State
 
 #endif  // STATES_LINKEDLIST_DLLSTATE_HPP

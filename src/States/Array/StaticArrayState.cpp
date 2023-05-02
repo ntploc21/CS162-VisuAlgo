@@ -5,7 +5,7 @@
 #include "Global.hpp"
 #include "Utils/Utils.hpp"
 
-StaticArrayState::StaticArrayState(StateStack& stack, Context context)
+State::StaticArrayState::StaticArrayState(StateStack& stack, Context context)
     : ArrayState(stack, context, DataStructures::StaticArray) {
     AddOperations();
 
@@ -13,9 +13,9 @@ StaticArrayState::StaticArrayState(StateStack& stack, Context context)
         Algorithm::StaticArray(codeHighlighter, animController, context.fonts);
 }
 
-StaticArrayState::~StaticArrayState() {}
+State::StaticArrayState::~StaticArrayState() {}
 
-void StaticArrayState::AddInsertOperation() {
+void State::StaticArrayState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
@@ -66,7 +66,7 @@ void StaticArrayState::AddInsertOperation() {
     operationList.AddOperation(buttonInsert, container);
 }
 
-void StaticArrayState::AddInitializeOperation() {
+void State::StaticArrayState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(
         new GUI::Button("Create", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -121,7 +121,7 @@ void StaticArrayState::AddInitializeOperation() {
     operationList.AddOperation(buttonInitialize, container);
 }
 
-void StaticArrayState::AddUpdateOperation() {
+void State::StaticArrayState::AddUpdateOperation() {
     GUI::Button::Ptr buttonUpdate(
         new GUI::Button("Update", GetContext().fonts));
     /*  */
@@ -149,7 +149,7 @@ void StaticArrayState::AddUpdateOperation() {
     operationList.AddOperation(buttonUpdate, container);
 }
 
-void StaticArrayState::AddDeleteOperation() {
+void State::StaticArrayState::AddDeleteOperation() {
     GUI::Button::Ptr buttonDelete(new GUI::Button("Pop", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
@@ -187,7 +187,7 @@ void StaticArrayState::AddDeleteOperation() {
     operationList.AddOperation(buttonDelete, container);
 }
 
-void StaticArrayState::AddSearchOperation() {
+void State::StaticArrayState::AddSearchOperation() {
     GUI::Button::Ptr buttonSearch(
         new GUI::Button("Search", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -209,7 +209,7 @@ void StaticArrayState::AddSearchOperation() {
     operationList.AddOperation(buttonSearch, container);
 }
 
-void StaticArrayState::AddAccessOperation() {
+void State::StaticArrayState::AddAccessOperation() {
     GUI::Button::Ptr buttonSearch(
         new GUI::Button("Access", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());

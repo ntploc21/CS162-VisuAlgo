@@ -23,7 +23,7 @@ private:
     // Image favicon;
 
 private:
-    StateStack mStack;
+    State::StateStack mStack;
     FontHolder* fonts;
     TextureHolder* images;
     CategoryInfo* categories;

@@ -5,23 +5,23 @@
 #include "Global.hpp"
 #include "Settings.hpp"
 
-HomepageState::HomepageState(StateStack& stack, Context context)
+State::HomepageState::HomepageState(StateStack& stack, Context context)
     : State(stack, context) {
     InitCards();
 }
 
-HomepageState::~HomepageState() {}
+State::HomepageState::~HomepageState() {}
 
-void HomepageState::Draw() {
+void State::HomepageState::Draw() {
     DrawIntroduction();
     navigation.Draw();
 
     mCards.Draw();
 }
 
-bool HomepageState::Update(float dt) { return true; }
+bool State::HomepageState::Update(float dt) { return true; }
 
-void HomepageState::DrawIntroduction() {
+void State::HomepageState::DrawIntroduction() {
     const Color headingColor1 =
         Settings::getInstance().getColor(ColorTheme::Logo2FirstPart);
     const Color headingColor2 =
@@ -77,8 +77,8 @@ void HomepageState::DrawIntroduction() {
     DrawTextEx(font, msg.c_str(), {x, y}, fontSize, 0, textColor);
 }
 
-void HomepageState::CreateCard(States::ID stateID, std::string title,
-                               Textures::ID textureID, int x, int y) {
+void State::HomepageState::CreateCard(States::ID stateID, std::string title,
+                                      Textures::ID textureID, int x, int y) {
     std::shared_ptr< GUI::Card > card(
         new GUI::Card(title.c_str(), GetContext().textures->Get(textureID),
                       GetContext().fonts));
@@ -88,7 +88,7 @@ void HomepageState::CreateCard(States::ID stateID, std::string title,
     mCards.pack(card);
 }
 
-void HomepageState::InitCards() {
+void State::HomepageState::InitCards() {
     mCards.SetPosition(60, 300);
     CreateCard(States::StaticArray, "Static Array", Textures::StaticArray, 0,
                0);

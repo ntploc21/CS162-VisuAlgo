@@ -3,40 +3,40 @@
 #include <cassert>
 #include <iostream>
 
-StateStack::StateStack(State::Context context)
+State::StateStack::StateStack(State::Context context)
     : mStack(), mPendingList(), mContext(context), mFactories() {}
 
-void StateStack::Update(float dt) {
+void State::StateStack::Update(float dt) {
     for (auto it = mStack.rbegin(); it != mStack.rend(); it++) {
         if (!(*it)->Update(dt)) break;
     }
     ApplyPendingChanges();
 }
 
-void StateStack::Draw() {
+void State::StateStack::Draw() {
     auto it = mStack.rbegin();
     (*it)->Draw();
 }
 
-State::Ptr StateStack::createState(States::ID stateID) {
+State::State::Ptr State::StateStack::createState(States::ID stateID) {
     auto found = mFactories.find(stateID);
     assert(found != mFactories.end());
     return found->second();
 }
 
-void StateStack::PushState(States::ID stateID) {
+void State::StateStack::PushState(States::ID stateID) {
     mPendingList.push_back(PendingChange(Action::Push, stateID));
 }
 
-void StateStack::PopState() {
+void State::StateStack::PopState() {
     mPendingList.push_back(PendingChange(Action::Pop));
 }
 
-void StateStack::ClearStates() {
+void State::StateStack::ClearStates() {
     mPendingList.push_back(PendingChange(Action::Clear));
 }
 
-void StateStack::ApplyPendingChanges() {
+void State::StateStack::ApplyPendingChanges() {
     for (PendingChange change : mPendingList) {
         switch (change.action) {
             case Action::Push:
@@ -56,9 +56,10 @@ void StateStack::ApplyPendingChanges() {
     mPendingList.clear();
 }
 
-bool StateStack::IsEmpty() const { return mPendingList.empty(); }
+bool State::StateStack::IsEmpty() const { return mPendingList.empty(); }
 
-StateStack::PendingChange::PendingChange(Action action, States::ID stateID)
+State::StateStack::PendingChange::PendingChange(Action action,
+                                                States::ID stateID)
     : action(action), stateID(stateID) {}
 
-StateStack::PendingChange::PendingChange() {}
+State::StateStack::PendingChange::PendingChange() {}

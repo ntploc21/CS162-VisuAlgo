@@ -4,7 +4,7 @@
 
 #include "Global.hpp"
 
-DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
+State::DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
     : ArrayState(stack, context, DataStructures::DynamicArray) {
     mDynamicArray =
         Algorithm::DynamicArray(codeHighlighter, animController, context.fonts);
@@ -12,9 +12,9 @@ DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
     AddOperations();
 }
 
-DynamicArrayState::~DynamicArrayState() {}
+State::DynamicArrayState::~DynamicArrayState() {}
 
-void DynamicArrayState::AddInsertOperation() {
+void State::DynamicArrayState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
@@ -79,7 +79,7 @@ void DynamicArrayState::AddInsertOperation() {
     operationList.AddOperation(buttonInsert, container);
 }
 
-void DynamicArrayState::AddInitializeOperation() {
+void State::DynamicArrayState::AddInitializeOperation() {
     GUI::Button::Ptr buttonInitialize(
         new GUI::Button("Create", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -142,7 +142,7 @@ void DynamicArrayState::AddInitializeOperation() {
     operationList.AddOperation(buttonInitialize, container);
 }
 
-void DynamicArrayState::AddUpdateOperation() {
+void State::DynamicArrayState::AddUpdateOperation() {
     GUI::Button::Ptr buttonUpdate(
         new GUI::Button("Update", GetContext().fonts));
     /*  */
@@ -170,7 +170,7 @@ void DynamicArrayState::AddUpdateOperation() {
     operationList.AddOperation(buttonUpdate, container);
 }
 
-void DynamicArrayState::AddDeleteOperation() {
+void State::DynamicArrayState::AddDeleteOperation() {
     GUI::Button::Ptr buttonDelete(new GUI::Button("Pop", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
 
@@ -208,7 +208,7 @@ void DynamicArrayState::AddDeleteOperation() {
     operationList.AddOperation(buttonDelete, container);
 }
 
-void DynamicArrayState::AddSearchOperation() {
+void State::DynamicArrayState::AddSearchOperation() {
     GUI::Button::Ptr buttonSearch(
         new GUI::Button("Search", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -230,7 +230,7 @@ void DynamicArrayState::AddSearchOperation() {
     operationList.AddOperation(buttonSearch, container);
 }
 
-void DynamicArrayState::AddAccessOperation() {
+void State::DynamicArrayState::AddAccessOperation() {
     GUI::Button::Ptr buttonSearch(
         new GUI::Button("Access", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
