@@ -1,9 +1,9 @@
 #include "NavigationBar.hpp"
 
-#include "Global.hpp"
-// #include "raylib.h"
-// #define RAYGUI_STATIC
 #include <iostream>
+
+#include "Global.hpp"
+#include "Settings.hpp"
 
 GUI::NavigationBar::NavigationBar(FontHolder* fonts)
     : fonts(fonts), hasTitle(false), atSettings(false) {}
@@ -13,9 +13,12 @@ GUI::NavigationBar::NavigationBar() : hasTitle(false), atSettings(false) {}
 bool GUI::NavigationBar::isSelectable() const { return false; }
 
 void GUI::NavigationBar::Draw(Vector2 base) {
+    const Color background =
+        Settings::getInstance().getColor(ColorTheme::NavigationBar_Background);
+
     bool willGotoNextScreen = false;
     Rectangle rec = (Rectangle){0, 0, global::SCREEN_WIDTH, 40};
-    DrawRectangleRec(rec, BLACK);
+    DrawRectangleRec(rec, background);
     if (DrawLogo()) {
         toLink(homepageID);
         willGotoNextScreen = true;
@@ -73,11 +76,18 @@ void GUI::NavigationBar::ClearTitle() { mTitles.clear(); }
 void GUI::NavigationBar::SetVisableTitle(bool visible) { hasTitle = visible; }
 
 bool GUI::NavigationBar::DrawLogo() {
+    const Color logo1Color =
+        Settings::getInstance().getColor(ColorTheme::Logo1FirstPart);
+    const Color logo2Color =
+        Settings::getInstance().getColor(ColorTheme::Logo1SecondPart);
+    const Color category = Settings::getInstance().getColor(
+        ColorTheme::NavigationBar_SelectedTitle);
+
     // render
     Font logoFont = fonts->Get(Fonts::Silkscreen);
     float fSpanWidth = MeasureTextEx(logoFont, "Visu", 32, 1).x;
-    DrawTextEx(logoFont, "Visu", {10, 4}, 32, 1, WHITE);
-    DrawTextEx(logoFont, "Algo", {10 + fSpanWidth, 4}, 32, 1, ORANGE);
+    DrawTextEx(logoFont, "Visu", {10, 4}, 32, 1, logo1Color);
+    DrawTextEx(logoFont, "Algo", {10 + fSpanWidth, 4}, 32, 1, logo2Color);
     float logoWidth = MeasureTextEx(logoFont, "VisuAlgo", 32, 1).x;
     hoverBounds["logo-bound"] = (Rectangle){10, 4, logoWidth, 32};
 
@@ -85,7 +95,8 @@ bool GUI::NavigationBar::DrawLogo() {
         Font font = fonts->Get(Fonts::Default);
         float x = hoverBounds["logo-bound"].x + hoverBounds["logo-bound"].width;
         float y = hoverBounds["logo-bound"].y + 5;
-        DrawTextEx(font, ("/" + currentCategory).c_str(), {x, y}, 24, 0, WHITE);
+        DrawTextEx(font, ("/" + currentCategory).c_str(), {x, y}, 24, 0,
+                   category);
     }
 
     return (
@@ -94,17 +105,22 @@ bool GUI::NavigationBar::DrawLogo() {
 }
 
 States::ID GUI::NavigationBar::DrawTitles() {
+    const Color unselectedTitleColor = Settings::getInstance().getColor(
+        ColorTheme::NavigationBar_UnselectedTitle);
+    const Color selectedTitleColor = Settings::getInstance().getColor(
+        ColorTheme::NavigationBar_SelectedTitle);
+
     float x = 230, y = 8;
     float padding = 2;
     float margin = 2;
     for (auto title : mTitles) {
         Font font = fonts->Get(Fonts::Default);
         std::string displayedName = title.second.abbrTitle;
-        Color color = (Color){170, 170, 170, 255};
+        Color color = unselectedTitleColor;
         if (title.first == activeTitle) {
             font = fonts->Get(Fonts::Default_Bold);
             displayedName = title.second.titleName;
-            color = WHITE;
+            color = selectedTitleColor;
         }
         displayedName = TextToUpper(displayedName.c_str());
 

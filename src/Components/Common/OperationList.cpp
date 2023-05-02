@@ -2,12 +2,14 @@
 
 #include <iostream>
 
+#include "Settings.hpp"
+
 GUI::OperationList::OperationList(FontHolder *fonts) : isHide(true) {
     toggleButton = GUI::Button("<", fonts);
     toggleButton.SetTextAlignment(toggleButton.Center);
     toggleButton.SetFontSize(32);
-    toggleButton.SetButtonColor((Color){82, 188, 105, 255});
-    toggleButton.SetButtonHoverColor((Color){82, 188, 105, 255});
+    toggleButton.SetButtonColor(ColorTheme::ActionList_Background);
+    toggleButton.SetButtonHoverColor(ColorTheme::ActionList_Background);
 }
 GUI::OperationList::~OperationList() {}
 
@@ -35,10 +37,7 @@ void GUI::OperationList::AddOperation(GUI::Button::Ptr action,
     action.get()->SetPosition(lastOperationPos.x, lastOperationPos.y);
     action.get()->SetSize(150, buttonHeight);
     action.get()->SetFontSize(20);
-    // action.get()->SetActionOnHover(true);
-    // action.get()->SetButtonHoverColor((Color){214, 87, 117, 255});
-    action.get()->SetButtonColor((Color){82, 188, 105, 255});
-    // action.get()->SetTextColor(WHITE);
+    action.get()->SetButtonColor(ColorTheme::ActionList_Background);
 
     optionContainer.get()->SetPosition(lastOperationPos.x + 150,
                                        lastOperationPos.y);

@@ -108,6 +108,11 @@ namespace Core {
             }
         }
 
+        ~List() {
+            this->clear();
+            delete mEnd.ptr;
+        }
+
         /* @brief Copy constructor */
         List(const List< T >& list) : mSize(0) {
             this->mBegin = this->mEnd = new Node< T >();

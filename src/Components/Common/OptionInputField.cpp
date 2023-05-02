@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Button.hpp"
+#include "Settings.hpp"
 
 GUI::OptionInputField::OptionInputField(FontHolder* fonts)
     : fonts(fonts), hasInputField(false), mInputField(new GUI::Container()) {}
@@ -12,7 +13,6 @@ GUI::OptionInputField::~OptionInputField() {}
 void GUI::OptionInputField::SetOption(
     std::string content, Core::Deque< InputField::Ptr > fields,
     std::function< void(std::map< std::string, std::string >) > action) {
-    // assert();
     auto genButton = [&, this](
                          std::string content,
                          std::function< void() > action) -> GUI::Button::Ptr {
@@ -21,7 +21,7 @@ void GUI::OptionInputField::SetOption(
         button.get()->SetFontSize(20);
         button.get()->EnableFitContent();
         button.get()->SetAction(action);
-        button.get()->SetButtonColor((Color){82, 188, 105, 255});
+        button.get()->SetButtonColor(ColorTheme::ActionList_Background);
 
         return button;
     };
@@ -67,12 +67,15 @@ void GUI::OptionInputField::ToggleInputFields() {
 }
 
 void GUI::OptionInputField::DrawCurrent(Vector2 base) {
+    const Color buttonColor =
+        Settings::getInstance().getColor(ColorTheme::ActionList_Background);
+
     base.x += mPosition.x;
     base.y += mPosition.y;
     Vector2 size = GetSize();
     // std::cout << size.x << " " << size.y << std::endl;
     Rectangle bound = (Rectangle){base.x, base.y, size.x, size.y};
-    DrawRectangleRec(bound, (Color){82, 188, 105, 255});
+    DrawRectangleRec(bound, buttonColor);
 }
 
 void GUI::OptionInputField::SetVisible(bool visible) {
@@ -127,7 +130,7 @@ void GUI::OptionInputField::AddSubmitField(
         button.get()->SetFontSize(20);
         button.get()->EnableFitContent();
         button.get()->SetAction(action);
-        button.get()->SetButtonColor((Color){82, 188, 105, 255});
+        button.get()->SetButtonColor(ColorTheme::ActionList_Background);
 
         return button;
     };

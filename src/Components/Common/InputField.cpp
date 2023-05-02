@@ -1,7 +1,8 @@
 #include "InputField.hpp"
 
 #include <cstring>
-#include <iostream>
+
+#include "Settings.hpp"
 
 GUI::InputField::InputField(FontHolder* fonts)
     : fonts(fonts), labelFontSize(20), mFieldIndex(InputField::fields.size()) {
@@ -14,6 +15,11 @@ GUI::InputField::InputField(FontHolder* fonts)
 GUI::InputField::~InputField() {}
 
 void GUI::InputField::Draw(Vector2 base) {
+    const Color buttonColor =
+        Settings::getInstance().getColor(ColorTheme::ActionList_Background);
+    const Color labelColor =
+        Settings::getInstance().getColor(ColorTheme::ActionList_Text);
+
     base.x += mPosition.x;
     base.y += mPosition.y;
 
@@ -21,11 +27,11 @@ void GUI::InputField::Draw(Vector2 base) {
     Vector2 inputBound = GetSize();
     Rectangle bound = (Rectangle){base.x, base.y, inputBound.x, inputBound.y};
 
-    DrawRectangleRec(bound, (Color){82, 188, 105, 255});
+    DrawRectangleRec(bound, buttonColor);
 
     float yLabel = base.y + (inputBound.y - labelFontSize) / 2;
     DrawTextEx(font, label.c_str(), (Vector2){base.x + 5, yLabel},
-               labelFontSize, 0, WHITE);
+               labelFontSize, 0, labelColor);
     base.x += 8 + MeasureTextEx(font, label.c_str(), labelFontSize, 0).x;
     base.y += 3;
 

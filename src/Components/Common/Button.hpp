@@ -5,6 +5,7 @@
 
 #include "Component.hpp"
 #include "FontHolder.hpp"
+#include "Identifiers/ColorThemeIdentifiers.hpp"
 
 namespace GUI {
     class Button : public GUI::Component {
@@ -21,9 +22,9 @@ namespace GUI {
         bool isSelectable() const;
 
     public:
-        void SetButtonHoverColor(Color color);
-        void SetButtonColor(Color color);
-        void SetTextColor(Color color);
+        void SetButtonHoverColor(ColorTheme::ID color);
+        void SetButtonColor(ColorTheme::ID color);
+        void SetTextColor(ColorTheme::ID color);
         void SetSize(float width, float height);
         void SetText(std::string text);
 
@@ -50,9 +51,9 @@ namespace GUI {
     private:
         FontHolder* fonts;
         std::string content;
-        Color buttonColor;
-        Color buttonHoverColor;
-        Color textColor;
+        ColorTheme::ID buttonColorTheme;
+        ColorTheme::ID buttonHoverColorTheme;
+        ColorTheme::ID textColorTheme;
         TextAlignment alignment;
         float fontSize;
 

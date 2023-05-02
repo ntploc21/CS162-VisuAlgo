@@ -1,5 +1,7 @@
 #include "Card.hpp"
 
+#include "Settings.hpp"
+
 GUI::Card::Card(std::string text, Texture thumbnail, FontHolder* fonts)
     : thumbnail(thumbnail), fonts(fonts), isHover(false) {
     title = text;
@@ -32,10 +34,15 @@ bool GUI::Card::DrawImage(Vector2 base) {
 }
 
 bool GUI::Card::DrawTitle(Vector2 base) {
+    const Color backgroundColor =
+        Settings::getInstance().getColor(ColorTheme::Card_Background);
+    const Color textColor =
+        Settings::getInstance().getColor(ColorTheme::Card_Text);
+
     float x = base.x + mPosition.x;
     float y = base.y + mPosition.y;
     // Draw background
-    DrawRectangle(x, y + 160, 250, 40, LIGHTGRAY);
+    DrawRectangle(x, y + 160, 250, 40, backgroundColor);
     // Draw title
     Font font = fonts->Get(Fonts::Default);
     float fontSize = 24;
@@ -45,7 +52,7 @@ bool GUI::Card::DrawTitle(Vector2 base) {
     y += 168;
     hoverBounds["title-bound"] = (Rectangle){x, y, fullTextWidth, 24};
 
-    DrawTextEx(font, title.c_str(), {x, y}, fontSize, 0, BLACK);
+    DrawTextEx(font, title.c_str(), {x, y}, fontSize, 0, textColor);
 
     return (
         IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&

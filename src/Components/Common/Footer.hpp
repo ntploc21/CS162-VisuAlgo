@@ -3,6 +3,9 @@
 
 #include "Animation/AnimationController.hpp"
 #include "Container.hpp"
+#include "Global.hpp"
+#include "Settings.hpp"
+#include "Utils/Utils.hpp"
 
 namespace GUI {
     template< typename T >
@@ -14,10 +17,6 @@ namespace GUI {
     };
 };  // namespace GUI
 
-#include "Global.hpp"
-#include "Utils/Utils.hpp"
-// #include "raygui.h"
-
 template< typename T >
 GUI::Footer< T >::Footer() {}
 
@@ -26,10 +25,17 @@ GUI::Footer< T >::~Footer() {}
 
 template< typename T >
 void GUI::Footer< T >::Draw(T* animController, Vector2 base) {
+    const Color backgroundColor =
+        Settings::getInstance().getColor(ColorTheme::Footer_Background);
+    const Color iconColor =
+        Settings::getInstance().getColor(ColorTheme::Footer_Icon);
+    const Color hoveredIconColor =
+        Settings::getInstance().getColor(ColorTheme::Footer_HoveredIcon);
+
     base.x += mPosition.x;
     base.y += mPosition.y;
     DrawRectangleRec((Rectangle){base.x, base.y, global::SCREEN_WIDTH, 40},
-                     BLACK);
+                     backgroundColor);
 
     animController->SetSpeed(
         int(GuiSlider((Rectangle){base.x + 80, base.y + 15, 140, 10}, nullptr,
@@ -37,46 +43,46 @@ void GUI::Footer< T >::Draw(T* animController, Vector2 base) {
                       animController->GetSpeed(), 1, 7)));
 
     {  // Draw Reset
-        if (Utils::DrawIcon(129, base.x + 345, base.y + 12, 1, WHITE,
-                            (Color){82, 188, 105, 255})) {
+        if (Utils::DrawIcon(129, base.x + 345, base.y + 12, 1, iconColor,
+                            hoveredIconColor)) {
             animController->Reset();
         }
     }
 
     {  // Draw Step Backward
-        if (Utils::DrawIcon(130, base.x + 365, base.y + 12, 1, WHITE,
-                            (Color){82, 188, 105, 255})) {
+        if (Utils::DrawIcon(130, base.x + 365, base.y + 12, 1, iconColor,
+                            hoveredIconColor)) {
             animController->StepBackward();
         }
     }
 
     {  // Draw play button
         if (animController->Done()) {
-            if (Utils::DrawIcon(74, base.x + 385, base.y + 12, 1, WHITE,
-                                (Color){82, 188, 105, 255})) {
+            if (Utils::DrawIcon(74, base.x + 385, base.y + 12, 1, iconColor,
+                                hoveredIconColor)) {
                 animController->Reset();
             }
         } else if (animController->IsPlaying()) {
-            if (Utils::DrawIcon(132, base.x + 385, base.y + 12, 1, WHITE,
-                                (Color){82, 188, 105, 255})) {
+            if (Utils::DrawIcon(132, base.x + 385, base.y + 12, 1, iconColor,
+                                hoveredIconColor)) {
                 animController->Pause();
             }
-        } else if (Utils::DrawIcon(133, base.x + 385, base.y + 12, 1, WHITE,
-                                   (Color){82, 188, 105, 255})) {
+        } else if (Utils::DrawIcon(133, base.x + 385, base.y + 12, 1, iconColor,
+                                   hoveredIconColor)) {
             animController->Continue();
         }
     }
 
     {  // Draw Step Forward
-        if (Utils::DrawIcon(131, base.x + 405, base.y + 12, 1, WHITE,
-                            (Color){82, 188, 105, 255})) {
+        if (Utils::DrawIcon(131, base.x + 405, base.y + 12, 1, iconColor,
+                            hoveredIconColor)) {
             animController->StepForward();
         }
     }
 
     {  // Draw Run All
-        if (Utils::DrawIcon(134, base.x + 425, base.y + 12, 1, WHITE,
-                            (Color){82, 188, 105, 255})) {
+        if (Utils::DrawIcon(134, base.x + 425, base.y + 12, 1, iconColor,
+                            hoveredIconColor)) {
             animController->RunAll();
         }
     }

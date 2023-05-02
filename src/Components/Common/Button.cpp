@@ -2,16 +2,22 @@
 
 #include <iostream>
 
+#include "Settings.hpp"
+
 GUI::Button::Button(std::string text, FontHolder* fonts)
-    : content(text), fonts(fonts), buttonColor(GREEN), buttonHoverColor(BLACK),
-      textColor(WHITE), isHover(false), alignment(Left), fontSize(16),
-      mActionOnHover(false) {
+    : content(text), fonts(fonts),
+      buttonColorTheme(ColorTheme::Button_Background),
+      buttonHoverColorTheme(ColorTheme::Button_HoveredBackground),
+      textColorTheme(ColorTheme::Button_Text), isHover(false), alignment(Left),
+      fontSize(16), mActionOnHover(false) {
     DisableFitContent();
 }
 
 GUI::Button::Button()
-    : buttonColor(GREEN), buttonHoverColor(BLACK), textColor(WHITE),
-      isHover(false), content("test"), fontSize(16), mActionOnHover(false) {
+    : buttonColorTheme(ColorTheme::Button_Background),
+      buttonHoverColorTheme(ColorTheme::Button_HoveredBackground),
+      textColorTheme(ColorTheme::Button_Text), isHover(false), content(""),
+      fontSize(16), mActionOnHover(false) {
     DisableFitContent();
 }
 
@@ -21,6 +27,11 @@ void GUI::Button::SetText(std::string text) { content = text; }
 
 void GUI::Button::Draw(Vector2 base) {
     if (!mVisible) return;
+    const Color buttonHoverColor =
+        Settings::getInstance().getColor(buttonHoverColorTheme);
+    const Color buttonColor =
+        Settings::getInstance().getColor(buttonColorTheme);
+
     float x = base.x + mPosition.x;
     float y = base.y + mPosition.y;
     bound.x = x, bound.y = y;
@@ -40,8 +51,6 @@ void GUI::Button::SetSize(float width, float height) {
     bound.width = width;
     bound.height = height;
 }
-
-void GUI::Button::SetTextColor(Color color) { textColor = color; }
 
 void GUI::Button::SetAction(std::function< void() > clickedAction) {
     action = clickedAction;
@@ -77,6 +86,7 @@ bool GUI::Button::IsClicked() {
 }
 
 void GUI::Button::DrawButtonText() {
+    const Color textColor = Settings::getInstance().getColor(textColorTheme);
     Font font = fonts->Get(Fonts::Default);
 
     DrawTextEx(font, content.c_str(), GetContentPos(), fontSize, 0, textColor);
@@ -114,6 +124,12 @@ void GUI::Button::FitContent() {
     bound.height = textSize.y + 6;
 }
 
-void GUI::Button::SetButtonHoverColor(Color color) { buttonHoverColor = color; }
+void GUI::Button::SetButtonHoverColor(ColorTheme::ID color) {
+    buttonHoverColorTheme = color;
+}
 
-void GUI::Button::SetButtonColor(Color color) { buttonColor = color; }
+void GUI::Button::SetButtonColor(ColorTheme::ID color) {
+    buttonColorTheme = color;
+}
+
+void GUI::Button::SetTextColor(ColorTheme::ID color) { textColorTheme = color; }

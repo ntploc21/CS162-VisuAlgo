@@ -4,6 +4,7 @@
 
 #include "Component.hpp"
 #include "FontHolder.hpp"
+#include "Identifiers/ColorThemeIdentifiers.hpp"
 
 namespace GUI {
     class Node : public GUI::Component {
@@ -74,9 +75,12 @@ namespace GUI {
         bool GetReachable() const;
 
     private:
-        std::map< State, std::pair< Color, Color > > mOutlineColor;
-        std::map< State, std::pair< Color, Color > > mBackgroundColor;
-        std::map< State, std::pair< Color, Color > > mTextColor;
+        std::map< State, std::pair< ColorTheme::ID, ColorTheme::ID > >
+            mOutlineColor;
+        std::map< State, std::pair< ColorTheme::ID, ColorTheme::ID > >
+            mBackgroundColor;
+        std::map< State, std::pair< ColorTheme::ID, ColorTheme::ID > >
+            mTextColor;
 
     private:
         int mValue;

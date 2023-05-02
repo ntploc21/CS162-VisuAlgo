@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Animation/AnimationFactory.hpp"
+#include "Settings.hpp"
 
 void GUI::Node::SetShape(Shape shape) { mShape = shape; }
 
@@ -66,6 +67,8 @@ void GUI::Node::AnimationOnNode(bool animate) { animateNode = animate; }
 void GUI::Node::SetRadius(float radius) { mRadius = radius; }
 
 void GUI::Node::DrawLabel(Vector2 base) {
+    const Color labelColor =
+        Settings::getInstance().getColor(ColorTheme::Visualizer_Label);
     // Draw Label
     float width = MeasureTextEx(fonts->Get(Fonts::Default_Bold), mLabel.c_str(),
                                 labelFontSize, 0)
@@ -74,7 +77,7 @@ void GUI::Node::DrawLabel(Vector2 base) {
     float labelPosX = base.x - width / 2;
     DrawTextEx(fonts->Get(Fonts::Default_Bold), mLabel.c_str(),
                (Vector2){labelPosX, base.y + mRadius + 2}, labelFontSize, 0,
-               RED);
+               labelColor);
 }
 
 void GUI::Node::DrawNode(Vector2 base, float t) {
@@ -114,24 +117,30 @@ void GUI::Node::SetNodeState(State state) { mNodeState = state; }
 GUI::Node::State GUI::Node::GetNodeState() const { return mNodeState; }
 
 Color GUI::Node::GetOutlineColor(float t) {
-    Color src, dst;
-    std::tie(src, dst) = mOutlineColor[GetNodeState()];
+    Color src =
+        Settings::getInstance().getColor(mOutlineColor[GetNodeState()].first);
+    Color dst =
+        Settings::getInstance().getColor(mOutlineColor[GetNodeState()].second);
 
     if (!animateNode) return dst;
     return AnimationFactory::BlendColor(src, dst, t);
 }
 
 Color GUI::Node::GetBackgroundColor(float t) {
-    Color src, dst;
-    std::tie(src, dst) = mBackgroundColor[GetNodeState()];
+    Color src = Settings::getInstance().getColor(
+        mBackgroundColor[GetNodeState()].first);
+    Color dst = Settings::getInstance().getColor(
+        mBackgroundColor[GetNodeState()].second);
 
     if (!animateNode) return dst;
     return AnimationFactory::BlendColor(src, dst, t);
 }
 
 Color GUI::Node::GetTextColor(float t) {
-    Color src, dst;
-    std::tie(src, dst) = mTextColor[GetNodeState()];
+    Color src =
+        Settings::getInstance().getColor(mTextColor[GetNodeState()].first);
+    Color dst =
+        Settings::getInstance().getColor(mTextColor[GetNodeState()].second);
 
     if (!animateNode) return dst;
     return AnimationFactory::BlendColor(src, dst, t);
@@ -140,29 +149,61 @@ Color GUI::Node::GetTextColor(float t) {
 void GUI::Node::AddColor() {
     // (src, dst)
     // Outline color
-    mOutlineColor[State::Default] = {BLACK, BLACK};
-    mOutlineColor[State::Active] = {BLACK, (Color){255, 138, 39, 255}};
-    mOutlineColor[State::ActiveBlue] = {BLACK, (Color){46, 187, 209, 255}};
-    mOutlineColor[State::ActiveGreen] = {BLACK, (Color){82, 188, 105, 255}};
-    mOutlineColor[State::Iterated] = {(Color){255, 138, 39, 255},
-                                      (Color){255, 138, 39, 255}};
-    mOutlineColor[State::ActiveRed] = {BLACK, (Color){217, 81, 60, 255}};
+    mOutlineColor[State::Default] = {
+        ColorTheme::Visualizer_Node_Default_Outline1,
+        ColorTheme::Visualizer_Node_Default_Outline2};
+    mOutlineColor[State::Active] = {
+        ColorTheme::Visualizer_Node_Active_Outline1,
+        ColorTheme::Visualizer_Node_Active_Outline2};
+    mOutlineColor[State::ActiveBlue] = {
+        ColorTheme::Visualizer_Node_ActiveBlue_Outline1,
+        ColorTheme::Visualizer_Node_ActiveBlue_Outline2};
+    mOutlineColor[State::ActiveGreen] = {
+        ColorTheme::Visualizer_Node_ActiveGreen_Outline1,
+        ColorTheme::Visualizer_Node_ActiveGreen_Outline2};
+    mOutlineColor[State::Iterated] = {
+        ColorTheme::Visualizer_Node_Iterated_Outline1,
+        ColorTheme::Visualizer_Node_Iterated_Outline2};
+    mOutlineColor[State::ActiveRed] = {
+        ColorTheme::Visualizer_Node_ActiveRed_Outline1,
+        ColorTheme::Visualizer_Node_ActiveRed_Outline2};
 
     // Background color
-    mBackgroundColor[State::Default] = {WHITE, WHITE};
-    mBackgroundColor[State::Active] = {WHITE, (Color){255, 138, 39, 255}};
-    mBackgroundColor[State::ActiveBlue] = {WHITE, (Color){46, 187, 209, 255}};
-    mBackgroundColor[State::ActiveGreen] = {WHITE, (Color){82, 188, 105, 255}};
-    mBackgroundColor[State::Iterated] = {(Color){255, 138, 39, 255}, WHITE};
-    mBackgroundColor[State::ActiveRed] = {WHITE, (Color){217, 81, 60, 255}};
+    mBackgroundColor[State::Default] = {
+        ColorTheme::Visualizer_Node_Default_Background1,
+        ColorTheme::Visualizer_Node_Default_Background2};
+    mBackgroundColor[State::Active] = {
+        ColorTheme::Visualizer_Node_Active_Background1,
+        ColorTheme::Visualizer_Node_Active_Background2};
+    mBackgroundColor[State::ActiveBlue] = {
+        ColorTheme::Visualizer_Node_ActiveBlue_Background1,
+        ColorTheme::Visualizer_Node_ActiveBlue_Background2};
+    mBackgroundColor[State::ActiveGreen] = {
+        ColorTheme::Visualizer_Node_ActiveGreen_Background1,
+        ColorTheme::Visualizer_Node_ActiveGreen_Background2};
+    mBackgroundColor[State::Iterated] = {
+        ColorTheme::Visualizer_Node_Iterated_Background1,
+        ColorTheme::Visualizer_Node_Iterated_Background2};
+    mBackgroundColor[State::ActiveRed] = {
+        ColorTheme::Visualizer_Node_ActiveRed_Background1,
+        ColorTheme::Visualizer_Node_ActiveRed_Background2};
 
     // Text color
-    mTextColor[State::Default] = {BLACK, BLACK};
-    mTextColor[State::Active] = {BLACK, WHITE};
-    mTextColor[State::ActiveBlue] = {BLACK, WHITE};
-    mTextColor[State::ActiveGreen] = {BLACK, WHITE};
-    mTextColor[State::Iterated] = {WHITE, (Color){255, 138, 39, 255}};
-    mTextColor[State::ActiveRed] = {BLACK, WHITE};
+    mTextColor[State::Default] = {ColorTheme::Visualizer_Node_Default_Text1,
+                                  ColorTheme::Visualizer_Node_Default_Text2};
+    mTextColor[State::Active] = {ColorTheme::Visualizer_Node_Active_Text1,
+                                 ColorTheme::Visualizer_Node_Active_Text2};
+    mTextColor[State::ActiveBlue] = {
+        ColorTheme::Visualizer_Node_ActiveBlue_Text1,
+        ColorTheme::Visualizer_Node_ActiveBlue_Text2};
+    mTextColor[State::ActiveGreen] = {
+        ColorTheme::Visualizer_Node_ActiveGreen_Text1,
+        ColorTheme::Visualizer_Node_ActiveGreen_Text2};
+    mTextColor[State::Iterated] = {ColorTheme::Visualizer_Node_Iterated_Text1,
+                                   ColorTheme::Visualizer_Node_Iterated_Text2};
+    mTextColor[State::ActiveRed] = {
+        ColorTheme::Visualizer_Node_ActiveRed_Text1,
+        ColorTheme::Visualizer_Node_ActiveRed_Text2};
 }
 
 void GUI::Node::SetReachable(bool reachable) { mReachable = reachable; }
