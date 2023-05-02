@@ -10,6 +10,8 @@ build/
 *_exe
 *.bat
 lib/
-docs/
 *.xlsx
 release/
+docs/html/
+docs/latex/*
+!docs/latex/refman.pdf
