@@ -2,16 +2,16 @@
 
 #include "Settings.hpp"
 
-GUI::Card::Card(std::string text, Texture thumbnail, FontHolder* fonts)
+GUIComponent::Card::Card(std::string text, Texture thumbnail, FontHolder* fonts)
     : thumbnail(thumbnail), fonts(fonts), isHover(false) {
     title = text;
 }
 
-GUI::Card::Card() : isHover(false) {}
+GUIComponent::Card::Card() : isHover(false) {}
 
-GUI::Card::~Card() {}
+GUIComponent::Card::~Card() {}
 
-void GUI::Card::Draw(Vector2 base) {
+void GUIComponent::Card::Draw(Vector2 base) {
     bool gotoLink = false;
     if (DrawImage(base)) gotoLink = true;
     if (DrawTitle(base)) gotoLink = true;
@@ -20,7 +20,7 @@ void GUI::Card::Draw(Vector2 base) {
     if (gotoLink) toLink(stateID);
 }
 
-bool GUI::Card::DrawImage(Vector2 base) {
+bool GUIComponent::Card::DrawImage(Vector2 base) {
     float x = base.x + mPosition.x;
     float y = base.y + mPosition.y;
     // return false;
@@ -33,7 +33,7 @@ bool GUI::Card::DrawImage(Vector2 base) {
         CheckCollisionPointRec(GetMousePosition(), hoverBounds["image-bound"]));
 }
 
-bool GUI::Card::DrawTitle(Vector2 base) {
+bool GUIComponent::Card::DrawTitle(Vector2 base) {
     const Color backgroundColor =
         Settings::getInstance().getColor(ColorTheme::Card_Background);
     const Color textColor =
@@ -59,12 +59,12 @@ bool GUI::Card::DrawTitle(Vector2 base) {
         CheckCollisionPointRec(GetMousePosition(), hoverBounds["title-bound"]));
 }
 
-void GUI::Card::SetLink(std::function< void(States::ID) > link) {
+void GUIComponent::Card::SetLink(std::function< void(States::ID) > link) {
     toLink = link;
 }
 
-void GUI::Card::SetStateID(States::ID id) { stateID = id; }
+void GUIComponent::Card::SetStateID(States::ID id) { stateID = id; }
 
-void GUI::Card::SetText(std::string text) { title = text; }
+void GUIComponent::Card::SetText(std::string text) { title = text; }
 
-bool GUI::Card::isSelectable() const { return false; }
+bool GUIComponent::Card::isSelectable() const { return false; }

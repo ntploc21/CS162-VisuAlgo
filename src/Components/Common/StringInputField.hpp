@@ -3,8 +3,8 @@
 
 #include "InputField.hpp"
 
-namespace GUI {
-    class StringInputField : public GUI::InputField {
+namespace GUIComponent {
+    class StringInputField : public InputField {
     public:
         typedef std::shared_ptr< StringInputField > Ptr;
         StringInputField(FontHolder* fonts);
@@ -17,6 +17,6 @@ namespace GUI {
         std::size_t mMaxLength;
         std::string content;
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_STRINGINPUTFIELD_HPP

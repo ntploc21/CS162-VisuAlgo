@@ -15,7 +15,7 @@ namespace Algorithm {
 
     public:
         SinglyLinkedList();
-        SinglyLinkedList(GUI::CodeHighlighter::Ptr codeHighlighter,
+        SinglyLinkedList(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                          SLLAnimationController::Ptr animController,
                          FontHolder* fonts);
         ~SinglyLinkedList();
@@ -46,6 +46,6 @@ namespace Algorithm {
     private:
         void ResetVisualizer();
     };
-};  // namespace Algorithm
+};      // namespace Algorithm
 
 #endif  // CORE_DATASTRUCTURES_LINKEDLIST_SINGLYLINKEDLIST_HPP

@@ -49,7 +49,7 @@ namespace State {
         Context mContext;
 
     protected:
-        GUI::NavigationBar navigation;
+        GUIComponent::NavigationBar navigation;
     };
 };      // namespace State
 

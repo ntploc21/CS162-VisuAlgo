@@ -8,7 +8,7 @@
 #include "Core/Deque.hpp"
 #include "InputField.hpp"
 
-namespace GUI {
+namespace GUIComponent {
     class OptionInputField : public GUI::Container {
     public:
         typedef std::shared_ptr< OptionInputField > Ptr;
@@ -46,6 +46,6 @@ namespace GUI {
         bool hasInputField;
         // std::function< void(std::map< std::string, std::string >) > mAction;
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_OPTIONINPUTFIELD_HPP

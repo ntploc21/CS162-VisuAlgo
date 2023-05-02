@@ -10,7 +10,7 @@
 Algorithm::StaticArray::StaticArray() {}
 
 Algorithm::StaticArray::StaticArray(
-    GUI::CodeHighlighter::Ptr codeHighlighter,
+    GUIComponent::CodeHighlighter::Ptr codeHighlighter,
     DArrayAnimationController::Ptr animController, FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
     Random();

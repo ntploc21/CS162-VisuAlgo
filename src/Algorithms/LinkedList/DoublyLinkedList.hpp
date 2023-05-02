@@ -15,7 +15,7 @@ namespace Algorithm {
 
     public:
         DoublyLinkedList();
-        DoublyLinkedList(GUI::CodeHighlighter::Ptr codeHighlighter,
+        DoublyLinkedList(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                          DLLAnimationController::Ptr animController,
                          FontHolder* fonts);
         ~DoublyLinkedList();
@@ -56,6 +56,6 @@ namespace Algorithm {
     private:
         void ResetVisualizer();
     };
-};  // namespace Algorithm
+};      // namespace Algorithm
 
 #endif  // CORE_DATASTRUCTURES_LINKEDLIST_DOUBLYLINKEDLIST_HPP

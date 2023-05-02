@@ -15,7 +15,7 @@ namespace Algorithm {
 
     public:
         DynamicArray();
-        DynamicArray(GUI::CodeHighlighter::Ptr codeHighlighter,
+        DynamicArray(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                      DArrayAnimationController::Ptr animController,
                      FontHolder* fonts);
         ~DynamicArray();
@@ -42,6 +42,6 @@ namespace Algorithm {
     private:
         void ResetVisualizer();
     };
-};  // namespace Algorithm
+};      // namespace Algorithm
 
 #endif  // CORE_ALGORITHMS_ARRAY_DYNAMICARRAY_HPP

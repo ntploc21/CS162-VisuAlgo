@@ -7,7 +7,7 @@
 #include "FontHolder.hpp"
 #include "Identifiers/ColorThemeIdentifiers.hpp"
 
-namespace GUI {
+namespace GUIComponent {
     class Button : public GUI::Component {
     public:
         enum TextAlignment { Left, Center, Right, AlignmentCount };
@@ -66,6 +66,6 @@ namespace GUI {
         Rectangle bound;
         std::function< void() > action;
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_GUIBUTTON_HPP

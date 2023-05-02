@@ -2,7 +2,7 @@
 
 #include "Global.hpp"
 
-Algorithm::Stack::Stack(GUI::CodeHighlighter::Ptr codeHighlighter,
+Algorithm::Stack::Stack(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                         SLLAnimationController::Ptr animController,
                         FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {

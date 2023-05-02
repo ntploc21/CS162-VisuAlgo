@@ -10,7 +10,7 @@ namespace Algorithm {
         static constexpr int maxN = 10;
 
     public:
-        Queue(GUI::CodeHighlighter::Ptr _codeHighlighter,
+        Queue(GUIComponent::CodeHighlighter::Ptr _codeHighlighter,
               SLLAnimationController::Ptr animController, FontHolder* fonts);
         Queue();
         ~Queue();
@@ -33,6 +33,6 @@ namespace Algorithm {
         HighlightArrowFromCur(int index, bool drawVisualizer = true,
                               bool reverse = false);
     };
-};  // namespace Algorithm
+};      // namespace Algorithm
 
 #endif  // CORE_ALGORITHMS_LINKEDLIST_QUEUE_HPP

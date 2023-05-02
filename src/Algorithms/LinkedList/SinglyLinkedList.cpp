@@ -11,7 +11,7 @@ using ArrowType = GUI::LinkedList::ArrowType;
 Algorithm::SinglyLinkedList::SinglyLinkedList() {}
 
 Algorithm::SinglyLinkedList::SinglyLinkedList(
-    GUI::CodeHighlighter::Ptr codeHighlighter,
+    GUIComponent::CodeHighlighter::Ptr codeHighlighter,
     SLLAnimationController::Ptr animController, FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
     Random();

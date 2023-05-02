@@ -3,8 +3,8 @@
 
 #include "InputField.hpp"
 
-namespace GUI {
-    class IntegerInputField : public GUI::InputField {
+namespace GUIComponent {
+    class IntegerInputField : public InputField {
     public:
         typedef std::shared_ptr< IntegerInputField > Ptr;
         IntegerInputField(FontHolder* fonts);
@@ -23,6 +23,6 @@ namespace GUI {
         int mMaxValue;
         int input;
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_INTEGERINPUTFIELD_HPP

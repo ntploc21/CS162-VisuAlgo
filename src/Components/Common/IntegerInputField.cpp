@@ -5,14 +5,14 @@
 #include "Settings.hpp"
 #include "Utils/Utils.hpp"
 
-GUI::IntegerInputField::IntegerInputField(FontHolder* fonts)
-    : GUI::InputField(fonts), input(0), mMinValue(0), mMaxValue(0) {}
-GUI::IntegerInputField::~IntegerInputField() {}
-std::string GUI::IntegerInputField::ExtractValue() {
+GUIComponent::IntegerInputField::IntegerInputField(FontHolder* fonts)
+    : GUIComponent::InputField(fonts), input(0), mMinValue(0), mMaxValue(0) {}
+GUIComponent::IntegerInputField::~IntegerInputField() {}
+std::string GUIComponent::IntegerInputField::ExtractValue() {
     return std::to_string(input);
 }
 
-void GUI::IntegerInputField::DrawField(Vector2 base) {
+void GUIComponent::IntegerInputField::DrawField(Vector2 base) {
     const Color inactiveColor =
         Settings::getInstance().getColor(ColorTheme::InputField_Inactive);
 
@@ -21,16 +21,18 @@ void GUI::IntegerInputField::DrawField(Vector2 base) {
     DrawRectangleRec(inputBound, inactiveColor);
     GuiValueBox(inputBound, nullptr, &input, mMinValue, mMaxValue,
                 GetEditMode());
-    // GuiSpinner(inputBound, nullptr, &input, mMinValue, mMaxValue, true);
+    // GUIComponentSpinner(inputBound, nullptr, &input, mMinValue, mMaxValue,
+    // true);
 }
 
-void GUI::IntegerInputField::SetConstraint(int minValue, int maxValue) {
+void GUIComponent::IntegerInputField::SetConstraint(int minValue,
+                                                    int maxValue) {
     mMinValue = minValue;
     mMaxValue = maxValue;
 }
 
-bool GUI::IntegerInputField::isSelectable() const { return false; }
+bool GUIComponent::IntegerInputField::isSelectable() const { return false; }
 
-void GUI::IntegerInputField::Randomize() {
+void GUIComponent::IntegerInputField::Randomize() {
     input = Utils::Rand(mMinValue, mMaxValue);
 }

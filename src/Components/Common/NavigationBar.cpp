@@ -5,14 +5,14 @@
 #include "Global.hpp"
 #include "Settings.hpp"
 
-GUI::NavigationBar::NavigationBar(FontHolder* fonts)
+GUIComponent::NavigationBar::NavigationBar(FontHolder* fonts)
     : fonts(fonts), hasTitle(false) {}
 
-GUI::NavigationBar::NavigationBar() : hasTitle(false) {}
+GUIComponent::NavigationBar::NavigationBar() : hasTitle(false) {}
 
-bool GUI::NavigationBar::isSelectable() const { return false; }
+bool GUIComponent::NavigationBar::isSelectable() const { return false; }
 
-void GUI::NavigationBar::Draw(Vector2 base) {
+void GUIComponent::NavigationBar::Draw(Vector2 base) {
     const Color background =
         Settings::getInstance().getColor(ColorTheme::NavigationBar_Background);
 
@@ -38,31 +38,37 @@ void GUI::NavigationBar::Draw(Vector2 base) {
     isHover = GetHoverStatus(hoverBounds, isHover, willGotoNextScreen);
 }
 
-void GUI::NavigationBar::SetHomepageID(States::ID id) { homepageID = id; }
+void GUIComponent::NavigationBar::SetHomepageID(States::ID id) {
+    homepageID = id;
+}
 
-void GUI::NavigationBar::SetDirectLink(std::function< void(States::ID) > link) {
+void GUIComponent::NavigationBar::SetDirectLink(
+    std::function< void(States::ID) > link) {
     toLink = link;
 }
 
-void GUI::NavigationBar::SetCategory(std::string category) {
+void GUIComponent::NavigationBar::SetCategory(std::string category) {
     currentCategory = category;
 }
 
-void GUI::NavigationBar::InsertTitle(DataStructures::ID titleID,
-                                     States::ID stateID, std::string abbrTitle,
-                                     std::string titleName) {
+void GUIComponent::NavigationBar::InsertTitle(DataStructures::ID titleID,
+                                              States::ID stateID,
+                                              std::string abbrTitle,
+                                              std::string titleName) {
     TitleInfo info = {stateID, abbrTitle, titleName};
     auto inserted = mTitles.insert(std::make_pair(titleID, info));
     assert(inserted.second);
 }
-void GUI::NavigationBar::SetActiveTitle(DataStructures::ID titleID) {
+void GUIComponent::NavigationBar::SetActiveTitle(DataStructures::ID titleID) {
     activeTitle = titleID;
 }
-void GUI::NavigationBar::ClearTitle() { mTitles.clear(); }
+void GUIComponent::NavigationBar::ClearTitle() { mTitles.clear(); }
 
-void GUI::NavigationBar::SetVisableTitle(bool visible) { hasTitle = visible; }
+void GUIComponent::NavigationBar::SetVisableTitle(bool visible) {
+    hasTitle = visible;
+}
 
-bool GUI::NavigationBar::DrawLogo() {
+bool GUIComponent::NavigationBar::DrawLogo() {
     const Color logo1Color =
         Settings::getInstance().getColor(ColorTheme::Logo1FirstPart);
     const Color logo2Color =
@@ -91,7 +97,7 @@ bool GUI::NavigationBar::DrawLogo() {
         CheckCollisionPointRec(GetMousePosition(), hoverBounds["logo-bound"]));
 }
 
-States::ID GUI::NavigationBar::DrawTitles() {
+States::ID GUIComponent::NavigationBar::DrawTitles() {
     const Color unselectedTitleColor = Settings::getInstance().getColor(
         ColorTheme::NavigationBar_UnselectedTitle);
     const Color selectedTitleColor = Settings::getInstance().getColor(
@@ -126,7 +132,7 @@ States::ID GUI::NavigationBar::DrawTitles() {
     return States::None;
 }
 
-bool GUI::NavigationBar::DrawSwitchTheme() {
+bool GUIComponent::NavigationBar::DrawSwitchTheme() {
     std::string text = "Switch theme";
     Font settingsFont = fonts->Get(Fonts::Silkscreen);
     float spanWidth = MeasureTextEx(settingsFont, text.c_str(), 24, -0.1).x;
@@ -152,4 +158,4 @@ bool GUI::NavigationBar::DrawSwitchTheme() {
                                    hoverBounds["settings-bound"]));
 }
 
-GUI::NavigationBar::~NavigationBar() {}
+GUIComponent::NavigationBar::~NavigationBar() {}

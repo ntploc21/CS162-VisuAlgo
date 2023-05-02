@@ -20,7 +20,7 @@ namespace Algorithm {
     template< typename GUIAlgorithm, typename AnimationState >
     class Algorithm {
     public:
-        Algorithm(GUI::CodeHighlighter::Ptr codeHighlighter,
+        Algorithm(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                   typename Animation::AnimationController< AnimationState >::Ptr
                       animController,
                   FontHolder* fonts);
@@ -30,7 +30,7 @@ namespace Algorithm {
     public:
     protected:
         GUIAlgorithm visualizer;
-        GUI::CodeHighlighter::Ptr codeHighlighter;
+        GUIComponent::CodeHighlighter::Ptr codeHighlighter;
         typename Animation::AnimationController< AnimationState >::Ptr
             animController;
 
@@ -66,7 +66,7 @@ namespace Algorithm {
 
 template< typename GUIAlgorithm, typename AnimationState >
 inline Algorithm::Algorithm< GUIAlgorithm, AnimationState >::Algorithm(
-    GUI::CodeHighlighter::Ptr codeHighlighter,
+    GUIComponent::CodeHighlighter::Ptr codeHighlighter,
     typename Animation::AnimationController< AnimationState >::Ptr
         animController,
     FontHolder* fonts)

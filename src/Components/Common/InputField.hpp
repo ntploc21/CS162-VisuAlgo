@@ -6,7 +6,7 @@
 #include "Component.hpp"
 #include "FontHolder.hpp"
 
-namespace GUI {
+namespace GUIComponent {
     class InputField : public GUI::Component {
     public:
         typedef std::shared_ptr< InputField > Ptr;
@@ -49,6 +49,6 @@ namespace GUI {
     public:
         static std::vector< bool > fields;
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_INPUTFIELD_HPP

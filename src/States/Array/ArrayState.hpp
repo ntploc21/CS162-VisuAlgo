@@ -43,8 +43,8 @@ namespace State {
         Context mContext;
 
     protected:
-        GUI::CodeHighlighter::Ptr codeHighlighter;
-        GUI::Footer< T > footer;
+        GUIComponent::CodeHighlighter::Ptr codeHighlighter;
+        GUIComponent::Footer< T > footer;
         std::string mCurrentAction;
         std::string mCurrentError;
 
@@ -52,7 +52,7 @@ namespace State {
         typename T::Ptr animController;
 
     protected:
-        GUI::OperationList operationList;
+        GUIComponent::OperationList operationList;
         virtual void AddOperations();  // DO NOT OVERRIDE THIS FUNCTION
         virtual void AddInitializeOperation();
         virtual void AddInsertOperation();
@@ -63,14 +63,14 @@ namespace State {
 
     protected:
         virtual void AddNoFieldOperationOption(
-            GUI::OperationContainer::Ptr container, std::string title,
+            GUIComponent::OperationContainer::Ptr container, std::string title,
             std::function< void() > action);
         virtual void AddIntFieldOperationOption(
-            GUI::OperationContainer::Ptr container, std::string title,
+            GUIComponent::OperationContainer::Ptr container, std::string title,
             Core::Deque< IntegerInput > fields,
             std::function< void(std::map< std::string, std::string >) > action);
         virtual void AddStringFieldOption(
-            GUI::OperationContainer::Ptr container, std::string title,
+            GUIComponent::OperationContainer::Ptr container, std::string title,
             std::string label,
             std::function< void(std::map< std::string, std::string >) > action);
 
@@ -89,10 +89,10 @@ template< typename T >
 State::ArrayState< T >::ArrayState(StateStack& stack, Context context,
                                    DataStructures::ID activeDS)
     : State(stack, context), activeDS(activeDS),
-      codeHighlighter(new GUI::CodeHighlighter(context.fonts)),
-      footer(GUI::Footer< T >()), animController(new T()) {
+      codeHighlighter(new GUIComponent::CodeHighlighter(context.fonts)),
+      footer(GUIComponent::Footer< T >()), animController(new T()) {
     InitNavigationBar();
-    operationList = GUI::OperationList(context.fonts);
+    operationList = GUIComponent::OperationList(context.fonts);
     codeHighlighter->SetPosition(global::SCREEN_WIDTH - 40,
                                  global::SCREEN_HEIGHT - 334);
     codeHighlighter->InitButtons();
@@ -235,10 +235,10 @@ inline void State::ArrayState< T >::AddAccessOperation() {}
 
 template< typename T >
 void State::ArrayState< T >::AddNoFieldOperationOption(
-    GUI::OperationContainer::Ptr container, std::string title,
+    GUIComponent::OperationContainer::Ptr container, std::string title,
     std::function< void() > action) {
-    GUI::OptionInputField::Ptr button(
-        new GUI::OptionInputField(GetContext().fonts));
+    GUIComponent::OptionInputField::Ptr button(
+        new GUIComponent::OptionInputField(GetContext().fonts));
 
     button.get()->SetNoFieldOption(title, action);
 
@@ -247,15 +247,15 @@ void State::ArrayState< T >::AddNoFieldOperationOption(
 
 template< typename T >
 void State::ArrayState< T >::AddIntFieldOperationOption(
-    GUI::OperationContainer::Ptr container, std::string title,
+    GUIComponent::OperationContainer::Ptr container, std::string title,
     Core::Deque< IntegerInput > fields,
     std::function< void(std::map< std::string, std::string >) > action) {
-    GUI::OptionInputField::Ptr button(
-        new GUI::OptionInputField(GetContext().fonts));
-    Core::Deque< GUI::InputField::Ptr > intFields;
+    GUIComponent::OptionInputField::Ptr button(
+        new GUIComponent::OptionInputField(GetContext().fonts));
+    Core::Deque< GUIComponent::InputField::Ptr > intFields;
     for (auto field : fields) {
-        GUI::IntegerInputField::Ptr intField(
-            new GUI::IntegerInputField(GetContext().fonts));
+        GUIComponent::IntegerInputField::Ptr intField(
+            new GUIComponent::IntegerInputField(GetContext().fonts));
         intField.get()->SetLabel(field.label);
         intField.get()->SetInputFieldSize((Vector2){(float)field.width, 30});
         intField.get()->SetConstraint(field.minValue, field.maxValue);
@@ -270,13 +270,13 @@ void State::ArrayState< T >::AddIntFieldOperationOption(
 
 template< typename T >
 void State::ArrayState< T >::AddStringFieldOption(
-    GUI::OperationContainer::Ptr container, std::string title,
+    GUIComponent::OperationContainer::Ptr container, std::string title,
     std::string label,
     std::function< void(std::map< std::string, std::string >) > action) {
-    GUI::OptionInputField::Ptr button(
-        new GUI::OptionInputField(GetContext().fonts));
-    GUI::StringInputField::Ptr strField(
-        new GUI::StringInputField(GetContext().fonts));
+    GUIComponent::OptionInputField::Ptr button(
+        new GUIComponent::OptionInputField(GetContext().fonts));
+    GUIComponent::StringInputField::Ptr strField(
+        new GUIComponent::StringInputField(GetContext().fonts));
     strField.get()->SetLabel(label);
     strField.get()->SetInputFieldSize((Vector2){100, 30});
     button.get()->SetOption(title, {strField}, action);
