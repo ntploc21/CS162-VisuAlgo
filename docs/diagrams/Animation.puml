@@ -1,0 +1,55 @@
+@startuml
+class "Animation::AnimationState<T>" as C_0001557391839750749802
+class C_0001557391839750749802 {
++AnimationState<T>() : void
++~AnimationState<T>() : void
++PlayingAt() : void
++GetCurrentPlayingAt() const : float
++Draw() : void
++Update() : void
++Reset() : void
++SetDuration() : void
++GetDuration() const : float
++SetAnimation() : void
++SetSourceDataStructure() : void
++GetDataStructure() : T
++Done() const : bool
++SetHighlightLine() : void
++GetHighlightedLine() const : int
++SetActionDescription() : void
++GetActionDescription() const : std::string
+}
+class "Animation::AnimationController<T=SLLAnimation>" as C_0000309867414196294986
+class C_0000309867414196294986 {
++AnimationController<T>() : void
++~AnimationController<T>() : void
++RunAll() : void
++Reset() : void
++ResetCurrent() : void
++SetAnimation() : void
++CurrentAnimationIndex() const : std::size_t
++AddAnimation() : void
++PopAnimation() : void
++Clear() : void
++GetAnimationDuration() : float
++GetAnimateFrame() const : float
++GetNumAnimation() const : std::size_t
++GetAnimationIndex() const : std::size_t
++Done() const : bool
++IsPlaying() const : bool
++StepForward() : void
++StepBackward() : void
++Pause() : void
++Continue() : void
++InteractionLock() : void
++InteractionAllow() : void
++IsInteractionAllow() const : bool
++Update() : void
++SetSpeed() : void
++GetSpeed() const : float
++GetAnimation() : T
+}
+
+'Generated with clang-uml, version 0.3.4
+'LLVM version clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+@enduml

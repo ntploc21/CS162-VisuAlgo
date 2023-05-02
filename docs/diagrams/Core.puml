@@ -1,0 +1,126 @@
+@startuml
+class "Core::Node<T>" as C_0002214350007997883619
+class C_0002214350007997883619 {
+}
+class "Core::List<T>" as C_0002141448420730924051
+class C_0002141448420730924051 {
+-reset() : void
+-insert_previous() : void
+-move_previous() : Core::List::iterator
+-get_iterator() : Core::List::iterator
++List<T>() : void
++List<T>() : void
++~List<T>() : void
++List<T>() : void
++List<T>() : void
++operator=() : List<T> &
++operator=() : List<T> &
++operator=() : List<T> &
+#begin() : Core::List::iterator
+#begin() const : Core::List::const_iterator
+#end() : Core::List::iterator
+#end() const : Core::List::const_iterator
++empty() const : bool
++size() const : std::size_t
+#front() : T &
+#front() const : const T &
+#back() : T &
+#back() const : const T &
+#operator[]() : T &
+#operator[]() const : const T &
+#at() : T &
+#at() const : const T &
+#push_front() : void
+#push_back() : void
+#pop_front() : void
+#pop_back() : void
+#remove() : Core::List::iterator
+#remove() : int
+#remove() : int
+#remove_if() : int
+#remove_if() : int
+#resize() : void
+#resize() : void
+#assign() : void
+#assign() : void
+#assign() : void
+#unique() : std::size_t
+#unique() : std::size_t
+#reverse() : void
+#swap() : void
++clear() : void
+-mBegin : Core::List::iterator
+-mEnd : Core::List::iterator
+-mSize : std::size_t
+}
+class "Core::List::iterator" as C_0000108480090971199704
+class C_0000108480090971199704 {
++iterator() : void
++iterator() : void
++operator*() const : Core::List::iterator::reference
++operator->() const : Core::List::iterator::pointer
++operator++() : Core::List::iterator &
++operator++() : Core::List::iterator
++operator--() : Core::List::iterator &
++operator--() : Core::List::iterator
++operator=() : Core::List::iterator &
++operator+() : Core::List::iterator
++operator-() : Core::List::iterator
++operator==() const : bool
++operator!=() const : bool
++swap() : void
+}
+class "Core::List::const_iterator" as C_0001904103853744150447
+class C_0001904103853744150447 {
++const_iterator() : void
++const_iterator() : void
++const_iterator() : void
++const_iterator() : void
++operator*() const : Core::List::const_iterator::reference
++operator->() const : Core::List::const_iterator::pointer
++operator++() : Core::List::const_iterator &
++operator++() : Core::List::const_iterator
++operator--() : Core::List::const_iterator &
++operator--() : Core::List::const_iterator
++operator+() : Core::List::const_iterator
++operator-() : Core::List::const_iterator
++operator=() : Core::List::const_iterator &
++operator=() : Core::List::const_iterator &
++operator==() const : bool
++operator!=() const : bool
++swap() : void
+}
+class "Core::Deque<T>" as C_0002176450663616332624
+class C_0002176450663616332624 {
+}
+class "Core::Stack<T>" as C_0000913461797095157941
+class C_0000913461797095157941 {
++top() : T &
++top() const : const T &
++push() : void
++push() : void
++pop() : void
+}
+class "Core::Queue<T>" as C_0001068657259631092687
+class C_0001068657259631092687 {
++front() : T &
++front() const : const T &
++back() : T &
++back() const : const T &
++push() : void
++push() : void
++pop() : void
+}
+C_0002214350007997883619 ..|> C_0002214350007997883619
+C_0002141448420730924051 ..> C_0002141448420730924051
+C_0000108480090971199704 --+ C_0002141448420730924051
+C_0000108480090971199704 --> C_0002214350007997883619 : -ptr
+C_0001904103853744150447 --+ C_0002141448420730924051
+C_0001904103853744150447 --> C_0002214350007997883619 : -ptr
+C_0002141448420730924051 <|-- C_0002176450663616332624
+C_0002141448420730924051 <|-- C_0000913461797095157941
+C_0002141448420730924051 <|-- C_0001068657259631092687
+
+'Generated with clang-uml, version 0.3.4
+'LLVM version clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+@enduml
