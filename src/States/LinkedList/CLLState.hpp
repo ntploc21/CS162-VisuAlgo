@@ -18,7 +18,6 @@ public:
 public:
     CLLState(StateStack& stack, Context context);
     ~CLLState();
-    void Draw();
 };
 
 #endif  // STATES_LINKEDLIST_CLLSTATE_HPP

@@ -15,21 +15,6 @@ StaticArrayState::StaticArrayState(StateStack& stack, Context context)
 
 StaticArrayState::~StaticArrayState() {}
 
-void StaticArrayState::Draw() {
-    DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, BLACK);
-
-    DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
-                  BLACK);
-
-    animController->GetAnimation().Draw();
-    operationList.Draw();
-    navigation.Draw();
-    codeHighlighter->Draw();
-    footer.Draw(animController.get());
-    DrawCurrentActionText();
-    DrawCurrentErrorText();
-}
-
 void StaticArrayState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());

@@ -19,7 +19,6 @@ protected:
 public:
     SLLState(StateStack& stack, Context context);
     ~SLLState();
-    void Draw();
 };
 
 #endif  // STATES_LINKEDLIST_SLLSTATE_HPP

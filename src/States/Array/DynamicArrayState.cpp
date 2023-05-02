@@ -14,21 +14,6 @@ DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
 
 DynamicArrayState::~DynamicArrayState() {}
 
-void DynamicArrayState::Draw() {
-    DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, BLACK);
-
-    DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
-                  BLACK);
-
-    animController->GetAnimation().Draw();
-    operationList.Draw();
-    navigation.Draw();
-    codeHighlighter->Draw();
-    footer.Draw(animController.get());
-    DrawCurrentActionText();
-    DrawCurrentErrorText();
-}
-
 void DynamicArrayState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
     GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
@@ -85,7 +70,8 @@ void DynamicArrayState::AddInsertOperation() {
 
             int v = std::stoi(input["v = "]);
             mDynamicArray.PushBack(v);
-            SetCurrentAction("Push v = " + input["v = "] + " at back (i = length)");
+            SetCurrentAction("Push v = " + input["v = "] +
+                             " at back (i = length)");
             Success();
         });
 

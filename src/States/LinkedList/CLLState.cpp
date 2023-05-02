@@ -13,22 +13,6 @@ CLLState::CLLState(StateStack& stack, Context context)
 
 CLLState::~CLLState() {}
 
-void CLLState::Draw() {
-    DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, BLACK);
-
-    DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
-                  BLACK);
-
-    operationList.Draw();
-    navigation.Draw();
-
-    animController->GetAnimation().Draw();
-    codeHighlighter->Draw();
-    footer.Draw(animController.get());
-    DrawCurrentActionText();
-    DrawCurrentErrorText();
-}
-
 void CLLState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(
         new GUI::Button("Insert", GetContext().fonts));

@@ -1,9 +1,6 @@
 #include "SLLState.hpp"
 
-#include <iostream>
-
 #include "Components/Visualization/Node.hpp"
-#include "Global.hpp"
 
 SLLState::SLLState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::SinglyLinkedList) {
@@ -13,22 +10,6 @@ SLLState::SLLState(StateStack& stack, Context context)
 }
 
 SLLState::~SLLState() {}
-
-void SLLState::Draw() {
-    DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, BLACK);
-
-    DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
-                  BLACK);
-
-    operationList.Draw();
-    navigation.Draw();
-
-    animController->GetAnimation().Draw();
-    codeHighlighter->Draw();
-    footer.Draw(animController.get());
-    DrawCurrentActionText();
-    DrawCurrentErrorText();
-}
 
 void SLLState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(

@@ -7,6 +7,8 @@
 #include "Components/Common/OperationContainer.hpp"
 #include "Components/Common/OperationList.hpp"
 #include "Components/Common/OptionInputField.hpp"
+#include "Global.hpp"
+#include "Settings.hpp"
 #include "State.hpp"
 
 template< typename T >
@@ -22,7 +24,7 @@ public:
 public:
     LLState(StateStack& stack, Context context, DataStructures::ID activeDS);
     ~LLState();
-    virtual void Draw() = 0;
+    virtual void Draw();
     virtual bool Update(float dt);
     virtual void SetCurrentAction(std::string action);
     virtual void SetCurrentError(std::string error);
@@ -98,6 +100,25 @@ template< typename T >
 LLState< T >::~LLState() {}
 
 template< typename T >
+inline void LLState< T >::Draw() {
+    const Color sidebarColor =
+        Settings::getInstance().getColor(ColorTheme::NavigationBar_Background);
+    DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, sidebarColor);
+
+    DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
+                  sidebarColor);
+
+    operationList.Draw();
+    navigation.Draw();
+
+    animController->GetAnimation().Draw();
+    codeHighlighter->Draw();
+    footer.Draw(animController.get());
+    DrawCurrentActionText();
+    DrawCurrentErrorText();
+}
+
+template< typename T >
 bool LLState< T >::Update(float dt) {
     animController->Update(dt);
     codeHighlighter->Highlight(
@@ -136,19 +157,23 @@ inline void LLState< T >::Success() {
 
 template< typename T >
 inline void LLState< T >::DrawCurrentActionText() {
+    const Color textColor = Settings::getInstance().getColor(ColorTheme::Text);
+
     float rightAlignment = global::SCREEN_WIDTH - 50;
     Font font = GetContext().fonts->Get(Fonts::Default_Bold);
     float width = MeasureTextEx(font, mCurrentAction.c_str(), 32, 0).x;
     float x = rightAlignment - width;
 
     DrawTextEx(font, mCurrentAction.c_str(),
-               (Vector2){x, global::SCREEN_HEIGHT - 376}, 32, 0, BLACK);
+               (Vector2){x, global::SCREEN_HEIGHT - 376}, 32, 0, textColor);
 
     // codeHighlighter->SetPosition(, global::SCREEN_HEIGHT - 334);
 }
 
 template< typename T >
 inline void LLState< T >::DrawCurrentErrorText() {
+    const Color errorTextColor =
+        Settings::getInstance().getColor(ColorTheme::Visualizer_ErrorText);
     Font font = GetContext().fonts->Get(Fonts::Default_Bold);
     float width = MeasureTextEx(font, mCurrentError.c_str(), 24, 0).x;
     float x = 50;
@@ -156,7 +181,7 @@ inline void LLState< T >::DrawCurrentErrorText() {
     DrawTextEx(
         font, mCurrentError.c_str(),
         (Vector2){x, global::SCREEN_HEIGHT - operationList.GetSize().y - 90},
-        24, 0, RED);
+        24, 0, errorTextColor);
 }
 
 template< typename T >

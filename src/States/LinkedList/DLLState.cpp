@@ -13,22 +13,6 @@ DLLState::DLLState(StateStack& stack, Context context)
 
 DLLState::~DLLState() {}
 
-void DLLState::Draw() {
-    DrawRectangle(0, 0, 40, global::SCREEN_HEIGHT, BLACK);
-
-    DrawRectangle(global::SCREEN_WIDTH - 40, 0, 40, global::SCREEN_HEIGHT,
-                  BLACK);
-
-    operationList.Draw();
-    navigation.Draw();
-
-    animController->GetAnimation().Draw();
-    codeHighlighter->Draw();
-    footer.Draw(animController.get());
-    DrawCurrentActionText();
-    DrawCurrentErrorText();
-}
-
 void DLLState::AddInsertOperation() {
     GUI::Button::Ptr buttonInsert(
         new GUI::Button("Insert", GetContext().fonts));

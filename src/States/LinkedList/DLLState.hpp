@@ -18,7 +18,6 @@ public:
 public:
     DLLState(StateStack& stack, Context context);
     ~DLLState();
-    void Draw();
 };
 
 #endif  // STATES_LINKEDLIST_DLLSTATE_HPP

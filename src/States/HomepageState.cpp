@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Global.hpp"
+#include "Settings.hpp"
 
 HomepageState::HomepageState(StateStack& stack, Context context)
     : State(stack, context) {
@@ -21,6 +22,12 @@ void HomepageState::Draw() {
 bool HomepageState::Update(float dt) { return true; }
 
 void HomepageState::DrawIntroduction() {
+    const Color headingColor1 =
+        Settings::getInstance().getColor(ColorTheme::Logo2FirstPart);
+    const Color headingColor2 =
+        Settings::getInstance().getColor(ColorTheme::Logo2SecondPart);
+    const Color textColor = Settings::getInstance().getColor(ColorTheme::Text);
+
     float fontSize;
     float x, y, fullTextWidth;
     float fSpanWidth;
@@ -34,9 +41,8 @@ void HomepageState::DrawIntroduction() {
 
     x = (global::SCREEN_WIDTH - fullTextWidth) / 2;
     y = 70;
-
-    DrawTextEx(font, "Visu", {x, y}, fontSize, 0, BLACK);
-    DrawTextEx(font, "Algo", {x + fSpanWidth, y}, fontSize, 0, ORANGE);
+    DrawTextEx(font, "Visu", {x, y}, fontSize, 0, headingColor1);
+    DrawTextEx(font, "Algo", {x + fSpanWidth, y}, fontSize, 0, headingColor2);
 
     // Draw description
     std::string msg =
@@ -47,7 +53,7 @@ void HomepageState::DrawIntroduction() {
 
     x = (global::SCREEN_WIDTH - fullTextWidth) / 2;
     y = 220;
-    DrawTextEx(font, msg.c_str(), {x, y}, fontSize, 0, BLACK);
+    DrawTextEx(font, msg.c_str(), {x, y}, fontSize, 0, textColor);
     // Draw small note (this project is the CS162 solo project...)
     msg = "CS162 Solo Project";
     font = GetContext().fonts->Get(Fonts::Silkscreen);
@@ -57,8 +63,9 @@ void HomepageState::DrawIntroduction() {
     fullTextWidth = MeasureTextEx(font, msg.c_str(), fontSize, 0).x;
     x = (global::SCREEN_WIDTH - fullTextWidth) / 2;
     y = 140;
-    DrawTextEx(font, "CS162", {x, y}, fontSize, 0, BLACK);
-    DrawTextEx(font, "Solo Project", {x + fSpanWidth, y}, fontSize, 0, ORANGE);
+    DrawTextEx(font, "CS162", {x, y}, fontSize, 0, headingColor1);
+    DrawTextEx(font, "Solo Project", {x + fSpanWidth, y}, fontSize, 0,
+               headingColor2);
     // Author
     msg = "@ntploc21 - 22TT2 - 22125050";
     font = GetContext().fonts->Get(Fonts::Default_Bold);
@@ -67,7 +74,7 @@ void HomepageState::DrawIntroduction() {
 
     x = (global::SCREEN_WIDTH - fullTextWidth) / 2;
     y = 190;
-    DrawTextEx(font, msg.c_str(), {x, y}, fontSize, 0, BLACK);
+    DrawTextEx(font, msg.c_str(), {x, y}, fontSize, 0, textColor);
 }
 
 void HomepageState::CreateCard(States::ID stateID, std::string title,

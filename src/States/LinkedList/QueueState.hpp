@@ -17,7 +17,6 @@ public:
 public:
     QueueState(StateStack& stack, Context context);
     ~QueueState();
-    void Draw();
 };
 
 #endif  // STATES_LINKEDLIST_QUEUESTATE_HPP

@@ -17,7 +17,6 @@ public:
 public:
     StackState(StateStack& stack, Context context);
     ~StackState();
-    void Draw();
 };
 
 #endif  // STATES_LINKEDLIST_STACKSTATE_HPP

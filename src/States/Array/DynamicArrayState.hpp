@@ -19,7 +19,6 @@ private:
 public:
     DynamicArrayState(StateStack& stack, Context context);
     ~DynamicArrayState();
-    void Draw();
 };
 
 #endif  // STATES_ARRAY_DYNAMICARRAYSTATE_HPP

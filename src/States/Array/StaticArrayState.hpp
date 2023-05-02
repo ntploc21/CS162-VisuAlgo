@@ -18,7 +18,6 @@ private:
 public:
     StaticArrayState(StateStack& stack, Context context);
     ~StaticArrayState();
-    void Draw();
 };
 
 #endif  // STATES_ARRAY_STATICARRAYSTATE_HPP
