@@ -5,6 +5,7 @@ namespace ColorTheme {
     enum ID {
         /* Background */
         Background,
+        Text,
         /* GUI */
         /* Logo color */
         Logo1FirstPart,
@@ -16,6 +17,15 @@ namespace ColorTheme {
         NavigationBar_SelectedTitle,
         NavigationBar_UnselectedTitle,
         NavigationBar_Background,
+        /* Footer */
+        Footer_Background,
+        Footer_Icon,
+        Footer_HoveredIcon,
+
+        /* Button */
+        Button_Background,
+        Button_HoveredBackground,
+        Button_Text,
 
         /* Card (title) */
         Card_Background,
@@ -25,14 +35,22 @@ namespace ColorTheme {
         ActionList_Text,
         ActionList_Background,
         ActionList_HoverBackground,
+        /* Input */
+        InputField_Inactive,
 
         /* Code highlighter */
         CodeHighlighter_Background,
+        CodeHighlighter_Text,
+        CodeHighlighter_HighlightedLineBackground,
         ActionDescription_Background,
+        ActionDescription_Text,
 
         /* Visualizer */
         /* Node */
         Visualizer_Label,
+        Visualizer_ErrorText,
+        Visualizer_ActionText,
+
         /* Default */
         Visualizer_Node_Default_Outline1,
         Visualizer_Node_Default_Outline2,

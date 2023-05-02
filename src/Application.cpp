@@ -6,6 +6,7 @@
 #include "Settings.hpp"
 
 // States
+#include "Settings.hpp"
 #include "States/Array/DynamicArrayState.hpp"
 #include "States/Array/StaticArrayState.hpp"
 #include "States/HomepageState.hpp"
@@ -51,7 +52,9 @@ void Application::Run() {
 void Application::Render() {
     BeginDrawing();
 
-    ClearBackground(RAYWHITE);
+    const Color backgroundColor =
+        Settings::getInstance().getColor(ColorTheme::Background);
+    ClearBackground(backgroundColor);
     mStack.Draw();
 
     EndDrawing();
@@ -141,6 +144,9 @@ void Application::LoadResources() {
     images->Load(Textures::Stack, "assets/images/Stack.png", 250, 160, true);
     images->Load(Textures::Queue, "assets/images/Queue.png", 250, 160, true);
     images->Load(Textures::Favicon, "assets/images/favicon.png");
+
+    // ===============
+    Settings::getInstance().LoadDefaultColors();
 }
 
 Application::Application()

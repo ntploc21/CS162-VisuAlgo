@@ -11,5 +11,5 @@ namespace global {
 
     const std::string favicon = "assets/images/favicon.png";
 
-    const std::string defaultColorPath = "assets/default-theme.dat";
+    const std::string defaultColorPath = "assets/themes/default-theme.dat";
 }  // namespace global

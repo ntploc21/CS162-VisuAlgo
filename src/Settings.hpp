@@ -11,7 +11,7 @@
 
 class Settings : private NonCopyable< Settings > {
 private:
-    std::map< ColorTheme::ID, Color > mColors;
+    std::map< std::size_t, Color > mColors;
 
 private:
     Settings() = default;
@@ -25,8 +25,8 @@ public:
     static Settings& getInstance();
     void LoadDefaultColors();
 
-    Color& getColor(ColorTheme::ID id);
-    Color getColor(ColorTheme::ID id) const;
+    Color& getColor(std::size_t id);
+    Color getColor(std::size_t id) const;
 
     void SaveToFile(const std::string& path);
     void LoadFromFile(const std::string& path);

@@ -16,6 +16,8 @@ Settings& Settings::getInstance() {
 void Settings::LoadDefaultColors() {
     /* Background */
     mColors[ColorTheme::Background] = RAYWHITE;
+    mColors[ColorTheme::Text] = BLACK;
+
     /* GUI */
     /* Logo color */
     mColors[ColorTheme::Logo1FirstPart] = WHITE;
@@ -29,6 +31,16 @@ void Settings::LoadDefaultColors() {
         Color{170, 170, 170, 255};
     mColors[ColorTheme::NavigationBar_Background] = BLACK;
 
+    /* Footer */
+    mColors[ColorTheme::Footer_Background] = BLACK;
+    mColors[ColorTheme::Footer_Icon] = WHITE;
+    mColors[ColorTheme::Footer_HoveredIcon] = Color{82, 188, 105, 255};
+
+    /* Button */
+    mColors[ColorTheme::Button_Background] = Color{82, 188, 105, 255};
+    mColors[ColorTheme::Button_HoveredBackground] = BLACK;
+    mColors[ColorTheme::Button_Text] = WHITE;
+
     /* Card (title) */
     mColors[ColorTheme::Card_Background] = LIGHTGRAY;
     mColors[ColorTheme::Card_Text] = BLACK;
@@ -37,15 +49,22 @@ void Settings::LoadDefaultColors() {
     mColors[ColorTheme::ActionList_Text] = WHITE;
     mColors[ColorTheme::ActionList_Background] = Color{82, 188, 105, 255};
     mColors[ColorTheme::ActionList_HoverBackground] = BLACK;
+    /* Input */
+    mColors[ColorTheme::InputField_Inactive] = BLACK;
 
     /* Code highlighter */
     mColors[ColorTheme::CodeHighlighter_Background] = Color{46, 187, 209, 255};
+    mColors[ColorTheme::CodeHighlighter_Text] = WHITE;
+    mColors[ColorTheme::CodeHighlighter_HighlightedLineBackground] = BLACK;
     mColors[ColorTheme::ActionDescription_Background] =
         Color{255, 133, 39, 255};
+    mColors[ColorTheme::ActionDescription_Text] = WHITE;
 
     /* Visualizer */
     /* Label */
     mColors[ColorTheme::Visualizer_Label] = RED;
+    mColors[ColorTheme::Visualizer_ErrorText] = RED;
+    mColors[ColorTheme::Visualizer_ActionText] = BLACK;
     /* Node */
     /* Default */
     mColors[ColorTheme::Visualizer_Node_Default_Outline1] = BLACK;
@@ -112,19 +131,43 @@ void Settings::LoadDefaultColors() {
     mColors[ColorTheme::Visualizer_Arrow_Active] = Color{255, 138, 39, 255};
 }
 
-void Settings::SaveToFile(const std::string& path) {}
+void Settings::SaveToFile(const std::string& path) {
+    std::ofstream out(path, std::ios::binary);
 
-void Settings::LoadFromFile(const std::string& path) {}
+    for (int i = 0; i < ColorTheme::Count; i++) {
+        unsigned color = ColorToInt(getColor(i));
+        out.write(reinterpret_cast< char* >(&color), sizeof(unsigned));
+    }
+    out.close();
+}
+
+void Settings::LoadFromFile(const std::string& path) {
+    std::ifstream in(path, std::ios::binary);
+
+    if (!in.is_open()) {
+        LoadDefaultColors();
+        SaveToFile(path);
+
+        in.close();
+        in.open(path, std::ios::binary);
+    }
+
+    unsigned hexColor;
+    for (int i = 0; i < ColorTheme::Count; i++) {
+        in.read(reinterpret_cast< char* >(&hexColor), sizeof(unsigned));
+        mColors[i] = GetColor(hexColor);
+    }
+}
 
 Settings::~Settings() { SaveToFile(global::defaultColorPath); }
 
-Color& Settings::getColor(ColorTheme::ID id) {
+Color& Settings::getColor(std::size_t id) {
     auto found = mColors.find(id);
     assert(found != mColors.end());
     return found->second;
 }
 
-Color Settings::getColor(ColorTheme::ID id) const {
+Color Settings::getColor(std::size_t id) const {
     auto found = mColors.find(id);
     assert(found != mColors.end());
     return found->second;
