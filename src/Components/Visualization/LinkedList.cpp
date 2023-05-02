@@ -3,39 +3,43 @@
 #include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
-GUI::LinkedList::LinkedList(FontHolder* fonts)
+GUIVisualizer::LinkedList::LinkedList(FontHolder* fonts)
     : mDisplayHeadAndTail(true), fonts(fonts) {}
-GUI::LinkedList::LinkedList() : mDisplayHeadAndTail(true) {}
-GUI::LinkedList::~LinkedList() {}
+GUIVisualizer::LinkedList::LinkedList() : mDisplayHeadAndTail(true) {}
+GUIVisualizer::LinkedList::~LinkedList() {}
 
-void GUI::LinkedList::SetShape(GUI::Node::Shape shape) {
+void GUIVisualizer::LinkedList::SetShape(GUIVisualizer::Node::Shape shape) {
     mShape = shape;
-    for (GUI::Node& node : list) node.SetShape(shape);
+    for (GUIVisualizer::Node& node : list) node.SetShape(shape);
 }
 
-GUI::Node::Shape GUI::LinkedList::GetShape() const { return mShape; }
+GUIVisualizer::Node::Shape GUIVisualizer::LinkedList::GetShape() const {
+    return mShape;
+}
 
-bool GUI::LinkedList::isSelectable() const { return false; }
+bool GUIVisualizer::LinkedList::isSelectable() const { return false; }
 
-std::size_t GUI::LinkedList::size() const { return list.size(); }
+std::size_t GUIVisualizer::LinkedList::size() const { return list.size(); }
 
-void GUI::LinkedList::SetShowHeadAndTail(bool show) {
+void GUIVisualizer::LinkedList::SetShowHeadAndTail(bool show) {
     mDisplayHeadAndTail = show;
 }
 
-void GUI::LinkedList::SetOrientation(Orientation orientation) {
+void GUIVisualizer::LinkedList::SetOrientation(Orientation orientation) {
     mOrientation = orientation;
     Relayout();
 }
 
-std::vector< GUI::Node >& GUI::LinkedList::GetList() { return list; }
+std::vector< GUIVisualizer::Node >& GUIVisualizer::LinkedList::GetList() {
+    return list;
+}
 
-GUI::Node GUI::LinkedList::GenerateNode(int value) {
-    GUI::Node node = GUI::Node(value, fonts);
+GUIVisualizer::Node GUIVisualizer::LinkedList::GenerateNode(int value) {
+    GUIVisualizer::Node node = GUIVisualizer::Node(value, fonts);
     return node;
 }
 
-void GUI::LinkedList::Import(std::vector< int > nodes) {
+void GUIVisualizer::LinkedList::Import(std::vector< int > nodes) {
     list.clear();
 
     float length = 40 * nodes.size() + mNodeDistance * (int(nodes.size()) - 1);
@@ -46,7 +50,7 @@ void GUI::LinkedList::Import(std::vector< int > nodes) {
         SetPosition(100 + (global::SCREEN_WIDTH - 40) / 2, 150);
 
     for (int i = 0; i < nodes.size(); i++) {
-        GUI::Node guiNode = GenerateNode(nodes[i]);
+        GUIVisualizer::Node guiNode = GenerateNode(nodes[i]);
         Vector2 newPos = GetNodeDefaultPosition(i);
         guiNode.SetPosition(newPos.x, newPos.y);
         list.emplace_back(guiNode);
@@ -58,8 +62,9 @@ void GUI::LinkedList::Import(std::vector< int > nodes) {
     if (list.size() > 1) list.back().SetLabel("tail");
 }
 
-void GUI::LinkedList::InsertNode(std::size_t index, GUI::Node node,
-                                 bool rePosition) {
+void GUIVisualizer::LinkedList::InsertNode(std::size_t index,
+                                           GUIVisualizer::Node node,
+                                           bool rePosition) {
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
 
@@ -70,13 +75,13 @@ void GUI::LinkedList::InsertNode(std::size_t index, GUI::Node node,
     }
 }
 
-void GUI::LinkedList::Relayout() {
+void GUIVisualizer::LinkedList::Relayout() {
     std::vector< int > values;
     for (auto node : list) values.emplace_back(node.GetValue());
     Import(values);
 }
 
-Vector2 GUI::LinkedList::GetNodeDefaultPosition(std::size_t index) {
+Vector2 GUIVisualizer::LinkedList::GetNodeDefaultPosition(std::size_t index) {
     Vector2 answer = (Vector2){0, 0};
     switch (mOrientation) {
         case Orientation::Horizontal:
@@ -91,7 +96,7 @@ Vector2 GUI::LinkedList::GetNodeDefaultPosition(std::size_t index) {
     return answer;
 }
 
-void GUI::LinkedList::DeleteNode(std::size_t index, bool rePosition) {
+void GUIVisualizer::LinkedList::DeleteNode(std::size_t index, bool rePosition) {
     list.erase(list.begin() + index);
 
     if (!rePosition) return;

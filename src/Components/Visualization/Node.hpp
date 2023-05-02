@@ -6,7 +6,7 @@
 #include "FontHolder.hpp"
 #include "Identifiers/ColorThemeIdentifiers.hpp"
 
-namespace GUI {
+namespace GUIVisualizer {
     class Node : public GUI::Component {
     public:
         enum State {
@@ -100,6 +100,6 @@ namespace GUI {
         Color mActiveColor;
         Color mBorderColor;
     };
-};  // namespace GUI
+};      // namespace GUIVisualizer
 
 #endif  // COMPONENTS_VISUALIZATION_GUINODE_HPP

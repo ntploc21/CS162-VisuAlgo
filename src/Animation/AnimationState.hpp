@@ -151,9 +151,13 @@ void Animation::AnimationState< T >::Draw(Vector2 base) {
     mAnimation(mDataStructureBefore, playingAt, base);
 }
 
-typedef Animation::AnimationState< GUI::SinglyLinkedList > SLLAnimation;
-typedef Animation::AnimationState< GUI::DoublyLinkedList > DLLAnimation;
-typedef Animation::AnimationState< GUI::CircularLinkedList > CLLAnimation;
-typedef Animation::AnimationState< GUI::DynamicArray > DArrayAnimation;
+typedef Animation::AnimationState< GUIVisualizer::SinglyLinkedList >
+    SLLAnimation;
+typedef Animation::AnimationState< GUIVisualizer::DoublyLinkedList >
+    DLLAnimation;
+typedef Animation::AnimationState< GUIVisualizer::CircularLinkedList >
+    CLLAnimation;
+typedef Animation::AnimationState< GUIVisualizer::DynamicArray >
+    DArrayAnimation;
 
 #endif  // CORE_ANIMATION_ANIMATIONSTATE_HPP

@@ -9,15 +9,17 @@ diagrams:
     include:
       namespaces:
         - GUIComponent
+        - GUI
     exclude:
       access:
         - private
-  GUI:
+  Visualizer:
     type: class
     relative_to: src
     include_relations_also_as_members: false
     include:
       namespaces:
+        - GUIVisualizer
         - GUI
     exclude:
       access:

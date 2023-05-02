@@ -7,7 +7,7 @@
 #include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
-using ArrowType = GUI::SinglyLinkedList::ArrowType;
+using ArrowType = GUIVisualizer::SinglyLinkedList::ArrowType;
 
 Algorithm::Queue::Queue() {}
 
@@ -33,20 +33,20 @@ void Algorithm::Queue::EnqueueEmpty(int value) {
 
     node.AnimationOnNode(true);
     node.SetLabel("node");
-    node.SetNodeState(GUI::Node::Active);
+    node.SetNodeState(GUIVisualizer::Node::Active);
 
     SLLAnimation anim1 = GenerateAnimation(
         1, 0, "Create new node to store value " + std::to_string(value) + ".");
-    anim1.SetAnimation(
-        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-            GUI::Node& node = srcDS.GetList().at(0);
-            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
-            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
-            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
+    anim1.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
+        GUIVisualizer::Node& node = srcDS.GetList().at(0);
+        node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
+        node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
+        node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
 
-            srcDS.Draw(base, playingAt);
-            return srcDS;
-        });
+        srcDS.Draw(base, playingAt);
+        return srcDS;
+    });
     animController->AddAnimation(anim1);
     node.AnimationOnNode(false);
 
@@ -57,7 +57,7 @@ void Algorithm::Queue::EnqueueEmpty(int value) {
 
     node.SetLabel("head");
     SLLAnimation anim3 = GenerateAnimation(0.5, 2, "head points to node.");
-    node.SetNodeState(GUI::Node::State::Default);
+    node.SetNodeState(GUIVisualizer::Node::State::Default);
     animController->AddAnimation(anim3);
 }
 
@@ -73,8 +73,8 @@ void Algorithm::Queue::Enqueue(int value) {
 
     /* Animation goes here */
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
-    newNode.SetNodeState(GUI::Node::Active);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetNodeState(GUIVisualizer::Node::Active);
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
 
@@ -88,24 +88,26 @@ void Algorithm::Queue::Enqueue(int value) {
     SLLAnimation anim1 = GenerateAnimation(
         1, 0,
         "Create new vertex to store value " + std::to_string(value) + ".");
-    anim1.SetAnimation(
-        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-            GUI::Node& node = srcDS.GetList().back();
-            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
-            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
-            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
+    anim1.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
+        GUIVisualizer::Node& node = srcDS.GetList().back();
+        node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
+        node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
+        node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
 
-            srcDS.Draw(base, playingAt);
-            return srcDS;
-        });
+        srcDS.Draw(base, playingAt);
+        return srcDS;
+    });
     animController->AddAnimation(anim1);
 
-    visualizer.GetList().back().SetNodeState(GUI::Node::State::Iterated);
-    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Active);
+    visualizer.GetList().back().SetNodeState(
+        GUIVisualizer::Node::State::Iterated);
+    visualizer.GetList()[prvSize - 1].SetNodeState(
+        GUIVisualizer::Node::State::Active);
     visualizer.GetList()[prvSize - 1].AnimationOnNode(true);
     SLLAnimation anim2 =
         GenerateAnimation(1, 1, "Current tail->next points to the node.");
-    anim2.SetAnimation([this, prvSize](GUI::SinglyLinkedList srcDS,
+    anim2.SetAnimation([this, prvSize](GUIVisualizer::SinglyLinkedList srcDS,
                                        float playingAt, Vector2 base) {
         srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;
@@ -122,7 +124,8 @@ void Algorithm::Queue::Enqueue(int value) {
     });
     visualizer.SetArrowType(prvSize - 1, ArrowType::Default);
 
-    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Default);
+    visualizer.GetList()[prvSize - 1].SetNodeState(
+        GUIVisualizer::Node::State::Default);
     visualizer.GetList()[prvSize - 1].ClearLabel();
     if (prvSize - 1 == 0) visualizer.GetList()[prvSize - 1].SetLabel("head");
     animController->AddAnimation(anim2);
@@ -143,7 +146,7 @@ void Algorithm::Queue::Enqueue(int value) {
         0.5, -1,
         "Re-layout the Linked List for visualization (not in the actual Linked "
         "List).\nThe whole process is still O(1).");
-    anim4.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
+    anim4.SetAnimation([this, actualPosX](GUIVisualizer::SinglyLinkedList srcDS,
                                           float playingAt, Vector2 base) {
         Vector2 newPos = srcDS.GetPosition();
         newPos.x += (actualPosX - newPos.x) * playingAt;
@@ -171,7 +174,7 @@ void Algorithm::Queue::Dequeue() {
     }
     nodes[0].SetLabel("head/0");
     nodes[0].AnimationOnNode(true);
-    nodes[0].SetNodeState(GUI::Node::State::Active);
+    nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
     SLLAnimation anim1 = GenerateAnimation(
         0.75, 0, "head is exist, so we proceed to the next step");
     animController->AddAnimation(anim1);
@@ -198,8 +201,8 @@ void Algorithm::Queue::Dequeue() {
 
         SLLAnimation anim4 = GenerateAnimation(
             0.75, 3, "Remove head vertex.\nWe now have an empty List.");
-        anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
+        anim4.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
             auto& node = srcDS.GetList().front();
 
             node.SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
@@ -218,7 +221,7 @@ void Algorithm::Queue::Dequeue() {
     }
     nodes[1].SetLabel("head/0");
     nodes[1].AnimationOnNode(true);
-    nodes[1].SetNodeState(GUI::Node::State::ActiveGreen);
+    nodes[1].SetNodeState(GUIVisualizer::Node::State::ActiveGreen);
     nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 2));
     SLLAnimation anim3 =
         GenerateAnimation(0.75, 2, "head points to the next node.");
@@ -229,8 +232,8 @@ void Algorithm::Queue::Dequeue() {
     nodes[1].AnimationOnNode(false);
     SLLAnimation anim4 = GenerateAnimation(
         0.75, 3, "Delete del, which was the (previous) head.");
-    anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                              Vector2 base) {
+    anim4.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
         auto& nodes = srcDS.GetList();
 
         nodes[0].SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
@@ -267,7 +270,7 @@ void Algorithm::Queue::Dequeue() {
         0.5, -1,
         "Re-layout the Linked List for visualization (not in the actual Linked "
         "List).\nThe whole process is still O(1).");
-    anim5.SetAnimation([this, actualPosX](GUI::SinglyLinkedList srcDS,
+    anim5.SetAnimation([this, actualPosX](GUIVisualizer::SinglyLinkedList srcDS,
                                           float playingAt, Vector2 base) {
         Vector2 newPos = srcDS.GetPosition();
         newPos.x += (actualPosX - newPos.x) * playingAt;
@@ -292,11 +295,11 @@ void Algorithm::Queue::PeekFront() {
                           "return will be NULL.");
     if (!nodes.empty()) {
         nodes[0].AnimationOnNode(true);
-        nodes[0].SetNodeState(GUI::Node::State::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
         anim = GenerateAnimation(0.75, 0,
                                  "Return the value stored at the head: " +
                                      std::to_string(nodes[0].GetValue()) + ".");
-        nodes[0].SetNodeState(GUI::Node::State::Default);
+        nodes[0].SetNodeState(GUIVisualizer::Node::State::Default);
         nodes[0].AnimationOnNode(false);
     }
     animController->AddAnimation(anim);
@@ -312,21 +315,23 @@ void Algorithm::Queue::PeekBack() {
                           "return will be NULL.");
     if (!nodes.empty()) {
         nodes.back().AnimationOnNode(true);
-        nodes.back().SetNodeState(GUI::Node::State::Active);
+        nodes.back().SetNodeState(GUIVisualizer::Node::State::Active);
         anim = GenerateAnimation(0.75, 0,
                                  "Return the value stored at the head: " +
                                      std::to_string(nodes[0].GetValue()) + ".");
-        nodes.back().SetNodeState(GUI::Node::State::Default);
+        nodes.back().SetNodeState(GUIVisualizer::Node::State::Default);
         nodes.back().AnimationOnNode(false);
     }
     animController->AddAnimation(anim);
 }
 
-std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float, Vector2) >
+std::function< GUIVisualizer::SinglyLinkedList(GUIVisualizer::SinglyLinkedList,
+                                               float, Vector2) >
 Algorithm::Queue::HighlightArrowFromCur(int index, bool drawVisualizer,
                                         bool reverse) {
     return [this, index, drawVisualizer, reverse](
-               GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
+               GUIVisualizer::SinglyLinkedList srcDS, float playingAt,
+               Vector2 base) {
         auto& nodes = srcDS.GetList();
         if (drawVisualizer) srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;

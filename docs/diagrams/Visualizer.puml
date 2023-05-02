@@ -33,10 +33,10 @@ class C_0002094582007680481506 {
 +DrawCurrent() : void
 +GetSize() : Vector2
 }
-class "GUI::Node" as C_0000827263143060756743
-class C_0000827263143060756743 {
+class "GUIVisualizer::Node" as C_0001237744300686102421
+class C_0001237744300686102421 {
 +SetShape() : void
-+GetShape() const : GUI::Node::Shape
++GetShape() const : GUIVisualizer::Node::Shape
 +Node() : void
 +Node() : void
 +~Node() : void
@@ -53,12 +53,12 @@ class C_0000827263143060756743 {
 +SetValueFontSize() : void
 +SetLabelFontSize() : void
 +SetNodeState() : void
-+GetNodeState() const : GUI::Node::State
++GetNodeState() const : GUIVisualizer::Node::State
 +SetReachable() : void
 +GetReachable() const : bool
 }
-enum "GUI::Node::State" as C_0001113193908913246239
-enum C_0001113193908913246239 {
+enum "GUIVisualizer::Node::State" as C_0001527454709186090485
+enum C_0001527454709186090485 {
 Default
 Active
 ActiveBlue
@@ -68,16 +68,16 @@ Iterated
 Hide
 StateCount
 }
-enum "GUI::Node::Shape" as C_0002284700369052075848
-enum C_0002284700369052075848 {
+enum "GUIVisualizer::Node::Shape" as C_0000746600118171468782
+enum C_0000746600118171468782 {
 Circle
 Square
 ShapeCount
 }
-abstract "GUI::LinkedList" as C_0000932535397199933171
-abstract C_0000932535397199933171 {
+abstract "GUIVisualizer::LinkedList" as C_0000014464275109602519
+abstract C_0000014464275109602519 {
 +SetShape() : void
-+GetShape() const : GUI::Node::Shape
++GetShape() const : Node::Shape
 +LinkedList() : void
 +LinkedList() : void
 +~LinkedList() : void
@@ -86,8 +86,8 @@ abstract C_0000932535397199933171 {
 +size() const : std::size_t
 +SetShowHeadAndTail() : void
 +SetOrientation() : void
-+GetList() : std::vector<GUI::Node> &
-+GenerateNode() : GUI::Node
++GetList() : std::vector<Node> &
++GenerateNode() : GUIVisualizer::Node
 +Import() : void
 +InsertNode() : void
 +DeleteNode() : void
@@ -95,26 +95,26 @@ abstract C_0000932535397199933171 {
 #GetNodeDefaultPosition() : Vector2
 #fonts : FontHolder *
 #mDisplayHeadAndTail : bool
-#mOrientation : GUI::LinkedList::Orientation
-#mShape : GUI::Node::Shape
+#mOrientation : GUIVisualizer::LinkedList::Orientation
+#mShape : Node::Shape
 {static} +mNodeDistance : const float
 }
-enum "GUI::LinkedList::ArrowType" as C_0000972293785554013667
-enum C_0000972293785554013667 {
+enum "GUIVisualizer::LinkedList::ArrowType" as C_0001168259988474363279
+enum C_0001168259988474363279 {
 Default
 Hidden
 Active
 Skip
 ArrowTypeCount
 }
-enum "GUI::LinkedList::Orientation" as C_0001523930973413022405
-enum C_0001523930973413022405 {
+enum "GUIVisualizer::LinkedList::Orientation" as C_0000908525336550242927
+enum C_0000908525336550242927 {
 Horizontal
 Vertical
 OrientationCount
 }
-class "GUI::CircularLinkedList" as C_0000270407177428106372
-class C_0000270407177428106372 {
+class "GUIVisualizer::CircularLinkedList" as C_0001322664865188165645
+class C_0001322664865188165645 {
 +CircularLinkedList() : void
 +CircularLinkedList() : void
 +~CircularLinkedList() : void
@@ -124,15 +124,15 @@ class C_0000270407177428106372 {
 +InsertNode() : void
 +DeleteNode() : void
 +SetCircularArrowType() : void
-+GetCircularArrowType() : GUI::LinkedList::ArrowType
++GetCircularArrowType() : GUIVisualizer::LinkedList::ArrowType
 +SetCircularEnds() : void
 +GetCircularEnds() : std::pair<std::size_t,std::size_t>
 +SetArrowType() : void
-+GetArrowType() : GUI::LinkedList::ArrowType
++GetArrowType() : GUIVisualizer::LinkedList::ArrowType
 +ResetArrow() : void
 }
-class "GUI::DoublyLinkedList" as C_0002300769237886065887
-class C_0002300769237886065887 {
+class "GUIVisualizer::DoublyLinkedList" as C_0001007573430340834079
+class C_0001007573430340834079 {
 +DoublyLinkedList() : void
 +DoublyLinkedList() : void
 +~DoublyLinkedList() : void
@@ -143,12 +143,12 @@ class C_0002300769237886065887 {
 +DeleteNode() : void
 +SetArrowTypeNext() : void
 +SetArrowTypePrev() : void
-+GetArrowTypeNext() : GUI::LinkedList::ArrowType
-+GetArrowTypePrev() : GUI::LinkedList::ArrowType
++GetArrowTypeNext() : GUIVisualizer::LinkedList::ArrowType
++GetArrowTypePrev() : GUIVisualizer::LinkedList::ArrowType
 +ResetArrow() : void
 }
-class "GUI::DynamicArray" as C_0000251369963602189305
-class C_0000251369963602189305 {
+class "GUIVisualizer::DynamicArray" as C_0001367503263007952105
+class C_0001367503263007952105 {
 +DynamicArray() : void
 +DynamicArray() : void
 +isSelectable() const : bool
@@ -156,15 +156,15 @@ class C_0000251369963602189305 {
 +Draw() : void
 +GetLength() const : std::size_t
 +GetCapacity() const : std::size_t
-+operator[]() : GUI::Node &
-+operator[]() const : const GUI::Node &
++operator[]() : GUIVisualizer::Node &
++operator[]() const : const GUIVisualizer::Node &
 +SetShape() : void
-+GetShape() const : GUI::Node::Shape
++GetShape() const : Node::Shape
 +Reserve() : void
 +Resize() : void
 +Clear() : void
-+GetList() : std::vector<GUI::Node> &
-+GenerateNode() : GUI::Node
++GetList() : std::vector<Node> &
++GenerateNode() : GUIVisualizer::Node
 +Import() : void
 +InsertNode() : void
 +Relayout() : void
@@ -172,8 +172,8 @@ class C_0000251369963602189305 {
 +GetCapacityFromLength() : std::size_t
 {static} +mNodeDistance : const float
 }
-class "GUI::SinglyLinkedList" as C_0001184481278351232005
-class C_0001184481278351232005 {
+class "GUIVisualizer::SinglyLinkedList" as C_0002081397373997087056
+class C_0002081397373997087056 {
 +SinglyLinkedList() : void
 +SinglyLinkedList() : void
 +~SinglyLinkedList() : void
@@ -183,29 +183,29 @@ class C_0001184481278351232005 {
 +InsertNode() : void
 +DeleteNode() : void
 +SetArrowType() : void
-+GetArrowType() : GUI::LinkedList::ArrowType
++GetArrowType() : GUIVisualizer::LinkedList::ArrowType
 +ResetArrow() : void
 }
 C_0002094582007680481506 ..> C_0000265092519911491147
 C_0002094582007680481506 o-- C_0000265092519911491147 : #mChildren
 C_0000265092519911491147 <|-- C_0002094582007680481506
-C_0000265092519911491147 <|-- C_0000827263143060756743
-C_0001113193908913246239 --+ C_0000827263143060756743
-C_0002284700369052075848 --+ C_0000827263143060756743
-C_0000932535397199933171 ..> C_0000827263143060756743
-C_0000932535397199933171 o-- C_0000827263143060756743 : #list
-C_0002094582007680481506 <|-- C_0000932535397199933171
-C_0000972293785554013667 --+ C_0000932535397199933171
-C_0001523930973413022405 --+ C_0000932535397199933171
-C_0000270407177428106372 ..> C_0000827263143060756743
-C_0000932535397199933171 <|-- C_0000270407177428106372
-C_0002300769237886065887 ..> C_0000827263143060756743
-C_0000932535397199933171 <|-- C_0002300769237886065887
-C_0000251369963602189305 ..> C_0000827263143060756743
-C_0000251369963602189305 o-- C_0000827263143060756743 : -list
-C_0002094582007680481506 <|-- C_0000251369963602189305
-C_0001184481278351232005 ..> C_0000827263143060756743
-C_0000932535397199933171 <|-- C_0001184481278351232005
+C_0000265092519911491147 <|-- C_0001237744300686102421
+C_0001527454709186090485 --+ C_0001237744300686102421
+C_0000746600118171468782 --+ C_0001237744300686102421
+C_0000014464275109602519 ..> C_0001237744300686102421
+C_0000014464275109602519 o-- C_0001237744300686102421 : #list
+C_0002094582007680481506 <|-- C_0000014464275109602519
+C_0001168259988474363279 --+ C_0000014464275109602519
+C_0000908525336550242927 --+ C_0000014464275109602519
+C_0001322664865188165645 ..> C_0001237744300686102421
+C_0000014464275109602519 <|-- C_0001322664865188165645
+C_0001007573430340834079 ..> C_0001237744300686102421
+C_0000014464275109602519 <|-- C_0001007573430340834079
+C_0001367503263007952105 ..> C_0001237744300686102421
+C_0001367503263007952105 o-- C_0001237744300686102421 : -list
+C_0002094582007680481506 <|-- C_0001367503263007952105
+C_0002081397373997087056 ..> C_0001237744300686102421
+C_0000014464275109602519 <|-- C_0002081397373997087056
 
 'Generated with clang-uml, version 0.3.4
 'LLVM version clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)

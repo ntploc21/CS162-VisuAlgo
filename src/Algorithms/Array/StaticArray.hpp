@@ -8,7 +8,8 @@
 #include "Components/Visualization/DynamicArray.hpp"
 
 namespace Algorithm {
-    class StaticArray : public Algorithm< GUI::DynamicArray, DArrayAnimation > {
+    class StaticArray
+        : public Algorithm< GUIVisualizer::DynamicArray, DArrayAnimation > {
     public:
         static constexpr int maxN = 16;
 

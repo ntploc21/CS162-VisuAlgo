@@ -25,8 +25,8 @@ void Algorithm::Stack::Push(int value) {
     visualizer.SetPosition(visualizer.GetPosition().x,
                            visualizer.GetPosition().y - 60);
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
-    newNode.SetNodeState(GUI::Node::Active);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetNodeState(GUIVisualizer::Node::Active);
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
 
@@ -37,37 +37,37 @@ void Algorithm::Stack::Push(int value) {
     SLLAnimation anim1 = GenerateAnimation(
         1, 0,
         "Create new vertex to store value " + std::to_string(value) + ".");
-    anim1.SetAnimation(
-        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-            GUI::Node& node = srcDS.GetList().at(0);
-            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
-            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
-            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
+    anim1.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
+        GUIVisualizer::Node& node = srcDS.GetList().at(0);
+        node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
+        node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
+        node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
 
-            srcDS.Draw(base, playingAt);
-            return srcDS;
-        });
+        srcDS.Draw(base, playingAt);
+        return srcDS;
+    });
     animController->AddAnimation(anim1);
     visualizer.GetList()[0].AnimationOnNode(false);
 
     SLLAnimation anim2 =
         GenerateAnimation(0.5, 1, "node->next points to the current head.");
     if (visualizer.GetList().size() > 1) {
-        anim2.SetAnimation(
-            [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-                srcDS.Draw(base, playingAt);
-                base.x += srcDS.GetPosition().x;
-                base.y += srcDS.GetPosition().y;
+        anim2.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            srcDS.Draw(base, playingAt);
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
 
-                Vector2 start = srcDS.GetList()[0].GetPosition();
-                Vector2 end = srcDS.GetList()[1].GetPosition();
-                start.x += base.x, start.y += base.y;
-                end.x += base.x, end.y += base.y;
+            Vector2 start = srcDS.GetList()[0].GetPosition();
+            Vector2 end = srcDS.GetList()[1].GetPosition();
+            start.x += base.x, start.y += base.y;
+            end.x += base.x, end.y += base.y;
 
-                AnimationFactory::DrawActiveArrow(start, end, playingAt);
+            AnimationFactory::DrawActiveArrow(start, end, playingAt);
 
-                return srcDS;
-            });
+            return srcDS;
+        });
         visualizer.SetArrowType(0, ArrowType::Active);
 
         visualizer.GetList()[1].ClearLabel();
@@ -84,20 +84,20 @@ void Algorithm::Stack::Push(int value) {
         0.5, -1,
         "Re-layout the Linked List for visualization (not in the actual Linked "
         "List).\nThe whole process is still O(1).");
-    anim4.SetAnimation(
-        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-            Vector2 newPos = srcDS.GetPosition();
-            newPos.y += (150 - newPos.y) * playingAt;
-            srcDS.SetPosition(newPos);
+    anim4.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
+        Vector2 newPos = srcDS.GetPosition();
+        newPos.y += (150 - newPos.y) * playingAt;
+        srcDS.SetPosition(newPos);
 
-            if (playingAt == 1.0f && srcDS.GetList().size() == 2) {
-                srcDS.GetList().back().SetLabel("tail");
-            }
+        if (playingAt == 1.0f && srcDS.GetList().size() == 2) {
+            srcDS.GetList().back().SetLabel("tail");
+        }
 
-            srcDS.Draw(base, playingAt);
+        srcDS.Draw(base, playingAt);
 
-            return srcDS;
-        });
+        return srcDS;
+    });
     animController->AddAnimation(anim4);
 
     visualizer.Relayout();
@@ -116,7 +116,7 @@ void Algorithm::Stack::Pop() {
     }
     nodes[0].SetLabel("head/0");
     nodes[0].AnimationOnNode(true);
-    nodes[0].SetNodeState(GUI::Node::State::Active);
+    nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
     SLLAnimation anim1 = GenerateAnimation(
         0.75, 0, "head is exist, so we proceed to the next step");
     animController->AddAnimation(anim1);
@@ -143,8 +143,8 @@ void Algorithm::Stack::Pop() {
 
         SLLAnimation anim4 = GenerateAnimation(
             0.75, 3, "Remove head vertex.\nWe now have an empty List.");
-        anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
+        anim4.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
             auto& node = srcDS.GetList().front();
 
             node.SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
@@ -163,7 +163,7 @@ void Algorithm::Stack::Pop() {
     }
     nodes[1].SetLabel("head/0");
     nodes[1].AnimationOnNode(true);
-    nodes[1].SetNodeState(GUI::Node::State::ActiveGreen);
+    nodes[1].SetNodeState(GUIVisualizer::Node::State::ActiveGreen);
     nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 2));
     SLLAnimation anim3 =
         GenerateAnimation(0.75, 2, "head points to the next node.");
@@ -174,8 +174,8 @@ void Algorithm::Stack::Pop() {
     nodes[1].AnimationOnNode(false);
     SLLAnimation anim4 = GenerateAnimation(
         0.75, 3, "Delete del, which was the (previous) head.");
-    anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                              Vector2 base) {
+    anim4.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
         auto& nodes = srcDS.GetList();
 
         nodes[0].SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
@@ -209,16 +209,16 @@ void Algorithm::Stack::Pop() {
         0.5, -1,
         "Re-layout the Linked List for visualization (not in the actual Linked "
         "List).\nThe whole process is still O(1).");
-    anim5.SetAnimation(
-        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-            Vector2 newPos = srcDS.GetPosition();
-            newPos.y += (150 - newPos.y) * playingAt;
-            srcDS.SetPosition(newPos);
+    anim5.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
+        Vector2 newPos = srcDS.GetPosition();
+        newPos.y += (150 - newPos.y) * playingAt;
+        srcDS.SetPosition(newPos);
 
-            srcDS.Draw(base, playingAt);
+        srcDS.Draw(base, playingAt);
 
-            return srcDS;
-        });
+        return srcDS;
+    });
     animController->AddAnimation(anim5);
 
     visualizer.Relayout();
@@ -234,21 +234,23 @@ void Algorithm::Stack::Peek() {
                           "return will be NULL.");
     if (!nodes.empty()) {
         nodes[0].AnimationOnNode(true);
-        nodes[0].SetNodeState(GUI::Node::State::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
         anim = GenerateAnimation(0.75, 0,
                                  "Return the value stored at the head: " +
                                      std::to_string(nodes[0].GetValue()) + ".");
-        nodes[0].SetNodeState(GUI::Node::State::Default);
+        nodes[0].SetNodeState(GUIVisualizer::Node::State::Default);
         nodes[0].AnimationOnNode(false);
     }
     animController->AddAnimation(anim);
 }
 
-std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float, Vector2) >
+std::function< GUIVisualizer::SinglyLinkedList(GUIVisualizer::SinglyLinkedList,
+                                               float, Vector2) >
 Algorithm::Stack::HighlightArrowFromCur(int index, bool drawVisualizer,
                                         bool reverse) {
     return [this, index, drawVisualizer, reverse](
-               GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
+               GUIVisualizer::SinglyLinkedList srcDS, float playingAt,
+               Vector2 base) {
         auto& nodes = srcDS.GetList();
         if (drawVisualizer) srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;

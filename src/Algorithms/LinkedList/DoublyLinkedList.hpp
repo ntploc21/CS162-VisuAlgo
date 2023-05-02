@@ -9,7 +9,7 @@
 
 namespace Algorithm {
     class DoublyLinkedList
-        : public Algorithm< GUI::DoublyLinkedList, DLLAnimation > {
+        : public Algorithm< GUIVisualizer::DoublyLinkedList, DLLAnimation > {
     public:
         static constexpr int maxN = 10;
 
@@ -38,18 +38,18 @@ namespace Algorithm {
         void Search(int value);
 
     private:
-        std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float,
-                                             Vector2) >
+        std::function< GUIVisualizer::DoublyLinkedList(
+            GUIVisualizer::DoublyLinkedList, float, Vector2) >
         HighlightArrowNext(int index, bool drawVisualizer = true,
                            bool reverse = false);
 
-        std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float,
-                                             Vector2) >
+        std::function< GUIVisualizer::DoublyLinkedList(
+            GUIVisualizer::DoublyLinkedList, float, Vector2) >
         HighlightArrowPrev(int index, bool drawVisualizer = true,
                            bool reverse = false);
 
-        std::function< GUI::DoublyLinkedList(GUI::DoublyLinkedList, float,
-                                             Vector2) >
+        std::function< GUIVisualizer::DoublyLinkedList(
+            GUIVisualizer::DoublyLinkedList, float, Vector2) >
         HighlightArrowBoth(int index, bool drawVisualizer = true,
                            bool reverse = false);
 

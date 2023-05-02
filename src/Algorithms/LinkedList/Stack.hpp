@@ -7,11 +7,12 @@
 #include "Algorithms/Algorithm.hpp"
 #include "Components/Visualization/SinglyLinkedList.hpp"
 
-using ArrowType = GUI::SinglyLinkedList::ArrowType;
-using Orientation = GUI::LinkedList::Orientation;
+using ArrowType = GUIVisualizer::SinglyLinkedList::ArrowType;
+using Orientation = GUIVisualizer::LinkedList::Orientation;
 
 namespace Algorithm {
-    class Stack : public Algorithm< GUI::SinglyLinkedList, SLLAnimation > {
+    class Stack
+        : public Algorithm< GUIVisualizer::SinglyLinkedList, SLLAnimation > {
     public:
         static constexpr int maxN = 10;
         static constexpr Orientation mStackOrientation = Orientation::Vertical;
@@ -33,8 +34,8 @@ namespace Algorithm {
         void Peek();
 
     private:
-        std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float,
-                                             Vector2) >
+        std::function< GUIVisualizer::SinglyLinkedList(
+            GUIVisualizer::SinglyLinkedList, float, Vector2) >
         HighlightArrowFromCur(int index, bool drawVisualizer = true,
                               bool reverse = false);
     };

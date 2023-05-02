@@ -39,7 +39,7 @@ void Algorithm::DynamicArray::Push(int index, int value) {
                               "calculate a new capacity for a new array.");
         animController->AddAnimation(anim2);
 
-        GUI::DynamicArray newVisualizer = visualizer;
+        GUIVisualizer::DynamicArray newVisualizer = visualizer;
         for (int k = 0; k < visualizer.GetLength(); k++) {
             newVisualizer[k].SetValue(0);
         }
@@ -58,8 +58,8 @@ void Algorithm::DynamicArray::Push(int index, int value) {
         newVisualizer.SetPosition((Vector2){newPos.x, newPos.y + 60});
 
         anim3.SetAnimation([this, newVisualizer, newPos](
-                               GUI::DynamicArray srcDS, float playingAt,
-                               Vector2 base) mutable {
+                               GUIVisualizer::DynamicArray srcDS,
+                               float playingAt, Vector2 base) mutable {
             Vector2 curPos = srcDS.GetPosition();
             curPos.x +=
                 (newPos.x - curPos.x) *
@@ -71,7 +71,7 @@ void Algorithm::DynamicArray::Push(int index, int value) {
 
             if (playingAt >= 0.5f) {
                 auto& nodes = newVisualizer.GetList();
-                for (GUI::Node& node : nodes) {
+                for (GUIVisualizer::Node& node : nodes) {
                     node.SetRadius(
                         AnimationFactory::ElasticOut(playingAt * 2 - 1.0f) *
                         20);
@@ -93,7 +93,7 @@ void Algorithm::DynamicArray::Push(int index, int value) {
 
         for (int k = 0; k < visualizer.GetLength(); k++) {
             visualizer[k].AnimationOnNode(true);
-            visualizer[k].SetNodeState(GUI::Node::State::ActiveBlue);
+            visualizer[k].SetNodeState(GUIVisualizer::Node::State::ActiveBlue);
 
             DArrayAnimation animCopyElement1 =
                 GenerateAnimation(0.25, 3,
@@ -101,8 +101,8 @@ void Algorithm::DynamicArray::Push(int index, int value) {
                                       "'s value to new_arr.");
 
             animCopyElement1.SetAnimation(
-                [this, newVisualizer](GUI::DynamicArray srcDS, float playingAt,
-                                      Vector2 base) mutable {
+                [this, newVisualizer](GUIVisualizer::DynamicArray srcDS,
+                                      float playingAt, Vector2 base) mutable {
                     srcDS.Draw(base, playingAt);
                     newVisualizer.Draw(base, 1.0f);
                     return srcDS;
@@ -110,7 +110,7 @@ void Algorithm::DynamicArray::Push(int index, int value) {
             animController->AddAnimation(animCopyElement1);
 
             visualizer[k].AnimationOnNode(false);
-            newVisualizer[k].SetNodeState(GUI::Node::State::Active);
+            newVisualizer[k].SetNodeState(GUIVisualizer::Node::State::Active);
             newVisualizer[k].AnimationOnNode(true);
 
             DArrayAnimation animCopyElement2 =
@@ -119,7 +119,7 @@ void Algorithm::DynamicArray::Push(int index, int value) {
                                       "'s value to new_arr.");
 
             animCopyElement2.SetAnimation(
-                [this, newVisualizer, k](GUI::DynamicArray srcDS,
+                [this, newVisualizer, k](GUIVisualizer::DynamicArray srcDS,
                                          float playingAt,
                                          Vector2 base) mutable {
                     srcDS.Draw(base, 1.0f);
@@ -137,8 +137,8 @@ void Algorithm::DynamicArray::Push(int index, int value) {
         DArrayAnimation animDeleteOld =
             GenerateAnimation(0.5, 4, "Deallocate the old array.");
         animDeleteOld.SetAnimation([this, newVisualizer](
-                                       GUI::DynamicArray srcDS, float playingAt,
-                                       Vector2 base) mutable {
+                                       GUIVisualizer::DynamicArray srcDS,
+                                       float playingAt, Vector2 base) mutable {
             auto& nodes = srcDS.GetList();
             for (auto& node : nodes) {
                 node.SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) *
@@ -169,7 +169,7 @@ void Algorithm::DynamicArray::Push(int index, int value) {
             auto& node_prev = visualizer.GetList()[i - 1];
             node_prev.SetReachable(true);
             node_prev.AnimationOnNode(true);
-            node_prev.SetNodeState(GUI::Node::State::ActiveBlue);
+            node_prev.SetNodeState(GUIVisualizer::Node::State::ActiveBlue);
 
             DArrayAnimation animMove1 = GenerateAnimation(
                 0.5, 6, "Copy node (k - 1)'s value to node k's value.");
@@ -179,14 +179,14 @@ void Algorithm::DynamicArray::Push(int index, int value) {
             auto& node = visualizer.GetList()[i];
             node.SetReachable(true);
             node.AnimationOnNode(true);
-            node.SetNodeState(GUI::Node::State::Active);
+            node.SetNodeState(GUIVisualizer::Node::State::Active);
 
             DArrayAnimation animMove2 = GenerateAnimation(
                 0.5, 6, "Copy node (k - 1)'s value to node k's value.");
-            animMove2.SetAnimation([this, i](GUI::DynamicArray srcDS,
+            animMove2.SetAnimation([this, i](GUIVisualizer::DynamicArray srcDS,
                                              float playingAt, Vector2 base) {
-                GUI::Node& node = srcDS.GetList().at(i);
-                GUI::Node& node_prev = srcDS.GetList().at(i - 1);
+                GUIVisualizer::Node& node = srcDS.GetList().at(i);
+                GUIVisualizer::Node& node_prev = srcDS.GetList().at(i - 1);
                 if (playingAt >= 0.85f) node.SetValue(node_prev.GetValue());
                 srcDS.Draw(base, playingAt);
                 return srcDS;
@@ -202,24 +202,25 @@ void Algorithm::DynamicArray::Push(int index, int value) {
         auto& node = visualizer.GetList()[index];
         node.SetReachable(true);
         node.AnimationOnNode(true);
-        node.SetNodeState(GUI::Node::State::ActiveGreen);
+        node.SetNodeState(GUIVisualizer::Node::State::ActiveGreen);
 
         DArrayAnimation anim = GenerateAnimation(
             0.5, 6,
             "Update node i's value to " + std::to_string(value) +
                 " and increase the length by 1.");
 
-        anim.SetAnimation([this, index, value](GUI::DynamicArray srcDS,
-                                               float playingAt, Vector2 base) {
-            GUI::Node& node = srcDS.GetList().at(index);
-            if (playingAt >= 0.85f) node.SetValue(value);
-            srcDS.Draw(base, std::min(1.0f, playingAt * (1.00f / 0.75f)));
-            return srcDS;
-        });
+        anim.SetAnimation(
+            [this, index, value](GUIVisualizer::DynamicArray srcDS,
+                                 float playingAt, Vector2 base) {
+                GUIVisualizer::Node& node = srcDS.GetList().at(index);
+                if (playingAt >= 0.85f) node.SetValue(value);
+                srcDS.Draw(base, std::min(1.0f, playingAt * (1.00f / 0.75f)));
+                return srcDS;
+            });
         animController->AddAnimation(anim);
 
         node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::State::Default);
+        node.SetNodeState(GUIVisualizer::Node::State::Default);
         node.SetValue(value);
         visualizer.InsertNode(index, node, true);
     }
@@ -248,7 +249,7 @@ void Algorithm::DynamicArray::PushBack(int value) {
                               "calculate a new capacity for a new array.");
         animController->AddAnimation(anim2);
 
-        GUI::DynamicArray newVisualizer = visualizer;
+        GUIVisualizer::DynamicArray newVisualizer = visualizer;
         for (int k = 0; k < visualizer.GetLength(); k++) {
             newVisualizer[k].SetValue(0);
         }
@@ -267,8 +268,8 @@ void Algorithm::DynamicArray::PushBack(int value) {
         newVisualizer.SetPosition((Vector2){newPos.x, newPos.y + 60});
 
         anim3.SetAnimation([this, newVisualizer, newPos](
-                               GUI::DynamicArray srcDS, float playingAt,
-                               Vector2 base) mutable {
+                               GUIVisualizer::DynamicArray srcDS,
+                               float playingAt, Vector2 base) mutable {
             Vector2 curPos = srcDS.GetPosition();
             curPos.x +=
                 (newPos.x - curPos.x) *
@@ -280,7 +281,7 @@ void Algorithm::DynamicArray::PushBack(int value) {
 
             if (playingAt >= 0.5f) {
                 auto& nodes = newVisualizer.GetList();
-                for (GUI::Node& node : nodes) {
+                for (GUIVisualizer::Node& node : nodes) {
                     node.SetRadius(
                         AnimationFactory::ElasticOut(playingAt * 2 - 1.0f) *
                         20);
@@ -302,7 +303,7 @@ void Algorithm::DynamicArray::PushBack(int value) {
 
         for (int k = 0; k < visualizer.GetLength(); k++) {
             visualizer[k].AnimationOnNode(true);
-            visualizer[k].SetNodeState(GUI::Node::State::ActiveBlue);
+            visualizer[k].SetNodeState(GUIVisualizer::Node::State::ActiveBlue);
 
             DArrayAnimation animCopyElement1 =
                 GenerateAnimation(0.25, 3,
@@ -310,8 +311,8 @@ void Algorithm::DynamicArray::PushBack(int value) {
                                       "'s value to new_arr.");
 
             animCopyElement1.SetAnimation(
-                [this, newVisualizer](GUI::DynamicArray srcDS, float playingAt,
-                                      Vector2 base) mutable {
+                [this, newVisualizer](GUIVisualizer::DynamicArray srcDS,
+                                      float playingAt, Vector2 base) mutable {
                     srcDS.Draw(base, playingAt);
                     newVisualizer.Draw(base, 1.0f);
                     return srcDS;
@@ -319,7 +320,7 @@ void Algorithm::DynamicArray::PushBack(int value) {
             animController->AddAnimation(animCopyElement1);
 
             visualizer[k].AnimationOnNode(false);
-            newVisualizer[k].SetNodeState(GUI::Node::State::Active);
+            newVisualizer[k].SetNodeState(GUIVisualizer::Node::State::Active);
             newVisualizer[k].AnimationOnNode(true);
 
             DArrayAnimation animCopyElement2 =
@@ -328,7 +329,7 @@ void Algorithm::DynamicArray::PushBack(int value) {
                                       "'s value to new_arr.");
 
             animCopyElement2.SetAnimation(
-                [this, newVisualizer, k](GUI::DynamicArray srcDS,
+                [this, newVisualizer, k](GUIVisualizer::DynamicArray srcDS,
                                          float playingAt,
                                          Vector2 base) mutable {
                     srcDS.Draw(base, 1.0f);
@@ -346,8 +347,8 @@ void Algorithm::DynamicArray::PushBack(int value) {
         DArrayAnimation animDeleteOld =
             GenerateAnimation(0.5, 4, "Deallocate the old array.");
         animDeleteOld.SetAnimation([this, newVisualizer](
-                                       GUI::DynamicArray srcDS, float playingAt,
-                                       Vector2 base) mutable {
+                                       GUIVisualizer::DynamicArray srcDS,
+                                       float playingAt, Vector2 base) mutable {
             auto& nodes = srcDS.GetList();
             for (auto& node : nodes) {
                 node.SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) *
@@ -376,14 +377,14 @@ void Algorithm::DynamicArray::PushBack(int value) {
     auto& node = visualizer.GetList()[index];
     node.SetReachable(true);
     node.AnimationOnNode(true);
-    node.SetNodeState(GUI::Node::State::Active);
+    node.SetNodeState(GUIVisualizer::Node::State::Active);
 
     DArrayAnimation anim = GenerateAnimation(
         0.5, 6, "Update node i's value to " + std::to_string(value));
 
-    anim.SetAnimation([this, index, value](GUI::DynamicArray srcDS,
+    anim.SetAnimation([this, index, value](GUIVisualizer::DynamicArray srcDS,
                                            float playingAt, Vector2 base) {
-        GUI::Node& node = srcDS.GetList().at(index);
+        GUIVisualizer::Node& node = srcDS.GetList().at(index);
         if (playingAt >= 0.85f) node.SetValue(value);
         srcDS.Draw(base, std::min(1.0f, playingAt * (1.00f / 0.75f)));
         return srcDS;
@@ -391,7 +392,7 @@ void Algorithm::DynamicArray::PushBack(int value) {
     animController->AddAnimation(anim);
 
     node.AnimationOnNode(false);
-    node.SetNodeState(GUI::Node::State::Default);
+    node.SetNodeState(GUIVisualizer::Node::State::Default);
     node.SetValue(value);
     visualizer.InsertNode(index, node, false);
 
@@ -413,15 +414,15 @@ void Algorithm::DynamicArray::Remove(int index) {
     animController->AddAnimation(animHasElement);
 
     {  // Line 2
-        GUI::Node& node = visualizer[index];
-        node.SetNodeState(GUI::Node::State::ActiveRed);
+        GUIVisualizer::Node& node = visualizer[index];
+        node.SetNodeState(GUIVisualizer::Node::State::ActiveRed);
         node.AnimationOnNode(true);
         node.SetLabel("del");
         DArrayAnimation animRemove =
             GenerateAnimation(0.5, 0,
                               "Set the i element to 0, and shift all the "
                               "elements after i to the left.");
-        animRemove.SetAnimation([index, this](GUI::DynamicArray srcDS,
+        animRemove.SetAnimation([index, this](GUIVisualizer::DynamicArray srcDS,
                                               float playingAt, Vector2 base) {
             if (playingAt >= 0.80f) srcDS[index].SetValue(0);
             srcDS.Draw(base, playingAt);
@@ -438,7 +439,7 @@ void Algorithm::DynamicArray::Remove(int index) {
             auto& node_next = visualizer.GetList()[i + 1];
             node_next.SetReachable(true);
             node_next.AnimationOnNode(true);
-            node_next.SetNodeState(GUI::Node::State::ActiveBlue);
+            node_next.SetNodeState(GUIVisualizer::Node::State::ActiveBlue);
             DArrayAnimation animMove1 = GenerateAnimation(
                 0.5, 2, "Copy node k's value to node (k + 1)'s value.");
             animController->AddAnimation(animMove1);
@@ -447,14 +448,14 @@ void Algorithm::DynamicArray::Remove(int index) {
             auto& node = visualizer.GetList()[i];
             node.SetReachable(true);
             node.AnimationOnNode(true);
-            node.SetNodeState(GUI::Node::State::Active);
+            node.SetNodeState(GUIVisualizer::Node::State::Active);
 
             DArrayAnimation animMove2 = GenerateAnimation(
                 0.5, 2, "Copy node k's value to node (k + 1)'s value.");
-            animMove2.SetAnimation([this, i](GUI::DynamicArray srcDS,
+            animMove2.SetAnimation([this, i](GUIVisualizer::DynamicArray srcDS,
                                              float playingAt, Vector2 base) {
-                GUI::Node& node = srcDS.GetList().at(i);
-                GUI::Node& node_next = srcDS.GetList().at(i + 1);
+                GUIVisualizer::Node& node = srcDS.GetList().at(i);
+                GUIVisualizer::Node& node_next = srcDS.GetList().at(i + 1);
                 if (playingAt >= 0.85f) node.SetValue(node_next.GetValue());
                 srcDS.Draw(base, playingAt);
                 return srcDS;
@@ -467,31 +468,30 @@ void Algorithm::DynamicArray::Remove(int index) {
     }
 
     {  // Line 4
-        GUI::Node& node = visualizer[visualizer.GetLength() - 1];
-        node.SetNodeState(GUI::Node::State::ActiveRed);
+        GUIVisualizer::Node& node = visualizer[visualizer.GetLength() - 1];
+        node.SetNodeState(GUIVisualizer::Node::State::ActiveRed);
         node.AnimationOnNode(true);
         node.SetLabel("back");
         DArrayAnimation animPopBack = GenerateAnimation(
             1.50, 0,
             "Reset the current element's value and decrease the array length.");
-        animPopBack.SetAnimation(
-            [this](GUI::DynamicArray srcDS, float playingAt, Vector2 base) {
-                if (playingAt <= 0.3f) {
-                    srcDS.Draw(base, std::min(1.0f, playingAt * (1.0f / 0.3f)));
-                    return srcDS;
-                }
-                if (playingAt >= 0.45f)
-                    srcDS[srcDS.GetLength() - 1].SetValue(0);
-                if (playingAt >= 0.60f)
-                    srcDS[srcDS.GetLength() - 1].SetReachable(false);
-                if (playingAt >= 0.7f) {
-                    srcDS[srcDS.GetLength() - 1].SetNodeState(
-                        GUI::Node::State::Iterated);
-                    srcDS.Draw(base, (playingAt - 0.7f) * (1.0f / 0.3f));
-                } else
-                    srcDS.Draw(base, 1.0f);
+        animPopBack.SetAnimation([this](GUIVisualizer::DynamicArray srcDS,
+                                        float playingAt, Vector2 base) {
+            if (playingAt <= 0.3f) {
+                srcDS.Draw(base, std::min(1.0f, playingAt * (1.0f / 0.3f)));
                 return srcDS;
-            });
+            }
+            if (playingAt >= 0.45f) srcDS[srcDS.GetLength() - 1].SetValue(0);
+            if (playingAt >= 0.60f)
+                srcDS[srcDS.GetLength() - 1].SetReachable(false);
+            if (playingAt >= 0.7f) {
+                srcDS[srcDS.GetLength() - 1].SetNodeState(
+                    GUIVisualizer::Node::State::Iterated);
+                srcDS.Draw(base, (playingAt - 0.7f) * (1.0f / 0.3f));
+            } else
+                srcDS.Draw(base, 1.0f);
+            return srcDS;
+        });
         animController->AddAnimation(animPopBack);
 
         visualizer.DeleteNode(visualizer.GetLength() - 1);
@@ -514,31 +514,30 @@ void Algorithm::DynamicArray::PopBack() {
     animController->AddAnimation(animHasElement);
 
     {  // Line 2
-        GUI::Node& node = visualizer[visualizer.GetLength() - 1];
-        node.SetNodeState(GUI::Node::State::ActiveRed);
+        GUIVisualizer::Node& node = visualizer[visualizer.GetLength() - 1];
+        node.SetNodeState(GUIVisualizer::Node::State::ActiveRed);
         node.AnimationOnNode(true);
         node.SetLabel("back");
         DArrayAnimation animPopBack = GenerateAnimation(
             1.50, 0,
             "Reset the current element's value and decrease the array length.");
-        animPopBack.SetAnimation(
-            [this](GUI::DynamicArray srcDS, float playingAt, Vector2 base) {
-                if (playingAt <= 0.3f) {
-                    srcDS.Draw(base, std::min(1.0f, playingAt * (1.0f / 0.3f)));
-                    return srcDS;
-                }
-                if (playingAt >= 0.45f)
-                    srcDS[srcDS.GetLength() - 1].SetValue(0);
-                if (playingAt >= 0.60f)
-                    srcDS[srcDS.GetLength() - 1].SetReachable(false);
-                if (playingAt >= 0.7f) {
-                    srcDS[srcDS.GetLength() - 1].SetNodeState(
-                        GUI::Node::State::Iterated);
-                    srcDS.Draw(base, (playingAt - 0.7f) * (1.0f / 0.3f));
-                } else
-                    srcDS.Draw(base, 1.0f);
+        animPopBack.SetAnimation([this](GUIVisualizer::DynamicArray srcDS,
+                                        float playingAt, Vector2 base) {
+            if (playingAt <= 0.3f) {
+                srcDS.Draw(base, std::min(1.0f, playingAt * (1.0f / 0.3f)));
                 return srcDS;
-            });
+            }
+            if (playingAt >= 0.45f) srcDS[srcDS.GetLength() - 1].SetValue(0);
+            if (playingAt >= 0.60f)
+                srcDS[srcDS.GetLength() - 1].SetReachable(false);
+            if (playingAt >= 0.7f) {
+                srcDS[srcDS.GetLength() - 1].SetNodeState(
+                    GUIVisualizer::Node::State::Iterated);
+                srcDS.Draw(base, (playingAt - 0.7f) * (1.0f / 0.3f));
+            } else
+                srcDS.Draw(base, 1.0f);
+            return srcDS;
+        });
         animController->AddAnimation(animPopBack);
 
         visualizer.DeleteNode(visualizer.GetLength() - 1);
@@ -552,14 +551,14 @@ void Algorithm::DynamicArray::Update(int index, int value) {
     /* Animation goes here */
     auto& node = visualizer[index];
     node.AnimationOnNode(true);
-    node.SetNodeState(GUI::Node::State::Active);
+    node.SetNodeState(GUIVisualizer::Node::State::Active);
 
     DArrayAnimation anim = GenerateAnimation(
         1, 0, "Update node i's value to " + std::to_string(value));
 
-    anim.SetAnimation([this, index, value](GUI::DynamicArray srcDS,
+    anim.SetAnimation([this, index, value](GUIVisualizer::DynamicArray srcDS,
                                            float playingAt, Vector2 base) {
-        GUI::Node& node = srcDS.GetList().at(index);
+        GUIVisualizer::Node& node = srcDS.GetList().at(index);
         if (playingAt >= 0.85f) node.SetValue(value);
         srcDS.Draw(base, std::min(1.0f, playingAt * (1.00f / 0.75f)));
         return srcDS;
@@ -567,7 +566,7 @@ void Algorithm::DynamicArray::Update(int index, int value) {
     animController->AddAnimation(anim);
 
     node.AnimationOnNode(false);
-    node.SetNodeState(GUI::Node::State::Default);
+    node.SetNodeState(GUIVisualizer::Node::State::Default);
     node.SetValue(value);
 }
 
@@ -579,12 +578,12 @@ void Algorithm::DynamicArray::Access(int index) {
                           "The current Linked List is empty, the head we "
                           "return will be NULL.");
     visualizer[index].AnimationOnNode(true);
-    visualizer[index].SetNodeState(GUI::Node::State::Active);
+    visualizer[index].SetNodeState(GUIVisualizer::Node::State::Active);
     anim =
         GenerateAnimation(0.75, 0,
                           "Return the value stored at the head: " +
                               std::to_string(visualizer[0].GetValue()) + ".");
-    visualizer[index].SetNodeState(GUI::Node::State::Default);
+    visualizer[index].SetNodeState(GUIVisualizer::Node::State::Default);
     visualizer[index].AnimationOnNode(false);
     animController->AddAnimation(anim);
 }
@@ -609,7 +608,7 @@ void Algorithm::DynamicArray::Search(int value) {
         }
 
         {  // Line 2
-            visualizer[k].SetNodeState(GUI::Node::Active);
+            visualizer[k].SetNodeState(GUIVisualizer::Node::Active);
             visualizer[k].SetLabel(std::to_string(k));
             visualizer[k].AnimationOnNode(true);
 
@@ -621,7 +620,7 @@ void Algorithm::DynamicArray::Search(int value) {
 
             if (curValue == value) {
                 foundElement = true;
-                visualizer[k].SetNodeState(GUI::Node::ActiveGreen);
+                visualizer[k].SetNodeState(GUIVisualizer::Node::ActiveGreen);
                 animLoop1 = GenerateAnimation(
                     0.75, 1,
                     "arr[" + std::to_string(k) +
@@ -631,7 +630,7 @@ void Algorithm::DynamicArray::Search(int value) {
 
             animController->AddAnimation(animLoop1);
 
-            visualizer[k].SetNodeState(GUI::Node::Iterated);
+            visualizer[k].SetNodeState(GUIVisualizer::Node::Iterated);
             visualizer[k].ClearLabel();
         }
     }
@@ -646,8 +645,8 @@ void Algorithm::DynamicArray::Search(int value) {
 
 void Algorithm::DynamicArray::ResetVisualizer() {
     auto& nodes = visualizer.GetList();
-    for (GUI::Node& node : nodes) {
+    for (GUIVisualizer::Node& node : nodes) {
         node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
+        node.SetNodeState(GUIVisualizer::Node::Default);
     }
 }

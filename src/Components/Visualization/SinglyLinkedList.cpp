@@ -3,14 +3,15 @@
 #include "Animation/AnimationFactory.hpp"
 #include "Global.hpp"
 
-GUI::SinglyLinkedList::SinglyLinkedList(FontHolder* fonts)
-    : GUI::LinkedList(fonts) {}
-GUI::SinglyLinkedList::SinglyLinkedList() : GUI::LinkedList() {}
-GUI::SinglyLinkedList::~SinglyLinkedList() {}
+GUIVisualizer::SinglyLinkedList::SinglyLinkedList(FontHolder* fonts)
+    : GUIVisualizer::LinkedList(fonts) {}
+GUIVisualizer::SinglyLinkedList::SinglyLinkedList()
+    : GUIVisualizer::LinkedList() {}
+GUIVisualizer::SinglyLinkedList::~SinglyLinkedList() {}
 
-bool GUI::SinglyLinkedList::isSelectable() const { return false; }
+bool GUIVisualizer::SinglyLinkedList::isSelectable() const { return false; }
 
-void GUI::SinglyLinkedList::Draw(Vector2 base, float t, bool init) {
+void GUIVisualizer::SinglyLinkedList::Draw(Vector2 base, float t, bool init) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     if (init)
@@ -22,13 +23,14 @@ void GUI::SinglyLinkedList::Draw(Vector2 base, float t, bool init) {
     }
 }
 
-void GUI::SinglyLinkedList::Import(std::vector< int > nodes) {
-    GUI::LinkedList::Import(nodes);
+void GUIVisualizer::SinglyLinkedList::Import(std::vector< int > nodes) {
+    GUIVisualizer::LinkedList::Import(nodes);
     ResetArrow();
 }
 
-void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node,
-                                       bool rePosition) {
+void GUIVisualizer::SinglyLinkedList::InsertNode(std::size_t index,
+                                                 GUIVisualizer::Node node,
+                                                 bool rePosition) {
     assert(index >= 0 && index <= list.size());
     list.insert(list.begin() + index, node);
     if (index + 1 < list.size())
@@ -43,22 +45,23 @@ void GUI::SinglyLinkedList::InsertNode(std::size_t index, GUI::Node node,
     }
 }
 
-void GUI::SinglyLinkedList::SetArrowType(std::size_t index, ArrowType type) {
+void GUIVisualizer::SinglyLinkedList::SetArrowType(std::size_t index,
+                                                   ArrowType type) {
     if (index >= 0 && index < int(arrowState.size())) arrowState[index] = type;
 }
 
-GUI::SinglyLinkedList::ArrowType GUI::SinglyLinkedList::GetArrowType(
-    std::size_t index) {
+GUIVisualizer::SinglyLinkedList::ArrowType
+GUIVisualizer::SinglyLinkedList::GetArrowType(std::size_t index) {
     return arrowState[index];
 }
 
-void GUI::SinglyLinkedList::ResetArrow() {
+void GUIVisualizer::SinglyLinkedList::ResetArrow() {
     std::size_t resize = std::max(0, int(list.size() - 1));
     arrowState.assign(resize, ArrowType::Default);
     arrowState.resize(resize);
 }
 
-void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
+void GUIVisualizer::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
     for (int i = 0; i < int(list.size()) - 1; i++) {
         Vector2 start = list[i].GetPosition();
         Vector2 end = list[i + 1].GetPosition();
@@ -85,7 +88,8 @@ void GUI::SinglyLinkedList::DrawArrow(Vector2 base, float t) {
     }
 }
 
-void GUI::SinglyLinkedList::DeleteNode(std::size_t index, bool rePosition) {
+void GUIVisualizer::SinglyLinkedList::DeleteNode(std::size_t index,
+                                                 bool rePosition) {
     list.erase(list.begin() + index);
     if (!arrowState.empty())
         arrowState.erase(arrowState.begin() +

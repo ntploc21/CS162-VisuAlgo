@@ -6,7 +6,7 @@
 
 #include "Global.hpp"
 
-using ArrowType = GUI::LinkedList::ArrowType;
+using ArrowType = GUIVisualizer::LinkedList::ArrowType;
 
 Algorithm::SinglyLinkedList::SinglyLinkedList() {}
 
@@ -32,8 +32,8 @@ void Algorithm::SinglyLinkedList::InsertHead(int value) {
     visualizer.SetPosition(visualizer.GetPosition().x - 60,
                            visualizer.GetPosition().y);
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
-    newNode.SetNodeState(GUI::Node::Active);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetNodeState(GUIVisualizer::Node::Active);
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
 
@@ -43,37 +43,37 @@ void Algorithm::SinglyLinkedList::InsertHead(int value) {
     SLLAnimation anim1 = GenerateAnimation(
         1, 0,
         "Create new vertex to store value " + std::to_string(value) + ".");
-    anim1.SetAnimation(
-        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-            GUI::Node& node = srcDS.GetList().at(0);
-            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
-            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
-            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
+    anim1.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
+        GUIVisualizer::Node& node = srcDS.GetList().at(0);
+        node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
+        node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
+        node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
 
-            srcDS.Draw(base, playingAt);
-            return srcDS;
-        });
+        srcDS.Draw(base, playingAt);
+        return srcDS;
+    });
     animController->AddAnimation(anim1);
     visualizer.GetList()[0].AnimationOnNode(false);
 
     SLLAnimation anim2 =
         GenerateAnimation(0.5, 1, "node->next points to the current head.");
     if (visualizer.GetList().size() > 1) {
-        anim2.SetAnimation(
-            [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-                srcDS.Draw(base, playingAt);
-                base.x += srcDS.GetPosition().x;
-                base.y += srcDS.GetPosition().y;
+        anim2.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            srcDS.Draw(base, playingAt);
+            base.x += srcDS.GetPosition().x;
+            base.y += srcDS.GetPosition().y;
 
-                Vector2 start = srcDS.GetList()[0].GetPosition();
-                Vector2 end = srcDS.GetList()[1].GetPosition();
-                start.x += base.x, start.y += base.y;
-                end.x += base.x, end.y += base.y;
+            Vector2 start = srcDS.GetList()[0].GetPosition();
+            Vector2 end = srcDS.GetList()[1].GetPosition();
+            start.x += base.x, start.y += base.y;
+            end.x += base.x, end.y += base.y;
 
-                AnimationFactory::DrawActiveArrow(start, end, playingAt);
+            AnimationFactory::DrawActiveArrow(start, end, playingAt);
 
-                return srcDS;
-            });
+            return srcDS;
+        });
         visualizer.SetArrowType(0, ArrowType::Active);
 
         visualizer.GetList()[1].ClearLabel();
@@ -109,8 +109,8 @@ void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
 
     /* Animation goes here */
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
-    newNode.SetNodeState(GUI::Node::Active);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
+    newNode.SetNodeState(GUIVisualizer::Node::Active);
     newNode.AnimationOnNode(true);
     newNode.SetLabel("node");
 
@@ -124,24 +124,26 @@ void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
     SLLAnimation anim1 = GenerateAnimation(
         1, 0,
         "Create new vertex to store value " + std::to_string(value) + ".");
-    anim1.SetAnimation(
-        [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-            GUI::Node& node = srcDS.GetList().back();
-            node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
-            node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
-            node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
+    anim1.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                              float playingAt, Vector2 base) {
+        GUIVisualizer::Node& node = srcDS.GetList().back();
+        node.SetRadius(AnimationFactory::ElasticOut(playingAt) * 20);
+        node.SetValueFontSize(AnimationFactory::ElasticOut(playingAt) * 24);
+        node.SetLabelFontSize(AnimationFactory::ElasticOut(playingAt) * 20);
 
-            srcDS.Draw(base, playingAt);
-            return srcDS;
-        });
+        srcDS.Draw(base, playingAt);
+        return srcDS;
+    });
     animController->AddAnimation(anim1);
 
-    visualizer.GetList().back().SetNodeState(GUI::Node::State::Iterated);
-    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Active);
+    visualizer.GetList().back().SetNodeState(
+        GUIVisualizer::Node::State::Iterated);
+    visualizer.GetList()[prvSize - 1].SetNodeState(
+        GUIVisualizer::Node::State::Active);
     visualizer.GetList()[prvSize - 1].AnimationOnNode(true);
     SLLAnimation anim2 =
         GenerateAnimation(1, 1, "Current tail->next points to the node.");
-    anim2.SetAnimation([this, prvSize](GUI::SinglyLinkedList srcDS,
+    anim2.SetAnimation([this, prvSize](GUIVisualizer::SinglyLinkedList srcDS,
                                        float playingAt, Vector2 base) {
         srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;
@@ -158,7 +160,8 @@ void Algorithm::SinglyLinkedList::InsertAfterTail(int value) {
     });
     visualizer.SetArrowType(prvSize - 1, ArrowType::Default);
 
-    visualizer.GetList()[prvSize - 1].SetNodeState(GUI::Node::State::Default);
+    visualizer.GetList()[prvSize - 1].SetNodeState(
+        GUIVisualizer::Node::State::Default);
     visualizer.GetList()[prvSize - 1].ClearLabel();
     if (prvSize - 1 == 0) visualizer.GetList()[prvSize - 1].SetLabel("head");
     animController->AddAnimation(anim2);
@@ -190,10 +193,10 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
                 "pre->next = node;"});
     /* Animation goes here */
     auto& nodes = visualizer.GetList();
-    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    for (GUIVisualizer::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1
-        nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::Active);
         nodes[0].SetLabel("head/pre/0");
         nodes[0].AnimationOnNode(true);
         SLLAnimation anim1 = GenerateAnimation(0.75, 0, "Set pre to head.");
@@ -219,12 +222,12 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
         if (k == index - 1) break;
 
         {  // Line 3
-            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].SetNodeState(GUIVisualizer::Node::Iterated);
             nodes[k].ClearLabel();
             if (k == 0) nodes[k].SetLabel("head");
 
             nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
-            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].SetNodeState(GUIVisualizer::Node::Active);
             nodes[k + 1].AnimationOnNode(true);
             visualizer.SetArrowType(k, ArrowType::Active);
 
@@ -237,7 +240,7 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
 
     {  // line 4
         nodes[index].SetLabel("aft/" + std::to_string(index));
-        nodes[index].SetNodeState(GUI::Node::ActiveBlue);
+        nodes[index].SetNodeState(GUIVisualizer::Node::ActiveBlue);
         nodes[index].AnimationOnNode(true);
         SLLAnimation anim4 = GenerateAnimation(
             0.75, 3,
@@ -249,9 +252,9 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
         nodes[index].AnimationOnNode(false);
     }
 
-    GUI::Node newNode = visualizer.GenerateNode(value);
+    GUIVisualizer::Node newNode = visualizer.GenerateNode(value);
     {  // line 5
-        newNode.SetNodeState(GUI::Node::ActiveGreen);
+        newNode.SetNodeState(GUIVisualizer::Node::ActiveGreen);
         newNode.AnimationOnNode(true);
         newNode.SetLabel("node");
         Vector2 newNodePos = nodes[index].GetPosition();
@@ -275,7 +278,7 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
         nodes[index + 1].SetLabel("aft/" + std::to_string(index + 1));
         SLLAnimation anim6 =
             GenerateAnimation(0.75, 5, "node->next points to aft.");
-        anim6.SetAnimation([this, index](GUI::SinglyLinkedList srcDS,
+        anim6.SetAnimation([this, index](GUIVisualizer::SinglyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
             srcDS.Draw(base, playingAt);
@@ -302,7 +305,7 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
         visualizer.SetArrowType(index - 1, ArrowType::Hidden);
         SLLAnimation anim7 =
             GenerateAnimation(0.75, 5, "pre->next points to node.");
-        anim7.SetAnimation([this, index](GUI::SinglyLinkedList srcDS,
+        anim7.SetAnimation([this, index](GUIVisualizer::SinglyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
             srcDS.Draw(base, playingAt);
@@ -335,7 +338,7 @@ void Algorithm::SinglyLinkedList::InsertMiddle(int index, int value) {
                               "Re-layout the Linked List for visualization "
                               "(not in the actual Linked "
                               "List).\nThe whole process is still O(1).");
-        anim8.SetAnimation([this, index](GUI::SinglyLinkedList srcDS,
+        anim8.SetAnimation([this, index](GUIVisualizer::SinglyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -389,7 +392,7 @@ void Algorithm::SinglyLinkedList::DeleteHead() {
     }
     nodes[0].SetLabel("head/0");
     nodes[0].AnimationOnNode(true);
-    nodes[0].SetNodeState(GUI::Node::State::Active);
+    nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
     SLLAnimation anim1 = GenerateAnimation(
         0.75, 0, "head is exist, so we proceed to the next step");
     animController->AddAnimation(anim1);
@@ -416,8 +419,8 @@ void Algorithm::SinglyLinkedList::DeleteHead() {
 
         SLLAnimation anim4 = GenerateAnimation(
             0.75, 3, "Remove head vertex.\nWe now have an empty List.");
-        anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
+        anim4.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
             auto& node = srcDS.GetList().front();
 
             node.SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
@@ -437,7 +440,7 @@ void Algorithm::SinglyLinkedList::DeleteHead() {
     {  // Line 3
         nodes[1].SetLabel("head/0");
         nodes[1].AnimationOnNode(true);
-        nodes[1].SetNodeState(GUI::Node::State::ActiveGreen);
+        nodes[1].SetNodeState(GUIVisualizer::Node::State::ActiveGreen);
         nodes.back().SetLabel("tail/" + std::to_string(nodes.size() - 2));
         SLLAnimation anim3 =
             GenerateAnimation(0.75, 2, "head points to the next node.");
@@ -450,8 +453,8 @@ void Algorithm::SinglyLinkedList::DeleteHead() {
         nodes[1].AnimationOnNode(false);
         SLLAnimation anim4 = GenerateAnimation(
             0.75, 3, "Delete del, which was the (previous) head.");
-        anim4.SetAnimation([this](GUI::SinglyLinkedList srcDS, float playingAt,
-                                  Vector2 base) {
+        anim4.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
             nodes[0].SetRadius(AnimationFactory::ElasticOut(1.0f - playingAt) *
@@ -505,11 +508,11 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
         return;
     }
 
-    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    for (GUIVisualizer::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1
         nodes[0].SetLabel("head/0");
-        nodes[0].SetNodeState(GUI::Node::State::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
         SLLAnimation anim1 = GenerateAnimation(
             0.75, 0, "head is exist, so we proceed to the next step.");
         animController->AddAnimation(anim1);
@@ -517,10 +520,10 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
     }
 
     {  // Line 2
-        nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::Active);
         nodes[0].SetLabel("head/pre/0");
 
-        nodes[1].SetNodeState(GUI::Node::ActiveGreen);
+        nodes[1].SetNodeState(GUIVisualizer::Node::ActiveGreen);
         nodes[1].SetLabel("temp/1");
         SLLAnimation anim1 = GenerateAnimation(
             0.75, 1, "Set pre to head. And temp to pre->next.");
@@ -531,7 +534,7 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
     }
 
     nodes[0].AnimationOnNode(false);
-    nodes.back().SetNodeState(GUI::Node::Active);
+    nodes.back().SetNodeState(GUIVisualizer::Node::Active);
     for (int k = 0; k <= nodes.size() - 2; k++) {
         {  // Line 2
             // if (k == nodes.size() - 1) nodes.back().AnimationOnNode(true);
@@ -546,15 +549,15 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
         nodes.back().AnimationOnNode(false);
 
         {  // Line 3
-            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].SetNodeState(GUIVisualizer::Node::Iterated);
             nodes[k].ClearLabel();
             if (k == 0) nodes[k].SetLabel("head/0");
 
             nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
-            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].SetNodeState(GUIVisualizer::Node::Active);
 
             nodes[k + 2].SetLabel("temp/" + std::to_string(k + 2));
-            nodes[k + 2].SetNodeState(GUI::Node::ActiveGreen);
+            nodes[k + 2].SetNodeState(GUIVisualizer::Node::ActiveGreen);
 
             if (k + 2 == nodes.size() - 1) {
                 nodes[k + 2].SetLabel("tail/temp/" + std::to_string(k + 2));
@@ -590,28 +593,28 @@ void Algorithm::SinglyLinkedList::DeleteTail() {
     }
 
     {  // Line 6
-        nodes[nodes.size() - 2].SetNodeState(GUI::Node::ActiveBlue);
+        nodes[nodes.size() - 2].SetNodeState(GUIVisualizer::Node::ActiveBlue);
         nodes[nodes.size() - 2].AnimationOnNode(true);
 
         SLLAnimation anim6 = GenerateAnimation(
             0.75, 5,
             "Delete temp (the previous tail).\nThe whole process "
             "is O(N) just to find the pre pointer.");
-        anim6.SetAnimation(
-            [this](GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
-                auto& nodes = srcDS.GetList();
+        anim6.SetAnimation([this](GUIVisualizer::SinglyLinkedList srcDS,
+                                  float playingAt, Vector2 base) {
+            auto& nodes = srcDS.GetList();
 
-                nodes.back().SetRadius(
-                    AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
-                nodes.back().SetValueFontSize(
-                    AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
-                nodes.back().SetLabelFontSize(
-                    AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+            nodes.back().SetRadius(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
+            nodes.back().SetValueFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 24);
+            nodes.back().SetLabelFontSize(
+                AnimationFactory::ElasticOut(1.0f - playingAt) * 20);
 
-                srcDS.Draw(base, playingAt);
+            srcDS.Draw(base, playingAt);
 
-                return srcDS;
-            });
+            return srcDS;
+        });
         animController->AddAnimation(anim6);
         visualizer.DeleteNode(nodes.size() - 1, true);
     }
@@ -645,11 +648,11 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
         return;
     }
 
-    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    for (GUIVisualizer::Node& node : nodes) node.AnimationOnNode(true);
 
     {  // Line 1
         nodes[0].SetLabel("head/0");
-        nodes[0].SetNodeState(GUI::Node::State::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::State::Active);
         SLLAnimation anim1 = GenerateAnimation(
             0.75, 0, "head is exist, so we proceed to the next step");
         animController->AddAnimation(anim1);
@@ -688,12 +691,12 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
         if (k == index - 1) break;
 
         {  // Line 4
-            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].SetNodeState(GUIVisualizer::Node::Iterated);
             nodes[k].ClearLabel();
             if (k == 0) nodes[k].SetLabel("head");
 
             nodes[k + 1].SetLabel("pre/" + std::to_string(k + 1));
-            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].SetNodeState(GUIVisualizer::Node::Active);
             nodes[k + 1].AnimationOnNode(true);
             visualizer.SetArrowType(k, ArrowType::Active);
 
@@ -705,7 +708,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
     }
 
     nodes[index].SetLabel("del/" + std::to_string(index));
-    nodes[index].SetNodeState(GUI::Node::State::ActiveRed);
+    nodes[index].SetNodeState(GUIVisualizer::Node::State::ActiveRed);
     SLLAnimation anim5 = GenerateAnimation(
         0.75, 4,
         "We store reference to the vertex to-be-deleted.\nWe also store "
@@ -715,7 +718,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
     nodes[index].AnimationOnNode(false);
 
     nodes[index + 1].SetLabel("aft/" + std::to_string(index + 1));
-    nodes[index + 1].SetNodeState(GUI::Node::State::ActiveGreen);
+    nodes[index + 1].SetNodeState(GUIVisualizer::Node::State::ActiveGreen);
     if (index + 1 == nodes.size() - 1)
         nodes[index + 1].SetLabel("tail/aft/" + std::to_string(index + 1));
 
@@ -739,7 +742,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
                               "to-be-deleted (pointer prev) "
                               "with the next vertex after the vertex "
                               "to-be-deleted (pointer after).");
-        anim6.SetAnimation([this, index](GUI::SinglyLinkedList srcDS,
+        anim6.SetAnimation([this, index](GUIVisualizer::SinglyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -778,7 +781,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
         nodes[index + 1].SetLabel("aft/" + std::to_string(index));
         SLLAnimation anim7 =
             GenerateAnimation(0.75, 6, "Now we delete this vertex.");
-        anim7.SetAnimation([this, index](GUI::SinglyLinkedList srcDS,
+        anim7.SetAnimation([this, index](GUIVisualizer::SinglyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -814,7 +817,7 @@ void Algorithm::SinglyLinkedList::DeleteMiddle(int index) {
                               "Re-layout the Linked List for visualization "
                               "(not in the actual Linked "
                               "List).\nThe whole process is still O(1).");
-        anim8.SetAnimation([this, index](GUI::SinglyLinkedList srcDS,
+        anim8.SetAnimation([this, index](GUIVisualizer::SinglyLinkedList srcDS,
                                          float playingAt, Vector2 base) {
             auto& nodes = srcDS.GetList();
 
@@ -863,7 +866,7 @@ void Algorithm::SinglyLinkedList::Update(int index, int value) {
         return;
     }
     {  // Line 1
-        nodes[0].SetNodeState(GUI::Node::Active);
+        nodes[0].SetNodeState(GUIVisualizer::Node::Active);
         nodes[0].SetLabel("head/0");
         nodes[0].AnimationOnNode(true);
         SLLAnimation anim1 = GenerateAnimation(
@@ -873,7 +876,7 @@ void Algorithm::SinglyLinkedList::Update(int index, int value) {
     }
 
     {  // Line 2
-        // nodes[0].SetNodeState(GUI::Node::Active);
+        // nodes[0].SetNodeState(GUIVisualizer::Node::Active);
         nodes[0].SetLabel("head/cur/0");
         SLLAnimation anim2 = GenerateAnimation(0.75, 1, "Set cur to head.");
         animController->AddAnimation(anim2);
@@ -904,12 +907,12 @@ void Algorithm::SinglyLinkedList::Update(int index, int value) {
         if (k == index) break;
 
         {  // Line 3
-            nodes[k].SetNodeState(GUI::Node::Iterated);
+            nodes[k].SetNodeState(GUIVisualizer::Node::Iterated);
             nodes[k].ClearLabel();
             if (k == 0) nodes[k].SetLabel("head");
 
             nodes[k + 1].SetLabel("cur/" + std::to_string(k + 1));
-            nodes[k + 1].SetNodeState(GUI::Node::Active);
+            nodes[k + 1].SetNodeState(GUIVisualizer::Node::Active);
             nodes[k + 1].AnimationOnNode(true);
             visualizer.SetArrowType(k, ArrowType::Active);
 
@@ -921,7 +924,7 @@ void Algorithm::SinglyLinkedList::Update(int index, int value) {
     }
 
     // nodes[index].AnimationOnNode(true);
-    nodes[index].SetNodeState(GUI::Node::ActiveGreen);
+    nodes[index].SetNodeState(GUIVisualizer::Node::ActiveGreen);
     SLLAnimation animFocusNode =
         GenerateAnimation(0.75, 4,
                           "Updating node " + std::to_string(index) +
@@ -956,9 +959,9 @@ void Algorithm::SinglyLinkedList::Search(int value) {
         return;
     }
     auto& nodes = visualizer.GetList();
-    for (GUI::Node& node : nodes) node.AnimationOnNode(true);
+    for (GUIVisualizer::Node& node : nodes) node.AnimationOnNode(true);
 
-    nodes[0].SetNodeState(GUI::Node::Active);
+    nodes[0].SetNodeState(GUIVisualizer::Node::Active);
     nodes[0].SetLabel("head/cur/0");
     SLLAnimation anim1 = GenerateAnimation(0.5, 0, "Set cur to head.");
     animController->AddAnimation(anim1);
@@ -990,7 +993,7 @@ void Algorithm::SinglyLinkedList::Search(int value) {
                 nodes[i].SetLabel("tail");
         } else {
             nodes[i].AnimationOnNode(true);
-            nodes[i].SetNodeState(GUI::Node::Iterated);
+            nodes[i].SetNodeState(GUIVisualizer::Node::Iterated);
             if (i == 0)
                 nodes[i].SetLabel("head");
             else if (i + 1 == nodes.size())
@@ -999,7 +1002,7 @@ void Algorithm::SinglyLinkedList::Search(int value) {
                 nodes[i].ClearLabel();
 
             if (i + 1 < nodes.size()) {
-                nodes[i + 1].SetNodeState(GUI::Node::Active);
+                nodes[i + 1].SetNodeState(GUIVisualizer::Node::Active);
                 if (i + 1 == nodes.size() - 1)
                     nodes[i + 1].SetLabel("tail/cur/" + std::to_string(i + 1));
                 else
@@ -1031,12 +1034,14 @@ void Algorithm::SinglyLinkedList::Search(int value) {
     ResetVisualizer();
 }
 
-std::function< GUI::SinglyLinkedList(GUI::SinglyLinkedList, float, Vector2) >
+std::function< GUIVisualizer::SinglyLinkedList(GUIVisualizer::SinglyLinkedList,
+                                               float, Vector2) >
 Algorithm::SinglyLinkedList::HighlightArrowFromCur(int index,
                                                    bool drawVisualizer,
                                                    bool reverse) {
     return [this, index, drawVisualizer, reverse](
-               GUI::SinglyLinkedList srcDS, float playingAt, Vector2 base) {
+               GUIVisualizer::SinglyLinkedList srcDS, float playingAt,
+               Vector2 base) {
         auto& nodes = srcDS.GetList();
         if (drawVisualizer) srcDS.Draw(base, playingAt);
         base.x += srcDS.GetPosition().x;
@@ -1060,9 +1065,9 @@ Algorithm::SinglyLinkedList::HighlightArrowFromCur(int index,
 
 void Algorithm::SinglyLinkedList::ResetVisualizer() {
     auto& nodes = visualizer.GetList();
-    for (GUI::Node& node : nodes) {
+    for (GUIVisualizer::Node& node : nodes) {
         node.AnimationOnNode(false);
-        node.SetNodeState(GUI::Node::Default);
+        node.SetNodeState(GUIVisualizer::Node::Default);
     }
     visualizer.ResetArrow();
 }
