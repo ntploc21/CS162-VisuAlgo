@@ -5,7 +5,7 @@
 Algorithm::DynamicArray::DynamicArray() {}
 
 Algorithm::DynamicArray::DynamicArray(
-    GUI::CodeHighlighter::Ptr codeHighlighter,
+    GUIComponent::CodeHighlighter::Ptr codeHighlighter,
     DArrayAnimationController::Ptr animController, FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
     Random();

@@ -4,7 +4,7 @@
 
 #include "Settings.hpp"
 
-GUI::Button::Button(std::string text, FontHolder* fonts)
+GUIComponent::Button::Button(std::string text, FontHolder* fonts)
     : content(text), fonts(fonts),
       buttonColorTheme(ColorTheme::Button_Background),
       buttonHoverColorTheme(ColorTheme::Button_HoveredBackground),
@@ -13,7 +13,7 @@ GUI::Button::Button(std::string text, FontHolder* fonts)
     DisableFitContent();
 }
 
-GUI::Button::Button()
+GUIComponent::Button::Button()
     : buttonColorTheme(ColorTheme::Button_Background),
       buttonHoverColorTheme(ColorTheme::Button_HoveredBackground),
       textColorTheme(ColorTheme::Button_Text), isHover(false), content(""),
@@ -21,11 +21,11 @@ GUI::Button::Button()
     DisableFitContent();
 }
 
-GUI::Button::~Button() {}
+GUIComponent::Button::~Button() {}
 
-void GUI::Button::SetText(std::string text) { content = text; }
+void GUIComponent::Button::SetText(std::string text) { content = text; }
 
-void GUI::Button::Draw(Vector2 base) {
+void GUIComponent::Button::Draw(Vector2 base) {
     if (!mVisible) return;
     const Color buttonHoverColor =
         Settings::getInstance().getColor(buttonHoverColorTheme);
@@ -47,52 +47,56 @@ void GUI::Button::Draw(Vector2 base) {
     DrawButtonText();
 }
 
-void GUI::Button::SetSize(float width, float height) {
+void GUIComponent::Button::SetSize(float width, float height) {
     bound.width = width;
     bound.height = height;
 }
 
-void GUI::Button::SetAction(std::function< void() > clickedAction) {
+void GUIComponent::Button::SetAction(std::function< void() > clickedAction) {
     action = clickedAction;
 }
 
-bool GUI::Button::isSelectable() const { return false; }
+bool GUIComponent::Button::isSelectable() const { return false; }
 
-void GUI::Button::SetFontSize(float textFontSize) { fontSize = textFontSize; }
+void GUIComponent::Button::SetFontSize(float textFontSize) {
+    fontSize = textFontSize;
+}
 
-float GUI::Button::GetFontSize() const { return fontSize; }
+float GUIComponent::Button::GetFontSize() const { return fontSize; }
 
-void GUI::Button::SetTextAlignment(TextAlignment textAlignment) {
+void GUIComponent::Button::SetTextAlignment(TextAlignment textAlignment) {
     alignment = textAlignment;
 }
 
-void GUI::Button::EnableFitContent() {
+void GUIComponent::Button::EnableFitContent() {
     fitContent = true;
 
     FitContent();
 }
 
-void GUI::Button::DisableFitContent() { fitContent = false; }
+void GUIComponent::Button::DisableFitContent() { fitContent = false; }
 
-Vector2 GUI::Button::GetSize() { return (Vector2){bound.width, bound.height}; }
+Vector2 GUIComponent::Button::GetSize() {
+    return (Vector2){bound.width, bound.height};
+}
 
-void GUI::Button::SetActionOnHover(bool actionOnHover) {
+void GUIComponent::Button::SetActionOnHover(bool actionOnHover) {
     mActionOnHover = actionOnHover;
 }
 
-bool GUI::Button::IsClicked() {
+bool GUIComponent::Button::IsClicked() {
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             CheckCollisionPointRec(GetMousePosition(), bound));
 }
 
-void GUI::Button::DrawButtonText() {
+void GUIComponent::Button::DrawButtonText() {
     const Color textColor = Settings::getInstance().getColor(textColorTheme);
     Font font = fonts->Get(Fonts::Default);
 
     DrawTextEx(font, content.c_str(), GetContentPos(), fontSize, 0, textColor);
 }
 
-Vector2 GUI::Button::GetContentPos() {
+Vector2 GUIComponent::Button::GetContentPos() {
     float textWidth = GetContentSize().x;
     float x = bound.x;
     float y = bound.y + (bound.height - fontSize) / 2;
@@ -112,24 +116,26 @@ Vector2 GUI::Button::GetContentPos() {
     return (Vector2){x, y};
 }
 
-Vector2 GUI::Button::GetContentSize() {
+Vector2 GUIComponent::Button::GetContentSize() {
     Font font = fonts->Get(Fonts::Default);
     return MeasureTextEx(font, content.c_str(), fontSize, 0);
 }
 
-void GUI::Button::FitContent() {
+void GUIComponent::Button::FitContent() {
     if (!fitContent) return;
     Vector2 textSize = GetContentSize();
     bound.width = textSize.x + 10;
     bound.height = textSize.y + 6;
 }
 
-void GUI::Button::SetButtonHoverColor(ColorTheme::ID color) {
+void GUIComponent::Button::SetButtonHoverColor(ColorTheme::ID color) {
     buttonHoverColorTheme = color;
 }
 
-void GUI::Button::SetButtonColor(ColorTheme::ID color) {
+void GUIComponent::Button::SetButtonColor(ColorTheme::ID color) {
     buttonColorTheme = color;
 }
 
-void GUI::Button::SetTextColor(ColorTheme::ID color) { textColorTheme = color; }
+void GUIComponent::Button::SetTextColor(ColorTheme::ID color) {
+    textColorTheme = color;
+}

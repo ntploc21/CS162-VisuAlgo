@@ -1,20 +1,22 @@
 #include "OperationContainer.hpp"
 
 #include <iostream>
-GUI::OperationContainer::~OperationContainer() {}
+GUIComponent::OperationContainer::~OperationContainer() {}
 
-GUI::OperationContainer::OperationContainer() {}
+GUIComponent::OperationContainer::OperationContainer() {}
 
-void GUI::OperationContainer::DrawCurrent(Vector2 base) { UpdatePosition(); }
+void GUIComponent::OperationContainer::DrawCurrent(Vector2 base) {
+    UpdatePosition();
+}
 
-void GUI::OperationContainer::SetVisible(bool visible) {
+void GUIComponent::OperationContainer::SetVisible(bool visible) {
     for (auto child : mChildren) {
         child.get()->SetVisible(visible);
     }
     mVisible = visible;
 }
 
-void GUI::OperationContainer::UpdatePosition() {
+void GUIComponent::OperationContainer::UpdatePosition() {
     float buttonHeight = 30;
     Vector2 nextOptionPos = (Vector2){3, 2};
     for (auto child : mChildren) {

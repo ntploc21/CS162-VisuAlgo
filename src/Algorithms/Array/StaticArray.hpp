@@ -14,7 +14,7 @@ namespace Algorithm {
 
     public:
         StaticArray();
-        StaticArray(GUI::CodeHighlighter::Ptr codeHighlighter,
+        StaticArray(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                     DArrayAnimationController::Ptr animController,
                     FontHolder* fonts);
         ~StaticArray();
@@ -41,6 +41,6 @@ namespace Algorithm {
     private:
         void ResetVisualizer();
     };
-};  // namespace Algorithm
+};      // namespace Algorithm
 
 #endif  // CORE_ALGORITHMS_ARRAY_STATICARRAY_HPP

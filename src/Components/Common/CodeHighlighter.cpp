@@ -3,15 +3,15 @@
 #include "Settings.hpp"
 #include "Utils/Utils.hpp"
 
-GUI::CodeHighlighter::CodeHighlighter(FontHolder *fonts)
+GUIComponent::CodeHighlighter::CodeHighlighter(FontHolder *fonts)
     : fonts(fonts), mShowCode(false), mShowActionDescription(false) {
-    mButtonShowAction = GUI::Button(">", fonts);
-    mButtonShowCode = GUI::Button(">", fonts);
+    mButtonShowAction = GUIComponent::Button(">", fonts);
+    mButtonShowCode = GUIComponent::Button(">", fonts);
 }
 
-GUI::CodeHighlighter::~CodeHighlighter() {}
+GUIComponent::CodeHighlighter::~CodeHighlighter() {}
 
-void GUI::CodeHighlighter::Draw(Vector2 base) {
+void GUIComponent::CodeHighlighter::Draw(Vector2 base) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     mButtonShowAction.Draw(base);
@@ -20,19 +20,19 @@ void GUI::CodeHighlighter::Draw(Vector2 base) {
     DrawCodeHighlighter((Vector2){base.x - 4, base.y + 64});
 }
 
-bool GUI::CodeHighlighter::isSelectable() const { return false; }
+bool GUIComponent::CodeHighlighter::isSelectable() const { return false; }
 
-void GUI::CodeHighlighter::AddCode(std::vector< std::string > code) {
+void GUIComponent::CodeHighlighter::AddCode(std::vector< std::string > code) {
     mHighlightedLine = -1;
     mCode = code;
 }
 
-void GUI::CodeHighlighter::Highlight(int line) {
+void GUIComponent::CodeHighlighter::Highlight(int line) {
     if (!(line >= 0 && line <= mCode.size())) line = -1;
     mHighlightedLine = line;
 }
 
-void GUI::CodeHighlighter::ToggleShowCode() {
+void GUIComponent::CodeHighlighter::ToggleShowCode() {
     if (mShowCode) {
         mButtonShowCode.SetText(">");
         mShowCode = false;
@@ -42,7 +42,7 @@ void GUI::CodeHighlighter::ToggleShowCode() {
     }
 }
 
-void GUI::CodeHighlighter::ToggleShowAction() {
+void GUIComponent::CodeHighlighter::ToggleShowAction() {
     if (mShowActionDescription) {
         mButtonShowAction.SetText(">");
         mShowActionDescription = false;
@@ -52,7 +52,7 @@ void GUI::CodeHighlighter::ToggleShowAction() {
     }
 }
 
-void GUI::CodeHighlighter::SetShowCode(bool show) {
+void GUIComponent::CodeHighlighter::SetShowCode(bool show) {
     if (show) {
         mButtonShowCode.SetText("<");
         mShowCode = true;
@@ -62,7 +62,7 @@ void GUI::CodeHighlighter::SetShowCode(bool show) {
     }
 }
 
-void GUI::CodeHighlighter::SetShowAction(bool show) {
+void GUIComponent::CodeHighlighter::SetShowAction(bool show) {
     if (show) {
         mButtonShowAction.SetText("<");
         mShowActionDescription = true;
@@ -72,11 +72,12 @@ void GUI::CodeHighlighter::SetShowAction(bool show) {
     }
 }
 
-void GUI::CodeHighlighter::AddActionDescription(std::string description) {
+void GUIComponent::CodeHighlighter::AddActionDescription(
+    std::string description) {
     mActionDescription = description;
 }
 
-void GUI::CodeHighlighter::DrawActionDescription(Vector2 base) {
+void GUIComponent::CodeHighlighter::DrawActionDescription(Vector2 base) {
     if (!mShowActionDescription) return;
     const Color backgroundColor = Settings::getInstance().getColor(
         ColorTheme::ActionDescription_Background);
@@ -91,7 +92,7 @@ void GUI::CodeHighlighter::DrawActionDescription(Vector2 base) {
                          textColor);
 }
 
-void GUI::CodeHighlighter::DrawCodeHighlighter(Vector2 base) {
+void GUIComponent::CodeHighlighter::DrawCodeHighlighter(Vector2 base) {
     if (!mShowCode) return;
     const Color backgroundColor = Settings::getInstance().getColor(
         ColorTheme::CodeHighlighter_Background);
@@ -118,7 +119,7 @@ void GUI::CodeHighlighter::DrawCodeHighlighter(Vector2 base) {
     }
 }
 
-void GUI::CodeHighlighter::InitButtons() {
+void GUIComponent::CodeHighlighter::InitButtons() {
     mButtonShowAction.SetSize(40, 60);
     mButtonShowAction.SetTextAlignment(mButtonShowAction.Center);
     mButtonShowAction.SetFontSize(32);

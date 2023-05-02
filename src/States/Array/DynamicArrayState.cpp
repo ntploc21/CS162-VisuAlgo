@@ -15,8 +15,10 @@ State::DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
 State::DynamicArrayState::~DynamicArrayState() {}
 
 void State::DynamicArrayState::AddInsertOperation() {
-    GUI::Button::Ptr buttonInsert(new GUI::Button("Push", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonInsert(
+        new GUIComponent::Button("Push", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
@@ -80,9 +82,10 @@ void State::DynamicArrayState::AddInsertOperation() {
 }
 
 void State::DynamicArrayState::AddInitializeOperation() {
-    GUI::Button::Ptr buttonInitialize(
-        new GUI::Button("Create", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonInitialize(
+        new GUIComponent::Button("Create", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
@@ -143,11 +146,12 @@ void State::DynamicArrayState::AddInitializeOperation() {
 }
 
 void State::DynamicArrayState::AddUpdateOperation() {
-    GUI::Button::Ptr buttonUpdate(
-        new GUI::Button("Update", GetContext().fonts));
+    GUIComponent::Button::Ptr buttonUpdate(
+        new GUIComponent::Button("Update", GetContext().fonts));
     /*  */
 
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR UPDATE ==== */
 
@@ -171,8 +175,10 @@ void State::DynamicArrayState::AddUpdateOperation() {
 }
 
 void State::DynamicArrayState::AddDeleteOperation() {
-    GUI::Button::Ptr buttonDelete(new GUI::Button("Pop", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonDelete(
+        new GUIComponent::Button("Pop", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
@@ -209,9 +215,10 @@ void State::DynamicArrayState::AddDeleteOperation() {
 }
 
 void State::DynamicArrayState::AddSearchOperation() {
-    GUI::Button::Ptr buttonSearch(
-        new GUI::Button("Search", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonSearch(
+        new GUIComponent::Button("Search", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR SEARCH ==== */
 
@@ -231,9 +238,10 @@ void State::DynamicArrayState::AddSearchOperation() {
 }
 
 void State::DynamicArrayState::AddAccessOperation() {
-    GUI::Button::Ptr buttonSearch(
-        new GUI::Button("Access", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonSearch(
+        new GUIComponent::Button("Access", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR ACCESS ==== */
 

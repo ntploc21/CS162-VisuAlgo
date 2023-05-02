@@ -4,7 +4,7 @@
 #include "Button.hpp"
 #include "Container.hpp"
 
-namespace GUI {
+namespace GUIComponent {
     class OperationContainer : public GUI::Container {
     public:
         typedef std::shared_ptr< OperationContainer > Ptr;
@@ -18,6 +18,6 @@ namespace GUI {
     private:
         void UpdatePosition();
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_OPERATIONCONTAINER_HPP

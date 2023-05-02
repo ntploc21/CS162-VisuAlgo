@@ -13,9 +13,10 @@ State::QueueState::QueueState(StateStack& stack, Context context)
 State::QueueState::~QueueState() {}
 
 void State::QueueState::AddInsertOperation() {
-    GUI::Button::Ptr buttonInsert(
-        new GUI::Button("Enqueue", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonInsert(
+        new GUIComponent::Button("Enqueue", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
@@ -39,9 +40,10 @@ void State::QueueState::AddInsertOperation() {
 }
 
 void State::QueueState::AddInitializeOperation() {
-    GUI::Button::Ptr buttonInitialize(
-        new GUI::Button("Create", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonInitialize(
+        new GUIComponent::Button("Create", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
@@ -102,9 +104,10 @@ void State::QueueState::AddInitializeOperation() {
 }
 
 void State::QueueState::AddDeleteOperation() {
-    GUI::Button::Ptr buttonDelete(
-        new GUI::Button("Dequeue", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonDelete(
+        new GUIComponent::Button("Dequeue", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
@@ -119,8 +122,10 @@ void State::QueueState::AddDeleteOperation() {
 }
 
 void State::QueueState::AddSearchOperation() {
-    GUI::Button::Ptr buttonSearch(new GUI::Button("Peek", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonSearch(
+        new GUIComponent::Button("Peek", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR SEARCH ==== */
 

@@ -17,7 +17,7 @@ namespace Algorithm {
         static constexpr Orientation mStackOrientation = Orientation::Vertical;
 
     public:
-        Stack(GUI::CodeHighlighter::Ptr codeHighlighter,
+        Stack(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
               SLLAnimationController::Ptr animController, FontHolder* fonts);
         Stack();
         ~Stack();
@@ -38,6 +38,6 @@ namespace Algorithm {
         HighlightArrowFromCur(int index, bool drawVisualizer = true,
                               bool reverse = false);
     };
-};  // namespace Algorithm
+};      // namespace Algorithm
 
 #endif  // CORE_ALGORITHMS_LINKEDLIST_STACK_HPP

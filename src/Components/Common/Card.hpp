@@ -16,7 +16,7 @@
 
 */
 
-namespace GUI {
+namespace GUIComponent {
     class Card : public GUI::Component {
     public:
         Card(std::string text, Texture thumbnail, FontHolder* fonts);
@@ -46,6 +46,6 @@ namespace GUI {
         std::map< std::string, Rectangle > hoverBounds;
         bool isHover;
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_CARD_HPP

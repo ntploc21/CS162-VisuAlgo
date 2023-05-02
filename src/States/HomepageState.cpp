@@ -79,9 +79,9 @@ void State::HomepageState::DrawIntroduction() {
 
 void State::HomepageState::CreateCard(States::ID stateID, std::string title,
                                       Textures::ID textureID, int x, int y) {
-    std::shared_ptr< GUI::Card > card(
-        new GUI::Card(title.c_str(), GetContext().textures->Get(textureID),
-                      GetContext().fonts));
+    std::shared_ptr< GUIComponent::Card > card(new GUIComponent::Card(
+        title.c_str(), GetContext().textures->Get(textureID),
+        GetContext().fonts));
     card->SetPosition(x, y);
     card->SetLink([this](States::ID stateID) { RequestStackPush(stateID); });
     card->SetStateID(stateID);

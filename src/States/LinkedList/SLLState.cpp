@@ -12,9 +12,10 @@ State::SLLState::SLLState(StateStack& stack, Context context)
 State::SLLState::~SLLState() {}
 
 void State::SLLState::AddInsertOperation() {
-    GUI::Button::Ptr buttonInsert(
-        new GUI::Button("Insert", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonInsert(
+        new GUIComponent::Button("Insert", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR INSERT ==== */
 
@@ -75,9 +76,10 @@ void State::SLLState::AddInsertOperation() {
 }
 
 void State::SLLState::AddInitializeOperation() {
-    GUI::Button::Ptr buttonInitialize(
-        new GUI::Button("Create", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonInitialize(
+        new GUIComponent::Button("Create", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
 
@@ -140,11 +142,12 @@ void State::SLLState::AddInitializeOperation() {
 }
 
 void State::SLLState::AddUpdateOperation() {
-    GUI::Button::Ptr buttonUpdate(
-        new GUI::Button("Update", GetContext().fonts));
+    GUIComponent::Button::Ptr buttonUpdate(
+        new GUIComponent::Button("Update", GetContext().fonts));
     /*  */
 
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR UPDATE ==== */
 
@@ -169,9 +172,10 @@ void State::SLLState::AddUpdateOperation() {
 }
 
 void State::SLLState::AddDeleteOperation() {
-    GUI::Button::Ptr buttonDelete(
-        new GUI::Button("Delete", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonDelete(
+        new GUIComponent::Button("Delete", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR DELETE ==== */
 
@@ -214,9 +218,10 @@ void State::SLLState::AddDeleteOperation() {
 }
 
 void State::SLLState::AddSearchOperation() {
-    GUI::Button::Ptr buttonSearch(
-        new GUI::Button("Search", GetContext().fonts));
-    GUI::OperationContainer::Ptr container(new GUI::OperationContainer());
+    GUIComponent::Button::Ptr buttonSearch(
+        new GUIComponent::Button("Search", GetContext().fonts));
+    GUIComponent::OperationContainer::Ptr container(
+        new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR SEARCH ==== */
 

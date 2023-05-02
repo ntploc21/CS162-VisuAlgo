@@ -11,7 +11,7 @@ using ArrowType = GUI::LinkedList::ArrowType;
 Algorithm::DoublyLinkedList::DoublyLinkedList() {}
 
 Algorithm::DoublyLinkedList::DoublyLinkedList(
-    GUI::CodeHighlighter::Ptr codeHighlighter,
+    GUIComponent::CodeHighlighter::Ptr codeHighlighter,
     DLLAnimationController::Ptr animController, FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
     Random();

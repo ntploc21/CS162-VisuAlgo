@@ -3,13 +3,13 @@
 #include "Button.hpp"
 #include "Container.hpp"
 
-namespace GUI {
+namespace GUIComponent {
     class OperationList : public GUI::Container {
     private:
         GUI::Container buttons;
         GUI::Container optionContainers;
         bool isHide;
-        GUI::Button toggleButton;
+        GUIComponent::Button toggleButton;
 
     public:
         void ShowOptions(std::size_t index);
@@ -21,12 +21,12 @@ namespace GUI {
         OperationList();
         OperationList(FontHolder *fonts);
         ~OperationList();
-        void AddOperation(GUI::Button::Ptr action,
+        void AddOperation(GUIComponent::Button::Ptr action,
                           GUI::Container::Ptr optionContainer);
         void InitActionBar();
 
         Vector2 GetSize();
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_OPERATIONLIST_HPP

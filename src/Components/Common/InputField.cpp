@@ -4,17 +4,17 @@
 
 #include "Settings.hpp"
 
-GUI::InputField::InputField(FontHolder* fonts)
+GUIComponent::InputField::InputField(FontHolder* fonts)
     : fonts(fonts), labelFontSize(20), mFieldIndex(InputField::fields.size()) {
-    if (GUI::InputField::fields.empty()) {
-        GUI::InputField::fields = std::vector< bool >(1, false);
+    if (GUIComponent::InputField::fields.empty()) {
+        GUIComponent::InputField::fields = std::vector< bool >(1, false);
     } else
-        GUI::InputField::fields.push_back(false);
+        GUIComponent::InputField::fields.push_back(false);
 }
 
-GUI::InputField::~InputField() {}
+GUIComponent::InputField::~InputField() {}
 
-void GUI::InputField::Draw(Vector2 base) {
+void GUIComponent::InputField::Draw(Vector2 base) {
     const Color buttonColor =
         Settings::getInstance().getColor(ColorTheme::ActionList_Background);
     const Color labelColor =
@@ -37,19 +37,23 @@ void GUI::InputField::Draw(Vector2 base) {
 
     if (IsClicked(base)) {
         AllFieldDisableEdit();
-        GUI::InputField::fields[mFieldIndex] = true;
+        GUIComponent::InputField::fields[mFieldIndex] = true;
     }
-    SetEditMode(GUI::InputField::fields[mFieldIndex]);
+    SetEditMode(GUIComponent::InputField::fields[mFieldIndex]);
     DrawField(base);
 }
 
-bool GUI::InputField::isSelectable() const { return false; }
+bool GUIComponent::InputField::isSelectable() const { return false; }
 
-void GUI::InputField::SetLabelSize(float fontSize) { labelFontSize = fontSize; }
+void GUIComponent::InputField::SetLabelSize(float fontSize) {
+    labelFontSize = fontSize;
+}
 
-void GUI::InputField::SetInputFieldSize(Vector2 size) { inputFieldSize = size; }
+void GUIComponent::InputField::SetInputFieldSize(Vector2 size) {
+    inputFieldSize = size;
+}
 
-Vector2 GUI::InputField::GetSize() {
+Vector2 GUIComponent::InputField::GetSize() {
     assert(labelFontSize <= inputFieldSize.y);
     Font font = fonts->Get(Fonts::Default);
 
@@ -62,26 +66,26 @@ Vector2 GUI::InputField::GetSize() {
     return (Vector2){width, height};
 }
 
-bool GUI::InputField::IsClicked(Vector2 base) const {
+bool GUIComponent::InputField::IsClicked(Vector2 base) const {
     Rectangle bound =
         (Rectangle){base.x, base.y, inputFieldSize.x, inputFieldSize.y};
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             CheckCollisionPointRec(GetMousePosition(), bound));
 }
 
-void GUI::InputField::SetEditMode(bool canEdit) { editMode = canEdit; }
+void GUIComponent::InputField::SetEditMode(bool canEdit) { editMode = canEdit; }
 
-bool GUI::InputField::GetEditMode() const { return editMode; }
+bool GUIComponent::InputField::GetEditMode() const { return editMode; }
 
-void GUI::InputField::AllFieldDisableEdit() {
-    std::fill(GUI::InputField::fields.begin(), GUI::InputField::fields.end(),
-              false);
+void GUIComponent::InputField::AllFieldDisableEdit() {
+    std::fill(GUIComponent::InputField::fields.begin(),
+              GUIComponent::InputField::fields.end(), false);
 }
 
-void GUI::InputField::Randomize() {}
+void GUIComponent::InputField::Randomize() {}
 
-void GUI::InputField::SetLabel(std::string labelContent) {
+void GUIComponent::InputField::SetLabel(std::string labelContent) {
     label = labelContent;
 }
 
-std::string GUI::InputField::GetLabel() const { return label; }
+std::string GUIComponent::InputField::GetLabel() const { return label; }

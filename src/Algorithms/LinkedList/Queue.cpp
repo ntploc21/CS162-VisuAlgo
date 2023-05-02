@@ -11,7 +11,7 @@ using ArrowType = GUI::SinglyLinkedList::ArrowType;
 
 Algorithm::Queue::Queue() {}
 
-Algorithm::Queue::Queue(GUI::CodeHighlighter::Ptr codeHighlighter,
+Algorithm::Queue::Queue(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                         SLLAnimationController::Ptr animController,
                         FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {

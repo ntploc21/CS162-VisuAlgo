@@ -2,6 +2,16 @@ compilation_database_dir: build
 output_directory: docs/diagrams
 generate_method_arguments: none
 diagrams:
+  Component:
+    type: class
+    relative_to: src
+    include_relations_also_as_members: false
+    include:
+      namespaces:
+        - GUIComponent
+    exclude:
+      access:
+        - private
   GUI:
     type: class
     relative_to: src

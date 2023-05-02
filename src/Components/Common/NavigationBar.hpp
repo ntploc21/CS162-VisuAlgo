@@ -9,7 +9,7 @@
 #include "Identifiers/StateIdentifiers.hpp"
 #include "raygui.h"
 
-namespace GUI {
+namespace GUIComponent {
     class NavigationBar : public GUI::Component {
     public:
         NavigationBar(FontHolder* fonts);
@@ -58,6 +58,6 @@ namespace GUI {
         std::map< std::string, Rectangle > hoverBounds;
         bool isHover;
     };
-};      // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_NAVIGATIONBAR_HPP

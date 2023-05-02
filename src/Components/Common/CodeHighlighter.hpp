@@ -6,16 +6,16 @@
 // #include "Component.hpp"
 #include "Button.hpp"
 
-namespace GUI {
+namespace GUIComponent {
     class CodeHighlighter : public GUI::Component {
     public:
         typedef std::shared_ptr< CodeHighlighter > Ptr;
 
     private:
-        GUI::Button mButtonShowCode;
+        GUIComponent::Button mButtonShowCode;
         bool mShowCode;
 
-        GUI::Button mButtonShowAction;
+        GUIComponent::Button mButtonShowAction;
         bool mShowActionDescription;
 
         FontHolder* fonts;
@@ -47,6 +47,6 @@ namespace GUI {
         void DrawActionDescription(Vector2 base = (Vector2){0, 0});
         void DrawCodeHighlighter(Vector2 base = (Vector2){0, 0});
     };
-};  // namespace GUI
+};      // namespace GUIComponent
 
 #endif  // COMPONENTS_COMMON_CODEHIGHLIGHTER_HPP

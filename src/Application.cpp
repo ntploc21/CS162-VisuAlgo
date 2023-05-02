@@ -16,7 +16,7 @@
 #include "States/LinkedList/SLLState.hpp"
 #include "States/LinkedList/StackState.hpp"
 
-std::vector< bool > GUI::InputField::fields(std::vector< bool >(0));
+std::vector< bool > GUIComponent::InputField::fields(std::vector< bool >(0));
 
 void Application::Init() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);

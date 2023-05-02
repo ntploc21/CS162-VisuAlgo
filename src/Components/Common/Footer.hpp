@@ -7,7 +7,7 @@
 #include "Settings.hpp"
 #include "Utils/Utils.hpp"
 
-namespace GUI {
+namespace GUIComponent {
     template< typename T >
     class Footer : public GUI::Container {
     public:
@@ -15,16 +15,16 @@ namespace GUI {
         ~Footer();
         void Draw(T* animController, Vector2 base = (Vector2){0, 0});
     };
-};  // namespace GUI
+};  // namespace GUIComponent
 
 template< typename T >
-GUI::Footer< T >::Footer() {}
+GUIComponent::Footer< T >::Footer() {}
 
 template< typename T >
-GUI::Footer< T >::~Footer() {}
+GUIComponent::Footer< T >::~Footer() {}
 
 template< typename T >
-void GUI::Footer< T >::Draw(T* animController, Vector2 base) {
+void GUIComponent::Footer< T >::Draw(T* animController, Vector2 base) {
     const Color backgroundColor =
         Settings::getInstance().getColor(ColorTheme::Footer_Background);
     const Color iconColor =

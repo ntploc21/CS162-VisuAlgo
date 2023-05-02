@@ -15,7 +15,7 @@ namespace Algorithm {
 
     public:
         CircularLinkedList();
-        CircularLinkedList(GUI::CodeHighlighter::Ptr codeHighlighter,
+        CircularLinkedList(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
                            CLLAnimationController::Ptr animController,
                            FontHolder* fonts);
         ~CircularLinkedList();
@@ -50,6 +50,6 @@ namespace Algorithm {
     private:
         void ResetVisualizer();
     };
-};  // namespace Algorithm
+};      // namespace Algorithm
 
 #endif  // CORE_DATASTRUCTURES_LINKEDLIST_CIRCULARLINKEDLIST_HPP

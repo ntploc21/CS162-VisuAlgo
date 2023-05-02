@@ -4,12 +4,12 @@
 
 #include "Settings.hpp"
 
-GUI::StringInputField::StringInputField(FontHolder* fonts)
-    : GUI::InputField(fonts) {}
-GUI::StringInputField::~StringInputField() {}
-std::string GUI::StringInputField::ExtractValue() { return content; }
+GUIComponent::StringInputField::StringInputField(FontHolder* fonts)
+    : GUIComponent::InputField(fonts) {}
+GUIComponent::StringInputField::~StringInputField() {}
+std::string GUIComponent::StringInputField::ExtractValue() { return content; }
 
-void GUI::StringInputField::DrawField(Vector2 base) {
+void GUIComponent::StringInputField::DrawField(Vector2 base) {
     const Color inactiveColor =
         Settings::getInstance().getColor(ColorTheme::InputField_Inactive);
 
@@ -25,4 +25,4 @@ void GUI::StringInputField::DrawField(Vector2 base) {
     delete[] input;
 }
 
-bool GUI::StringInputField::isSelectable() const { return false; }
+bool GUIComponent::StringInputField::isSelectable() const { return false; }

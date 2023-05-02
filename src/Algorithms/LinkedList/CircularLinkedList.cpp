@@ -11,7 +11,7 @@ using ArrowType = GUI::LinkedList::ArrowType;
 Algorithm::CircularLinkedList::CircularLinkedList() {}
 
 Algorithm::CircularLinkedList::CircularLinkedList(
-    GUI::CodeHighlighter::Ptr codeHighlighter,
+    GUIComponent::CodeHighlighter::Ptr codeHighlighter,
     CLLAnimationController::Ptr animController, FontHolder* fonts)
     : Algorithm::Algorithm(codeHighlighter, animController, fonts) {
     Random();
