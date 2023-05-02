@@ -31,41 +31,49 @@ endif()
 
 # Unit testing
 
-# enable_testing()
-# include(CTest)
+enable_testing()
+include(CTest)
 
-# add_executable(core_base_create_test_exe
-#     UnitTest/doctest_main.cpp
-#     UnitTest/Operations/Create/Create.test.cpp
-#     src/Core/Operations/Create/Create.cpp
-# )
+add_executable(core_base_list_test_exe
+    unittest/doctest_main.cpp
+    unittest/List.test.cpp
+)
 
-# add_executable(core_base_singly_linked_list_exe
-#     UnitTest/doctest_main.cpp
-#     UnitTest/DataStructures/SinglyLinkedList.test.cpp
-#     # src/Core/DataStructures/LinkedList/SinglyLinkedList.hpp
-#     src/Core/Operations/Create/Create.cpp
-# )
+add_executable(core_stack_test_exe
+    unittest/doctest_main.cpp
+    unittest/Stack.test.cpp
+)
 
-# target_include_directories(core_base_create_test_exe PRIVATE include)
-# target_include_directories(core_base_singly_linked_list_exe PRIVATE include)
+add_executable(core_queue_test_exe
+    unittest/doctest_main.cpp
+    unittest/Queue.test.cpp
+)
 
-# if(NOT MSVC)
-#     target_link_directories(core_base_create_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
-#     target_link_directories(core_base_singly_linked_list_exe PRIVATE -fsanitize=address,undefined,leak -g)
-# endif()
+target_include_directories(core_base_list_test_exe PRIVATE include)
+target_include_directories(core_stack_test_exe PRIVATE include)
+target_include_directories(core_queue_test_exe PRIVATE include)
 
-# add_test(core_base_create_test core_base_create_test_exe)
+if(NOT MSVC)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+endif()
 
-# add_test(core_base_singly_linked_list core_base_singly_linked_list_exe)
+add_test(core_base_list_test core_base_list_test_exe)
+add_test(core_stack_test core_stack_test_exe)
+add_test(core_queue_test core_queue_test_exe)
 
-# add_custom_target(run_base_create_test ALL
-#     COMMAND ctest --output-on-failure
-#     DEPENDS core_base_create_test_exe)
+add_custom_target(run_base_list_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_base_list_test_exe)
 
-# add_custom_target(run_base_singly_linked_list ALL
-#     COMMAND ctest --output-on-failure
-#     DEPENDS core_base_singly_linked_list_exe)
+add_custom_target(run_stack_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_stack_test_exe)
+
+add_custom_target(run_queue_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_queue_test_exe)
 
 # YAML
 
@@ -87,11 +95,11 @@ add_executable(${PROJECT_NAME}
     src/Application.cpp
     src/State.cpp
     src/StateStack.cpp
-    src/SceneNode.cpp
     src/FontHolder.cpp
     src/TextureHolder.cpp
     src/Component.cpp
     src/Container.cpp
+    src/Settings.cpp
     src/Identifiers/CategoryInfo.cpp
     src/Identifiers/DSInfo.cpp
 
@@ -128,7 +136,6 @@ add_executable(${PROJECT_NAME}
     src/Components/Common/CodeHighlighter.cpp
     ## Visualization
     src/Components/Visualization/Node.cpp
-    src/Components/Visualization/DataStructure.cpp
     src/Components/Visualization/LinkedList.cpp
     src/Components/Visualization/SinglyLinkedList.cpp
     src/Components/Visualization/DoublyLinkedList.cpp
@@ -158,6 +165,7 @@ add_executable(${PROJECT_NAME}
     
     ## Utils
     src/Utils/Utils.cpp
+    include/tinyfiledialogs.c
 )
 
 target_link_libraries(${PROJECT_NAME} raylib)

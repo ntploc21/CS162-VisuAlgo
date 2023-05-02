@@ -19,9 +19,13 @@ void GUI::Container::Draw(Vector2 base) {
 
 bool GUI::Container::isSelectable() const { return false; }
 
-std::vector< GUI::Component::Ptr > GUI::Container::GetChildren() {
+Core::Deque< GUI::Component::Ptr > GUI::Container::GetChildren() {
     return mChildren;
 }
+
+// std::vector< GUI::Component::Ptr > GUI::Container::GetChildren() {
+//     return mChildren;
+// }
 
 void GUI::Container::DrawCurrent(Vector2 base = (Vector2){0, 0}) {}
 

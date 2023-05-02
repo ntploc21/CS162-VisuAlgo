@@ -21,6 +21,12 @@ namespace Algorithm {
         std::size_t size() const;
 
     public:
+        void Insert(int index, int value);
+
+    public:
+        void Delete(int index);
+
+    public:
         void Update(int index, int value);
 
     public:

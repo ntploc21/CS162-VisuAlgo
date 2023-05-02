@@ -4,7 +4,6 @@
 #include <functional>
 
 #include "Components/Visualization/CircularLinkedList.hpp"
-#include "Components/Visualization/DataStructure.hpp"
 #include "Components/Visualization/DoublyLinkedList.hpp"
 #include "Components/Visualization/DynamicArray.hpp"
 #include "Components/Visualization/SinglyLinkedList.hpp"
@@ -13,9 +12,6 @@
 namespace Animation {
     template< typename T >
     class AnimationState {
-    public:
-        typedef std::shared_ptr< AnimationState< T > > Ptr;
-
     private:
         float mDuration;
         float mCurrentPlayingAt;

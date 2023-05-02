@@ -1,11 +1,11 @@
 #ifndef COMPONENTS_VISUALIZATION_LINKEDLIST_HPP
 #define COMPONENTS_VISUALIZATION_LINKEDLIST_HPP
 
-#include "DataStructure.hpp"
+#include "Container.hpp"
 #include "Node.hpp"
 
 namespace GUI {
-    class LinkedList : public GUI::DataStructure {
+    class LinkedList : public GUI::Container {
     public:
         enum ArrowType {
             Default,

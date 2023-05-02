@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Component.hpp"
+#include "Core/Deque.hpp"
 
 namespace GUI {
     class Container : public Component {
@@ -17,14 +18,16 @@ namespace GUI {
         void UnpackAll();
         virtual void Draw(Vector2 base = (Vector2){0, 0});
         virtual bool isSelectable() const;
-        std::vector< Component::Ptr > GetChildren();
+        // std::vector< Component::Ptr > GetChildren();
+        Core::Deque< Component::Ptr > GetChildren();
 
         virtual void DrawCurrent(Vector2 base);
 
         virtual Vector2 GetSize();
 
     protected:
-        std::vector< Component::Ptr > mChildren;
+        // std::vector< Component::Ptr > mChildren;
+        Core::Deque< Component::Ptr > mChildren;
     };
 };  // namespace GUI
 

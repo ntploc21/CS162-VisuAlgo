@@ -1,10 +1,11 @@
 #ifndef COMPONENTS_VISUALIZATION_DYNAMICARRAY_HPP
 #define COMPONENTS_VISUALIZATION_DYNAMICARRAY_HPP
 
-#include "DataStructure.hpp"
+#include "Container.hpp"
+#include "Node.hpp"
 
 namespace GUI {
-    class DynamicArray : public GUI::DataStructure {
+    class DynamicArray : public GUI::Container {
     public:
         DynamicArray();
         DynamicArray(FontHolder* fonts);

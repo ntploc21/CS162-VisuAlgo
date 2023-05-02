@@ -14,7 +14,6 @@ Font& FontHolder::Get(Fonts::ID id) {
     auto found = mFontMap.find(id);
     assert(found != mFontMap.end());
     return *found->second.get();
-    // return mFontMap[Fonts::Default];
 }
 
 const Font& FontHolder::Get(Fonts::ID id) const {

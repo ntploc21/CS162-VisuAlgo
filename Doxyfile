@@ -2723,3 +2723,8 @@ GENERATE_LEGEND        = YES
 # The default value is: YES.
 
 DOT_CLEANUP            = YES
+
+ALIASES                += uml=""
+ALIASES                += uml{1}=""
+ALIASES                += uml{2}=""
+ALIASES                += uml{3}=""

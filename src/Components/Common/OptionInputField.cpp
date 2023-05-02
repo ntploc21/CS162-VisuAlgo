@@ -10,7 +10,7 @@ GUI::OptionInputField::OptionInputField(FontHolder* fonts)
 GUI::OptionInputField::~OptionInputField() {}
 
 void GUI::OptionInputField::SetOption(
-    std::string content, std::vector< InputField::Ptr > fields,
+    std::string content, Core::Deque< InputField::Ptr > fields,
     std::function< void(std::map< std::string, std::string >) > action) {
     // assert();
     auto genButton = [&, this](

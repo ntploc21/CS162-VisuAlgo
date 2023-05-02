@@ -5,6 +5,7 @@
 
 #include "Button.hpp"
 #include "Container.hpp"
+#include "Core/Deque.hpp"
 #include "InputField.hpp"
 
 namespace GUI {
@@ -16,7 +17,7 @@ namespace GUI {
         OptionInputField(FontHolder *fonts);
         ~OptionInputField();
         void SetOption(
-            std::string content, std::vector< InputField::Ptr > fields,
+            std::string content, Core::Deque< InputField::Ptr > fields,
             std::function< void(std::map< std::string, std::string >) > action);
         void SetNoFieldOption(std::string content,
                               std::function< void() > action);

@@ -3,16 +3,18 @@ output_directory: docs/diagrams
 generate_method_arguments: none
 diagrams:
   GUI:
-    type: class
+    type: include
+    relative_to: src
+    glob:
+      - src/*.cpp
     include_relations_also_as_members: false
+    generate_system_headers: false
     include:
-      namespaces:
-        - GUI
+      paths:
+        - src
     exclude:
-      access:
-        - public
-        - protected
-        - private
+      paths:
+        - build
   Algorithm:
     type: class
     include_relations_also_as_members: false
@@ -25,3 +27,9 @@ diagrams:
     include:
       namespaces:
         - Animation
+  Core:
+    type: class
+    include_relations_also_as_members: false
+    include:
+      namespaces:
+        - Core

@@ -134,7 +134,7 @@ std::size_t Animation::AnimationController< T >::CurrentAnimationIndex() const {
 
 template< typename T >
 void Animation::AnimationController< T >::AddAnimation(T animation) {
-    animationGroup.emplace_back(animation);
+    animationGroup.push_back(animation);
 }
 
 template< typename T >
