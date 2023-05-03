@@ -7,6 +7,12 @@
 #include "Button.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The code highlighter class that is used to represent a code
+     * highlighter in the GUI.
+     * @details The code highlighter is used to show the code and highlight the
+     * current running line of code.
+     */
     class CodeHighlighter : public GUI::Component {
     public:
         typedef std::shared_ptr< CodeHighlighter > Ptr;

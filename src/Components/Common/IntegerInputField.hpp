@@ -4,6 +4,12 @@
 #include "InputField.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The integer input field class that is used to represent an integer
+     * input field in the GUI.
+     * @details The integer input field is used to get integer input from the
+     * user.
+     */
     class IntegerInputField : public InputField {
     public:
         typedef std::shared_ptr< IntegerInputField > Ptr;

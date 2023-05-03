@@ -5,6 +5,13 @@
 #include "Container.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The operation container class that is used to represent an
+     * operation container in the GUI.
+     * @details The operation container will be used to store a list of
+     * operations that are of the same type. (e.g. Insert head, Insert after
+     * tail, etc.)
+     */
     class OperationContainer : public GUI::Container {
     public:
         typedef std::shared_ptr< OperationContainer > Ptr;

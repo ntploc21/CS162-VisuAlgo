@@ -17,6 +17,9 @@
 */
 
 namespace GUIComponent {
+    /**
+     * @brief The card class that is used to represent a card in the GUI.
+     */
     class Card : public GUI::Component {
     public:
         Card(std::string text, Texture thumbnail, FontHolder* fonts);

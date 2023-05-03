@@ -10,6 +10,13 @@
 #include "raygui.h"
 
 namespace GUIComponent {
+    /**
+     * @brief The navigation bar class that is used to represent a navigation
+     * bar in the GUI.
+     * @details The navigation bar is used to navigate between different pages
+     * in the application. Also, it have a `switch theme` button that is used to
+     * switch between different themes.
+     */
     class NavigationBar : public GUI::Component {
     public:
         NavigationBar(FontHolder* fonts);

@@ -7,6 +7,11 @@
 #include "FontHolder.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The input field class that is used to represent an input field in
+     * the GUI.
+     * @details The input field is used to get input from the user.
+     */
     class InputField : public GUI::Component {
     public:
         typedef std::shared_ptr< InputField > Ptr;
