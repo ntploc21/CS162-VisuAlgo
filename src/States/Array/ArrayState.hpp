@@ -12,6 +12,10 @@
 #include "State.hpp"
 
 namespace State {
+    /**
+     * @brief The state class that is used as a base array state for all array
+     * state/scene of the application.
+     */
     template< typename T >
     class ArrayState : public State {
     public:
@@ -23,15 +27,58 @@ namespace State {
         };
 
     public:
+        /**
+         * @brief Construct a new ArrayState object
+         * @param stack The state stack where the array state is pushed to.
+         * @param context The context of the application.
+         * @param activeDS The active data structure of the application.
+         */
         ArrayState(StateStack& stack, Context context,
                    DataStructures::ID activeDS);
+
+        /**
+         * @brief Destroy the ArrayState object
+         */
         ~ArrayState();
+
+        /**
+         * @brief Draw the array state to the screen.
+         */
         virtual void Draw();
+
+        /**
+         * @brief Update the array state.
+         * @param dt The delta time between the previous and the current frame.
+         * @return true If the update is successful.
+         * @return false If the update is unsuccessful.
+         */
         virtual bool Update(float dt);
+
+        /**
+         * @brief Set the current action text.
+         * @param action The current action text.
+         */
         virtual void SetCurrentAction(std::string action);
+
+        /**
+         * @brief Set the current error text.
+         * @param error The current error text.
+         */
         virtual void SetCurrentError(std::string error);
+
+        /**
+         * @brief Clear the current error text.
+         */
         virtual void ClearError();
+
+        /**
+         * @brief Clear the current action text.
+         */
         virtual void ClearAction();
+
+        /**
+         * @brief Clear the current error and toggle the action list.
+         */
         virtual void Success();
 
     protected:
@@ -53,12 +100,42 @@ namespace State {
 
     protected:
         GUIComponent::OperationList operationList;
+
+        /**
+         * @brief Add the operations to the operation list.
+         * @note This function should not be overridden as it calls the other
+         * Add*Operation functions.
+         */
         virtual void AddOperations();  // DO NOT OVERRIDE THIS FUNCTION
+
+        /**
+         * @brief Add the initialize operation to the operation list.
+         */
         virtual void AddInitializeOperation();
+
+        /**
+         * @brief Add the insert operation to the operation list.
+         */
         virtual void AddInsertOperation();
+
+        /**
+         * @brief Add the delete operation to the operation list.
+         */
         virtual void AddDeleteOperation();
+
+        /**
+         * @brief Add the update operation to the operation list.
+         */
         virtual void AddUpdateOperation();
+
+        /**
+         * @brief Add the search operation to the operation list.
+         */
         virtual void AddSearchOperation();
+
+        /**
+         * @brief Add the access operation to the operation list.
+         */
         virtual void AddAccessOperation();
 
     protected:
