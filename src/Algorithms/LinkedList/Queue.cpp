@@ -19,7 +19,9 @@ Algorithm::Queue::Queue(GUIComponent::CodeHighlighter::Ptr codeHighlighter,
 }
 
 Algorithm::Queue::~Queue() {}
+
 std::size_t Algorithm::Queue::size() const { return visualizer.size(); }
+
 void Algorithm::Queue::EnqueueEmpty(int value) {
     if (visualizer.GetList().size() == maxN) return;
     InitAction({"Node *node = new Node(v);", "node->next = head;",

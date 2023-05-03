@@ -6,75 +6,238 @@
 #include "Core/Deque.hpp"
 
 namespace Animation {
+    /**
+     * @brief The animation controller class
+     * @tparam T the type of the animation state
+     */
     template< typename T = SLLAnimation >
     class AnimationController {
     public:
+        /**
+         * @brief The shared pointer of the animation controller
+         */
         typedef std::shared_ptr< AnimationController > Ptr;
 
     private:
+        /**
+         * @brief The animation group containing all the animation states
+         */
         std::vector< T > animationGroup;
+
+        /**
+         * @brief The default speed of the animation
+         */
         static constexpr float defaultSpeed = 1;
 
     private:
+        /**
+         * @brief The current animation index
+         */
         std::size_t mCurrentAnimationIndex;
-        float mSpeed;
-        bool Playing;
-        bool interactionLock;
 
+        /**
+         * @brief The current animation
+         */
+        float mSpeed;
+
+        /**
+         * @brief The current animation
+         */
+        bool mPlaying;
+
+        /**
+         * @brief The current animation
+         */
+        bool mInteractionLock;
+
+        /**
+         * @brief The default delay between two animations
+         */
         static constexpr float stopDuration = 0.25;
-        float currStopDuration;
+
+        /**
+         * @brief The current delay between two animations
+         */
+        float mCurrStopDuration;
 
     public:
+        /**
+         * @brief Construct a new Animation Controller object
+         */
         AnimationController();
+
+        /**
+         * @brief Destroy the Animation Controller object
+         */
         ~AnimationController();
+
+        /**
+         * @brief Run all the animations, display the final result
+         */
         void RunAll();
+
+        /**
+         * @brief Reset the animation controller
+         */
         void Reset();
+
+        /**
+         * @brief Reset the current animation
+         */
         void ResetCurrent();
 
+        /**
+         * @brief Set the animation
+         * @param animationIndex the index of the animation
+         */
         void SetAnimation(std::size_t animationIndex);
+
+        /**
+         * @brief Get the current animation running
+         * @return the current animation running index
+         */
         std::size_t CurrentAnimationIndex() const;
 
     public:
+        /**
+         * @brief Add an animation to the end of the animation group
+         * @param animation the animation to be added
+         */
         void AddAnimation(T animation);
+
+        /**
+         * @brief remove the last animation from the animation group
+         */
         void PopAnimation();
+
+        /**
+         * @brief Clear all the animations
+         */
         void Clear();
 
     public:
+        /**
+         * @brief Get the animation duration
+         * @return the animation duration
+         */
         float GetAnimationDuration();
-        float GetAnimateFrame(float dt) const;
+
+        /**
+         * @brief Get the number of animations
+         * @return the number of animations
+         */
         std::size_t GetNumAnimation() const;
+
+        /**
+         * @brief Get the current animation playing
+         * @return the current animation playing index
+         */
         std::size_t GetAnimationIndex() const;
+
+        /**
+         * @brief Check if the animation is done
+         * @return true if the animation is done, false otherwise
+         */
         bool Done() const;
+
+        /**
+         * @brief Check if the animation is playing
+         * @return true if the animation is playing, false otherwise
+         */
         bool IsPlaying() const;
 
     public:
+        /**
+         * @brief Move to the next animation
+         * @note It will reset the current animation
+         * @note If the current animation is the last one, it will not move
+         * (pretty much the same as run all)
+         */
         void StepForward();
+
+        /**
+         * @brief Move to the previous animation
+         * @note It will reset the current animation
+         * @note If the current animation is the first one, it will not move
+         * (pretty much the same as reset)
+         */
         void StepBackward();
+
+        /**
+         * @brief Pause the animation
+         */
         void Pause();
+
+        /**
+         * @brief Continue the animation
+         */
         void Continue();
+
+        /**
+         * @brief Lock the interaction, so the user cannot interact with the
+         * animation
+         */
         void InteractionLock();
+
+        /**
+         * @brief Allow the interaction, so the user can interact with the
+         * animation
+         * @note By default, the interaction is allowed
+         */
         void InteractionAllow();
+
+        /**
+         * @brief Check if the interaction is allowed
+         * @return true if the interaction is allowed, false otherwise
+         */
         bool IsInteractionAllow() const;
 
     public:
+        /**
+         * @brief Update the animation
+         * @param dt the delta time
+         */
         void Update(float dt);
+
+        /**
+         * @brief Adjust the speed of the animation
+         * @param speed the speed of the animation
+         */
         void SetSpeed(float speed);
+
+        /**
+         * @brief Get the speed of the animation
+         * @return the speed of the animation
+         */
         float GetSpeed() const;
 
     public:
+        /**
+         * @brief Get the current animation playing
+         * @return the current animation playing
+         */
         T GetAnimation();
 
     private:
+        /**
+         * @brief Get the current delta time based on the speed
+         * @param dt the delta time
+         * @return the current delta time based on the speed
+         */
+        float GetAnimateFrame(float dt) const;
+
+        /**
+         * @brief Get the current stop duration
+         * @return the current stop duration
+         */
         float GetStopDuration();
     };
 };  // namespace Animation
 
-#include <iostream>
-
 template< typename T >
 Animation::AnimationController< T >::AnimationController()
     : mSpeed(defaultSpeed), animationGroup({}), mCurrentAnimationIndex(0),
-      Playing(false), interactionLock(false), currStopDuration(0.0f) {}
+      mPlaying(false), mInteractionLock(false), mCurrStopDuration(0.0f) {}
 
 template< typename T >
 Animation::AnimationController< T >::~AnimationController() {}
@@ -151,7 +314,7 @@ inline void Animation::AnimationController< T >::Clear() {
 
 template< typename T >
 void Animation::AnimationController< T >::Pause() {
-    if (IsInteractionAllow()) Playing = false;
+    if (IsInteractionAllow()) mPlaying = false;
 }
 
 template< typename T >
@@ -163,22 +326,22 @@ void Animation::AnimationController< T >::ResetCurrent() {
 
 template< typename T >
 void Animation::AnimationController< T >::Continue() {
-    if (IsInteractionAllow()) Playing = true;
+    if (IsInteractionAllow()) mPlaying = true;
 }
 
 template< typename T >
 inline void Animation::AnimationController< T >::InteractionLock() {
-    interactionLock = true;
+    mInteractionLock = true;
 }
 
 template< typename T >
 inline void Animation::AnimationController< T >::InteractionAllow() {
-    interactionLock = false;
+    mInteractionLock = false;
 }
 
 template< typename T >
 inline bool Animation::AnimationController< T >::IsInteractionAllow() const {
-    return !interactionLock;
+    return !mInteractionLock;
 }
 
 template< typename T >
@@ -200,9 +363,9 @@ void Animation::AnimationController< T >::Update(float dt) {
         //           << GetStopDuration() << " " << stopDuration << std::endl;
         if (GetStopDuration() >= stopDuration) {
             SetAnimation(mCurrentAnimationIndex + 1);
-            currStopDuration = 0.0f;
+            mCurrStopDuration = 0.0f;
         } else {
-            currStopDuration = currStopDuration + dt;
+            mCurrStopDuration = mCurrStopDuration + dt;
         }
     }
     if (Done()) Pause();
@@ -226,7 +389,7 @@ T Animation::AnimationController< T >::GetAnimation() {
 
 template< typename T >
 inline float Animation::AnimationController< T >::GetStopDuration() {
-    return currStopDuration;
+    return mCurrStopDuration;
 }
 
 template< typename T >
@@ -253,7 +416,7 @@ bool Animation::AnimationController< T >::Done() const {
 
 template< typename T >
 bool Animation::AnimationController< T >::IsPlaying() const {
-    return Playing;
+    return mPlaying;
 }
 
 /* */
