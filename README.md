@@ -102,6 +102,13 @@ For the LaTeX version, please refer to [```docs/latex/refman.pdf```](docs/latex/
 For a more detailed overview, please refer to the [documentation](#documentation-1).
 
 ### Examples of design patterns in this project
+* The GUI components are implemented using the Composite pattern. As a result, the components can be nested inside each other, and the components can be treated the same way regardless of their types;
+* The classes of the ```State``` namespace are designed using the Strategy pattern so that the scenes are interchangeable during runtime;
+* The rendering and event polling mechanism apply the Chain of Responsibility pattern;
+* The ```Settings``` class is a singleton, as it’s accessible everywhere in the application and there should only exist only one instance of it.
+* The ```TextureHolder``` and ```FontHolder``` classes are implemented using the Flyweight pattern so that the textures and fonts are shared between different objects and the memory usage is reduced;
+
+## Technical analysis
 Will be updated soon!
 
 ### UML Diagrams
