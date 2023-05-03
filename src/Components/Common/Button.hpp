@@ -8,6 +8,9 @@
 #include "Identifiers/ColorThemeIdentifiers.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The button class that is used to represent a button in the GUI.
+     */
     class Button : public GUI::Component {
     public:
         enum TextAlignment { Left, Center, Right, AlignmentCount };

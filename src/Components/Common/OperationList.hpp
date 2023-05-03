@@ -4,6 +4,13 @@
 #include "Container.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The operation list class that is used to represent an operation
+     * list in the GUI.
+     * @details The operation list will be used to display a list of operations
+     * that you can perform on the current data structure. (e.g
+     * Create/Initialize, Insert, Delete, etc.)
+     */
     class OperationList : public GUI::Container {
     private:
         GUI::Container buttons;

@@ -9,6 +9,12 @@
 #include "InputField.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The option input field class that is used to represent an option
+     * input field in the GUI.
+     * @details The option input field is used to have a button that can be used
+     * to toggle the visibility of an input fields.
+     */
     class OptionInputField : public GUI::Container {
     public:
         typedef std::shared_ptr< OptionInputField > Ptr;

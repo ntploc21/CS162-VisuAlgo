@@ -4,6 +4,12 @@
 #include "InputField.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The string input field class that is used to represent a string
+     * input field in the GUI.
+     * @details The string input field is used to get string input from the
+     * user.
+     */
     class StringInputField : public InputField {
     public:
         typedef std::shared_ptr< StringInputField > Ptr;

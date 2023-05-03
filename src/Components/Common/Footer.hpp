@@ -8,6 +8,10 @@
 #include "Utils/Utils.hpp"
 
 namespace GUIComponent {
+    /**
+     * @brief The footer class that is used to represent a footer in the GUI.
+     * @details The footer is used to show the animation controller
+     */
     template< typename T >
     class Footer : public GUI::Container {
     public:
