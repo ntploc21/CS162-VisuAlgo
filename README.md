@@ -26,7 +26,7 @@ Notable features include:
 - And many more!
 
 ## Demo
-Will be added soon!
+[Here is the project demo video of my Algorithm Visualizer](https://youtu.be/GTKebLgaBsI)
 
 ## Repository
 [Here is the repository of the project on GitHub.](https://github.com/ntploc21/CS162-VisuAlgo)
