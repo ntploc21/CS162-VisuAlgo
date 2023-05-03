@@ -32,7 +32,7 @@
 ## When an action is requested to run
 
 ![Singly Linked List when action is running](docs/images/singly_linked_list_2.png)
-- When an action is running, you can see the animation running right on the main view. The ```Action``` panel will be disabled and the ```Code & Description``` panel will automatically toggle on to show the code and description of the current step. You can also see the current step highlighted in the code.
+- When an action is running, you can see the animation running right on the main view. The ```Action``` panel will be toggled off and the ```Code & Description``` panel will automatically toggle on to show the code and description of the current step. You can also see the current step highlighted in the code.
 
 ## Switching between themes
 
