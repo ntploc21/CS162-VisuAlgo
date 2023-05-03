@@ -6,7 +6,9 @@
 - switch between light and dark mode by clicking on the ```switch theme``` button on the top right corner of the screen.
 
 ## Data Structure/Algorithm screen (Main view)
-![Singly Linked List](docs/images/singly_linked_list_1.png)
+<!-- ![Singly Linked List](docs/images/singly_linked_list_1.png) -->
+![Dynamic Array push back](docs/images/dynamic_array_push_back.gif)
+
 - The main view of the application is divided into 5 parts:
     - **Navigation**: the navigation bar on the top of the screen allows you to go back to the homepage (click on the ```VISUALGO``` icon) or move to another data structure/algorithm of the same category (which you can see on top of the image, the 5 data structures are in the ```Linked List``` category)
     - **Visualization**: the visualization of the data structure/algorithm (the main part of the screen)
@@ -41,4 +43,4 @@ You can switch between light and dark mode by clicking on the ```switch theme```
 ## Some nice gifs of the animation
 ![Circular Linked List delete tail](docs/images/circular_linked_list_delete_tail.gif)
 
-![Dynamic Array push back](docs/images/dynamic_array_push_back.gif)
+<!-- ![Dynamic Array push back](docs/images/dynamic_array_push_back.gif) -->
