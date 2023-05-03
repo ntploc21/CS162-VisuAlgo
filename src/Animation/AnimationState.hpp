@@ -10,49 +10,154 @@
 #include "Container.hpp"
 
 namespace Animation {
+    /**
+     * @brief The animation state class
+     * @tparam T the type of the data structure
+     */
     template< typename T >
     class AnimationState {
     private:
+        /**
+         * @brief The duration of the animation
+         */
         float mDuration;
+
+        /**
+         * @brief The current playing time
+         */
         float mCurrentPlayingAt;
+
+        /**
+         * @brief The highlighted line
+         */
         int mHighlightedLine;
 
+        /**
+         * @brief The action description
+         */
         std::string actionDescription;
 
     private:
+        /**
+         * @brief The sourcee data structure of the animation
+         */
         T mDataStructureBefore;
+
+        /**
+         * @brief The animation function
+         * @param T the type of the data structure
+         * @param float the progress of the animation
+         * @param Vector2 the base position of the animation
+         */
         std::function< T(T, float, Vector2) > mAnimation;
 
     public:
+        /**
+         * @brief Construct a new Animation State object
+         */
         AnimationState();
+
+        /**
+         * @brief Destroy the Animation State object
+         */
         ~AnimationState();
 
+        /**
+         * @brief Move the current playing time to the given time
+         * @param playingAt the time to be moved to
+         */
         void PlayingAt(float playingAt);
+
+        /**
+         * @brief Get the current playing time
+         * @return float the current playing time
+         */
         float GetCurrentPlayingAt() const;
+
+        /**
+         * @brief Draw the animation
+         * @param base the base position of the animation
+         */
         void Draw(Vector2 base = (Vector2){0, 0});
+
+        /**
+         * @brief Update the current playing time
+         * @param dt the delta time
+         */
         void Update(float dt);
+
+        /**
+         * @brief Reset the animation
+         */
         void Reset();
 
     public:
+        /**
+         * @brief Set the duration of the animation
+         * @param duration the duration of the animation
+         */
         void SetDuration(float duration);
+
+        /**
+         * @brief Get the duration of the animation
+         * @return float the duration of the animation
+         */
         float GetDuration() const;
+
+        /**
+         * @brief Set the animation function
+         * @param animation the animation function
+         */
         void SetAnimation(std::function< T(T, float, Vector2) > animation);
+
+        /**
+         * @brief Set the source data structure
+         * @param dataStructure the source data structure
+         */
         void SetSourceDataStructure(T dataStructure);
+
+        /**
+         * @brief Get the destination data structure at the given progress
+         * @param progress the progress of the animation
+         * @param base the base position of the animation
+         * @return T the destination data structure
+         */
         T GetDataStructure(float progress, Vector2 base = (Vector2){0, 0});
 
     public:
+        /**
+         * @brief Check if the animation is done
+         * @return true if the animation is done, false otherwise
+         */
         bool Done() const;
+
+        /**
+         * @brief Set the highlight line
+         * @param line the line to be highlighted
+         */
         void SetHighlightLine(int line);
+
+        /**
+         * @brief Get the highlighted line
+         * @return int the highlighted line
+         */
         int GetHighlightedLine() const;
+
+        /**
+         * @brief Set the action description
+         * @param description the action description
+         */
         void SetActionDescription(std::string description);
+
+        /**
+         * @brief Get the action description
+         * @return the action description in std::string type
+         */
         std::string GetActionDescription() const;
     };
 };  // namespace Animation
 
 #include <cassert>
-#include <iostream>
-
-// #include "AnimationState.hpp"
 
 template< typename T >
 Animation::AnimationState< T >::AnimationState()

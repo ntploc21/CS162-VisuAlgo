@@ -3,8 +3,11 @@
 
 #include "raylib.h"
 
+/**
+ * @brief The animation factory namespace, contains all the animation helper
+ * functions
+ */
 namespace AnimationFactory {
-    /* Pure Animation */
     float BounceOut(float t);
     float ElasticOut(float t);
     void DrawDirectionalArrow(Vector2 start, Vector2 end, bool active, float t);
