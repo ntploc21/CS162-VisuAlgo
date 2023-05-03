@@ -7,8 +7,17 @@
 #include "Identifiers/ColorThemeIdentifiers.hpp"
 
 namespace GUIVisualizer {
+    /**
+     * @brief The node class that is used to represent a node in the
+     * visualization.
+     */
     class Node : public GUI::Component {
     public:
+        /**
+         * @brief The state of the node.
+         * @details The state of the node is used to determine the color of the
+         * node.
+         */
         enum State {
             Default,
             Active,
@@ -20,6 +29,11 @@ namespace GUIVisualizer {
             StateCount,
         };
 
+        /**
+         * @brief The shape of the node.
+         * @details The shape of the node is used to determine the shape of the
+         * node.
+         */
         enum Shape {
             Circle,
             Square,
@@ -28,25 +42,88 @@ namespace GUIVisualizer {
         };
 
     private:
+        /**
+         * @brief The shape of the node, by default it is a circle.
+         */
         Shape mShape = Shape::Circle;
 
     public:
+        /**
+         * @brief Set the shape of the node.
+         */
         void SetShape(Shape shape);
+
+        /**
+         * @brief Get the shape of the node.
+         */
         Shape GetShape() const;
 
     public:
+        /**
+         * @brief Construct a new Node object
+         * @param value The value of the node.
+         * @param fonts The fonts of the application.
+         */
         Node(int value, FontHolder* fonts);
+
+        /**
+         * @brief Construct a new Node object
+         * @param value The value of the node.
+         * @param label The label of the node.
+         * @param fonts The fonts of the application.
+         */
         Node();
+
+        /**
+         * @brief Destroy the Node object
+         */
         ~Node();
+
+        /**
+         * @brief Return true if the node is selectable.
+         * @note The node is unselectable.
+         */
         bool isSelectable() const;
+
+        /**
+         * @brief Draw the node.
+         * @param base The base position of the node.
+         * @param t The progress of the animation.
+         */
         void Draw(Vector2 base = (Vector2){0, 0}, float t = 1.0f);
+
+        /**
+         * @brief Set the active state of the node.
+         * @param active The active state of the node.
+         */
         void SetActive(bool active);
+
+        /**
+         * @brief Return true if the node is active.
+         */
         bool IsActive();
 
     public:
+        /**
+         * @brief Set the value of the node.
+         * @param value The value of the node.
+         */
         void SetValue(int value);
+
+        /**
+         * @brief Get the value of the node.
+         */
         int GetValue() const;
+
+        /**
+         * @brief Set the label of the node.
+         * @param label The label of the node.
+         */
         void SetLabel(std::string label);
+
+        /**
+         * @brief Get the label of the node.
+         */
         void ClearLabel();
 
     public:
@@ -55,13 +132,27 @@ namespace GUIVisualizer {
 
     private:
         void DrawLabel(Vector2 base = (Vector2){0, 0});
+
+        /**
+         * @brief Draw the node.
+         * @param base The base position of the node.
+         * @param t The progress of the animation.
+         */
         void DrawNode(Vector2 base = (Vector2){0, 0}, float t = 1.0f);
 
     public:
         void SetValueFontSize(int fontSize);
         void SetLabelFontSize(int fontSize);
 
+        /**
+         * @brief Set the color of the node.
+         * @param color The color of the node.
+         */
         void SetNodeState(State state);
+
+        /**
+         * @brief Get the color of the node.
+         */
         State GetNodeState() const;
 
     private:

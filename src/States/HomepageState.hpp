@@ -52,6 +52,6 @@ namespace State {
         GUI::Container mCards;
         bool hasInitializeCard;
     };
-};      // namespace State
+};  // namespace State
 
 #endif  // STATES_HOMEPAGESTATE_HPP
