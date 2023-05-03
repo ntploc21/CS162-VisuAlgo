@@ -4,6 +4,10 @@
 #include "List.hpp"
 
 namespace Core {
+    /**
+     * @brief The deque container
+     * @tparam T the type of the elements
+     */
     template< typename T >
     class Deque : public List< T > {
     private:

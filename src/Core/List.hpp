@@ -569,6 +569,10 @@ namespace Core {
 };  // namespace Core
 
 namespace Core {
+    /**
+     * @brief The list iterator class
+     * @tparam T The type of the elements
+     */
     template< typename T >
     class List< T >::iterator
     // : public std::iterator< std::bidirectional_iterator_tag, T,
@@ -712,6 +716,10 @@ namespace Core {
         void swap(iterator& other) { std::swap(this->ptr, other.ptr); }
     };
 
+    /**
+     * @brief The list const_iterator class
+     * @tparam T The type of the elements
+     */
     template< class T >
     class List< T >::const_iterator
     // : public std::iterator< std::bidirectional_iterator_tag, T,
