@@ -4,9 +4,12 @@ Repository: https://github.com/ntploc21/CS162-VisuAlgo
 
 APCS - CS162 Solo Project - VisuAlgo
 
-This is a project for the course CS162 - Introduction to Computer Science II. 
+This is a solo project for the course **CS162 - Introduction to Computer Science II.**
+
+![Dynamic Array push back](docs/images/dynamic_array_push_back.gif)
 
 In this project, I will do a data visualization application that tries to replicate what [VisuAlgo](https://visualgo.net/en) does. Such application provides an intuitive and user-friendly interface for the display and understanding data stored in basic data structures. Users can choose from a variety of data structures (listed in the Features), and can easily initialize, add, delete, update, and search data within these data structures.
+
 ## Features
 It currently supports the following data structures:
 - Array
