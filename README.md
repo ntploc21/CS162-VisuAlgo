@@ -95,8 +95,8 @@ Please refer to the [User Manual](USER_MANUAL.md) for more information about the
 ### Program structure
 For the LaTeX version, please refer to [```docs/latex/refman.pdf```](docs/latex/refman.pdf).
 
-<!-- For the HTML version, please see [this webpage](docs\html\index.html).
--->
+For the HTML version, please see [this webpage](https://ntploc21.github.io/CS162-VisuAlgo/).
+
 
 ## Modeling structure overview
 For a more detailed overview, please refer to the [documentation](#documentation-1).
