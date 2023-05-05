@@ -1,0 +1,4 @@
+<map id="GUIComponent::NavigationBar" name="GUIComponent::NavigationBar">
+<area shape="rect" id="node1" title="The navigation bar class that is used to represent a navigation bar in the GUI." alt="" coords="19,409,217,809"/>
+<area shape="rect" id="node2" href="$d7/d6c/classGUI_1_1Component.html" title="The base component class that is used to represent a GUI component in the GUI." alt="" coords="5,5,231,361"/>
+</map>

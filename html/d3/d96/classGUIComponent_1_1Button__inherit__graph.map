@@ -1,0 +1,4 @@
+<map id="GUIComponent::Button" name="GUIComponent::Button">
+<area shape="rect" id="node1" title="The button class that is used to represent a button in the GUI." alt="" coords="35,409,201,868"/>
+<area shape="rect" id="node2" href="$d7/d6c/classGUI_1_1Component.html" title="The base component class that is used to represent a GUI component in the GUI." alt="" coords="5,5,231,361"/>
+</map>

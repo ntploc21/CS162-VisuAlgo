@@ -1,0 +1,4 @@
+<map id="GUIComponent::Card" name="GUIComponent::Card">
+<area shape="rect" id="node1" title="The card class that is used to represent a card in the GUI." alt="" coords="45,409,191,707"/>
+<area shape="rect" id="node2" href="$d7/d6c/classGUI_1_1Component.html" title="The base component class that is used to represent a GUI component in the GUI." alt="" coords="5,5,231,361"/>
+</map>

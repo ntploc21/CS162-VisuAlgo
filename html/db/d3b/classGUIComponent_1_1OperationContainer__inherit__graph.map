@@ -1,0 +1,5 @@
+<map id="GUIComponent::OperationContainer" name="GUIComponent::OperationContainer">
+<area shape="rect" id="node1" title="The operation container class that is used to represent an operation container in the GUI." alt="" coords="5,637,235,773"/>
+<area shape="rect" id="node2" href="$d7/d6b/classGUI_1_1Container.html" title="The base container class that is used to represent a GUI container in the GUI." alt="" coords="63,409,177,589"/>
+<area shape="rect" id="node3" href="$d7/d6c/classGUI_1_1Component.html" title="The base component class that is used to represent a GUI component in the GUI." alt="" coords="7,5,233,361"/>
+</map>

@@ -1,0 +1,16 @@
+<map id="GUI::Node::AnimationOnNode" name="GUI::Node::AnimationOnNode">
+<area shape="rect" id="node1" title=" " alt="" coords="492,237,687,262"/>
+<area shape="rect" id="node2" href="$d8/d0b/classAlgorithm_1_1CircularLinkedList_ace07806abb745a91eb181f550dd07cfb.html#ace07806abb745a91eb181f550dd07cfb" title=" " alt="" coords="269,5,435,45"/>
+<area shape="rect" id="node4" href="$d5/ddc/classAlgorithm_1_1DoublyLinkedList_ae7cd3b4c72272d50ec9b7333ba7e6c9d.html#ae7cd3b4c72272d50ec9b7333ba7e6c9d" title=" " alt="" coords="260,133,444,173"/>
+<area shape="rect" id="node6" href="$da/d55/classAlgorithm_1_1SinglyLinkedList_a248086f4a8526965ac20d2d05e3ef7fd.html#a248086f4a8526965ac20d2d05e3ef7fd" title=" " alt="" coords="262,261,442,301"/>
+<area shape="rect" id="node8" href="$d8/d0b/classAlgorithm_1_1CircularLinkedList_a362f075d60580121cdd787f5ac5dc4e0.html#a362f075d60580121cdd787f5ac5dc4e0" title=" " alt="" coords="269,69,435,109"/>
+<area shape="rect" id="node9" href="$d5/ddc/classAlgorithm_1_1DoublyLinkedList_a1c07cd00a451e1b7983f87a620bbc242.html#a1c07cd00a451e1b7983f87a620bbc242" title=" " alt="" coords="260,197,444,237"/>
+<area shape="rect" id="node10" href="$da/d55/classAlgorithm_1_1SinglyLinkedList_a083570445b103bc8b244c4183e423c9d.html#a083570445b103bc8b244c4183e423c9d" title=" " alt="" coords="262,325,442,365"/>
+<area shape="rect" id="node11" href="$dc/dee/classAlgorithm_1_1DynamicArray_a01ff3921d77a07213c70a2838fb97acd.html#a01ff3921d77a07213c70a2838fb97acd" title=" " alt="" coords="269,389,435,429"/>
+<area shape="rect" id="node13" href="$df/d21/classAlgorithm_1_1Stack_a20c499945dc45e0db1940e9e856fbcc3.html#a20c499945dc45e0db1940e9e856fbcc3" title=" " alt="" coords="273,454,431,479"/>
+<area shape="rect" id="node3" href="$d0/da1/classCLLState_a3ad2a3506bc9b7ec20226dc4fa003d10.html#a3ad2a3506bc9b7ec20226dc4fa003d10" title=" " alt="" coords="11,45,206,70"/>
+<area shape="rect" id="node5" href="$dc/dd8/classDLLState_a4705b1b5acb266b97b1d17abdc8c8572.html#a4705b1b5acb266b97b1d17abdc8c8572" title=" " alt="" coords="11,173,206,198"/>
+<area shape="rect" id="node7" href="$d4/d2c/classSLLState_a3dc3646eaeecf034a1b2d01c98a12f9d.html#a3dc3646eaeecf034a1b2d01c98a12f9d" title=" " alt="" coords="11,301,206,326"/>
+<area shape="rect" id="node12" href="$d2/df6/classDynamicArrayState_a695342ea22da2b5847dd0a741fdb8f4a.html#a695342ea22da2b5847dd0a741fdb8f4a" title=" " alt="" coords="37,389,180,429"/>
+<area shape="rect" id="node14" href="$d1/db1/classStackState_a6ceb99693b9358d6d82a4db01567873a.html#a6ceb99693b9358d6d82a4db01567873a" title=" " alt="" coords="5,454,212,479"/>
+</map>

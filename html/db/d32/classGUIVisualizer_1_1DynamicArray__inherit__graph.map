@@ -1,0 +1,5 @@
+<map id="GUIVisualizer::DynamicArray" name="GUIVisualizer::DynamicArray">
+<area shape="rect" id="node1" title="The base class for the dynamic array visualization. This class provides the basic functionality for t..." alt="" coords="23,637,213,949"/>
+<area shape="rect" id="node2" href="$d7/d6b/classGUI_1_1Container.html" title="The base container class that is used to represent a GUI container in the GUI." alt="" coords="61,409,175,589"/>
+<area shape="rect" id="node3" href="$d7/d6c/classGUI_1_1Component.html" title="The base component class that is used to represent a GUI component in the GUI." alt="" coords="5,5,231,361"/>
+</map>

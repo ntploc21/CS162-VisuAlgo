@@ -1,0 +1,6 @@
+<map id="GUIComponent::InputField" name="GUIComponent::InputField">
+<area shape="rect" id="node1" title="The input field class that is used to represent an input field in the GUI." alt="" coords="113,409,288,809"/>
+<area shape="rect" id="node3" href="$dd/d6d/classGUIComponent_1_1IntegerInputField.html" title="The integer input field class that is used to represent an integer input field in the GUI." alt="" coords="5,857,191,1067"/>
+<area shape="rect" id="node4" href="$d1/ddf/classGUIComponent_1_1StringInputField.html" title="The string input field class that is used to represent a string input field in the GUI." alt="" coords="215,879,395,1045"/>
+<area shape="rect" id="node2" href="$d7/d6c/classGUI_1_1Component.html" title="The base component class that is used to represent a GUI component in the GUI." alt="" coords="88,5,313,361"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Core::List&lt; T &gt;" name="Core::List&lt; T &gt;">
+<area shape="rect" id="node1" title="The base container for implementing other data structures." alt="" coords="433,5,557,479"/>
+<area shape="rect" id="node2" href="$df/d86/classCore_1_1Deque.html" title=" " alt="" coords="5,549,177,787"/>
+<area shape="rect" id="node3" href="$df/d86/classCore_1_1Deque.html" title=" " alt="" coords="201,549,408,787"/>
+<area shape="rect" id="node4" href="$df/d86/classCore_1_1Deque.html" title="The deque container." alt="" coords="433,556,558,780"/>
+<area shape="rect" id="node5" href="$d7/d57/classCore_1_1Queue.html" title="The queue container." alt="" coords="583,556,709,780"/>
+<area shape="rect" id="node6" href="$d3/de4/classCore_1_1Stack.html" title="The stack container." alt="" coords="734,527,857,809"/>
+</map>

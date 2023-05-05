@@ -1,0 +1,18 @@
+<map id="GUI::Node" name="GUI::Node">
+<area shape="rect" id="node1" title=" " alt="" coords="5,1645,164,2163"/>
+<area shape="rect" id="node2" href="$d7/d6c/classGUI_1_1Component.html" title=" " alt="" coords="80,433,305,789"/>
+<area shape="rect" id="node16" href="$dc/d32/classGUI_1_1NavigationBar.html" title=" " alt="" coords="301,852,479,1325"/>
+<area shape="rect" id="node3" href="$d7/d97/classState.html" title=" " alt="" coords="313,1388,467,1583"/>
+<area shape="rect" id="node4" href="$dc/d3c/classNonCopyable.html" title=" " alt="" coords="122,1028,277,1149"/>
+<area shape="rect" id="node5" href="$dd/d1b/classStateStack.html" title=" " alt="" coords="617,969,787,1208"/>
+<area shape="rect" id="node6" href="$dc/d3c/classNonCopyable.html" title=" " alt="" coords="608,551,796,672"/>
+<area shape="rect" id="node7" href="$d4/dee/structState_1_1Context.html" title=" " alt="" coords="475,565,582,657"/>
+<area shape="rect" id="node8" href="$df/d0f/classFontHolder.html" title=" " alt="" coords="202,198,327,349"/>
+<area shape="rect" id="node9" href="$dc/d3c/classNonCopyable.html" title=" " alt="" coords="139,5,326,127"/>
+<area shape="rect" id="node10" href="$de/d33/classTextureHolder.html" title=" " alt="" coords="555,176,689,371"/>
+<area shape="rect" id="node11" href="$dc/d3c/classNonCopyable.html" title=" " alt="" coords="537,5,739,127"/>
+<area shape="rect" id="node12" href="$da/d90/classCategoryInfo.html" title=" " alt="" coords="764,227,859,319"/>
+<area shape="rect" id="node13" href="$dc/d3c/classNonCopyable.html" title=" " alt="" coords="763,5,958,127"/>
+<area shape="rect" id="node14" href="$df/d7c/classDSInfo.html" title=" " alt="" coords="416,227,511,319"/>
+<area shape="rect" id="node15" href="$dc/d3c/classNonCopyable.html" title=" " alt="" coords="351,5,512,127"/>
+</map>
