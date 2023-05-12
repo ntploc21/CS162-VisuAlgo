@@ -95,9 +95,9 @@ void GUIVisualizer::DoublyLinkedList::DrawArrow(Vector2 base, float t) {
 
         int nextIndex;
         for (nextIndex = i + 1; nextIndex < list.size(); nextIndex++)
-            if (list[nextIndex].GetNodeState() ==
-                    GUIVisualizer::Node::State::Hide ||
-                (arrowStateNext[nextIndex] != ArrowType::Skip &&
+            if ((nextIndex == list.size() - 1) ||
+                (nextIndex < list.size() - 1 &&
+                 arrowStateNext[nextIndex] != ArrowType::Skip &&
                  arrowStatePrev[nextIndex] != ArrowType::Skip))
                 break;
 

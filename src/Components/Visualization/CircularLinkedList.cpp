@@ -91,7 +91,7 @@ void GUIVisualizer::CircularLinkedList::DrawArrow(Vector2 base, float t) {
     for (int i = 0; i < int(list.size()) - 1; i++) {
         Vector2 start = list[i].GetPosition();
         Vector2 end = list[i + 1].GetPosition();
-        if (arrowState[i + 1] == ArrowType::Skip) {
+        if (i + 1 < list.size() - 1 && arrowState[i + 1] == ArrowType::Skip) {
             if (!(i + 2 < list.size())) break;
             end = list[i + 2].GetPosition();
         }
