@@ -26,7 +26,7 @@ Notable features include:
 - And many more!
 
 ## Demo
-Will be added soon!
+[Here is the video demo of the project on Youtube.](https://youtu.be/GTKebLgaBsI)
 
 ## Repository
 [Here is the repository of the project on GitHub.](https://github.com/ntploc21/CS162-VisuAlgo)

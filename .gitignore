@@ -15,3 +15,4 @@ release/
 docs/html/
 docs/latex/*
 !docs/latex/refman.pdf
+build-web/
