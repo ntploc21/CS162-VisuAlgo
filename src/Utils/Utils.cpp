@@ -52,8 +52,8 @@ void Utils::DrawTextBoxedSelectable(Font font, const char *text, Rectangle rec,
     int length = TextLength(text);  // Total length in bytes of the text,
                                     // scanned by codepoints in loop
 
-    float textOffsetY = 0;          // Offset between lines (on line break '\n')
-    float textOffsetX = 0.0f;       // Offset X to next character to draw
+    float textOffsetY = 0.0f;  // Offset between lines (on line break '\n')
+    float textOffsetX = 0.0f;  // Offset X to next character to draw
 
     float scaleFactor =
         fontSize / (float)font.baseSize;  // Character rectangle scaling factor
