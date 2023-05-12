@@ -32,6 +32,6 @@ namespace Utils {
                                  Color selectTint, Color selectBackTint);
     bool DrawIcon(int iconID, int x, int y, int pixelSize, Color color,
                   Color hoverColor);
-};      // namespace Utils
+};  // namespace Utils
 
 #endif  // UTILS_HPP
