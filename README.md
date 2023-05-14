@@ -36,8 +36,9 @@ For more information, you can check the [`web-deploy`](https://github.com/ntploc
 ## Repository
 [Here is the repository of the project on GitHub.](https://github.com/ntploc21/CS162-VisuAlgo)
 
-Number of commits (last updated 14/05/2023): 214 commits
-Link of [commit history](https://github.com/ntploc21/CS162-VisuAlgo/commits/master)
+Number of commits (last updated 14/05/2023): 215 commits.
+
+Link of [commit history](https://github.com/ntploc21/CS162-VisuAlgo/commits/master).
 
 ## License
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
