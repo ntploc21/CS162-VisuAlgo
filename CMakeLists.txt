@@ -5,7 +5,7 @@ project(CS162-VisuAlgo)
 
 # Enable project web version compilation
 if (EMSCRIPTEN)
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 --preload-file assets -s ASYNCIFY")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 --preload-file assets -s ASYNCIFY -sALLOW_MEMORY_GROWTH")
     set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
 endif ()
 
@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
 ######################################
 
@@ -38,52 +38,49 @@ endif()
 ######################################
 
 # Unit testing
+enable_testing()
+include(CTest)
 
-if(NOT EMSCRIPTEN)
-    enable_testing()
-    include(CTest)
+add_executable(core_base_list_test_exe
+    unittest/doctest_main.cpp
+    unittest/List.test.cpp
+)
 
-    add_executable(core_base_list_test_exe
-        unittest/doctest_main.cpp
-        unittest/List.test.cpp
-    )
+add_executable(core_stack_test_exe
+    unittest/doctest_main.cpp
+    unittest/Stack.test.cpp
+)
 
-    add_executable(core_stack_test_exe
-        unittest/doctest_main.cpp
-        unittest/Stack.test.cpp
-    )
+add_executable(core_queue_test_exe
+    unittest/doctest_main.cpp
+    unittest/Queue.test.cpp
+)
 
-    add_executable(core_queue_test_exe
-        unittest/doctest_main.cpp
-        unittest/Queue.test.cpp
-    )
+target_include_directories(core_base_list_test_exe PRIVATE include)
+target_include_directories(core_stack_test_exe PRIVATE include)
+target_include_directories(core_queue_test_exe PRIVATE include)
 
-    target_include_directories(core_base_list_test_exe PRIVATE include)
-    target_include_directories(core_stack_test_exe PRIVATE include)
-    target_include_directories(core_queue_test_exe PRIVATE include)
-
-    if(NOT MSVC)
-        target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
-        target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
-        target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
-    endif()
-
-    add_test(core_base_list_test core_base_list_test_exe)
-    add_test(core_stack_test core_stack_test_exe)
-    add_test(core_queue_test core_queue_test_exe)
-
-    add_custom_target(run_base_list_test ALL
-        COMMAND ctest --output-on-failure
-        DEPENDS core_base_list_test_exe)
-
-    add_custom_target(run_stack_test ALL
-        COMMAND ctest --output-on-failure
-        DEPENDS core_stack_test_exe)
-
-    add_custom_target(run_queue_test ALL
-        COMMAND ctest --output-on-failure
-        DEPENDS core_queue_test_exe)
+if(NOT MSVC)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
+    target_link_directories(core_base_list_test_exe PRIVATE -fsanitize=address,undefined,leak -g)
 endif()
+
+add_test(core_base_list_test core_base_list_test_exe)
+add_test(core_stack_test core_stack_test_exe)
+add_test(core_queue_test core_queue_test_exe)
+
+add_custom_target(run_base_list_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_base_list_test_exe)
+
+add_custom_target(run_stack_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_stack_test_exe)
+
+add_custom_target(run_queue_test ALL
+    COMMAND ctest --output-on-failure
+    DEPENDS core_queue_test_exe)
 
 # YAML
 
@@ -180,18 +177,6 @@ target_link_libraries(${PROJECT_NAME} raylib)
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC include)
 
 # Copy assets to build folder
-
-add_custom_target(assets
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
-)
-add_dependencies(${PROJECT_NAME} assets)
-
-######################################
-
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_CURRENT_SOURCE_DIR})
 
 # idk what i am doing
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

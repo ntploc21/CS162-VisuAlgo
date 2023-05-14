@@ -25,11 +25,19 @@ Notable features include:
 - Color theme (with light theme and dark theme supported)
 - And many more!
 
+## Releases
+The application is now [live on the web](https://ntploc21.itch.io/data-structure-visualizer). 
+
+For more information, you can check the [`web-deploy`](https://github.com/ntploc21/CS162-VisuAlgo/tree/web-deploy) branch of the repository.
+
 ## Demo
 [Here is the video demo of the project on Youtube.](https://youtu.be/GTKebLgaBsI)
 
 ## Repository
 [Here is the repository of the project on GitHub.](https://github.com/ntploc21/CS162-VisuAlgo)
+
+Number of commits (last updated 14/05/2023): 214 commits
+Link of [commit history](https://github.com/ntploc21/CS162-VisuAlgo/commits/master)
 
 ## License
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.

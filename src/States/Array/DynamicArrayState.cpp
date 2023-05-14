@@ -184,6 +184,11 @@ void State::DynamicArrayState::AddDeleteOperation() {
 
     /* Delete front */
     AddNoFieldOperationOption(container, "Front (i = 0)", [this]() {
+        if (!mDynamicArray.size()) {
+            SetCurrentError(
+                "The array is empty, so you can't delete any element.");
+            return;
+        }
         mDynamicArray.Remove(0);
         SetCurrentAction("Remove i = 0 (Front)");
         Success();
@@ -195,7 +200,7 @@ void State::DynamicArrayState::AddDeleteOperation() {
         {{"i = ", 50, 0, mDynamicArray.maxN}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            if (i >= mDynamicArray.size() - 1) {
+            if (i + 1 >= mDynamicArray.size()) {
                 SetCurrentError("Invalid index");
                 return;
             }
@@ -206,6 +211,11 @@ void State::DynamicArrayState::AddDeleteOperation() {
 
     /* Delete back */
     AddNoFieldOperationOption(container, "Back (i = length - 2)", [this]() {
+        if (!mDynamicArray.size()) {
+            SetCurrentError(
+                "The array is empty, so you can't delete any element.");
+            return;
+        }
         mDynamicArray.PopBack();
         SetCurrentAction("Remove i = length - 1 (Back)");
         Success();

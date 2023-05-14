@@ -27,6 +27,11 @@ void State::StaticArrayState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "Front", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (!mStaticArray.size()) {
+                SetCurrentError(
+                    "The array is empty, so you can't insert any element.");
+                return;
+            }
             int v = std::stoi(input["v = "]);
             mStaticArray.Insert(0, v);
             SetCurrentAction("Insert v = " + input["v = "] +
@@ -39,6 +44,12 @@ void State::StaticArrayState::AddInsertOperation() {
         container, "Specify i in [1..N-1] and v =",
         {{"i = ", 50, 0, mStaticArray.maxN}, {"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (!mStaticArray.size()) {
+                SetCurrentError(
+                    "The array is empty, so you can't insert any element.");
+                return;
+            }
+
             int i = std::stoi(input["i = "]);
             int v = std::stoi(input["v = "]);
             if (i <= 0 || i >= mStaticArray.size()) {
@@ -57,6 +68,11 @@ void State::StaticArrayState::AddInsertOperation() {
     AddIntFieldOperationOption(
         container, "Back", {{"v = ", 50, 0, 99}},
         [this](std::map< std::string, std::string > input) {
+            if (!mStaticArray.size()) {
+                SetCurrentError(
+                    "The array is empty, so you can't insert any element.");
+                return;
+            }
             int v = std::stoi(input["v = "]);
             mStaticArray.Insert(mStaticArray.size() - 1, v);
             SetCurrentAction("Insert v = " + input["v = "] +
@@ -75,6 +91,11 @@ void State::StaticArrayState::AddInitializeOperation() {
         new GUIComponent::OperationContainer());
 
     /* ==== DEFINE OPERATIONS FOR CREATE ==== */
+    /* Empty */
+    AddNoFieldOperationOption(container, "Empty", [this]() {
+        mStaticArray.Empty();
+        ClearError();
+    });
     /* Random */
 
     AddNoFieldOperationOption(container, "Random", [this]() {
@@ -163,6 +184,11 @@ void State::StaticArrayState::AddDeleteOperation() {
 
     /* Delete front */
     AddNoFieldOperationOption(container, "Front (i = 0)", [this]() {
+        if (!mStaticArray.size()) {
+            SetCurrentError(
+                "The array is empty, so you can't delete any element.");
+            return;
+        }
         mStaticArray.Delete(0);
         SetCurrentAction("Remove i = 0 (Front)");
         Success();
@@ -174,7 +200,7 @@ void State::StaticArrayState::AddDeleteOperation() {
         {{"i = ", 50, 0, mStaticArray.maxN}},
         [this](std::map< std::string, std::string > input) {
             int i = std::stoi(input["i = "]);
-            if (i >= mStaticArray.size() - 1) {
+            if (i + 1 >= mStaticArray.size()) {
                 SetCurrentError("Invalid index");
                 return;
             }
@@ -185,6 +211,11 @@ void State::StaticArrayState::AddDeleteOperation() {
 
     /* Delete back */
     AddNoFieldOperationOption(container, "Back (i = length - 2)", [this]() {
+        if (!mStaticArray.size()) {
+            SetCurrentError(
+                "The array is empty, so you can't delete any element.");
+            return;
+        }
         mStaticArray.Delete(mStaticArray.size() - 1);
         SetCurrentAction("Remove i = length - 1 (Back)");
         Success();
