@@ -1,7 +1,5 @@
 #include "QueueState.hpp"
 
-#include <iostream>
-
 #include "Global.hpp"
 
 State::QueueState::QueueState(StateStack& stack, Context context)
@@ -59,11 +57,6 @@ void State::QueueState::AddInitializeOperation() {
         queue.Random();
         ClearError();
     });
-
-    /* Random Sorted */
-    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-    //     std::cout << "Random Sorted" << std::endl;
-    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(

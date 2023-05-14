@@ -1,7 +1,5 @@
 #include "StackState.hpp"
 
-#include <iostream>
-
 State::StackState::StackState(StateStack& stack, Context context)
     : LLState(stack, context, DataStructures::Stack) {
     AddOperations();
@@ -58,11 +56,6 @@ void State::StackState::AddInitializeOperation() {
         mStackAlgorithm.Random();
         ClearError();
     });
-
-    /* Random Sorted */
-    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-    //     std::cout << "Random Sorted" << std::endl;
-    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(

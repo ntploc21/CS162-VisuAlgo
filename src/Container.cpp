@@ -23,10 +23,6 @@ Core::Deque< GUI::Component::Ptr > GUI::Container::GetChildren() {
     return mChildren;
 }
 
-// std::vector< GUI::Component::Ptr > GUI::Container::GetChildren() {
-//     return mChildren;
-// }
-
 void GUI::Container::DrawCurrent(Vector2 base = (Vector2){0, 0}) {}
 
 Vector2 GUI::Container::GetSize() {

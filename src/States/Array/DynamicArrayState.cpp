@@ -1,7 +1,5 @@
 #include "DynamicArrayState.hpp"
 
-#include <iostream>
-
 #include "Global.hpp"
 
 State::DynamicArrayState::DynamicArrayState(StateStack& stack, Context context)
@@ -101,11 +99,6 @@ void State::DynamicArrayState::AddInitializeOperation() {
         mDynamicArray.Random();
         ClearError();
     });
-
-    /* Random Sorted */
-    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-    //     std::cout << "Random Sorted" << std::endl;
-    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(

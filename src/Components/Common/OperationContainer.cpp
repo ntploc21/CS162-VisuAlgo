@@ -1,6 +1,5 @@
 #include "OperationContainer.hpp"
 
-#include <iostream>
 GUIComponent::OperationContainer::~OperationContainer() {}
 
 GUIComponent::OperationContainer::OperationContainer() {}

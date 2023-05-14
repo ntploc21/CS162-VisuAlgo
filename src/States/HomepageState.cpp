@@ -1,7 +1,5 @@
 #include "HomepageState.hpp"
 
-#include <iostream>
-
 #include "Global.hpp"
 #include "Settings.hpp"
 

@@ -359,8 +359,6 @@ void Animation::AnimationController< T >::Update(float dt) {
     dt = GetAnimateFrame(dt);
     animationGroup[mCurrentAnimationIndex].Update(dt);
     if (IsPlaying() && animationGroup[mCurrentAnimationIndex].Done()) {
-        // std::cout << dt << " | " << mCurrentAnimationIndex << " - "
-        //           << GetStopDuration() << " " << stopDuration << std::endl;
         if (GetStopDuration() >= stopDuration) {
             SetAnimation(mCurrentAnimationIndex + 1);
             mCurrStopDuration = 0.0f;

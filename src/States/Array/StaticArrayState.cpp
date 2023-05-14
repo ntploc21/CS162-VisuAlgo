@@ -1,7 +1,5 @@
 #include "StaticArrayState.hpp"
 
-#include <iostream>
-
 #include "Global.hpp"
 #include "Utils/Utils.hpp"
 

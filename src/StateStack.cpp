@@ -1,7 +1,6 @@
 #include "StateStack.hpp"
 
 #include <cassert>
-#include <iostream>
 
 State::StateStack::StateStack(State::Context context)
     : mStack(), mPendingList(), mContext(context), mFactories() {}
@@ -40,15 +39,12 @@ void State::StateStack::ApplyPendingChanges() {
     for (PendingChange change : mPendingList) {
         switch (change.action) {
             case Action::Push:
-                std::cerr << "Push state: " << change.stateID << std::endl;
                 mStack.push_back(createState(change.stateID));
                 break;
             case Action::Pop:
-                std::cerr << "Pop state: " << change.stateID << std::endl;
                 mStack.pop_back();
                 break;
             case Action::Clear:
-                std::cerr << "Clear state" << std::endl;
                 mStack.clear();
                 break;
         }

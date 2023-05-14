@@ -1,7 +1,5 @@
 #include "DSInfo.hpp"
 
-#include <iostream>
-
 void DSInfo::Register(DataStructures::ID id, Info info) {
     auto inserted = mFactories.insert(std::make_pair(id, info));
     assert(inserted.second);

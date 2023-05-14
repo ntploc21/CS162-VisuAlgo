@@ -1,7 +1,5 @@
 #include "OptionInputField.hpp"
 
-#include <iostream>
-
 #include "Button.hpp"
 #include "Settings.hpp"
 
@@ -74,7 +72,6 @@ void GUIComponent::OptionInputField::DrawCurrent(Vector2 base) {
     base.x += mPosition.x;
     base.y += mPosition.y;
     Vector2 size = GetSize();
-    // std::cout << size.x << " " << size.y << std::endl;
     Rectangle bound = (Rectangle){base.x, base.y, size.x, size.y};
     DrawRectangleRec(bound, buttonColor);
 }

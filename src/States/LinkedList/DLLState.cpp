@@ -1,7 +1,5 @@
 #include "DLLState.hpp"
 
-#include <iostream>
-
 #include "Global.hpp"
 
 State::DLLState::DLLState(StateStack& stack, Context context)
@@ -99,11 +97,6 @@ void State::DLLState::AddInitializeOperation() {
         mDLL.Random();
         ClearError();
     });
-
-    /* Random Sorted */
-    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-    //     std::cout << "Random Sorted" << std::endl;
-    // });
 
     /* Random Fixed Size */
     AddIntFieldOperationOption(

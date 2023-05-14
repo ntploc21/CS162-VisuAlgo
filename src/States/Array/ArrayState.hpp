@@ -156,8 +156,6 @@ namespace State {
     };
 };  // namespace State
 
-#include <iostream>
-
 #include "Components/Common/IntegerInputField.hpp"
 #include "Components/Common/StringInputField.hpp"
 #include "Global.hpp"

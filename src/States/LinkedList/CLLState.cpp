@@ -1,7 +1,5 @@
 #include "CLLState.hpp"
 
-#include <iostream>
-
 #include "Global.hpp"
 
 State::CLLState::CLLState(StateStack& stack, Context context)

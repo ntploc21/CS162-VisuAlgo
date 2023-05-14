@@ -1,7 +1,5 @@
 #include "OperationList.hpp"
 
-#include <iostream>
-
 #include "Settings.hpp"
 
 GUIComponent::OperationList::OperationList(FontHolder *fonts) : isHide(true) {

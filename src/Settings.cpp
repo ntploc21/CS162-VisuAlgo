@@ -3,7 +3,6 @@
 #include <cassert>
 #include <fstream>
 #include <iomanip>
-#include <iostream>
 
 #include "Global.hpp"
 #include "raylib.h"

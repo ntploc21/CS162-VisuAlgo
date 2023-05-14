@@ -21,8 +21,6 @@ void GUIComponent::IntegerInputField::DrawField(Vector2 base) {
     DrawRectangleRec(inputBound, inactiveColor);
     GuiValueBox(inputBound, nullptr, &input, mMinValue, mMaxValue,
                 GetEditMode());
-    // GUIComponentSpinner(inputBound, nullptr, &input, mMinValue, mMaxValue,
-    // true);
 }
 
 void GUIComponent::IntegerInputField::SetConstraint(int minValue,

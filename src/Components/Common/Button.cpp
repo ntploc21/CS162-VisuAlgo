@@ -1,7 +1,5 @@
 #include "Button.hpp"
 
-#include <iostream>
-
 #include "Settings.hpp"
 
 GUIComponent::Button::Button(std::string text, FontHolder* fonts)

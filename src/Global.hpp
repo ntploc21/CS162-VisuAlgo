@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 // Global variables
 namespace global {
     constexpr int SCREEN_WIDTH = 1300;

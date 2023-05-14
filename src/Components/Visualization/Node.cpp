@@ -1,7 +1,5 @@
 #include "Node.hpp"
 
-#include <iostream>
-
 #include "Animation/AnimationFactory.hpp"
 #include "Settings.hpp"
 

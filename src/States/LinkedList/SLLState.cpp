@@ -96,14 +96,6 @@ void State::SLLState::AddInitializeOperation() {
         ClearError();
     });
 
-    /* Random Sorted */
-    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-    //     std::cout << "Random Sorted" << std::endl;
-    // });
-    // AddNoFieldOperationOption(container, "Random Sorted", [this]() {
-    //     std::cout << "Random Sorted" << std::endl;
-    // });
-
     /* Random Fixed Size */
     AddIntFieldOperationOption(
         container, "Random Fixed Size", {{"N = ", 50, 0, SLL.maxN}},

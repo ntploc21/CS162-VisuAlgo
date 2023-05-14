@@ -8,7 +8,6 @@
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
-#include <iostream>
 #include <iterator>
 #include <stdexcept>
 
@@ -895,6 +894,6 @@ namespace Core {
          */
         void swap(const_iterator& other) { std::swap(this->ptr, other.ptr); }
     };
-};  // namespace Core
+};      // namespace Core
 
 #endif  // CORE_LIST_HPP
